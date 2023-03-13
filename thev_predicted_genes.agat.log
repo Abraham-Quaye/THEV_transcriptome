@@ -1,0 +1,286 @@
+
+ ------------------------------------------------------------------------------
+|   Another GFF Analysis Toolkit (AGAT) - Version: v1.0.0                      |
+|   https://github.com/NBISweden/AGAT                                          |
+|   National Bioinformatics Infrastructure Sweden (NBIS) - www.nbis.se         |
+ ------------------------------------------------------------------------------
+                            03/13/2023 at 04h04m48s                             
+
+********************************************************************************
+*                              - Start parsing -                               *
+********************************************************************************
+-------------------------- parse options and metadata --------------------------
+=> Accessing the feature_levels YAML file
+Using standard /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/auto/share/dist/AGAT/feature_levels.yaml file
+=> Attribute used to group features when no Parent/ID relationship exists (i.e common tag):
+	* locus_tag
+	* gene_id
+=> merge_loci option deactivated
+=> Machine information:
+	This script is being run by perl v5.32.1
+	Bioperl location being used: /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/Bio/
+	Operating system being used: darwin 
+=> Accessing Ontology
+	No ontology accessible from the gff file header!
+	We use the SOFA ontology distributed with AGAT:
+		/opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/auto/share/dist/AGAT/so.obo
+	Read ontology /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/auto/share/dist/AGAT/so.obo:
+		4 root terms, and 2596 total terms, and 1516 leaf terms
+	Filtering ontology:
+The feature type (3rd column) is constrained to be either a term from the Sequence Ontology or an SO accession number. The latter alternative is distinguished using the syntax SO:000000. In either case, it must be sequence_feature (SO:0000110) or an is_a child of it.
+We filter the ontology to apply this rule.		We found 1861 terms that are sequence_feature or is_a child of it.
+--------------------------------- parsing file ---------------------------------
+=> Number of line in file: 99
+=> Number of comment lines: 1
+=> Fasta included: No
+=> Number of features lines: 98
+=> Number of feature type (3rd column): 4
+	* Level1: 0 => 
+	* level2: 0 => 
+	* level3: 4 => three_prime_UTR five_prime_UTR CDS exon
+	* unknown: 0 => 
+=>Check because only level3 features:
+ * Number of feature with Parent attribute:75
+ * Number of feature with a common attribute:0
+  => Some common attributes and some Parent attributes missing.
+  /!\ For features where both are missing A single Level2 features (e.g. mRNA) and a single level1 (e.g. gene) will be created by AGAT, and all level3 feautres (e,g, CDS,exon) will be attached to them. This is probably not what you want...
+  see B. 2.2 and 3. at https://agat.readthedocs.io/en/latest/agat_how_does_it_work.html 
+  /!\ For features where the common attribute or the parent attribute is missing, it would be fine as long as you do not expect isoforms in your annotation (Eukaryote).  see B. 4. at https://agat.readthedocs.io/en/latest/agat_how_does_it_work.html 
+  !! You might try to fix the issue by choosing a common tag attribute to use in order to group the features correctly (parameter --ct in agat_convert_sp_gxf2gxf.pl).
+=> Version of the Bioperl GFF parser selected by AGAT: 3
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	313	1953	.	+	.	ID 1 ; Name ORF1 ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	313	1953	.	+	.	ID 1 ; Name ORF1 ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Use of uninitialized value $locusTAGvalue in lc at /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/AGAT/OmniscientI.pm line 881, <GEN1> line 2.
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	2098	2325	.	+	.	ID 2 ; Name Hyd ; blockCount 1 ; blockSizes 228 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 2325 ; thickStart 2097
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	2098	2325	.	+	.	ID 2 ; Name Hyd ; blockCount 1 ; blockSizes 228 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 2325 ; thickStart 2097
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	2334	3437	.	-	.	ID 3 ; Name IVa2 ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	2334	3437	.	-	.	ID 3 ; Name IVa2 ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	3430	6768	.	-	.	ID 4 ; Name AdPOL ; blockCount 1 ; blockSizes 3339 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 6768 ; thickStart 3429
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	3430	6768	.	-	.	ID 4 ; Name AdPOL ; blockCount 1 ; blockSizes 3339 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 6768 ; thickStart 3429
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	6765	10995	.	-	.	ID 5 ; Name pTP ; blockCount 2 ; blockSizes "1779,15"  ; blockStarts "0,4216"  ; itemRgb "0,0,255"  ; thickEnd 10995 ; thickStart 6764
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	6765	10995	.	-	.	ID 5 ; Name pTP ; blockCount 2 ; blockSizes "1779,15"  ; blockStarts "0,4216"  ; itemRgb "0,0,255"  ; thickEnd 10995 ; thickStart 6764
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	8570	9472	.	+	.	ID 6 ; Name 52K ; blockCount 1 ; blockSizes 903 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 9472 ; thickStart 8569
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	8570	9472	.	+	.	ID 6 ; Name 52K ; blockCount 1 ; blockSizes 903 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 9472 ; thickStart 8569
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	9462	10979	.	+	.	ID 7 ; Name pIIIa ; blockCount 1 ; blockSizes 1518 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 10979 ; thickStart 9461
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	9462	10979	.	+	.	ID 7 ; Name pIIIa ; blockCount 1 ; blockSizes 1518 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 10979 ; thickStart 9461
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	11001	12347	.	+	.	ID 8 ; Name III ; blockCount 1 ; blockSizes 1347 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12347 ; thickStart 11000
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	11001	12347	.	+	.	ID 8 ; Name III ; blockCount 1 ; blockSizes 1347 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12347 ; thickStart 11000
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	12347	12709	.	+	.	ID 9 ; Name pVII ; blockCount 1 ; blockSizes 363 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12709 ; thickStart 12346
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	12347	12709	.	+	.	ID 9 ; Name pVII ; blockCount 1 ; blockSizes 363 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12709 ; thickStart 12346
+WARNING level3: No Parent attribute found @ for the feature: THEV	abquaye	CDS	12712	12888	.	+	.	ID 10 ; Name pX ; blockCount 1 ; blockSizes 177 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12888 ; thickStart 12711
+WARNING level3: No Parent attribute found  ************** Too much WARNING message we skip the next **************
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
+THEV	abquaye	CDS	12712	12888	.	+	.	ID 10 ; Name pX ; blockCount 1 ; blockSizes 177 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12888 ; thickStart 12711
+WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus.  ************** Too much WARNING message we skip the next **************
+1 warning messages: Use of uninitialized value $locusTAGvalue in lc at /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/AGAT/OmniscientI.pm line 881, <GEN1> line 2.
+
+23 warning messages: WARNING level3: No Parent attribute found 
+23 warning messages: WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. 
+********************************************************************************
+*                               - End parsing -                                *
+*                              done in 1 seconds                               *
+********************************************************************************
+
+********************************************************************************
+*                               - Start checks -                               *
+********************************************************************************
+---------------------------- Check1: feature types -----------------------------
+----------------------------------- ontology -----------------------------------
+All feature types in agreement with the Ontology.
+------------------------------------- agat -------------------------------------
+AGAT can deal with all the encountered feature types (3rd column)
+------------------------------ done in 0 seconds -------------------------------
+
+------------------------------ Check2: duplicates ------------------------------
+None found
+------------------------------ done in 0 seconds -------------------------------
+
+-------------------------- Check3: sequential bucket ---------------------------
+Nothing to check as sequential bucket!
+------------------------------ done in 0 seconds -------------------------------
+
+--------------------------- Check4: l2 linked to l3 ----------------------------
+L1 and L2 created:THEV	abquaye	gene	313	1953	.	+	.	ID "nbis-gene-1" 
+THEV	abquaye	mRNA	313	1953	.	+	.	ID 1 ; Parent "nbis-gene-1" 
+L1 and L2 created:THEV	abquaye	gene	12712	12888	.	+	.	ID "nbis-gene-2" 
+THEV	abquaye	mRNA	12712	12888	.	+	.	ID 10 ; Parent "nbis-gene-2" 
+L1 and L2 created:THEV	abquaye	gene	12906	13601	.	+	.	ID "nbis-gene-3" 
+THEV	abquaye	mRNA	12906	13601	.	+	.	ID 11 ; Parent "nbis-gene-3" 
+L1 and L2 created:THEV	abquaye	gene	13610	16330	.	+	.	ID "nbis-gene-4" 
+THEV	abquaye	mRNA	13610	16330	.	+	.	ID 12 ; Parent "nbis-gene-4" 
+L1 and L2 created:THEV	abquaye	gene	16332	16976	.	+	.	ID "nbis-gene-5" 
+THEV	abquaye	mRNA	16332	16976	.	+	.	ID 13 ; Parent "nbis-gene-5" 
+L1 and L2 created:THEV	abquaye	gene	16973	18186	.	-	.	ID "nbis-gene-6" 
+THEV	abquaye	mRNA	16973	18186	.	-	.	ID 14 ; Parent "nbis-gene-6" 
+L1 and L2 created:THEV	abquaye	gene	18230	20227	.	+	.	ID "nbis-gene-7" 
+THEV	abquaye	mRNA	18230	20227	.	+	.	ID 15 ; Parent "nbis-gene-7" 
+L1 and L2 created:THEV	abquaye	gene	20142	20699	.	+	.	ID "nbis-gene-8" 
+THEV	abquaye	mRNA	20142	20699	.	+	.	ID 16 ; Parent "nbis-gene-8" 
+L1 and L2 created:THEV	abquaye	gene	20142	20411	.	+	.	ID "nbis-gene-9" 
+THEV	abquaye	mRNA	20142	20411	.	+	.	ID 17 ; Parent "nbis-gene-9" 
+L1 and L2 created:THEV	abquaye	gene	20769	21371	.	+	.	ID "nbis-gene-10" 
+THEV	abquaye	mRNA	20769	21371	.	+	.	ID 18 ; Parent "nbis-gene-10" 
+L1 and L2 created:THEV	abquaye	gene	21247	22116	.	+	.	ID "nbis-gene-11" 
+THEV	abquaye	mRNA	21247	22116	.	+	.	ID 19 ; Parent "nbis-gene-11" 
+L1 and L2 created:THEV	abquaye	gene	2098	2325	.	+	.	ID "nbis-gene-12" 
+THEV	abquaye	mRNA	2098	2325	.	+	.	ID 2 ; Parent "nbis-gene-12" 
+L1 and L2 created:THEV	abquaye	gene	22260	22520	.	-	.	ID "nbis-gene-13" 
+THEV	abquaye	mRNA	22260	22520	.	-	.	ID 20 ; Parent "nbis-gene-13" 
+L1 and L2 created:THEV	abquaye	gene	22520	23884	.	+	.	ID "nbis-gene-14" 
+THEV	abquaye	mRNA	22520	23884	.	+	.	ID 21 ; Parent "nbis-gene-14" 
+L1 and L2 created:THEV	abquaye	gene	24512	25168	.	+	.	ID "nbis-gene-15" 
+THEV	abquaye	mRNA	24512	25168	.	+	.	ID 22 ; Parent "nbis-gene-15" 
+L1 and L2 created:THEV	abquaye	gene	25204	25701	.	-	.	ID "nbis-gene-16" 
+THEV	abquaye	mRNA	25204	25701	.	-	.	ID 23 ; Parent "nbis-gene-16" 
+L1 and L2 created:THEV	abquaye	gene	2334	3437	.	-	.	ID "nbis-gene-17" 
+THEV	abquaye	mRNA	2334	3437	.	-	.	ID 3 ; Parent "nbis-gene-17" 
+L1 and L2 created:THEV	abquaye	gene	3430	6768	.	-	.	ID "nbis-gene-18" 
+THEV	abquaye	mRNA	3430	6768	.	-	.	ID 4 ; Parent "nbis-gene-18" 
+L1 and L2 created:THEV	abquaye	gene	6765	10995	.	-	.	ID "nbis-gene-19" 
+THEV	abquaye	mRNA	6765	10995	.	-	.	ID 5 ; Parent "nbis-gene-19" 
+L1 and L2 created:THEV	abquaye	gene	8570	9472	.	+	.	ID "nbis-gene-20" 
+THEV	abquaye	mRNA	8570	9472	.	+	.	ID 6 ; Parent "nbis-gene-20" 
+L1 and L2 created:THEV	abquaye	gene	9462	10979	.	+	.	ID "nbis-gene-21" 
+THEV	abquaye	mRNA	9462	10979	.	+	.	ID 7 ; Parent "nbis-gene-21" 
+L1 and L2 created:THEV	abquaye	gene	11001	12347	.	+	.	ID "nbis-gene-22" 
+THEV	abquaye	mRNA	11001	12347	.	+	.	ID 8 ; Parent "nbis-gene-22" 
+L1 and L2 created:THEV	abquaye	gene	12347	12709	.	+	.	ID "nbis-gene-23" 
+THEV	abquaye	mRNA	12347	12709	.	+	.	ID 9 ; Parent "nbis-gene-23" 
+L1 and L2 created:THEV	abquaye	gene	313	25701	.	+	.	ID "nbis-gene-24"  ; Name ORF1 ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+THEV	abquaye	mRNA	313	25701	.	+	.	ID "nbisL2-cds-1"  ; Name ORF1 ; Parent "nbis-gene-24"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+24 cases fixed where L3 features have parent feature(s) missing
+------------------------------ done in 0 seconds -------------------------------
+
+--------------------------- Check5: l1 linked to l2 ----------------------------
+No problem found
+------------------------------ done in 0 seconds -------------------------------
+
+--------------------------- Check6: remove orphan l1 ---------------------------
+We remove only those not supposed to be orphan
+None found
+------------------------------ done in 0 seconds -------------------------------
+
+------------------------- Check7: all level3 locations -------------------------
+Features adjacents we merge them:
+THEV	abquaye	CDS	2334	3437	.	-	.	ID 3 ; Name IVa2 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
+THEV	abquaye	CDS	3430	6768	.	-	.	ID 4 ; Name AdPOL ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 3339 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 6768 ; thickStart 3429
+Features adjacents we merge them:
+THEV	abquaye	CDS	2334	6768	.	-	.	ID 3 ; Name IVa2 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
+THEV	abquaye	CDS	6765	10995	.	-	.	ID 5 ; Name pTP ; Parent "nbisL2-cds-1"  ; blockCount 2 ; blockSizes "1779,15"  ; blockStarts "0,4216"  ; itemRgb "0,0,255"  ; thickEnd 10995 ; thickStart 6764
+Features adjacents we merge them:
+THEV	abquaye	CDS	2334	10995	.	-	.	ID 3 ; Name IVa2 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
+THEV	abquaye	CDS	8570	9472	.	+	.	ID 6 ; Name 52K ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 903 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 9472 ; thickStart 8569
+Features adjacents we merge them:
+THEV	abquaye	CDS	2334	9472	.	-	.	ID 3 ; Name IVa2 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
+THEV	abquaye	CDS	9462	10979	.	+	.	ID 7 ; Name pIIIa ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1518 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 10979 ; thickStart 9461
+Features adjacents we merge them:
+THEV	abquaye	CDS	11001	12347	.	+	.	ID 8 ; Name III ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1347 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12347 ; thickStart 11000
+THEV	abquaye	CDS	12347	12709	.	+	.	ID 9 ; Name pVII ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 363 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12709 ; thickStart 12346
+Features adjacents we merge them:
+THEV	abquaye	CDS	16332	16976	.	+	.	ID 13 ; Name Protease ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 645 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 16976 ; thickStart 16331
+THEV	abquaye	CDS	16973	18186	.	-	.	ID 14 ; Name DBP ; Parent "nbisL2-cds-1"  ; blockCount 2 ; blockSizes "1115,28"  ; blockStarts "0,1186"  ; itemRgb "0,0,255"  ; thickEnd 18186 ; thickStart 16972
+Features adjacents we merge them:
+THEV	abquaye	CDS	18230	20227	.	+	.	ID 15 ; Name 100K ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1998 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 20227 ; thickStart 18229
+THEV	abquaye	CDS	20142	20699	.	+	.	ID 16 ; Name 33K_spliced ; Parent "nbisL2-cds-1"  ; blockCount 2 ; blockSizes "82,281"  ; blockStarts "0,277"  ; itemRgb "255,0,0"  ; thickEnd 20699 ; thickStart 20141
+Features adjacents we merge them:
+THEV	abquaye	CDS	18230	20699	.	+	.	ID 15 ; Name 100K ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1998 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 20227 ; thickStart 18229
+THEV	abquaye	CDS	20142	20411	.	+	.	ID 17 ; Name 22K ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 270 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 20411 ; thickStart 20141
+Features adjacents we merge them:
+THEV	abquaye	CDS	20769	21371	.	+	.	ID 18 ; Name "pVIII gene"  ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 603 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 21371 ; thickStart 20768
+THEV	abquaye	CDS	21247	22116	.	+	.	ID 19 ; Name E3 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 870 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 22116 ; thickStart 21246
+Features adjacents we merge them:
+THEV	abquaye	CDS	22260	22520	.	-	.	ID 20 ; Name "U exon"  ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 261 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 22520 ; thickStart 22259
+THEV	abquaye	CDS	22520	23883	.	+	.	ID 21 ; Name Fiber ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1365 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 23883 ; thickStart 22519
+------------------------------ done in 0 seconds -------------------------------
+
+------------------------------ Check8: check cds -------------------------------
+No problem found
+------------------------------ done in 0 seconds -------------------------------
+
+----------------------------- Check9: check exons ------------------------------
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	313	1953	.	+	.	ID "nbis-exon-1"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	2098	2325	.	+	.	ID "nbis-exon-2"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	2334	10979	.	+	.	ID "nbis-exon-3"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	11001	12709	.	+	.	ID "nbis-exon-4"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	12712	12888	.	+	.	ID "nbis-exon-5"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	12906	13601	.	+	.	ID "nbis-exon-6"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	13610	16330	.	+	.	ID "nbis-exon-7"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	16332	18186	.	+	.	ID "nbis-exon-8"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	18230	20411	.	+	.	ID "nbis-exon-9"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	20769	22116	.	+	.	ID "nbis-exon-10"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	22260	23883	.	+	.	ID "nbis-exon-11"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	24512	25168	.	+	.	ID "nbis-exon-12"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+Create one Exon for nbisl2-cds-1
+:THEV	abquaye	exon	25204	25701	.	+	.	ID "nbis-exon-13"  ; Name ORF1 ; Parent "nbisL2-cds-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+13 exons created that were missing
+No exons locations modified
+No supernumerary exons removed
+No level2 locations modified
+------------------------------ done in 0 seconds -------------------------------
+
+----------------------------- Check10: check utrs ------------------------------
+Remove 1 supernumerary UTRs for 1
+Remove 1 supernumerary UTRs for 10
+Remove 1 supernumerary UTRs for 11
+Remove 1 supernumerary UTRs for 12
+Remove 1 supernumerary UTRs for 13
+Remove 1 supernumerary UTRs for 14
+Remove 1 supernumerary UTRs for 15
+Remove 1 supernumerary UTRs for 16
+Remove 1 supernumerary UTRs for 17
+Remove 1 supernumerary UTRs for 18
+Remove 1 supernumerary UTRs for 19
+Remove 1 supernumerary UTRs for 2
+Remove 1 supernumerary UTRs for 20
+Remove 1 supernumerary UTRs for 22
+Remove 1 supernumerary UTRs for 23
+Remove 1 supernumerary UTRs for 3
+Remove 1 supernumerary UTRs for 4
+Remove 1 supernumerary UTRs for 5
+Remove 1 supernumerary UTRs for 6
+Remove 1 supernumerary UTRs for 7
+Remove 1 supernumerary UTRs for 8
+Remove 1 supernumerary UTRs for 9
+No UTRs created
+No UTRs locations modified
+22 UTRs removed that were supernumerary
+------------------------------ done in 0 seconds -------------------------------
+
+------------------------ Check11: all level2 locations -------------------------
+No problem found
+------------------------------ done in 0 seconds -------------------------------
+
+------------------------ Check12: all level1 locations -------------------------
+No problem found
+------------------------------ done in 0 seconds -------------------------------
+
+---------------------- Check13: remove identical isoforms ----------------------
+None found
+------------------------------ done in 0 seconds -------------------------------
+********************************************************************************
+*                                - End checks -                                *
+*                              done in 0 seconds                               *
+********************************************************************************
+
+=> OmniscientI total time: 1 seconds
