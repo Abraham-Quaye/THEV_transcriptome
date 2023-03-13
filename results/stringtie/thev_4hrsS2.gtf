@@ -1,0 +1,17 @@
+# stringtie -p 10 results/hisat2/thev_sorted_4hrsS2.bam -t -G raw_files/annotations/thev_predicted_genes.gff -l 4S2 -o results/stringtie/thev_4hrsS2.gtf
+# StringTie version 2.2.1
+THEV	StringTie	transcript	13610	16331	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; reference_id "12"; cov "2.809331"; FPKM "104502.140625"; TPM "186053.140625";
+THEV	StringTie	exon	13610	16331	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; exon_number "1"; reference_id "12"; cov "2.809331";
+THEV	StringTie	transcript	16332	16977	1000	+	.	gene_id "4S2.2"; transcript_id "4S2.2.1"; reference_id "13"; cov "4.224207"; FPKM "157133.015625"; TPM "279755.937500";
+THEV	StringTie	exon	16332	16977	1000	+	.	gene_id "4S2.2"; transcript_id "4S2.2.1"; exon_number "1"; reference_id "13"; cov "4.224207";
+THEV	StringTie	transcript	16959	18722	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; cov "2.457501"; FPKM "91414.679688"; TPM "162752.546875";
+THEV	StringTie	exon	16959	18087	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "1"; cov "2.390759";
+THEV	StringTie	exon	18159	18189	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "2"; cov "4.481046";
+THEV	StringTie	exon	18684	18722	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "3"; cov "2.781142";
+THEV	StringTie	transcript	19663	22201	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; cov "3.056240"; FPKM "113686.718750"; TPM "202405.156250";
+THEV	StringTie	exon	19663	20223	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; exon_number "1"; cov "0.552411";
+THEV	StringTie	exon	20419	22201	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; exon_number "2"; cov "3.844040";
+THEV	StringTie	transcript	20769	21372	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.2"; reference_id "18"; cov "1.279926"; FPKM "47610.976562"; TPM "84765.468750";
+THEV	StringTie	exon	20769	21372	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.2"; exon_number "1"; reference_id "18"; cov "1.279926";
+THEV	StringTie	transcript	21247	22117	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.3"; reference_id "19"; cov "1.128883"; FPKM "41992.445312"; TPM "74762.367188";
+THEV	StringTie	exon	21247	22117	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.3"; exon_number "1"; reference_id "19"; cov "1.128883";

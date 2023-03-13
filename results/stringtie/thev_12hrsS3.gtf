@@ -1,0 +1,29 @@
+# stringtie -p 10 results/hisat2/thev_sorted_12hrsS3.bam -t -G raw_files/annotations/thev_predicted_genes.gff -l 12S3 -o results/stringtie/thev_12hrsS3.gtf
+# StringTie version 2.2.1
+THEV	StringTie	transcript	313	1954	1000	+	.	gene_id "12S3.1"; transcript_id "12S3.1.1"; reference_id "1"; cov "1.207674"; FPKM "5390.078125"; TPM "10776.984375";
+THEV	StringTie	exon	313	1954	1000	+	.	gene_id "12S3.1"; transcript_id "12S3.1.1"; exon_number "1"; reference_id "1"; cov "1.207674";
+THEV	StringTie	transcript	2334	3438	1000	-	.	gene_id "12S3.2"; transcript_id "12S3.2.1"; reference_id "3"; cov "4.613720"; FPKM "20591.908203"; TPM "41171.699219";
+THEV	StringTie	exon	2334	3438	1000	-	.	gene_id "12S3.2"; transcript_id "12S3.2.1"; exon_number "1"; reference_id "3"; cov "4.613720";
+THEV	StringTie	transcript	3430	6769	1000	-	.	gene_id "12S3.3"; transcript_id "12S3.3.1"; reference_id "4"; cov "1.078366"; FPKM "4812.952637"; TPM "9623.072266";
+THEV	StringTie	exon	3430	6769	1000	-	.	gene_id "12S3.3"; transcript_id "12S3.3.1"; exon_number "1"; reference_id "4"; cov "1.078366";
+THEV	StringTie	transcript	7765	16856	1000	+	.	gene_id "12S3.4"; transcript_id "12S3.4.1"; cov "3.148741"; FPKM "14053.429688"; TPM "28098.587891";
+THEV	StringTie	exon	7765	7807	1000	+	.	gene_id "12S3.4"; transcript_id "12S3.4.1"; exon_number "1"; cov "0.985411";
+THEV	StringTie	exon	12466	16856	1000	+	.	gene_id "12S3.4"; transcript_id "12S3.4.1"; exon_number "2"; cov "3.169926";
+THEV	StringTie	transcript	16973	18187	1000	-	.	gene_id "12S3.5"; transcript_id "12S3.5.1"; reference_id "14"; cov "52.549286"; FPKM "234537.453125"; TPM "468936.843750";
+THEV	StringTie	exon	16973	18187	1000	-	.	gene_id "12S3.5"; transcript_id "12S3.5.1"; exon_number "1"; reference_id "14"; cov "52.549286";
+THEV	StringTie	transcript	18230	20228	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.1"; reference_id "15"; cov "1.621456"; FPKM "7236.865723"; TPM "14469.473633";
+THEV	StringTie	exon	18230	20228	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.1"; exon_number "1"; reference_id "15"; cov "1.621456";
+THEV	StringTie	transcript	18237	23702	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.2"; cov "17.326113"; FPKM "77329.734375"; TPM "154613.953125";
+THEV	StringTie	exon	18237	18350	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.2"; exon_number "1"; cov "11.519546";
+THEV	StringTie	exon	18717	23702	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.2"; exon_number "2"; cov "17.458874";
+THEV	StringTie	transcript	20769	21372	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.3"; reference_id "18"; cov "2.299960"; FPKM "10265.157227"; TPM "20524.275391";
+THEV	StringTie	exon	20769	21372	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.3"; exon_number "1"; reference_id "18"; cov "2.299960";
+THEV	StringTie	transcript	21247	22117	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.4"; reference_id "19"; cov "1.165395"; FPKM "5201.379395"; TPM "10399.697266";
+THEV	StringTie	exon	21247	22117	1000	+	.	gene_id "12S3.6"; transcript_id "12S3.6.4"; exon_number "1"; reference_id "19"; cov "1.165395";
+THEV	StringTie	transcript	24512	25169	1000	+	.	gene_id "12S3.7"; transcript_id "12S3.7.1"; reference_id "22"; cov "16.141336"; FPKM "72041.851562"; TPM "144041.296875";
+THEV	StringTie	exon	24512	25169	1000	+	.	gene_id "12S3.7"; transcript_id "12S3.7.1"; exon_number "1"; reference_id "22"; cov "16.141336";
+THEV	StringTie	transcript	25192	26247	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.1"; cov "8.877338"; FPKM "39621.246094"; TPM "79219.171875";
+THEV	StringTie	exon	25192	25701	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.1"; exon_number "1"; cov "10.791704";
+THEV	StringTie	exon	26055	26247	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.1"; exon_number "2"; cov "3.818653";
+THEV	StringTie	transcript	25204	25702	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.2"; reference_id "23"; cov "1.389240"; FPKM "6200.442383"; TPM "12397.235352";
+THEV	StringTie	exon	25204	25702	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.2"; exon_number "1"; reference_id "23"; cov "1.389240";
