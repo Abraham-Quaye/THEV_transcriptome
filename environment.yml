@@ -6,7 +6,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - samtools=1.15.1
+  - samtools=1.14
   - python=3.9
   - hisat2=2.2.1
   - gffcompare=0.12.6

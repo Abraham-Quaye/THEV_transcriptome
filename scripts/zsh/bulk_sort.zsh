@@ -23,7 +23,7 @@ echo "Sorting 72hrs..."
 samtools sort -@ 10  -o $mapdir/sortedTHEV_72hrsSamples.bam $mapdir/thev_72hrsSamples.sam ;
 
 # alert for end
-echo "Sorting Complete!"
+echo "Sorting Complete!" &&
 
 
 # SECTION III -- TRASH .SAM FILES

@@ -30,7 +30,7 @@ hisat2 -p 10 --dta -x $seqidx -1 $fordata/LCS9132_I_24hrsS2_Clean_Data1_val_1.fq
 
 # map 24 hrs sample rep3
 (echo "Mapping 24hrs Replicate 3 ..."
-hisat2 -p 10 --dta -x $seqidx -1 $fordata/LCS9132_I_24hrsS3_Clean_Data1_val_1.fq.gz -2 $revdata/LCS9132_I_24hrsS3_Clean_Data2_val_2.fq.gz -S $mapdir/thev_24hrsS3.sam) ;
+hisat2 -p 10 --dta -x $seqidx -1 $fordata/LCS9132_I_24hrsS3_Clean_Data1_val_1.fq.gz -2 $revdata/LCS9132_I_24hrsS3_Clean_Data2_val_2.fq.gz -S $mapdir/thev_24hrsS3.sam) &
 
 # map 12 hrs sample rep1
 (echo "Mapping 12hrs Replicate 1 ..."
