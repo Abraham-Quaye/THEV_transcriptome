@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 seqidx=raw_files/thevgenome_index/thev_tran
 fordata=trimmedReads/forwardTrims

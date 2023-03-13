@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 mapdir=results/hisat2/bulk
 covdir=results/hisat2/coverage
