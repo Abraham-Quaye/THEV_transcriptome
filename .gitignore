@@ -1,8 +1,9 @@
 # R coding
 .Rhistory
-.RData
-.RProj.user
-.Rproj
+*.RData
+*.RProj.user
+*.Rproj
+.Renviron
 .DS_Store
 
 Hisat2_Analyses/Genome_files
@@ -15,3 +16,6 @@ trimmedReads/*
 *temp*
 *.sam
 *.bam
+
+# snakemake
+.snakemake
