@@ -1,0 +1,23 @@
+name: rnaseq
+channels:
+  - conda-forge
+  - base
+  - R
+  - bioconda
+  - defaults
+dependencies:
+  - samtools
+  - bwa
+  - python=3.9
+  - hisat2
+  - gffcompare
+  - stringtie
+  - agat
+  - r-base
+  - r-tidyverse
+  - r-devtools
+  - r-gplots
+  - r-viridis
+  - r-pheatmap
+  - bioconductor-GenomicRanges
+  - bioconductor-genefilter

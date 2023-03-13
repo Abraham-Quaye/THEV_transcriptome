@@ -1,0 +1,17 @@
+# R coding
+.Rhistory
+.RData
+.RProj.user
+.Rproj
+.DS_Store
+
+Hisat2_Analyses/Genome_files
+# .bam and other large files
+results/hisat2/*
+
+# raw sequence data (fastq files)
+trimmedReads/*
+
+*temp*
+*.sam
+*.bam
