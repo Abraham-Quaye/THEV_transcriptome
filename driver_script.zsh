@@ -10,6 +10,7 @@ conda activate rnaseq && echo "successfull activation" || exit 1
 #################### BUILD THEV GENOMIC INDEX FOR MAPPING WITH HISAT2 ######
 $scripts/build_genome_index.zsh
 
+: '
 #################### MAP READS TO THEV GENOME WITH HISAT2 #############
 $scripts/mapping.zsh
 
@@ -39,4 +40,4 @@ $scripts/bulk_coverage.zsh
 $scripts/bulk_depth.zsh
 # also removes the .bam files, leaving no bulk mapped files
 
-conda deactivate && echo "rna-seq env deactivated!!" 
+conda deactivate && echo "rna-seq env deactivated!!" '
