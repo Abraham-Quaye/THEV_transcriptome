@@ -8,7 +8,7 @@ eval "$(conda shell.zsh hook)"
 conda activate rnaseq && echo "successfull activation" || exit 1
 
 #################### BUILD THEV GENOMIC INDEX FOR MAPPING WITH HISAT2 ######
-$scripts/build_index.zsh
+$scripts/build_genome_index.zsh
 
 #################### MAP READS TO THEV GENOME WITH HISAT2 #############
 $scripts/mapping.zsh
