@@ -201,68 +201,48 @@ depth72hrs <- depth72hrs %>%
   mutate(timepoint = "t-72hrs")
 
 alltimes <- rbind(depth4hrs, depth12hrs, depth24hrs, depth72hrs) %>%
-  mutate(
-    timepoint = factor(timepoint, levels = rev((unique(.$timepoint)))),
-    timepoint = recode(timepoint,
-      "t-4hrs" = "4hpi",
-      "t-12hrs" = "12hpi",
-      "t-24hrs" = "24hpi",
-      "t-72hrs" = "72hpi"
-    )
-  )
+  mutate(timepoint = factor(timepoint, levels = rev((unique(.$timepoint)))),
+         timepoint = recode(timepoint, "t-4hrs" = "4hpi", "t-12hrs" = "12hpi",
+         "t-24hrs" = "24hpi", "t-72hrs" = "72hpi"))
 
 compare_all <- alltimes %>%
   ggplot(aes(position, depth, fill = timepoint, color = timepoint)) +
   geom_col() +
   scale_fill_igv(guide = guide_legend(
-    keywidth = unit(1, "cm"),
-    keyheight = unit(1.2, "cm")
-  )) +
+                 keywidth = unit(1, "cm"),
+                 keyheight = unit(1.2, "cm"))) +
   scale_color_igv() +
   scale_y_sqrt(expand = c(0, 0)) +
-  scale_x_continuous(
-    expand = c(0, 0),
-    breaks = seq(1000, 26000, 1000),
-    labels = glue("{seq(1,26,1)}kb")
-  ) +
-  labs(
-    title = "All timepoint samples",
-    x = element_blank(),
-    y = "Mapping Depth",
-    fill = element_blank(),
-    color = element_blank()
-  ) +
+  scale_x_continuous(expand = c(0, 0),
+                     breaks = seq(1000, 26000, 1000),
+                     labels = glue("{seq(1,26,1)}kb")) +
+  labs(title = "All timepoint samples",
+       x = element_blank(),
+       y = "Mapping Depth",
+       fill = element_blank(),
+       color = element_blank()) +
   theme_classic() +
-  theme(
-    axis.text.y = element_text(
-      size = 10,
-      face = "bold",
-      color = "#000000",
-      margin = margin(l = 10, r = 5)
-    ),
-    axis.text.x = element_text(
-      size = 10,
-      face = "bold",
-      color = "#000000",
-      margin = margin(b = 10, t = 5)
-    ),
-    plot.title = element_text(
-      size = 20, face = "bold", hjust = 0.5,
-      margin = margin(t = 10)
-    ),
-    axis.title.y = element_text(
-      size = 18, face = "bold",
-      margin = margin(l = 10)
-    ),
+  theme(axis.text.y = element_text(size = 10,
+                                   face = "bold",
+                                   color = "#000000",
+                                   margin = margin(l = 10, r = 5)),
+    axis.text.x = element_text(size = 10,
+                               face = "bold",
+                               color = "#000000",
+                               margin = margin(b = 10, t = 5)),
+    plot.title = element_text(size = 20, 
+                              face = "bold", 
+                              hjust = 0.5,
+                              margin = margin(t = 10)),
+    axis.title.y = element_text(size = 18, face = "bold",
+                                margin = margin(l = 10)),
     legend.justification = c(0, 0),
     legend.position = c(0.04, 0.75),
     legend.margin = margin(rep(10, 4)),
     legend.background = element_rect(color = "grey", linewidth = 0.2),
-    legend.text = element_text(
-      size = 14, margin = margin(rep(10, 4)),
-      face = "bold"
-    )
-  )
+    legend.text = element_text(size = 14, 
+                               margin = margin(rep(10, 4)),
+                               face = "bold"))
 ggsave("overlay_alltimes.png",
   plot = compare_all, path = "results/r/figures",
   width = 15, height = 10
