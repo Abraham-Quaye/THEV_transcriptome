@@ -3,6 +3,14 @@
 
 mapdir=results/hisat2
 
+if [ -f $mapdir/thev_sorted_4hrsS2.bam ] 
+    then
+        rm $idxdir/*.bam
+        rm $idxdir/*.bai
+        echo "old .bam and .bai files removed"
+    else
+        echo "no .bam files in directory"
+fi
 #################################### SECTION II #########################################
 # sorting all mapped reads and converting to .bam files with samtools
 

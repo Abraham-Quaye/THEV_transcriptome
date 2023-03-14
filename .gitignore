@@ -5,6 +5,9 @@
 *.Rproj
 .Renviron
 .DS_Store
+Renviron
+scripts/r/THEV_rnaseq_analyses.Rproj
+
 
 Hisat2_Analyses/Genome_files
 # .bam and other large files

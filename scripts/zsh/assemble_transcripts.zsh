@@ -4,6 +4,15 @@
 mapdir=results/hisat2
 GTF=raw_files/annotations/thev_predicted_genes.gtf
 assembled=results/stringtie
+
+if [ -f $assembled/thev_4hrsS1.gtf ] 
+    then
+        rm $idxdir/*.gtf
+        echo "old .gtf files removed"
+    else
+        echo "no .gtf files in directory"
+fi
+
 ############################################# SECTION V #############################################
 # constructing transcripts and splice variants with StringTie
 echo "SECTION V beginning..."

@@ -4,16 +4,17 @@ set -e
 
 zsh=scripts/zsh
 r=scripts/r
+
 #################### ACTIVATE CONDA ENVIRONMENT (RNASEQ) ##################
 eval "$(conda shell.zsh hook)"
-conda activate rnaseq && echo "successfull activation" || exit 1
+conda activate rnaseq && echo "successfull activation" || exit 1 
 
 
 ################# CREATE .GFF3 FILE FROM .BED ###########
 $zsh/make_gff.zsh
 
 ################### REMOVE UNWANTED GFF FEATURES ####################
-R -e "source('$r/makingGFFfile.R')"
+# R -e "source('$r/makingGFFfile.R')"
 
 ################# CONVERT .GFF3 TO GTF ###########
 $zsh/make_gtf.zsh
@@ -21,6 +22,7 @@ $zsh/make_gtf.zsh
 
 #################### BUILD THEV GENOMIC INDEX FOR MAPPING WITH HISAT2 ######
 $zsh/build_genome_index.zsh
+
 
 #################### MAP READS TO THEV GENOME WITH HISAT2 #############
 $zsh/mapping.zsh
