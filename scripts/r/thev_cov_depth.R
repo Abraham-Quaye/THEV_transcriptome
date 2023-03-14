@@ -3,7 +3,6 @@
 
 library(tidyverse)
 library(glue)
-library(plotly)
 library(gridExtra)
 library(patchwork)
 library(ggsci)

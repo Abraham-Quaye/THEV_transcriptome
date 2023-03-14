@@ -8,6 +8,7 @@ r=scripts/r
 eval "$(conda shell.zsh hook)"
 conda activate rnaseq && echo "successfull activation" || exit 1
 
+
 ################# CREATE .GFF3 FILE FROM .BED ###########
 $zsh/make_gff.zsh
 
@@ -48,13 +49,10 @@ $zsh/bulk_coverage.zsh
 
 #################### BULK DEPTH ############
 $zsh/bulk_depth.zsh
-# also removes the .bam files, leaving no bulk mapped files
+# also removes the .bam files, leaving no bulk mapped files 
 
 #################### MAKE FIGURES FOR DEPTH/COVERAGE ############
 R -e "source('$r/thev_cov_depth.R')"
 
-
-
-
-
+#################### DEACTIVATE ENVIRONMENT ##############
 conda deactivate && echo "rna-seq env deactivated!!" 
