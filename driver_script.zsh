@@ -50,4 +50,4 @@ $zsh/bulk_coverage.zsh
 $zsh/bulk_depth.zsh
 # also removes the .bam files, leaving no bulk mapped files
 
-conda deactivate && echo "rna-seq env deactivated!!" '
+conda deactivate && echo "rna-seq env deactivated!!" 
