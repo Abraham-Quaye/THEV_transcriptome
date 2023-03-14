@@ -89,7 +89,7 @@ THEV	AbQuaye	gene	22520	23884	.	+	.	gene_id "nbis-gene-14"; ID "nbis-gene-14"; N
 THEV	AbQuaye	transcript	22520	23884	.	+	.	gene_id "nbis-gene-14"; transcript_id "21"; ID "21"; Name "Fiber"; Parent "nbis-gene-14"; blockCount "1"; blockSizes "1365"; blockStarts "0"; itemRgb "255,0,0"; original_biotype "mrna"; thickEnd "23883"; thickStart "22519";
 THEV	AbQuaye	exon	22520	23884	.	+	.	gene_id "nbis-gene-14"; transcript_id "21"; ID "exon24"; Parent "21";
 THEV	AbQuaye	CDS	22520	23883	.	+	0	gene_id "nbis-gene-14"; transcript_id "21"; ID "CDS24"; Parent "21";
-THEV	AbQuaye	three_prime_utr	23884	23884	.	+	.	gene_id "nbis-gene-14"; transcript_id "21"; ID "nbis-three_prime_utr-1"; Parent "21"; original_biotype "three_prime_UTR";
+THEV	AbQuaye	three_prime_utr	23884	23884	.	+	.	gene_id "nbis-gene-14"; transcript_id "21"; ID "three_prime_UTR21"; Parent "21"; original_biotype "three_prime_UTR";
 THEV	AbQuaye	gene	24512	25168	.	+	.	gene_id "nbis-gene-15"; ID "nbis-gene-15"; Name "ORF7"; blockCount "1"; blockSizes "657"; blockStarts "0"; itemRgb "255,0,0"; thickEnd "25168"; thickStart "24511";
 THEV	AbQuaye	transcript	24512	25168	.	+	.	gene_id "nbis-gene-15"; transcript_id "22"; ID "22"; Name "ORF7"; Parent "nbis-gene-15"; blockCount "1"; blockSizes "657"; blockStarts "0"; itemRgb "255,0,0"; original_biotype "mrna"; thickEnd "25168"; thickStart "24511";
 THEV	AbQuaye	exon	24512	25168	.	+	.	gene_id "nbis-gene-15"; transcript_id "22"; ID "exon25"; Parent "22";

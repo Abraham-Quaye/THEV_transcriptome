@@ -4,7 +4,7 @@
 |   https://github.com/NBISweden/AGAT                                          |
 |   National Bioinformatics Infrastructure Sweden (NBIS) - www.nbis.se         |
  ------------------------------------------------------------------------------
-                            03/13/2023 at 17h00m55s                             
+                            03/13/2023 at 22h40m13s                             
 
 ********************************************************************************
 *                              - Start parsing -                               *
@@ -30,17 +30,17 @@ Using standard /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/auto/share/dist/AG
 The feature type (3rd column) is constrained to be either a term from the Sequence Ontology or an SO accession number. The latter alternative is distinguished using the syntax SO:000000. In either case, it must be sequence_feature (SO:0000110) or an is_a child of it.
 We filter the ontology to apply this rule.		We found 1861 terms that are sequence_feature or is_a child of it.
 --------------------------------- parsing file ---------------------------------
-=> Number of line in file: 75
-=> Number of comment lines: 0
+=> Number of line in file: 99
+=> Number of comment lines: 1
 => Fasta included: No
-=> Number of features lines: 75
-=> Number of feature type (3rd column): 3
+=> Number of features lines: 98
+=> Number of feature type (3rd column): 5
 	* Level1: 1 => gene
 	* level2: 0 => 
-	* level3: 2 => exon CDS
+	* level3: 4 => five_prime_UTR exon three_prime_UTR CDS
 	* unknown: 0 => 
 =>Check because only level3 features:
- * Number of feature with Parent attribute:52
+ * Number of feature with Parent attribute:75
  * Number of feature with a common attribute:0
   => Some common attributes and some Parent attributes missing.
   /!\ For features where both are missing A single Level2 features (e.g. mRNA) and a single level1 (e.g. gene) will be created by AGAT, and all level3 feautres (e,g, CDS,exon) will be attached to them. This is probably not what you want...
@@ -122,11 +122,31 @@ No level2 locations modified
 ------------------------------ done in 0 seconds -------------------------------
 
 ----------------------------- Check10: check utrs ------------------------------
-Create one UTR for 21
-:THEV	AbQuaye	three_prime_UTR	23884	23884	.	+	.	ID "nbis-three_prime_utr-1"  ; Parent 21
-1 UTRs created that were missing
+Remove 1 supernumerary UTRs for 1
+Remove 1 supernumerary UTRs for 10
+Remove 1 supernumerary UTRs for 11
+Remove 1 supernumerary UTRs for 12
+Remove 1 supernumerary UTRs for 13
+Remove 1 supernumerary UTRs for 14
+Remove 1 supernumerary UTRs for 15
+Remove 1 supernumerary UTRs for 16
+Remove 1 supernumerary UTRs for 17
+Remove 1 supernumerary UTRs for 18
+Remove 1 supernumerary UTRs for 19
+Remove 1 supernumerary UTRs for 2
+Remove 1 supernumerary UTRs for 20
+Remove 1 supernumerary UTRs for 22
+Remove 1 supernumerary UTRs for 23
+Remove 1 supernumerary UTRs for 3
+Remove 1 supernumerary UTRs for 4
+Remove 1 supernumerary UTRs for 5
+Remove 1 supernumerary UTRs for 6
+Remove 1 supernumerary UTRs for 7
+Remove 1 supernumerary UTRs for 8
+Remove 1 supernumerary UTRs for 9
+No UTRs created
 No UTRs locations modified
-No supernumerary UTRs removed
+22 UTRs removed that were supernumerary
 ------------------------------ done in 0 seconds -------------------------------
 
 ------------------------ Check11: all level2 locations -------------------------
