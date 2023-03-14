@@ -11,15 +11,15 @@ scripts/r/THEV_rnaseq_analyses.Rproj
 
 Hisat2_Analyses/Genome_files
 # .bam and other large files
-results/hisat2/*
 !results/hisat2/coverage/*
-
-# raw sequence data (fastq files)
-trimmedReads/*
-
 *temp*
 *.sam
 *.bam
+*.bai
+# raw sequence data (fastq files)
+trimmedReads/*
+
+
 
 # snakemake
 .snakemake
