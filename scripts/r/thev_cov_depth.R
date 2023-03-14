@@ -249,98 +249,76 @@ ggsave("overlay_alltimes.png",
 )
 
 
-# ## coverage data
-# cov4hrs <- read_tsv("coverage/mappedNCBI_4hrscoverage.txt") %>%
-#   mutate(tp = "4hrs") %>%
-#   select(numreads, meandepth, tp)
-
-# cov12hrs <- read_tsv("coverage/mappedNCBI_12hrscoverage.txt") %>%
-#   mutate(tp = "12hrs") %>%
-#   select(numreads, meandepth, tp)
-
-# cov24hrs <- read_tsv("coverage/mappedNCBI_24hrscoverage.txt") %>%
-#   mutate(tp = "24hrs") %>%
-#   select(numreads, meandepth, tp)
-
-# cov72hrs <- read_tsv("coverage/mappedNCBI_72hrscoverage.txt") %>%
-#   mutate(tp = "72hrs") %>%
-#   select(numreads, meandepth, tp)
-
-# cov_all <- rbind(cov4hrs, cov12hrs, cov24hrs, cov72hrs) %>%
-#   mutate(tp = factor(tp, levels = c("4hrs", "12hrs", "24hrs", "72hrs")))
-
-# lmod <- lm(meandepth ~ numreads, data = cov_all)
-# slmod <- summary(lmod)
+# coverage data
 
 
-# cov_all %>%
-#   mutate(tp = recode(tp,
-#     `4hrs` = "4hpi",
-#     `12hrs` = "12hpi",
-#     `24hrs` = "24hpi",
-#     `72hrs` = "72hpi"
-#   )) |>
-#   ggplot(aes(numreads, meandepth, color = tp)) +
-#   geom_smooth(
-#     show.legend = F, method = "lm", formula = y ~ x,
-#     color = "black", linewidth = 0.2
-#   ) +
-#   geom_point(size = 15) +
-#   geom_textbox(aes(label = glue("**Mean Depth** <br>{round(meandepth,1)}")),
-#     nudge_y = 0.25,
-#     nudge_x = -0.1,
-#     size = 6,
-#     hjust = 0.5,
-#     show.legend = F, color = "black",
-#     box.padding = unit(0, "pt"),
-#     width = NULL,
-#     box.size = 0
-#   ) +
-#   geom_textbox(aes(label = glue("**Reads** <br>{numreads}")),
-#     nudge_y = -0.25,
-#     nudge_x = 0.2,
-#     size = 6,
-#     show.legend = F, color = "black",
-#     box.padding = unit(0, "pt"),
-#     width = NULL,
-#     box.size = 0
-#   ) +
-#   annotate(
-#     geom = "text", x = 2.5e5, y = 5e2, label = glue("R^2 == {round(slmod$adj.r.squared,4)}"),
-#     parse = T, size = 12
-#   ) +
-#   scale_y_log10() +
-#   scale_x_log10(limits = c(300, 1e8)) +
-#   labs(
-#     title = "Correlation of Mapped Reads to Depth Coverage of THEV genome",
-#     x = "Total Mapped Reads",
-#     y = "Mean Coverage Depth",
-#     color = element_blank()
-#   ) +
-#   scale_color_manual(values = rainbow(4)) +
-#   theme(
-#     plot.background = element_blank(),
-#     panel.background = element_blank(),
-#     panel.grid.major.y = element_line(linewidth = 0.025, color = "black", linetype = "solid"),
-#     plot.title = element_text(size = 28, face = "bold", hjust = 0.5, margin = margin(b = 10)),
-#     axis.line = element_line(linewidth = 0.4),
-#     axis.text = element_text(size = 14, color = "black"),
-#     axis.title = element_text(size = 18, face = "bold"),
-#     axis.ticks.length.y = unit(0, "cm"),
-#     legend.text = element_text(size = 12, face = "bold"),
-#     legend.key = element_rect(fill = "white"),
-#     legend.background = element_rect(color = "black", linewidth = 0.1),
-#     legend.justification = c(0, 0),
-#     legend.position = c(0.05, 0.6)
-#   )
+cov_all <- read_tsv("results/hisat2/coverage/bulk_coverage.txt",
+                    comment = "Coverage", show_col_types = FALSE) %>% 
+  rename("organism" = "#rname") %>% 
+  filter(organism != "#rname") %>% 
+  mutate(timepoint = c("4hpi", "12hpi", "24hpi", "72hpi")) %>% 
+  map_at(c(2:9), as.numeric) %>% 
+  as_tibble()
+  
 
-# #
-# # allcovCount <- read.table("THEVmapCoverage.txt",# blank.lines.skip = F,
-# #                           skip = 1, comment.char = "",
-# #                           header = T,fill = NA) |>
-# #  filter(X.rname == "THEV") %>%
-# #   mutate(numreads = as.numeric(numreads))
-# #
-# # sum(allcovCount$numreads) # total mapped reads from all replicates
-# # sum(cov_all$numreads) # total mapped reads from all time-points
-# #
+
+lmod <- lm(meandepth ~ numreads, 
+           data = cov_all %>% select(numreads, meandepth))
+slmod <- summary(lmod)
+
+
+corr <- cov_all %>%
+      ggplot(aes(numreads, meandepth, color = timepoint)) +
+      geom_smooth(show.legend = FALSE, se = FALSE,
+                  method = "lm", 
+                  formula = y ~ x,
+                  color = "black",
+                  linewidth = 0.2) +
+      geom_point(size = 15) +
+      geom_textbox(aes(label = glue("**Mean Depth** <br>{round(meandepth,1)}")),
+        nudge_y = 0.25,
+        nudge_x = -0.1,
+        size = 6,
+        hjust = 0.5,
+        show.legend = F, color = "black",
+        box.padding = unit(0, "pt"),
+        width = NULL,
+        box.size = 0) +
+      geom_textbox(aes(label = glue("**Reads** <br>{numreads}")),
+        nudge_y = -0.25,
+        nudge_x = 0.2,
+        size = 6,
+        show.legend = F, color = "black",
+        box.padding = unit(0, "pt"),
+        width = NULL,
+        box.size = 0) +
+      annotate(geom = "text", x = 2.5e5, y = 5e2, 
+               label = glue("R^2 == {round(slmod$adj.r.squared,4)}"),
+               parse = T, size = 12) +
+      scale_y_log10() +
+      scale_x_log10(limits = c(300, 1e8)) +
+      labs(title = "Correlation of Mapped Reads to Coverage Depth of THEV genome",
+           x = "Total Mapped Reads",
+           y = "Mean Depth",
+           color = element_blank()) +
+      scale_color_manual(values = rainbow(4)) +
+      theme(plot.background = element_blank(),
+            panel.background = element_blank(),
+            panel.grid.major.y = element_line(linewidth = 0.025, 
+                                              color = "black", 
+                                              linetype = "solid"),
+            plot.title = element_text(size = 28, face = "bold", 
+                                      hjust = 0.5, margin = margin(b = 10)),
+        axis.line = element_line(linewidth = 0.4),
+        axis.text = element_text(size = 14, color = "black"),
+        axis.title = element_text(size = 18, face = "bold"),
+        axis.ticks.length.y = unit(0, "cm"),
+        legend.text = element_text(size = 12, face = "bold"),
+        legend.key = element_rect(fill = "white"),
+        legend.background = element_rect(color = "black", linewidth = 0.1),
+        legend.justification = c(0, 0),
+        legend.position = c(0.05, 0.6))
+
+ggsave("correlate_alltimes.png",
+       plot = corr, path = "results/r/figures",
+       width = 15, height = 10)
