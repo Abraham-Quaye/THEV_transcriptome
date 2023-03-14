@@ -50,4 +50,11 @@ $zsh/bulk_coverage.zsh
 $zsh/bulk_depth.zsh
 # also removes the .bam files, leaving no bulk mapped files
 
+#################### MAKE FIGURES FOR DEPTH/COVERAGE ############
+R -e "source('$r/thev_cov_depth.R')"
+
+
+
+
+
 conda deactivate && echo "rna-seq env deactivated!!" 
