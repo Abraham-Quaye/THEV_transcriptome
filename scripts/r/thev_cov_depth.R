@@ -8,6 +8,12 @@ library(patchwork)
 library(ggsci)
 library(ggtext)
 
+### remove older files before generating new files
+path <- "results/r/figures"
+files <- list.files(path, pattern = ".+(.pdf|.png|.jpg|.jpeg)", 
+                    full.names = TRUE, recursive = TRUE)
+unlink(files, recursive = FALSE, force = FALSE)
+
 # load in depth files
 # 4hr samples
 depth4hrs <- read_tsv("results/hisat2/coverage/thev_4hrsdepth.txt",
