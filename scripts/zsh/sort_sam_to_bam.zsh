@@ -5,8 +5,8 @@ mapdir=results/hisat2
 
 if [ -f $mapdir/thev_sorted_4hrsS2.bam ] 
     then
-        rm $idxdir/*.bam
-        rm $idxdir/*.bai
+        rm $mapdir/*.bam
+        rm $mapdir/*.bai
         echo "old .bam and .bai files removed"
     else
         echo "no .bam files in directory"

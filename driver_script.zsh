@@ -28,27 +28,21 @@ $zsh/extract_exons.zsh
 #################### BUILD THEV GENOMIC INDEX FOR MAPPING WITH HISAT2 ######
 $zsh/build_genome_index.zsh
 
-#################### MAP READS TO THEV GENOME WITH HISAT2 #############
-$zsh/mapping.zsh
+#################### MOVE AGAT LOGFILE #################
+rm raw_files/annotations/thev_predicted_genes.agat.log 
+mv thev_predicted_genes.agat.log raw_files/annotations
 
-#################### SORT MAPPED READS AND CONVERT TO .BAM WITH SAMTOOLS ######
-$zsh/sort_sam_to_bam.zsh
+#################### MAP READS TO THEV GENOME WITH HISAT2 #############
+$zsh/map_sort_to_bam.zsh
 
 #################### INDEX ALL SORTED .BAM FILES ##################
 $zsh/index.zsh
-
-#################### DELETE ALL .SAM FILES ##################
-$zsh/trash_sam.zsh
 
 #################### CONSTRUCT TRANSCRIPTS WITH STRINGTIE ##############
 $zsh/assemble_transcripts.zsh 
 
 #################### BULK MAP READS ##########
-$zsh/bulk_mapping.zsh
-
-#################### BULK SORT .SAM TO .BAM ###########
-$zsh/bulk_sort.zsh
-# also deletes all .sam files, leaving only .bam files
+$zsh/bulk_map_sort_to_bam.zsh
 
 #################### BULK COVERAGE #########
 $zsh/bulk_coverage.zsh

@@ -7,7 +7,7 @@ assembled=results/stringtie
 
 if [ -f $assembled/thev_4hrsS1.gtf ] 
     then
-        rm $idxdir/*.gtf
+        rm $assembled/*.gtf
         echo "old .gtf files removed"
     else
         echo "no .gtf files in directory"

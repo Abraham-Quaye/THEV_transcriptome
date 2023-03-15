@@ -1,4 +1,4 @@
-#!/bin/usr/env zsh
+#!/usr/bin/env zsh
 
 
 filedir=raw_files/annotations
