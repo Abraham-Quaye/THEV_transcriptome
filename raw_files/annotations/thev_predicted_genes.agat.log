@@ -4,7 +4,7 @@
 |   https://github.com/NBISweden/AGAT                                          |
 |   National Bioinformatics Infrastructure Sweden (NBIS) - www.nbis.se         |
  ------------------------------------------------------------------------------
-                            03/16/2023 at 03h39m42s                             
+                            03/16/2023 at 14h58m33s                             
 
 ********************************************************************************
 *                              - Start parsing -                               *
@@ -37,7 +37,7 @@ We filter the ontology to apply this rule.		We found 1861 terms that are sequenc
 => Number of feature type (3rd column): 5
 	* Level1: 1 => gene
 	* level2: 0 => 
-	* level3: 4 => three_prime_UTR exon five_prime_UTR CDS
+	* level3: 4 => three_prime_UTR five_prime_UTR exon CDS
 	* unknown: 0 => 
 =>Check because only level3 features:
  * Number of feature with Parent attribute:75
