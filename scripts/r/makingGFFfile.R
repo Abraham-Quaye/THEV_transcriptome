@@ -23,6 +23,6 @@ gfffile <- read_tsv("raw_files/annotations/thev_predicted_genes.gff",
     filter(!X3 %in% c("three_prime_UTR", "five_prime_UTR"))
 
 # replace old .gff with modified .gff
-write.table(gfffile, "raw_files/annotations/thev_predicted_genes.gff",
+write.table(gfffile, "raw_files/annotations/thev_predicted_genes2.gff",
     col.names = FALSE, row.names = FALSE, sep = "\t", quote = FALSE
 )

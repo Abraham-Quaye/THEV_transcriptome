@@ -24,4 +24,4 @@ echo "All Depth estimations complete!!!" &&
 
 
 # SECTION III -- TRASH BULK .BAM FILES
-rm $mapdir/*.bam
+# rm $mapdir/*.bam
