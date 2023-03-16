@@ -52,7 +52,7 @@ rule make_gtf:
         gff = "raw_files/annotations/thev_predicted_genes.gff"
     output:
         "raw_files/annotations/thev_predicted_genes.gtf",
-        "thev_predicted_genes.agat.log"
+        "raw_files/annotations/thev_predicted_genes.agat.log"
     shell:
         "{input.script}"
 
@@ -161,9 +161,9 @@ rule make_transcripts:
         rep = ["1", "3"])
     output:
         expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
-        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
+        time = [4, 24, 72], rep = [1, 2, 3]),
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
-        rep = ["1", "3"])
+        rep = [1, 3])
     conda:
         "environment.yml"
     shell:
@@ -223,7 +223,5 @@ rule cov_figures:
         time = [4, 12, 24, 72]),
         expand("results/r/figures/{plotkind}_alltimes.pdf", \
         plotkind = ["patch", "overlay", "correlate"])
-    shell:
-        """
-        R -e "source('$r/thev_cov_depth.R')"
-        """
+    script:
+       "scripts/r/thev_cov_depth.R"
