@@ -21,7 +21,7 @@ samtools index $mapdir/thev_sorted_12hrsS3.bam &
 echo "Index 24hrs starting..." &
 samtools index $mapdir/thev_sorted_24hrsS1.bam &
 samtools index $mapdir/thev_sorted_24hrsS2.bam &
-samtools index $mapdir/thev_sorted_24hrsS3.bam 
+samtools index $mapdir/thev_sorted_24hrsS3.bam &
 
 # Index for 72hrs
 echo "Index 72hrs starting..."&
