@@ -1,6 +1,3 @@
-import glob
-import os
-
 
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule all:
@@ -40,8 +37,6 @@ rule make_gff:
        bed = "raw_files/annotations/THEVannotated_genesOnly.bed"
     output:
         "raw_files/annotations/thev_predicted_genes.gff"
-    conda:
-        "environment.yml"
     shell:
         "{input.script}"
 
@@ -62,8 +57,6 @@ rule mod_gff:
         "raw_files/annotations/thev_predicted_genes.gff"
     output:
         "raw_files/annotations/thev_predicted_genes2.gff"
-    conda:
-        "environment.yml"
     shell:
         """
         R -e "source('scripts/r/makingGFFfile.R')"
@@ -76,8 +69,6 @@ rule extract_splice_site:
         gtf = "raw_files/annotations/thev_predicted_genes.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.ss"
-    conda:
-        "environment.yml"
     shell:
         "{input.script}"
 
@@ -88,8 +79,6 @@ rule extract_exons:
         gtf = "raw_files/annotations/thev_predicted_genes.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.exons"
-    conda:
-        "environment.yml"
     shell:
         "{input.script}"
 
@@ -103,8 +92,6 @@ rule build_index:
     output:
         expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
         n = [1, 2, 3, 4, 5, 6, 7,8])
-    conda:
-        "environment.yml"
     shell:
         "{input.script}"
 
@@ -127,8 +114,6 @@ rule map_sort_to_bam:
         time = ["72", "24", "4"], rep = ["1", "2", "3"]),
         expand("results/hisat2/thev_sorted_12hrsS{rep}.bam", \
         rep = ["1", "3"])
-    conda:
-        "environment.yml"
     shell:
         "{input.script}"
 
@@ -145,8 +130,6 @@ rule index:
         time = ["72", "24", "4"], rep = ["1", "2", "3"]),
         expand("results/hisat2/thev_sorted_12hrsS{rep}.bam.bai", \
         rep = ["1", "3"])
-    conda:
-        "environment.yml"
     shell:
         "{input.script}"
 
@@ -164,8 +147,6 @@ rule make_transcripts:
         time = [4, 24, 72], rep = [1, 2, 3]),
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
         rep = [1, 3])
-    conda:
-        "environment.yml"
     shell:
         "{input.script}"
 
