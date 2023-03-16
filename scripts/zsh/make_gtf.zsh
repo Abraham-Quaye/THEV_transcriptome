@@ -17,3 +17,14 @@ fi
 echo "Converting .gff3 file to .gtf file ..." ;
 agat_convert_sp_gff2gtf.pl --gff $filedir/thev_predicted_genes.gff -o $filedir/thev_predicted_genes.gtf && 
 echo ".GTF file created successfully" || exit 2 
+
+
+if [ -f $filedir/thev_predicted_genes.agat.log ]
+    then
+        rm raw_files/annotations/thev_predicted_genes.agat.log 
+        echo "Old Agat logfile removed"
+    else:
+        echo "Agat logfile not yet moved"
+fi
+
+mv thev_predicted_genes.agat.log raw_files/annotations

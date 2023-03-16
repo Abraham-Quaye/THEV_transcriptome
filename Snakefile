@@ -53,9 +53,8 @@ rule make_gtf:
     output:
         "raw_files/annotations/thev_predicted_genes.gtf",
         "thev_predicted_genes.agat.log"
-    run:
-        shell("{input.script}")
-        shell("mv thev_predicted_genes.agat.log raw_files/annotations")
+    shell:
+        "{input.script}"
 
 ################### REMOVE UNWANTED GFF FEATURES ####################    
 rule mod_gff:

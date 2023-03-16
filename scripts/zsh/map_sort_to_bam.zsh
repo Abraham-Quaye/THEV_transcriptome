@@ -5,7 +5,7 @@ fordata=trimmedReads/forwardTrims
 revdata=trimmedReads/reverseTrims
 mapdir=results/hisat2
 
-if [ -f $mapdir/thev_sorted_4hrsS2.bam ] 
+if [ -f $mapdir/thev_sorted_4hrsS2.bam ] || [ -f $mapdir/thev_sorted_4hrsS2.bam.bai ]
     then
         rm $mapdir/*.bam
         rm $mapdir/*.bai
