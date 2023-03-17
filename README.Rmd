@@ -28,35 +28,45 @@ We have performed the first RNA-sequencing experiment aimed at characterizing TH
 
 ### Navigate the project:
 
-```{r include = FALSE}
+```{r list_dirs, exclude=TRUE}
 
-script_dir <- for(item in list.files("scripts")){
-    print(item, quote = FALSE)}
+script_dir <- list.files("scripts")
+rawfiles_dir <- list.files("raw_files")
+results_dir <- list.files("results")
+reads_dir <- list.files("trimmedReads")
 
-rawfiles_dir <- for(item in list.files("raw_files")){
-    print(item, quote = FALSE)}
-
-results_dir <- for(item in list.files("results")){
-    print(item, quote = FALSE)
-}
 ```
-* **`ROOT (thev_transcriptome)`**
+* **`ROOT (thev_transcriptome)/`**
     * **Directories:**
-        * *`scripts`*
-        * *`raw_files`*
-        * *`results`*
-        * *`trimmedReads`*
+        * *`raw_files`/* - Add README for more details
+            * ``r rawfiles_dir[1]`/`
+            * ``r rawfiles_dir[2]`/`
+            * ``r rawfiles_dir[3]`/`
+        * *`results/`* - Add README for more details
+            * ``r results_dir[1]`/`
+            * ``r results_dir[2]`/`
+            * ``r results_dir[3]`/`
+        * *`scripts/`* - Add README for more details
+            * ``r script_dir[1]`/`
+            * ``r script_dir[2]`/`
+            * ``r script_dir[3]`/`
+        * *`trimmedReads/`* - Add README for more details
+            * ``r reads_dir[1]`/`
+            * ``r reads_dir[2]`/`
     * **Files**
         * *`Snakefile`*
         * *`driver_script`* - *`deprecated`*
+        * *`README.html`*
         * *`README.Rmd`*
-        * *`project_map.pdf`* 
-        * *`project_jobmap.pdf`*
+        * *`project_map.svg`* 
+        * *`project_jobmap.svg`*
         * *`thev_transcriptome.Rproj`* - *not on Git*
     * **Hidden files**
         * `.gitignore`
-        * `.Rproj.user` - *not tracked*
-        * `.snakemake` - *not tracked*
+        * `.Rproj.user` - *not on Git*
+        * `.snakemake` - *not on Git*
+        
+`r script_dir`
 
 ### Dependencies:
 

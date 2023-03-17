@@ -421,35 +421,60 @@ transcriptome may allow the engineering of VAS to provide immune
 protection with less or no associated IS.</p>
 <div id="navigate-the-project" class="section level3">
 <h3>Navigate the project:</h3>
+<pre class="r"><code>script_dir &lt;- list.files(&quot;scripts&quot;)
+rawfiles_dir &lt;- list.files(&quot;raw_files&quot;)
+results_dir &lt;- list.files(&quot;results&quot;)
+reads_dir &lt;- list.files(&quot;trimmedReads&quot;)</code></pre>
 <ul>
-<li><strong><code>ROOT (thev_transcriptome)</code></strong>
+<li><strong><code>ROOT (thev_transcriptome)/</code></strong>
 <ul>
 <li><strong>Directories:</strong>
 <ul>
-<li><em><code>scripts</code></em></li>
-<li><em><code>raw_files</code></em></li>
-<li><em><code>results</code></em></li>
-<li><em><code>trimmedReads</code></em></li>
+<li><em><code>raw_files</code>/</em> - Add README for more details
+<ul>
+<li><code>annotations/</code></li>
+<li><code>genome_file/</code></li>
+<li><code>thevgenome_index/</code></li>
+</ul></li>
+<li><em><code>results/</code></em> - Add README for more details
+<ul>
+<li><code>hisat2/</code></li>
+<li><code>r/</code></li>
+<li><code>stringtie/</code></li>
+</ul></li>
+<li><em><code>scripts/</code></em> - Add README for more details
+<ul>
+<li><code>r/</code></li>
+<li><code>README.md/</code></li>
+<li><code>zsh/</code></li>
+</ul></li>
+<li><em><code>trimmedReads/</code></em> - Add README for more details
+<ul>
+<li><code>forwardTrims/</code></li>
+<li><code>reverseTrims/</code></li>
+</ul></li>
 </ul></li>
 <li><strong>Files</strong>
 <ul>
 <li><em><code>Snakefile</code></em></li>
 <li><em><code>driver_script</code></em> -
 <em><code>deprecated</code></em></li>
+<li><em><code>README.html</code></em></li>
 <li><em><code>README.Rmd</code></em></li>
-<li><em><code>project_map.pdf</code></em></li>
-<li><em><code>project_jobmap.pdf</code></em></li>
+<li><em><code>project_map.svg</code></em></li>
+<li><em><code>project_jobmap.svg</code></em></li>
 <li><em><code>thev_transcriptome.Rproj</code></em> - <em>not on
 Git</em></li>
 </ul></li>
 <li><strong>Hidden files</strong>
 <ul>
 <li><code>.gitignore</code></li>
-<li><code>.Rproj.user</code> - <em>not tracked</em></li>
-<li><code>.snakemake</code> - <em>not tracked</em></li>
+<li><code>.Rproj.user</code> - <em>not on Git</em></li>
+<li><code>.snakemake</code> - <em>not on Git</em></li>
 </ul></li>
 </ul></li>
 </ul>
+<p>r, README.md, zsh</p>
 </div>
 <div id="dependencies" class="section level3">
 <h3>Dependencies:</h3>
