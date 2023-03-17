@@ -18,7 +18,7 @@ After infecting a turkey B-cell line (RP-19) with THEV, samples in triplicates w
 ## Data analysis
 This project is run from the `Snakefile`. Full analysis pipeline shown below in diagram:
 
-![project_map](./project_map.svg){width=720px height=620px}
+![project_map](./project_map.svg){width=620px height=480px}
 
 ## Results
 
@@ -28,8 +28,11 @@ We have performed the first RNA-sequencing experiment aimed at characterizing TH
 
 ### Navigate the project:
 
-```{r list_dirs, exclude=TRUE}
-
+```{r list_dirs, exclude=TRUE, message=FALSE, warning=FALSE, echo=FALSE}
+library(tidyverse)
+dirs <- list.dirs(".", recursive = F, full.names = F)
+all_files <- list.files(".", all.files = T)
+root_files <- subset(all_files, all_files %in% dirs == FALSE)
 script_dir <- list.files("scripts")
 rawfiles_dir <- list.files("raw_files")
 results_dir <- list.files("results")
@@ -38,33 +41,37 @@ reads_dir <- list.files("trimmedReads")
 ```
 * **`ROOT (thev_transcriptome)/`**
     * **Directories:**
-        * *`raw_files`/* - Add README for more details
+        * *``r dirs[4]`/`* - Add README for more details
             * ``r rawfiles_dir[1]`/`
             * ``r rawfiles_dir[2]`/`
             * ``r rawfiles_dir[3]`/`
-        * *`results/`* - Add README for more details
+        * *``r dirs[5]`/`* - Add README for more details
             * ``r results_dir[1]`/`
             * ``r results_dir[2]`/`
             * ``r results_dir[3]`/`
-        * *`scripts/`* - Add README for more details
+        * *``r dirs[6]`/`* - Add README for more details
             * ``r script_dir[1]`/`
             * ``r script_dir[2]`/`
             * ``r script_dir[3]`/`
-        * *`trimmedReads/`* - Add README for more details
+        * *``r dirs[7]`/`* - Add README for more details
             * ``r reads_dir[1]`/`
             * ``r reads_dir[2]`/`
     * **Files**
-        * *`Snakefile`*
-        * *`driver_script`* - *`deprecated`*
-        * *`README.html`*
-        * *`README.Rmd`*
-        * *`project_map.svg`* 
-        * *`project_jobmap.svg`*
-        * *`thev_transcriptome.Rproj`* - *not on Git*
-    * **Hidden files**
-        * `.gitignore`
-        * `.Rproj.user` - *not on Git*
-        * `.snakemake` - *not on Git*
+        * *``r root_files[5]``* - *`deprecated`*: replaced by `Snakefile`
+        * *``r root_files[6]``*
+        * *``r root_files[7]``*
+        * *``r root_files[8]``*
+        * *``r root_files[9]``*
+        * *``r root_files[10]``*
+        * *``r root_files[11]``*
+        * *``r root_files[12]``*
+        * *``r root_files[13]``* - *not on Git*
+    * **Hidden files** - *not on Git*
+        * *``r root_files[3]``*
+        * *``r root_files[4]``*
+        * ``r dirs[1]`/`
+        * ``r dirs[2]`/`
+        * ``r dirs[3]`/`
         
 `r script_dir`
 
@@ -75,3 +82,4 @@ reads_dir <- list.files("trimmedReads")
 - `R`
 - `Snakemake`
 - `zsh shell`
+- See `environment.yml` for `conda env` dependencies
