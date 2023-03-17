@@ -2,12 +2,10 @@
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule all:
     input:
-        # "raw_files/annotations/thev_predicted_genes.gff",
         "raw_files/annotations/thev_from_NCBI.gtf",
         "raw_files/annotations/thev_predicted_genes.ss",
         "raw_files/annotations/thev_predicted_genes.exons",
         expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", n = range(1,8)),
-        # "raw_files/annotations/thev_predicted_genes2.gff",
         expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam", \
         time = ["72", "24", "4"], rep = ["1", "2", "3"]),
         expand("results/hisat2/thev_sorted_12hrsS{rep}.bam", \
@@ -30,15 +28,6 @@ rule all:
         expand("results/r/figures/{plotkind}_alltimes.pdf", \
         plotkind = ["patch", "overlay", "correlate"])
 
-################# CREATE .GFF3 FILE FROM .BED ###########
-# rule make_gff:
-#     input:
-#        script = "scripts/zsh/make_gff.zsh",
-#        bed = "raw_files/annotations/THEVannotated_genesOnly.bed"
-#     output:
-#         "raw_files/annotations/thev_predicted_genes.gff"
-#     shell:
-#         "{input.script}"
 
 ################# CONVERT .GFF3 TO GTF AND MOVE AGAT LOGFILE ###########
 rule make_gtf:
@@ -50,17 +39,6 @@ rule make_gtf:
         "raw_files/annotations/thev_from_NCBI.agat.log"
     shell:
         "{input.script}"
-
-################### REMOVE UNWANTED GFF FEATURES ####################    
-# rule mod_gff:
-#     input:
-#         "raw_files/annotations/thev_predicted_genes.gff"
-#     output:
-#         "raw_files/annotations/thev_predicted_genes2.gff"
-#     shell:
-#         """
-#         R -e "source('scripts/r/makingGFFfile.R')"
-        # """
 
 ################### EXTRACT SPLICE-SITES ####################
 rule extract_splice_site:
