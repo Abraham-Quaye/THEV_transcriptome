@@ -18,6 +18,7 @@ rule all:
         time = ["72", "24", "4"], rep = ["1", "2", "3"]),
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
         rep = ["1", "3"]),
+        "results/stringtie/all_merged.gtf",
         expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
         time = [4, 12, 24, 72]),
         "results/hisat2/coverage/bulk_coverage.txt",
@@ -127,6 +128,19 @@ rule make_transcripts:
         rep = [1, 3])
     shell:
         "{input.script}"
+
+#################### MERGE ALL GTF FILES #####################
+rule merge_gtfs:
+    input:
+        expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
+        time = [4, 24, 72], rep = [1, 2, 3]),
+        expand("results/stringtie/thev_12hrsS{rep}.gtf", \
+        rep = [1, 3])
+    output:
+        "results/stringtie/all_merged.gtf"
+    shell:
+        "cat {input} > {output}"
+
 
 #################### BULK MAP READS ##########
 rule bulk_map_sort_to_bam:
