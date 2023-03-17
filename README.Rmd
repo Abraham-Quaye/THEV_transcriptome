@@ -1,11 +1,15 @@
 ---
-title: Turkey Hemorrhagic Enteritis Virus transcription profiling
+title: Turkey Hemorrhagic Enteritis Virus transcriptome profiling
 author: Abraham Quaye
 date: 2023-03-16
 output: html_document
 ---
-
-# THEV transcriptome studies
+```{css echo=FALSE}
+body {
+    font-size: 2vw
+}
+```
+<!-- # THEV transcriptome studies -->
 
 ## Background
 
@@ -18,7 +22,7 @@ After infecting a turkey B-cell line (RP-19) with THEV, samples in triplicates w
 ## Data analysis
 This project is run from the `Snakefile`. Full analysis pipeline shown below in diagram:
 
-![project_map](./project_map.svg){width=620px height=480px}
+![project_map](./project_map.svg){width=920px height=680px}
 
 ## Results
 
@@ -72,8 +76,6 @@ reads_dir <- list.files("trimmedReads")
         * ``r dirs[1]`/`
         * ``r dirs[2]`/`
         * ``r dirs[3]`/`
-        
-`r script_dir`
 
 ### Dependencies:
 
