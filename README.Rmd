@@ -6,6 +6,8 @@ output: html_document
 ---
 ```{css echo=FALSE}
 body {
+    <!-- background-color: #262626; -->
+    <!-- color: white; -->
     font-size: 2vw
 }
 ```
@@ -34,14 +36,13 @@ We have performed the first RNA-sequencing experiment aimed at characterizing TH
 
 ```{r list_dirs, exclude=TRUE, message=FALSE, warning=FALSE, echo=FALSE}
 library(tidyverse)
-dirs <- list.dirs(".", recursive = F, full.names = F)
-all_files <- list.files(".", all.files = T)
+dirs <- list.dirs(".", recursive = FALSE, full.names = FALSE)
+all_files <- list.files(".", all.files = TRUE)
 root_files <- subset(all_files, all_files %in% dirs == FALSE)
 script_dir <- list.files("scripts")
 rawfiles_dir <- list.files("raw_files")
 results_dir <- list.files("results")
 reads_dir <- list.files("trimmedReads")
-
 ```
 * **`ROOT (thev_transcriptome)/`**
     * **Directories:**
