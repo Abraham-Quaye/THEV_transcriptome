@@ -79,7 +79,8 @@ reads_dir <- list.files("trimmedReads")
 
 ### Dependencies:
 
-- `Hisat-2`
+- `AGAT`
+- `Hisat2`
 - `StringTie`
 - `R`
 - `Snakemake`

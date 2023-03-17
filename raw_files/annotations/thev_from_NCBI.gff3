@@ -1,0 +1,89 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region AY849321.1 1 26266
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=318490
+AY849321.1	Genbank	region	1	26266	.	+	.	ID=AY849321.1:1..26266;Dbxref=taxon:318490;gbkey=Src;isolation-source=spleen;mol_type=genomic DNA;nat-host=pheasant;strain=Virginia
+AY849321.1	Genbank	inverted_repeat	1	40	.	+	.	ID=id-AY849321.1:1..40;gbkey=repeat_region;rpt_type=inverted
+AY849321.1	Genbank	region	222	226	.	-	.	ID=id-AY849321.1:222..226;Note=candidate E1 CAAT;gbkey=CAAT_signal
+AY849321.1	Genbank	region	261	267	.	+	.	ID=id-AY849321.1:261..267;Note=candidate E1 TATA;gbkey=TATA_signal
+AY849321.1	Genbank	sequence_feature	284	290	.	+	.	ID=id-AY849321.1:284..290;Note=candidate E1 initiator;gbkey=misc_feature
+AY849321.1	Genbank	gene	313	1953	.	+	.	ID=gene-ORF1;Name=ORF1;gbkey=Gene;gene=ORF1;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	313	1953	.	+	0	ID=cds-AAX51169.2;Parent=gene-ORF1;Dbxref=NCBI_GP:AAX51169.2;Name=AAX51169.2;gbkey=CDS;gene=ORF1;product=sialidase;protein_id=AAX51169.2
+AY849321.1	Genbank	gene	2098	2325	.	+	.	ID=gene-hyd;Name=hyd;gbkey=Gene;gene=hyd;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	2098	2325	.	+	0	ID=cds-AAX51170.1;Parent=gene-hyd;Dbxref=NCBI_GP:AAX51170.1;Name=AAX51170.1;gbkey=CDS;gene=hyd;product=hydrophobic;protein_id=AAX51170.1
+AY849321.1	Genbank	region	2321	2326	.	+	.	ID=id-AY849321.1:2321..2326;Note=candidate E1 poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	region	2330	2335	.	-	.	ID=id-AY849321.1:2330..2335;Note=candidate E2b poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	gene	2334	3437	.	-	.	ID=gene-IVa2;Name=IVa2;gbkey=Gene;gene=IVa2;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	2334	3437	.	-	0	ID=cds-AAX51171.1;Parent=gene-IVa2;Dbxref=NCBI_GP:AAX51171.1;Name=AAX51171.1;gbkey=CDS;gene=IVa2;product=IVa2;protein_id=AAX51171.1
+AY849321.1	Genbank	gene	3430	6768	.	-	.	ID=gene-AdPOL;Name=AdPOL;gbkey=Gene;gene=AdPOL;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	3430	6768	.	-	0	ID=cds-AAX51172.1;Parent=gene-AdPOL;Dbxref=NCBI_GP:AAX51172.1;Name=AAX51172.1;gbkey=CDS;gene=AdPOL;product=AdPOL;protein_id=AAX51172.1
+AY849321.1	Genbank	region	4122	4126	.	-	.	ID=id-AdPOL;Note=candidate MLP CAAT;gbkey=CAAT_signal;gene=AdPOL
+AY849321.1	Genbank	region	4173	4180	.	+	.	ID=id-AY849321.1:4173..4180;Note=candidate MLP TATA;gbkey=TATA_signal
+AY849321.1	Genbank	sequence_feature	4197	4203	.	+	.	ID=id-AY849321.1:4197..4203;Note=candidate MLP initiator;gbkey=misc_feature
+AY849321.1	Genbank	gene	6765	10995	.	-	.	ID=gene-pTP;Name=pTP;gbkey=Gene;gene=pTP;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	10981	10995	.	-	0	ID=cds-AAX51173.1;Parent=gene-pTP;Dbxref=NCBI_GP:AAX51173.1;Name=AAX51173.1;gbkey=CDS;gene=pTP;product=pTP;protein_id=AAX51173.1
+AY849321.1	Genbank	CDS	6765	8543	.	-	0	ID=cds-AAX51173.1;Parent=gene-pTP;Dbxref=NCBI_GP:AAX51173.1;Name=AAX51173.1;gbkey=CDS;gene=pTP;product=pTP;protein_id=AAX51173.1
+AY849321.1	Genbank	gene	8570	9472	.	+	.	ID=gene-52K;Name=52K;gbkey=Gene;gene=52K;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	8570	9472	.	+	0	ID=cds-AAX51174.1;Parent=gene-52K;Dbxref=NCBI_GP:AAX51174.1;Name=AAX51174.1;gbkey=CDS;gene=52K;product=52K;protein_id=AAX51174.1
+AY849321.1	Genbank	gene	9462	10979	.	+	.	ID=gene-pIIIa;Name=pIIIa;gbkey=Gene;gene=pIIIa;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	9462	10979	.	+	0	ID=cds-AAX51175.1;Parent=gene-pIIIa;Dbxref=NCBI_GP:AAX51175.1;Name=AAX51175.1;gbkey=CDS;gene=pIIIa;product=pIIIa;protein_id=AAX51175.1
+AY849321.1	Genbank	gene	11001	12347	.	+	.	ID=gene-III;Name=III;gbkey=Gene;gene=III;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	11001	12347	.	+	0	ID=cds-AAX51176.1;Parent=gene-III;Dbxref=NCBI_GP:AAX51176.1;Name=AAX51176.1;gbkey=CDS;gene=III;product=penton;protein_id=AAX51176.1
+AY849321.1	Genbank	region	11495	11500	.	+	.	ID=id-III;Note=candidate L1 poly-adenylation signal;gbkey=polyA_signal;gene=III
+AY849321.1	Genbank	gene	12347	12709	.	+	.	ID=gene-pVII;Name=pVII;gbkey=Gene;gene=pVII;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	12347	12709	.	+	0	ID=cds-AAX51177.1;Parent=gene-pVII;Dbxref=NCBI_GP:AAX51177.1;Name=AAX51177.1;gbkey=CDS;gene=pVII;product=pVII;protein_id=AAX51177.1
+AY849321.1	Genbank	gene	12712	12888	.	+	.	ID=gene-pX;Name=pX;gbkey=Gene;gene=pX;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	12712	12888	.	+	0	ID=cds-AAX51178.1;Parent=gene-pX;Dbxref=NCBI_GP:AAX51178.1;Name=AAX51178.1;gbkey=CDS;gene=pX;product=pX;protein_id=AAX51178.1
+AY849321.1	Genbank	gene	12906	13601	.	+	.	ID=gene-pVI;Name=pVI;gbkey=Gene;gene=pVI;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	12906	13601	.	+	0	ID=cds-AAX51179.1;Parent=gene-pVI;Dbxref=NCBI_GP:AAX51179.1;Name=AAX51179.1;gbkey=CDS;gene=pVI;product=pVI;protein_id=AAX51179.1
+AY849321.1	Genbank	gene	13610	16330	.	+	.	ID=gene-II;Name=II;gbkey=Gene;gene=II;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	13610	16330	.	+	0	ID=cds-AAX51180.1;Parent=gene-II;Dbxref=NCBI_GP:AAX51180.1;Name=AAX51180.1;gbkey=CDS;gene=II;product=hexon;protein_id=AAX51180.1
+AY849321.1	Genbank	region	13733	13738	.	+	.	ID=id-II;Note=candidate L2 poly-adenylation signal;gbkey=polyA_signal;gene=II
+AY849321.1	Genbank	gene	16332	16976	.	+	.	ID=gene-EP;Name=EP;gbkey=Gene;gene=EP;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	16332	16976	.	+	0	ID=cds-AAX51181.1;Parent=gene-EP;Dbxref=NCBI_GP:AAX51181.1;Name=AAX51181.1;gbkey=CDS;gene=EP;product=EP;protein_id=AAX51181.1
+AY849321.1	Genbank	region	16901	16906	.	+	.	ID=id-EP;Note=candidate L3 poly-adenylation signal;gbkey=polyA_signal;gene=EP
+AY849321.1	Genbank	region	16919	16925	.	+	.	ID=id-EP-2;Note=candidate L3 poly-adenylation signal;gbkey=polyA_signal;gene=EP
+AY849321.1	Genbank	region	16947	16952	.	-	.	ID=id-AY849321.1:16947..16952;Note=candidate E2a poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	region	16961	16966	.	-	.	ID=id-AY849321.1:16961..16966;Note=candidate E2a poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	gene	16973	18186	.	-	.	ID=gene-DBP;Name=DBP;gbkey=Gene;gene=DBP;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	18159	18186	.	-	0	ID=cds-AAX51182.1;Parent=gene-DBP;Dbxref=NCBI_GP:AAX51182.1;Name=AAX51182.1;gbkey=CDS;gene=DBP;product=DBP;protein_id=AAX51182.1
+AY849321.1	Genbank	CDS	16973	18087	.	-	2	ID=cds-AAX51182.1;Parent=gene-DBP;Dbxref=NCBI_GP:AAX51182.1;Name=AAX51182.1;gbkey=CDS;gene=DBP;product=DBP;protein_id=AAX51182.1
+AY849321.1	Genbank	gene	18230	20227	.	+	.	ID=gene-100K;Name=100K;gbkey=Gene;gene=100K;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	18230	20227	.	+	0	ID=cds-AAX51183.2;Parent=gene-100K;Dbxref=NCBI_GP:AAX51183.2;Name=AAX51183.2;gbkey=CDS;gene=100K;product=100K;protein_id=AAX51183.2
+AY849321.1	Genbank	gene	20142	20699	.	+	.	ID=gene-33K;Name=33K;gbkey=Gene;gene=33K;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	20142	20223	.	+	0	ID=cds-AAX51185.1;Parent=gene-33K;Dbxref=NCBI_GP:AAX51185.1;Name=AAX51185.1;gbkey=CDS;gene=33K;product=33K;protein_id=AAX51185.1
+AY849321.1	Genbank	CDS	20419	20699	.	+	2	ID=cds-AAX51185.1;Parent=gene-33K;Dbxref=NCBI_GP:AAX51185.1;Name=AAX51185.1;gbkey=CDS;gene=33K;product=33K;protein_id=AAX51185.1
+AY849321.1	Genbank	gene	20142	20411	.	+	.	ID=gene-22K;Name=22K;gbkey=Gene;gene=22K;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	20142	20411	.	+	0	ID=cds-AAX51184.1;Parent=gene-22K;Dbxref=NCBI_GP:AAX51184.1;Name=AAX51184.1;gbkey=CDS;gene=22K;product=22K;protein_id=AAX51184.1
+AY849321.1	Genbank	gene	20769	21371	.	+	.	ID=gene-pVIII;Name=pVIII;gbkey=Gene;gene=pVIII;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	20769	21371	.	+	0	ID=cds-AAX51186.1;Parent=gene-pVIII;Dbxref=NCBI_GP:AAX51186.1;Name=AAX51186.1;gbkey=CDS;gene=pVIII;product=pVIII;protein_id=AAX51186.1
+AY849321.1	Genbank	sequence_feature	21038	21044	.	+	.	ID=id-pVIII;Note=candidate E3 initiator;gbkey=misc_feature;gene=pVIII
+AY849321.1	Genbank	sequence_feature	21096	21102	.	+	.	ID=id-pVIII-2;Note=candidate E3 initiator;gbkey=misc_feature;gene=pVIII
+AY849321.1	Genbank	region	21014	21020	.	+	.	ID=id-pVIII-3;Note=candidate E3 TATA number one;gbkey=TATA_signal;gene=pVIII
+AY849321.1	Genbank	region	21069	21076	.	+	.	ID=id-pVIII-4;Note=candidate E3 TATA number two;gbkey=TATA_signal;gene=pVIII
+AY849321.1	Genbank	region	20969	20973	.	-	.	ID=id-AY849321.1:20969..20973;Note=candidate E3 CAAT;gbkey=CAAT_signal
+AY849321.1	Genbank	region	20979	20983	.	-	.	ID=id-AY849321.1:20979..20983;Note=candidate E3 CAAT;gbkey=CAAT_signal
+AY849321.1	Genbank	region	21032	21036	.	-	.	ID=id-AY849321.1:21032..21036;Note=candidate E3 CAAT;gbkey=CAAT_signal
+AY849321.1	Genbank	gene	21247	22116	.	+	.	ID=gene-E3;Name=E3;gbkey=Gene;gene=E3;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	21247	22116	.	+	0	ID=cds-AAX51187.2;Parent=gene-E3;Dbxref=NCBI_GP:AAX51187.2;Name=AAX51187.2;gbkey=CDS;gene=E3;product=E3;protein_id=AAX51187.2
+AY849321.1	Genbank	region	21511	21516	.	+	.	ID=id-E3;Note=candidate L4 poly-adenylation signal;gbkey=polyA_signal;gene=E3
+AY849321.1	Genbank	region	22239	22244	.	+	.	ID=id-AY849321.1:22239..22244;Note=candidate E3 poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	CDS	22260	22520	.	-	0	ID=cds-AAX51188.1;Dbxref=NCBI_GP:AAX51188.1;Name=AAX51188.1;gbkey=CDS;product=U exon;protein_id=AAX51188.1
+AY849321.1	Genbank	gene	22519	23883	.	+	.	ID=gene-IV;Name=IV;gbkey=Gene;gene=IV;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	22519	23883	.	+	0	ID=cds-AAX51189.1;Parent=gene-IV;Dbxref=NCBI_GP:AAX51189.1;Name=AAX51189.1;gbkey=CDS;gene=IV;product=fiber;protein_id=AAX51189.1
+AY849321.1	Genbank	region	23887	23892	.	+	.	ID=id-AY849321.1:23887..23892;Note=candidate L5 poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	region	24429	24433	.	-	.	ID=id-AY849321.1:24429..24433;Note=candidate E5 CAAT;gbkey=CAAT_signal
+AY849321.1	Genbank	region	24434	24438	.	-	.	ID=id-AY849321.1:24434..24438;Note=candidate E5 CAAT;gbkey=CAAT_signal
+AY849321.1	Genbank	region	24479	24485	.	+	.	ID=id-AY849321.1:24479..24485;Note=candidate E5 TATA;gbkey=TATA_signal
+AY849321.1	Genbank	sequence_feature	24505	24511	.	+	.	ID=id-AY849321.1:24505..24511;Note=candidate E5 initiator;gbkey=misc_feature
+AY849321.1	Genbank	gene	24512	25168	.	+	.	ID=gene-ORF7;Name=ORF7;gbkey=Gene;gene=ORF7;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	24512	25168	.	+	0	ID=cds-AAX51190.1;Parent=gene-ORF7;Dbxref=NCBI_GP:AAX51190.1;Name=AAX51190.1;gbkey=CDS;gene=ORF7;product=ORF7;protein_id=AAX51190.1
+AY849321.1	Genbank	region	25164	25169	.	+	.	ID=id-AY849321.1:25164..25169;Note=candidate E5 poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	region	25200	25205	.	-	.	ID=id-AY849321.1:25200..25205;Note=candidate E4 poly-adenylation signal;gbkey=polyA_signal
+AY849321.1	Genbank	gene	25204	25701	.	-	.	ID=gene-ORF8;Name=ORF8;gbkey=Gene;gene=ORF8;gene_biotype=protein_coding
+AY849321.1	Genbank	CDS	25204	25701	.	-	0	ID=cds-AAX51191.1;Parent=gene-ORF8;Dbxref=NCBI_GP:AAX51191.1;Name=AAX51191.1;gbkey=CDS;gene=ORF8;product=ORF8;protein_id=AAX51191.1
+AY849321.1	Genbank	sequence_feature	25778	25785	.	-	.	ID=id-AY849321.1:25778..25785;Note=candidate E4 initiator;gbkey=misc_feature
+AY849321.1	Genbank	region	25810	25816	.	-	.	ID=id-AY849321.1:25810..25816;Note=candidate E4 TATA;gbkey=TATA_signal
+AY849321.1	Genbank	inverted_repeat	26227	26266	.	+	.	ID=id-AY849321.1:26227..26266;gbkey=repeat_region;rpt_type=inverted
+

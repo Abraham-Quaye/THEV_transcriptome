@@ -24,3 +24,6 @@ trimmedReads/*
 # snakemake
 .snakemake
 .Rproj.user
+
+
+*.fai
