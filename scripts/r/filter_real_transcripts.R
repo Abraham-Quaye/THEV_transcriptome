@@ -17,7 +17,7 @@ merged_gtf <- read_tsv("results/stringtie/all_merged.gtf",
                        col_names = FALSE,
                        show_col_types = FALSE) 
 
-filter_real_transcripts <- merged_gff %>% 
+filter_real_transcripts <- merged_gtf %>% 
   filter(!str_detect(X9,"ref_gene_name"))
 
 # replace old merged .gff with modified .gff

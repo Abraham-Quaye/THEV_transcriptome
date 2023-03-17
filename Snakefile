@@ -19,6 +19,7 @@ rule all:
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
         rep = ["1", "3"]),
         "results/stringtie/all_merged.gtf",
+        "results/stringtie/all_real_transcripts_merged.gtf",
         expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
         time = [4, 12, 24, 72]),
         "results/hisat2/coverage/bulk_coverage.txt",
@@ -140,6 +141,16 @@ rule merge_gtfs:
         "results/stringtie/all_merged.gtf"
     shell:
         "cat {input} > {output}"
+
+##################### FILTER FOR REAL TRANSCRIPTS (REMOVE PREDICTED ORFs) ######
+rule filter_real_transcripts:
+    input:
+        r_script = "scripts/r/filter_real_transcripts.R",
+        all_gtf = "results/stringtie/all_merged.gtf"
+    output:
+        "results/stringtie/all_real_transcripts_merged.gtf"
+    shell:
+        "{input.r_script}"
 
 
 #################### BULK MAP READS ##########
