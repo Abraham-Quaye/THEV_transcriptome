@@ -18,5 +18,5 @@ fi
 
 ################# COMMAND TO BUILD THEV GENOMIC INDEX #############
 echo "Building thev genomic index ..."
-hisat2-build -p 10 --ss $filedir/thev_predicted_genes.ss --exon $filedir/thev_predicted_genes.exons $genomedir/THEV.fa $idxdir/thev_tran &&
+hisat2-build -p 10 --ss $filedir/thev_predicted_genes.ss --exon $filedir/thev_predicted_genes.exons $genomedir/AY849321.1.fa $idxdir/thev_tran &&
 echo "Index built successfully" || exit 5 

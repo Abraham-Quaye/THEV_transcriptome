@@ -1,20 +1,20 @@
-# stringtie -p 10 results/hisat2/thev_sorted_4hrsS1.bam -t -G raw_files/annotations/thev_predicted_genes.gtf -l 4S1 -o results/stringtie/thev_4hrsS1.gtf
+# stringtie -p 10 results/hisat2/thev_sorted_4hrsS1.bam -t -G raw_files/annotations/thev_from_NCBI.gtf -l 4S1 -o results/stringtie/thev_4hrsS1.gtf
 # StringTie version 2.2.1
-THEV	StringTie	transcript	7401	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; cov "2.060748"; FPKM "61639.992188"; TPM "78973.195312";
-THEV	StringTie	exon	7401	7531	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "1"; cov "2.038168";
-THEV	StringTie	exon	7754	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "2"; cov "2.096385";
-THEV	StringTie	transcript	13610	16330	1000	+	.	gene_id "4S1.2"; transcript_id "4S1.2.1"; reference_id "12"; ref_gene_id "nbis-gene-4"; cov "3.218302"; FPKM "96264.117188"; TPM "123333.648438";
-THEV	StringTie	exon	13610	16330	1000	+	.	gene_id "4S1.2"; transcript_id "4S1.2.1"; exon_number "1"; reference_id "12"; ref_gene_id "nbis-gene-4"; cov "3.218302";
-THEV	StringTie	transcript	16332	16976	1000	+	.	gene_id "4S1.3"; transcript_id "4S1.3.1"; reference_id "13"; ref_gene_id "nbis-gene-5"; cov "2.418891"; FPKM "72352.570312"; TPM "92698.156250";
-THEV	StringTie	exon	16332	16976	1000	+	.	gene_id "4S1.3"; transcript_id "4S1.3.1"; exon_number "1"; reference_id "13"; ref_gene_id "nbis-gene-5"; cov "2.418891";
-THEV	StringTie	transcript	16972	18746	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; cov "2.941942"; FPKM "87997.789062"; TPM "112742.820312";
-THEV	StringTie	exon	16972	18087	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "1"; cov "2.896611";
-THEV	StringTie	exon	18159	18189	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "2"; cov "3.097375";
-THEV	StringTie	exon	18684	18746	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "3"; cov "3.668474";
-THEV	StringTie	transcript	18241	20732	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; cov "2.001704"; FPKM "59873.890625"; TPM "76710.468750";
-THEV	StringTie	exon	18241	18350	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; exon_number "1"; cov "3.178298";
-THEV	StringTie	exon	20162	20732	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; exon_number "2"; cov "1.775040";
-THEV	StringTie	transcript	20769	21371	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.1"; reference_id "18"; ref_gene_id "nbis-gene-10"; cov "4.295008"; FPKM "128469.976562"; TPM "164595.812500";
-THEV	StringTie	exon	20769	21371	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.1"; exon_number "1"; reference_id "18"; ref_gene_id "nbis-gene-10"; cov "4.295008";
-THEV	StringTie	transcript	21247	22116	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.2"; reference_id "19"; ref_gene_id "nbis-gene-11"; cov "7.812770"; FPKM "233691.375000"; TPM "299405.531250";
-THEV	StringTie	exon	21247	22116	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.2"; exon_number "1"; reference_id "19"; ref_gene_id "nbis-gene-11"; cov "7.812770";
+AY849321.1	StringTie	transcript	7401	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; cov "2.060748"; FPKM "61639.992188"; TPM "78973.195312";
+AY849321.1	StringTie	exon	7401	7531	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "1"; cov "2.038168";
+AY849321.1	StringTie	exon	7754	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "2"; cov "2.096385";
+AY849321.1	StringTie	transcript	13610	16330	1000	+	.	gene_id "4S1.2"; transcript_id "4S1.2.1"; reference_id "gene-II"; ref_gene_id "nbis-gene-10"; ref_gene_name "II"; cov "3.218302"; FPKM "96264.117188"; TPM "123333.648438";
+AY849321.1	StringTie	exon	13610	16330	1000	+	.	gene_id "4S1.2"; transcript_id "4S1.2.1"; exon_number "1"; reference_id "gene-II"; ref_gene_id "nbis-gene-10"; ref_gene_name "II"; cov "3.218302";
+AY849321.1	StringTie	transcript	16332	16976	1000	+	.	gene_id "4S1.3"; transcript_id "4S1.3.1"; reference_id "gene-EP"; ref_gene_id "nbis-gene-8"; ref_gene_name "EP"; cov "2.418891"; FPKM "72352.570312"; TPM "92698.156250";
+AY849321.1	StringTie	exon	16332	16976	1000	+	.	gene_id "4S1.3"; transcript_id "4S1.3.1"; exon_number "1"; reference_id "gene-EP"; ref_gene_id "nbis-gene-8"; ref_gene_name "EP"; cov "2.418891";
+AY849321.1	StringTie	transcript	16972	18746	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; cov "2.941942"; FPKM "87997.789062"; TPM "112742.820312";
+AY849321.1	StringTie	exon	16972	18087	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "1"; cov "2.896611";
+AY849321.1	StringTie	exon	18159	18189	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "2"; cov "3.097375";
+AY849321.1	StringTie	exon	18684	18746	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "3"; cov "3.668474";
+AY849321.1	StringTie	transcript	18241	20732	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; cov "2.001704"; FPKM "59873.890625"; TPM "76710.468750";
+AY849321.1	StringTie	exon	18241	18350	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; exon_number "1"; cov "3.178298";
+AY849321.1	StringTie	exon	20162	20732	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; exon_number "2"; cov "1.775040";
+AY849321.1	StringTie	transcript	20769	21371	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.1"; reference_id "gene-pVIII"; ref_gene_id "nbis-gene-21"; ref_gene_name "pVIII"; cov "4.295008"; FPKM "128469.976562"; TPM "164595.812500";
+AY849321.1	StringTie	exon	20769	21371	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.1"; exon_number "1"; reference_id "gene-pVIII"; ref_gene_id "nbis-gene-21"; ref_gene_name "pVIII"; cov "4.295008";
+AY849321.1	StringTie	transcript	21247	22116	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.2"; reference_id "gene-E3"; ref_gene_id "nbis-gene-7"; ref_gene_name "E3"; cov "7.812770"; FPKM "233691.375000"; TPM "299405.531250";
+AY849321.1	StringTie	exon	21247	22116	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.2"; exon_number "1"; reference_id "gene-E3"; ref_gene_id "nbis-gene-7"; ref_gene_name "E3"; cov "7.812770";

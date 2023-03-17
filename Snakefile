@@ -66,7 +66,7 @@ rule build_index:
         script = "scripts/zsh/build_genome_index.zsh",
         ss = "raw_files/annotations/thev_predicted_genes.ss",
         exon = "raw_files/annotations/thev_predicted_genes.exons",
-        genome = "raw_files/genome_file/THEV.fa"
+        genome = "raw_files/genome_file/AY849321.1.fa"
     output:
         expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
         n = [1, 2, 3, 4, 5, 6, 7,8])
