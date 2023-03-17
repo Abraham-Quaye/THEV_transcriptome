@@ -1,3 +1,10 @@
+---
+title: Turkey Hemorrhagic Enteritis Virus transcription profiling
+author: Abraham Quaye
+date: 2023-03-16
+output: html_document
+---
+
 # THEV transcriptome studies
 
 ## Background
@@ -9,6 +16,9 @@
 After infecting a turkey B-cell line (RP-19) with THEV, samples in triplicates were collected at 4-, 12-, 24-, and 72-hours post-infection. Total RNA was subsequently extracted using Thermofishers’s RNAqueous-4PCR Total RNA Isolation Kit, and poly-A-tailed mRNA sequencing done at LC Sciences, Houston TX. The raw sequencing reads were trimmed with the FastQC program, mapped to the THEV genome using Hisat2 and transcripts assembled with StringTie. The `--merge` function of StringTie was used to consolidate transcripts from all timepoints, generating the final THEV transcriptome.
 
 ## Data analysis
+This project is run from the `Snakefile`. Full analysis pipeline shown below in diagram:
+
+![project_map](./project_map.svg){width=720px height=620px}
 
 ## Results
 
@@ -18,8 +28,40 @@ We have performed the first RNA-sequencing experiment aimed at characterizing TH
 
 ### Navigate the project:
 
+```{r include = FALSE}
+
+script_dir <- for(item in list.files("scripts")){
+    print(item, quote = FALSE)}
+
+rawfiles_dir <- for(item in list.files("raw_files")){
+    print(item, quote = FALSE)}
+
+results_dir <- for(item in list.files("results")){
+    print(item, quote = FALSE)
+}
+```
+* **`ROOT (thev_transcriptome)`**
+    * **Directories:**
+        * *`scripts`*
+        * *`raw_files`*
+        * *`results`*
+        * *`trimmedReads`*
+    * **Files**
+        * *`Snakefile`*
+        * *`driver_script`* - *`deprecated`*
+        * *`README.Rmd`*
+        * *`project_map.pdf`* 
+        * *`project_jobmap.pdf`*
+        * *`thev_transcriptome.Rproj`* - *not on Git*
+    * **Hidden files**
+        * `.gitignore`
+        * `.Rproj.user` - *not tracked*
+        * `.snakemake` - *not tracked*
+
 ### Dependencies:
 
 - `Hisat-2`
 - `StringTie`
 - `R`
+- `Snakemake`
+- `zsh shell`
