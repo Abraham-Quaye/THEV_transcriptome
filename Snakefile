@@ -2,12 +2,12 @@
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule all:
     input:
-        "raw_files/annotations/thev_predicted_genes.gff",
-        "raw_files/annotations/thev_predicted_genes.gtf",
+        # "raw_files/annotations/thev_predicted_genes.gff",
+        "raw_files/annotations/thev_from_NCBI.gtf",
         "raw_files/annotations/thev_predicted_genes.ss",
         "raw_files/annotations/thev_predicted_genes.exons",
         expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", n = range(1,8)),
-        "raw_files/annotations/thev_predicted_genes2.gff",
+        # "raw_files/annotations/thev_predicted_genes2.gff",
         expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam", \
         time = ["72", "24", "4"], rep = ["1", "2", "3"]),
         expand("results/hisat2/thev_sorted_12hrsS{rep}.bam", \
@@ -31,42 +31,42 @@ rule all:
         plotkind = ["patch", "overlay", "correlate"])
 
 ################# CREATE .GFF3 FILE FROM .BED ###########
-rule make_gff:
-    input:
-       script = "scripts/zsh/make_gff.zsh",
-       bed = "raw_files/annotations/THEVannotated_genesOnly.bed"
-    output:
-        "raw_files/annotations/thev_predicted_genes.gff"
-    shell:
-        "{input.script}"
+# rule make_gff:
+#     input:
+#        script = "scripts/zsh/make_gff.zsh",
+#        bed = "raw_files/annotations/THEVannotated_genesOnly.bed"
+#     output:
+#         "raw_files/annotations/thev_predicted_genes.gff"
+#     shell:
+#         "{input.script}"
 
 ################# CONVERT .GFF3 TO GTF AND MOVE AGAT LOGFILE ###########
 rule make_gtf:
     input:
         script = "scripts/zsh/make_gtf.zsh",
-        gff = "raw_files/annotations/thev_predicted_genes.gff"
+        gff = "raw_files/annotations/thev_from_NCBI.gff3"
     output:
-        "raw_files/annotations/thev_predicted_genes.gtf",
-        "raw_files/annotations/thev_predicted_genes.agat.log"
+        "raw_files/annotations/thev_from_NCBI.gtf",
+        "raw_files/annotations/thev_from_NCBI.agat.log"
     shell:
         "{input.script}"
 
 ################### REMOVE UNWANTED GFF FEATURES ####################    
-rule mod_gff:
-    input:
-        "raw_files/annotations/thev_predicted_genes.gff"
-    output:
-        "raw_files/annotations/thev_predicted_genes2.gff"
-    shell:
-        """
-        R -e "source('scripts/r/makingGFFfile.R')"
-        """
+# rule mod_gff:
+#     input:
+#         "raw_files/annotations/thev_predicted_genes.gff"
+#     output:
+#         "raw_files/annotations/thev_predicted_genes2.gff"
+#     shell:
+#         """
+#         R -e "source('scripts/r/makingGFFfile.R')"
+        # """
 
 ################### EXTRACT SPLICE-SITES ####################
 rule extract_splice_site:
     input:
         script = "scripts/zsh/extract_ss.zsh",
-        gtf = "raw_files/annotations/thev_predicted_genes.gtf"
+        gtf = "raw_files/annotations/thev_from_NCBI.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.ss"
     shell:
@@ -76,7 +76,7 @@ rule extract_splice_site:
 rule extract_exons:
     input:
         script = "scripts/zsh/extract_exons.zsh",
-        gtf = "raw_files/annotations/thev_predicted_genes.gtf"
+        gtf = "raw_files/annotations/thev_from_NCBI.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.exons"
     shell:
@@ -137,7 +137,7 @@ rule index:
 rule make_transcripts:
     input:
         script = "scripts/zsh/assemble_transcripts.zsh",
-        gtf = "raw_files/annotations/thev_predicted_genes.gtf",
+        gtf = "raw_files/annotations/thev_from_NCBI.gtf",
         bam = expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam", \
         time = ["72", "24", "4"], rep = ["1", "2", "3"]),
         bam12 = expand("results/hisat2/thev_sorted_12hrsS{rep}.bam", \

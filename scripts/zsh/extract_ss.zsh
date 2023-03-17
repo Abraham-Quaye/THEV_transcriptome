@@ -14,5 +14,5 @@ fi
 
 ################# EXTRACT SPLICESITES FROM GTF FILE ################
 echo "extracting splice-sites ..."
-extract_splice_sites.py $filedir/thev_predicted_genes.gtf > $filedir/thev_predicted_genes.ss &&
+extract_splice_sites.py $filedir/thev_from_NCBI.gtf > $filedir/thev_predicted_genes.ss &&
 echo "splice-site extraction completed successfully" || exit 3

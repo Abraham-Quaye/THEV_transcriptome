@@ -15,5 +15,5 @@ fi
 
 ################# EXTRACT EXONS FROM GTF FILE 
 echo "extracting exons ..."
-extract_exons.py $filedir/thev_predicted_genes.gtf > $filedir/thev_predicted_genes.exons &&
+extract_exons.py $filedir/thev_from_NCBI.gtf > $filedir/thev_predicted_genes.exons &&
 echo "exon extration complete" || exit 4

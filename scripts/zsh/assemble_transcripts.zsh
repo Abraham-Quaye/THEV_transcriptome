@@ -2,7 +2,7 @@
 
 
 mapdir=results/hisat2
-GTF=raw_files/annotations/thev_predicted_genes.gtf
+GTF=raw_files/annotations/thev_from_NCBI.gtf
 assembled=results/stringtie
 
 if [ -f $assembled/thev_4hrsS1.gtf ] 
