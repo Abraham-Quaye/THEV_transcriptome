@@ -143,7 +143,7 @@ rule merge_gtfs:
         "cat {input} > {output}"
 
 ##################### FILTER FOR REAL TRANSCRIPTS (REMOVE PREDICTED ORFs) ######
-rule filter_real_transcripts:
+rule remove_duplicate_transcripts:
     input:
         r_script = "scripts/r/filter_real_transcripts.R",
         all_gtf = "results/stringtie/all_merged.gtf"
@@ -197,7 +197,7 @@ rule bulk_depth:
         "{input.script}"
 
 #################### MAKE FIGURES FOR DEPTH/COVERAGE ############
-rule cov_figures:
+rule make_coverage_figures:
     input:
         depth = expand("results/hisat2/coverage/thev_{time}hrsdepth.txt", \
         time = [4, 12, 24, 72]),
