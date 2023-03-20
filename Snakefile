@@ -199,6 +199,7 @@ rule bulk_depth:
 #################### MAKE FIGURES FOR DEPTH/COVERAGE ############
 rule make_coverage_figures:
     input:
+        r_script = "scripts/r/thev_cov_depth.R",
         depth = expand("results/hisat2/coverage/thev_{time}hrsdepth.txt", \
         time = [4, 12, 24, 72]),
         coverage = "results/hisat2/coverage/bulk_coverage.txt"
@@ -207,5 +208,5 @@ rule make_coverage_figures:
         time = [4, 12, 24, 72]),
         expand("results/r/figures/{plotkind}_alltimes.pdf", \
         plotkind = ["patch", "overlay", "correlate"])
-    script:
-       "scripts/r/thev_cov_depth.R"
+    shell:
+       "{input.r_script}"
