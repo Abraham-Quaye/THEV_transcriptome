@@ -1,35 +1,4 @@
 
-############# RUN ENTIRE SCRIPT RULE ##############
-rule all:
-    input:
-        "raw_files/annotations/thev_from_NCBI.gtf",
-        "raw_files/annotations/thev_predicted_genes.ss",
-        "raw_files/annotations/thev_predicted_genes.exons",
-        expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", n = range(1,8)),
-        expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam", \
-        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
-        expand("results/hisat2/thev_sorted_12hrsS{rep}.bam", \
-        rep = ["1", "3"]),
-        expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam.bai", \
-        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
-        expand("results/hisat2/thev_sorted_12hrsS{rep}.bam.bai", \
-        rep = ["1", "3"]),
-        expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
-        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
-        expand("results/stringtie/thev_12hrsS{rep}.gtf", \
-        rep = ["1", "3"]),
-        "results/stringtie/all_merged.gtf",
-        "results/stringtie/all_real_transcripts_merged.gtf",
-        expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
-        time = [4, 12, 24, 72]),
-        "results/hisat2/coverage/bulk_coverage.txt",
-        expand("results/hisat2/coverage/thev_{time}hrsdepth.txt", \
-        time = [4, 12, 24, 72]),
-        expand("results/r/figures/depth_{time}hrs.pdf", \
-        time = [4, 12, 24, 72]),
-        expand("results/r/figures/{plotkind}_alltimes.pdf", \
-        plotkind = ["patch", "overlay", "correlate"])
-
 
 ################# CONVERT .GFF3 TO GTF AND MOVE AGAT LOGFILE ###########
 rule make_gtf:
@@ -210,3 +179,21 @@ rule make_coverage_figures:
         plotkind = ["patch", "overlay", "correlate"])
     shell:
        "{input.r_script}"
+
+############# RUN ENTIRE SCRIPT RULE ##############
+rule run_pipeline:
+    input:
+        rules.make_gtf.output,
+        rules.extract_splice_site.output,
+        rules.extract_exons.output,
+        rules.build_index.output,
+        rules.map_sort_to_bam.output,
+        rules.index.output,
+        rules.make_transcripts.output,
+        rules.merge_gtfs.output,
+        rules.remove_duplicate_transcripts.output,
+        rules.bulk_map_sort_to_bam.output,
+        rules.bulk_coverage.output,
+        rules.bulk_depth.output,
+        rules.make_coverage_figures.output
+        
