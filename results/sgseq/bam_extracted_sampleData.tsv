@@ -1,0 +1,12 @@
+sample_name	file_bam	paired_end	read_length	frag_length	lib_size
+12hrsS1	results/hisat2/thev_sorted_12hrsS1.bam	TRUE	149	301	2650
+12hrsS3	results/hisat2/thev_sorted_12hrsS3.bam	TRUE	149	295	769
+24hrsS1	results/hisat2/thev_sorted_24hrsS1.bam	TRUE	149	300	212793
+24hrsS2	results/hisat2/thev_sorted_24hrsS2.bam	TRUE	149	299	199496
+24hrsS3	results/hisat2/thev_sorted_24hrsS3.bam	TRUE	149	299	189639
+4hrsS1	results/hisat2/thev_sorted_4hrsS1.bam	TRUE	149	316.5	116
+4hrsS2	results/hisat2/thev_sorted_4hrsS2.bam	TRUE	149	279	93
+4hrsS3	results/hisat2/thev_sorted_4hrsS3.bam	TRUE	149	321	13
+72hrsS1	results/hisat2/thev_sorted_72hrsS1.bam	TRUE	149	294	3978735
+72hrsS2	results/hisat2/thev_sorted_72hrsS2.bam	TRUE	149	295	3806639
+72hrsS3	results/hisat2/thev_sorted_72hrsS3.bam	TRUE	149	237	796338
