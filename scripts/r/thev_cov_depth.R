@@ -3,7 +3,6 @@
 
 library(tidyverse)
 library(glue)
-library(gridExtra)
 library(patchwork)
 library(ggsci)
 library(ggtext)
@@ -16,132 +15,82 @@ unlink(files, recursive = FALSE, force = FALSE)
 
 # load in depth files
 
-### find all the depth files and read them as one master dataframe/tibble
+### find all the depth files
 all_depth_files <- list.files("results/hisat2/coverage",
                               pattern = "[a-z_]+\\d+[a-z]+\\.txt",
                               full.names = TRUE)
 names(all_depth_files) <- c("12hpi", "24hpi", "4hpi", "72hpi")
 
+# read depth_files as one master tibble
 all_depths <- map_dfr(all_depth_files, read_tsv,
                       col_names = FALSE,
+                      show_col_types = FALSE,
                       comment = "#",
                       .id = "timepoint") %>% 
-  mutate(timepoint = factor(timepoint,
-                            levels = c("72hpi",
-                                       "24hpi",
-                                       "12hpi",
-                                       "4hpi")))
+  mutate(timepoint = factor(timepoint,levels = c("72hpi", "24hpi", "12hpi", "4hpi")),
+         color = c(rep("grey50",26266),
+                   rep("grey40",26266),
+                   rep("grey",26266),
+                   rep("grey30",26266)
+                   ),
+         titles = c(rep("12hrs Post-infection", 26266),
+                    rep("24hrs Post-infection", 26266),
+                    rep("4hrs Post-infection", 26266),
+                    rep("72hrs Post-infection", 26266)
+                    )
+         )
 
-colnames(all_depths) <- c("timepoint","genome", "position", "depth")
+colnames(all_depths) <- c("timepoint","genome", "position", "depth", "color", "titles")
   
 
-## split the table into individual time-points to plot separately
-each_timepoint <- all_depths %>% 
-  split(.$timepoint)
-
-# plots
-looks <- (theme_classic() +
-            theme(plot.title = element_text(size = 16,
-                                            face = "bold",
-                                            hjust = 0.5), 
-                  panel.grid.major.y = element_line(linewidth = 0.6,
-                                                    linetype = "dashed"),
-                  axis.title.y = element_text(size = 16,
-                                              face = "bold",
-                                              margin = margin(r = 10)),
-                  axis.text.y = element_text(size = 10, color = "black"),
-                  axis.text.x = element_text(size = 8.5, color = "black", face = "bold")
+## split the table into individual time-points and plot iteratively with map()
+each_plot <- all_depths %>% 
+  split(.$timepoint) %>% 
+  map(~ggplot(., aes(position, depth)) +
+        geom_col(color = glue("{.$color}")) +
+        labs(title = glue("{.$titles}"),
+             x = element_blank(),
+             y = "Mapping Depth") +
+        scale_y_continuous(expand = c(0, 0)) +
+        scale_x_continuous(expand = c(0, 0),
+                           breaks = seq(1000, 26000, 1000),
+                           labels = glue("{seq(1,26,1)}kb")) +
+        theme_classic() +
+        theme(plot.title = element_text(size = 18,
+                                        face = "bold",
+                                        hjust = 0.5,
+                                        margin = margin(t = 10)),
+              panel.grid.major.y = element_line(linewidth = 0.6,
+                                                linetype = "dashed"),
+              axis.title.y = element_text(size = 18,
+                                          face = "bold",
+                                          margin = margin(r = 10, l = 10)),
+              axis.text.y = element_text(size = 10, color = "black"),
+              axis.text.x = element_text(size = 8.5, color = "black", face = "bold")
             ))
 
-# plot 4hpi mapping depth
-
-p4 <- each_timepoint$`4hpi` %>% 
-  ggplot(aes(position, depth)) +
-  geom_col(color = "grey") +
-  labs(title = "4hrs Post-infection",
-       x = element_blank(),
-       y = "Mapping Depth") +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_x_continuous(expand = c(0, 0),
-                     breaks = seq(1000, 26000, 1000),
-                     labels = glue("{seq(1,26,1)}kb")) +
-  looks
+# save plot for each time-point
 
 ggsave("depth_4hrs.pdf",
-       plot = p4, path = "results/r/figures",
+       plot = each_plot$`4hpi`, path = "results/r/figures",
        width = 10, height = 5)
-
-
-# plot 12hpi mapping depth
-
-p12 <- each_timepoint$`12hpi` %>% 
-  ggplot(aes(position, depth)) +
-  geom_col(color = "grey50") +
-  labs(title = "12hrs Post-infection",
-       x = element_blank(),
-       y = "Mapping Depth") +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_x_continuous(expand = c(0, 0),
-                     breaks = seq(1000, 26000, 1000),
-                     labels = glue("{seq(1,26,1)}kb")) +
-  looks
 
 ggsave("depth_12hrs.pdf",
-       plot = p12, path = "results/r/figures",
+       plot = each_plot$`12hpi`, path = "results/r/figures",
        width = 10, height = 5)
-
-
-# plot 24hpi mapping depth
-
-p24 <- each_timepoint$`24hpi` %>% 
-  ggplot(aes(position, depth)) +
-  geom_col(color = "grey40") +
-  labs(title = "24hrs Post-infection",
-       x = element_blank(),
-       y = "Mapping Depth") +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_x_continuous(expand = c(0, 0),
-                     breaks = seq(1000, 26000, 1000),
-                     labels = glue("{seq(1,26,1)}kb")) +
-  looks
 
 ggsave("depth_24hrs.pdf",
-       plot = p24, path = "results/r/figures",
+       plot = each_plot$`24hpi`, path = "results/r/figures",
        width = 10, height = 5)
-
-
-# plot 72hpi mapping depth
-
-p72 <- each_timepoint$`72hpi` %>% 
-  ggplot(aes(position, depth)) +
-  geom_col(color = "grey30") +
-  labs(title = "72hrs Post-infection",
-       x = element_blank(),
-       y = "Mapping Depth") +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_x_continuous(expand = c(0, 0),
-                     breaks = seq(1000, 26000, 1000),
-                     labels = glue("{seq(1,26,1)}kb")) +
-  looks
 
 ggsave("depth_72hrs.pdf",
-       plot = p72, path = "results/r/figures",
+       plot = each_plot$`72hpi`, path = "results/r/figures",
        width = 10, height = 5)
-
-
-# multiple plot layouts
-# 1. gridExtra package
-# alltime <- grid.arrange(p4, p12, p24, p72,
-#             ncol = 1, nrow = 4)
-# ggsave("grid_alltimes.pdf",
-#   plot = alltime, path = "results/r/figures",
-#   width = 5, height = 10
-# )
 
 
 # 2. patchwork
-p_alltime <- (p4 / p12 / p24 / p72) +
-  plot_annotation(title = "RNA-seq Mapping Coverage of THEV Genome",
+p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72hpi`) +
+  plot_annotation(title = "RNA-seq Mapping Depth of THEV Genome",
                   tag_levels = "I") &
   theme(plot.tag = element_text(
     size = 18,
@@ -191,7 +140,7 @@ compare_all <- all_depths %>%
         axis.title.y = element_text(size = 18, face = "bold",
                                     margin = margin(l = 10)),
         legend.justification = c(0, 0),
-        legend.position = c(0.04, 0.75),
+        legend.position = c(0.04, 0.7),
         legend.margin = margin(rep(10, 4)),
         legend.background = element_rect(color = "grey", linewidth = 0.2),
         legend.text = element_text(size = 14, 
