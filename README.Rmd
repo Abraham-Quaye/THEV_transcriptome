@@ -1,38 +1,45 @@
 ---
 title: Turkey Hemorrhagic Enteritis Virus transcriptome profiling
-author: Abraham Quaye
+author: <strong>Abraham Quaye</strong><br>
 date: 2023-03-16
-output:
-    github_document:
-        html_preview: FALSE
+output: github_document
 ---
-```{css echo=FALSE}
+```{css aesthetics, echo=FALSE, include=FALSE}
 body {
     <!-- background-color: #262626; -->
     <!-- color: white; -->
     font-size: 2vw
 }
 ```
-<!-- # THEV transcriptome studies -->
+```{r call_libs, echo=FALSE,include=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
 
+cov_all <- read_tsv("results/hisat2/coverage/bulk_coverage.txt",
+                    comment = "Coverage", show_col_types = FALSE) %>% 
+  map_at(c(2:9), as.numeric) %>% 
+  as_tibble()
+
+total_mapped <- round(sum(cov_all$numreads)/1e6)
+```
 ## Background
 
 **Hemorrhagic enteritis (HE)** is a disease affecting 6-12-week-old turkeys characterized by bloody diarrhea, **immunosuppression (IS)**, and up to 60% mortality. This disease is caused by **_Turkey Hemorrhagic Enteritis Virus (THEV)_** of which avirulent strains (THEV-A) that do not cause HE but retain the immunosuppressive ability have been isolated. The THEV-A Virginia Avirulent Strain (VAS) is still used as a live vaccine despite its immunosuppressive properties. **_Our objective is to understand the genetic basis by which VAS brings about IS_**. However, the **transcriptome of THEV** has not been characterized, making the investigation of specific viral genes for possible roles in causing IS impractical as the viral splicing and gene expression patterns are unknown. To identify such viral factors, a well-characterized transcriptome of THEV is required to set the stage for experimentation with specific viral genes that may mediate IS.
 
 ## Methods
 
-After infecting a turkey B-cell line (RP-19) with THEV, samples in triplicates were collected at 4-, 12-, 24-, and 72-hours post-infection. Total RNA was subsequently extracted using Thermofishers’s RNAqueous-4PCR Total RNA Isolation Kit, and poly-A-tailed mRNA sequencing done at LC Sciences, Houston TX. The raw sequencing reads were trimmed with the FastQC program, mapped to the THEV genome using Hisat2 and transcripts assembled with StringTie. The `--merge` function of StringTie was used to consolidate transcripts from all timepoints, generating the final THEV transcriptome.
+After infecting a turkey B-cell line (RP-19) with THEV, samples in triplicates were collected at 4-, 12-, 24-, and 72-hours post-infection. Total RNA was subsequently extracted using Thermofishers’s `RNAqueous-4PCR Total RNA Isolation Kit`, and poly-A-tailed mRNA sequencing done at `LC Sciences, Houston TX`. The raw sequencing reads were trimmed with the `FastQC` program, mapped to the THEV genome using `Hisat2` and transcripts assembled with `StringTie`. A custom `Rscript` was used to consolidate all transcripts from all time-points and remove duplicated features, generating the final THEV transcriptome map.
 
 ## Data analysis
 This project is run from the `Snakefile`. Full analysis pipeline shown below in diagram:
 
-![](./project_map.pdf){width=920px height=680px}
+![](project_map.svg){width=920px height=680px}
 
 ## Results
 
-Over 18 million reads mapped to THEV genome providing good coverage/depth, leaving no regions unmapped. All predicted genes in the genome were represented. Interestingly, all were spliced with either with 5’- or 3’-multi exon UTRs hitherto unknown. Thirteen novel exons were identified which require additional verification. The splicing patterns strongly suggest that there are 3 main promoters (E1a-, E3, and major late promoters) driving expression of most of the genes with 2 possible minor promoters driving single genes (ORF7 and ORF8).
+Over `r total_mapped` million reads mapped to THEV genome providing good coverage/depth, leaving no regions unmapped. The assembled transcripts fully covered almost all predicted genes in the genome except *33K*, *22K*, *100K*, and *ORF1*, which were either partially represented or showed a slightly different CDS due to internal splicing. Interestingly, all genes were spliced with either with 5’- or 3’-multi exon UTRs hitherto unknown in THEV, albeit, consistent with *mastadenoviridae*. 35 unique novel exons were identified which require additional verification. The splicing patterns strongly suggest that there are 4 main promoters (E1a-, E2, E3, and major late promoter [MLP]) driving expression of most of the genes with 1 minor promoter driving the gene, ORF8.
 
-We have performed the first RNA-sequencing experiment aimed at characterizing THEV’s transcriptome, which has yielded the only experimentally determined and the most detailed insight of THEV gene expression. In keeping with all Adenoviruses, our data shows that almost all THEV genes are spliced, and under the control of a promoter, several genes are expressed as one transcription unit. This insight of THEV’s transcriptome may allow the engineering of VAS to provide immune protection with less or no associated IS.
+We have performed the first RNA-sequencing experiment aimed at characterizing THEV’s transcriptome, which has yielded the only experimentally determined and the most detailed insight of THEV's gene expression map. In keeping with all *Adenoviruses*, our data shows that all but one (UXP) of THEV genes are spliced, and under the control of a promoter, several genes are expressed as one transcription unit. Hence, THEV has four major transcription units, with an extra promoter for ORF8. This insight of THEV’s transcriptome is essential for elucidating the functions of individual genes, and may eventually allow the engineering of VAS to provide immune protection with less or no associated IS.
 
 ### Navigate the project:
 
@@ -40,12 +47,13 @@ We have performed the first RNA-sequencing experiment aimed at characterizing TH
 library(tidyverse)
 library(rmarkdown)
 dirs <- list.dirs(".", recursive = FALSE, full.names = FALSE)
-all_files <- list.files(".", all.files = TRUE)
+all_files <- list.files(".", all.files = TRUE, pattern = "\\.\\w+.+")
 root_files <- subset(all_files, all_files %in% dirs == FALSE)
 script_dir <- list.files("scripts")
 rawfiles_dir <- list.files("raw_files")
 results_dir <- list.files("results")
 reads_dir <- list.files("trimmedReads")
+wetlab_dir <- list.files("wet_lab_validation")
 ```
 * **`ROOT (thev_transcriptome)/`**
     * **Directories:**
@@ -57,6 +65,7 @@ reads_dir <- list.files("trimmedReads")
             * ``r results_dir[1]`/`
             * ``r results_dir[2]`/`
             * ``r results_dir[3]`/`
+            * ``r results_dir[4]`/`
         * *``r dirs[6]`/`* - Add README for more details
             * ``r script_dir[1]`/`
             * ``r script_dir[2]`/`
@@ -64,25 +73,27 @@ reads_dir <- list.files("trimmedReads")
         * *``r dirs[7]`/`* - Add README for more details
             * ``r reads_dir[1]`/`
             * ``r reads_dir[2]`/`
+        * *``r dirs[8]`/`* - Add README for more details
+            * ``r wetlab_dir[1]`/`
+            * ``r wetlab_dir[2]`/`
     * **Files**
-        * *``r root_files[5]``* - *`deprecated`*: replaced by `Snakefile`
+        * *``r root_files[3]``*
+        * *``r root_files[4]``*
+        * *``r root_files[5]``*
         * *``r root_files[6]``*
         * *``r root_files[7]``*
         * *``r root_files[8]``*
-        * *``r root_files[9]``*
-        * *``r root_files[10]``*
-        * *``r root_files[11]``*
-        * *``r root_files[12]``*
-        * *``r root_files[13]``* - *not on Git*
+        * *``r root_files[9]``* - *not on Git*
     * **Hidden files** - *not on Git*
-        * *``r root_files[3]``*
-        * *``r root_files[4]``*
+        * *``r root_files[1]``*
+        * *``r root_files[2]``*
         * ``r dirs[1]`/`
         * ``r dirs[2]`/`
         * ``r dirs[3]`/`
 
 ### Dependencies:
 
+- `FastQC`
 - `AGAT`
 - `Hisat2`
 - `StringTie`

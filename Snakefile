@@ -32,7 +32,7 @@ rule extract_exons:
         "{input.script}"
 
 #################### BUILD THEV GENOMIC INDEX FOR MAPPING WITH HISAT2 ######
-rule build_index:
+rule build_genome_index:
     input:
         script = "scripts/zsh/build_genome_index.zsh",
         ss = "raw_files/annotations/thev_predicted_genes.ss",
@@ -67,7 +67,7 @@ rule map_sort_to_bam:
         "{input.script}"
 
 #################### INDEX ALL SORTED .BAM FILES ##################
-rule index:
+rule index_bam_files:
     input:
         script = "scripts/zsh/index.zsh",
         bam = expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam", \

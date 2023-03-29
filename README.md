@@ -1,16 +1,7 @@
 Turkey Hemorrhagic Enteritis Virus transcriptome profiling
 ================
-Abraham Quaye
+<strong>Abraham Quaye</strong><br>
 2023-03-16
-
-<style type="text/css">
-body {
-    <!-- background-color: #262626; -->
-    <!-- color: white; -->
-    font-size: 2vw
-}
-</style>
-<!-- # THEV transcriptome studies -->
 
 ## Background
 
@@ -34,39 +25,46 @@ for experimentation with specific viral genes that may mediate IS.
 After infecting a turkey B-cell line (RP-19) with THEV, samples in
 triplicates were collected at 4-, 12-, 24-, and 72-hours post-infection.
 Total RNA was subsequently extracted using Thermofishers’s
-RNAqueous-4PCR Total RNA Isolation Kit, and poly-A-tailed mRNA
-sequencing done at LC Sciences, Houston TX. The raw sequencing reads
-were trimmed with the FastQC program, mapped to the THEV genome using
-Hisat2 and transcripts assembled with StringTie. The `--merge` function
-of StringTie was used to consolidate transcripts from all timepoints,
-generating the final THEV transcriptome.
+`RNAqueous-4PCR Total RNA Isolation Kit`, and poly-A-tailed mRNA
+sequencing done at `LC Sciences, Houston TX`. The raw sequencing reads
+were trimmed with the `FastQC` program, mapped to the THEV genome using
+`Hisat2` and transcripts assembled with `StringTie`. A custom `Rscript`
+was used to consolidate all transcripts from all time-points and remove
+duplicated features, generating the final THEV transcriptome map.
 
 ## Data analysis
 
 This project is run from the `Snakefile`. Full analysis pipeline shown
 below in diagram:
 
-<embed src="./project_map.pdf" width="920" height="680" />
+<img src="project_map.svg" width="920" height="680" />
 
 ## Results
 
-Over 18 million reads mapped to THEV genome providing good
-coverage/depth, leaving no regions unmapped. All predicted genes in the
-genome were represented. Interestingly, all were spliced with either
-with 5’- or 3’-multi exon UTRs hitherto unknown. Thirteen novel exons
-were identified which require additional verification. The splicing
-patterns strongly suggest that there are 3 main promoters (E1a-, E3, and
-major late promoters) driving expression of most of the genes with 2
-possible minor promoters driving single genes (ORF7 and ORF8).
+Over NA million reads mapped to THEV genome providing good
+coverage/depth, leaving no regions unmapped. The assembled transcripts
+fully covered almost all predicted genes in the genome except *33K*,
+*22K*, *100K*, and *ORF1*, which were either partially represented or
+showed a slightly different CDS due to internal splicing. Interestingly,
+all genes were spliced with either with 5’- or 3’-multi exon UTRs
+hitherto unknown in THEV, albeit, consistent with *mastadenoviridae*. 35
+unique novel exons were identified which require additional
+verification. The splicing patterns strongly suggest that there are 4
+main promoters (E1a-, E2, E3, and major late promoter \[MLP\]) driving
+expression of most of the genes with 1 minor promoter driving the gene,
+ORF8.
 
 We have performed the first RNA-sequencing experiment aimed at
 characterizing THEV’s transcriptome, which has yielded the only
-experimentally determined and the most detailed insight of THEV gene
-expression. In keeping with all Adenoviruses, our data shows that almost
-all THEV genes are spliced, and under the control of a promoter, several
-genes are expressed as one transcription unit. This insight of THEV’s
-transcriptome may allow the engineering of VAS to provide immune
-protection with less or no associated IS.
+experimentally determined and the most detailed insight of THEV’s gene
+expression map. In keeping with all *Adenoviruses*, our data shows that
+all but one (UXP) of THEV genes are spliced, and under the control of a
+promoter, several genes are expressed as one transcription unit. Hence,
+THEV has four major transcription units, with an extra promoter for
+ORF8. This insight of THEV’s transcriptome is essential for elucidating
+the functions of individual genes, and may eventually allow the
+engineering of VAS to provide immune protection with less or no
+associated IS.
 
 ### Navigate the project:
 
@@ -80,6 +78,7 @@ protection with less or no associated IS.
       - `hisat2/`
       - `r/`
       - `sgseq/`
+      - `stringtie/`
     - *`scripts/`* - Add README for more details
       - `r/`
       - `README.md/`
@@ -87,16 +86,17 @@ protection with less or no associated IS.
     - *`trimmedReads/`* - Add README for more details
       - `forwardTrims/`
       - `reverseTrims/`
+    - *`wet_lab_validation/`* - Add README for more details
+      - `all_validation_primers.tsv/`
+      - `transcriptome_validation/`
   - **Files**
-    - *`environment.yml`* - *`deprecated`*: replaced by `Snakefile`
+    - *`environment.yml`*
     - *`LICENSE.md`*
-    - *`project_jobmap.pdf`*
-    - *`project_map.pdf`*
+    - *`project_jobmap.svg`*
+    - *`project_map.svg`*
     - *`README.md`*
     - *`README.Rmd`*
-    - *`Snakefile`*
-    - *`thev_transcriptome.Rproj`*
-    - *`NA`* - *not on Git*
+    - *`thev_transcriptome.Rproj`* - *not on Git*
   - **Hidden files** - *not on Git*
     - *`.DS_Store`*
     - *`.gitignore`*
@@ -106,10 +106,11 @@ protection with less or no associated IS.
 
 ### Dependencies:
 
+- `FastQC`
 - `AGAT`
 - `Hisat2`
 - `StringTie`
-- `R version 4.2.3 (2023-03-15)`
+- `R version 4.2.2 (2022-10-31)`
 - `tidyverse`(v.2.0.0)
 - `rmarkdown`(v.2.20)
 - `Snakemake`

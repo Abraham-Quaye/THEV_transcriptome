@@ -19,5 +19,5 @@ dependencies:
   - r-patchwork=1.1.2
   - r-ggsci=2.9
   - r-ggtext=0.1.2
-  - r-gridExtra=2.3
+  - r-here=1.0.1
   - snakemake=7.24.0
