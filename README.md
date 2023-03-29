@@ -109,7 +109,7 @@ protection with less or no associated IS.
 - `AGAT`
 - `Hisat2`
 - `StringTie`
-- R version 4.2.3 (2023-03-15)
+- `R version 4.2.3 (2023-03-15)`
 - `tidyverse`(v.2.0.0)
 - `rmarkdown`(v.2.20)
 - `Snakemake`

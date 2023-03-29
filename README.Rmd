@@ -86,7 +86,7 @@ reads_dir <- list.files("trimmedReads")
 - `AGAT`
 - `Hisat2`
 - `StringTie`
-- `r R.version.string`
+- ``r R.version.string``
 - `tidyverse`(v.`r packageVersion("tidyverse")`)
 - `rmarkdown`(v.`r packageVersion("rmarkdown")`)
 - `Snakemake`
