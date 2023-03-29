@@ -2,7 +2,9 @@
 title: Turkey Hemorrhagic Enteritis Virus transcriptome profiling
 author: Abraham Quaye
 date: 2023-03-16
-output: html_document
+output:
+    github_document:
+        html_preview: FALSE
 ---
 ```{css echo=FALSE}
 body {
@@ -24,7 +26,7 @@ After infecting a turkey B-cell line (RP-19) with THEV, samples in triplicates w
 ## Data analysis
 This project is run from the `Snakefile`. Full analysis pipeline shown below in diagram:
 
-![project_map](./project_map.svg){width=920px height=680px}
+![](./project_map.pdf){width=920px height=680px}
 
 ## Results
 
@@ -36,6 +38,7 @@ We have performed the first RNA-sequencing experiment aimed at characterizing TH
 
 ```{r list_dirs, exclude=TRUE, message=FALSE, warning=FALSE, echo=FALSE}
 library(tidyverse)
+library(rmarkdown)
 dirs <- list.dirs(".", recursive = FALSE, full.names = FALSE)
 all_files <- list.files(".", all.files = TRUE)
 root_files <- subset(all_files, all_files %in% dirs == FALSE)
@@ -83,7 +86,9 @@ reads_dir <- list.files("trimmedReads")
 - `AGAT`
 - `Hisat2`
 - `StringTie`
-- `R`
+- `r R.version.string`
+- `tidyverse`(v.`r packageVersion("tidyverse")`)
+- `rmarkdown`(v.`r packageVersion("rmarkdown")`)
 - `Snakemake`
 - `zsh shell`
 - See `environment.yml` for `conda env` dependencies
