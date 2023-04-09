@@ -7,6 +7,8 @@ library(patchwork)
 library(ggsci)
 library(ggtext)
 
+source("scripts/r/thev_genomic_map.R")
+
 ### remove older files before generating new files
 path <- "results/r/figures"
 files <- list.files(path, pattern = ".+(.pdf|.png|.jpg|.jpeg)", 
@@ -18,8 +20,8 @@ unlink(files, recursive = FALSE, force = FALSE)
 ### find all the depth files
 all_depth_files <- list.files("results/hisat2/coverage",
                               pattern = "[a-z_]+\\d+[a-z]+\\.txt",
-                              full.names = TRUE)
-names(all_depth_files) <- c("12hpi", "24hpi", "4hpi", "72hpi")
+                              full.names = TRUE) %>% 
+  setNames(c("12hpi", "24hpi", "4hpi", "72hpi"))
 
 # read depth_files as one master tibble
 all_depths <- map_dfr(all_depth_files, read_tsv,
@@ -27,7 +29,8 @@ all_depths <- map_dfr(all_depth_files, read_tsv,
                       show_col_types = FALSE,
                       comment = "#",
                       .id = "timepoint") %>% 
-  mutate(timepoint = factor(timepoint,levels = c("72hpi", "24hpi", "12hpi", "4hpi")),
+  mutate(timepoint = factor(timepoint,
+                            levels = c("72hpi", "24hpi", "12hpi", "4hpi")),
          color = c(rep("grey50",26266),
                    rep("grey40",26266),
                    rep("grey",26266),
@@ -37,10 +40,9 @@ all_depths <- map_dfr(all_depth_files, read_tsv,
                     rep("24hrs Post-infection", 26266),
                     rep("4hrs Post-infection", 26266),
                     rep("72hrs Post-infection", 26266)
-                    )
-         )
-
-colnames(all_depths) <- c("timepoint","genome", "position", "depth", "color", "titles")
+                    )) %>% 
+  set_colnames(c("timepoint", "genome", "position",
+                 "depth", "color", "titles"))
   
 
 ## split the table into individual time-points and plot iteratively with map()
@@ -53,8 +55,8 @@ each_plot <- all_depths %>%
              y = "Mapping Depth") +
         scale_y_continuous(expand = c(0, 0)) +
         scale_x_continuous(expand = c(0, 0),
-                           breaks = seq(1000, 26000, 1000),
-                           labels = glue("{seq(1,26,1)}kb")) +
+                           breaks = seq(1000, 26000, 2000),
+                           labels = glue("{seq(1,26,2)}kb")) +
         theme_classic() +
         theme(plot.title = element_text(size = 18,
                                         face = "bold",
@@ -62,7 +64,7 @@ each_plot <- all_depths %>%
                                         margin = margin(t = 10)),
               panel.grid.major.y = element_line(linewidth = 0.6,
                                                 linetype = "dashed"),
-              axis.title.y = element_text(size = 18,
+              axis.title.y = element_text(size = 14,
                                           face = "bold",
                                           margin = margin(r = 10, l = 10)),
               axis.text.y = element_text(size = 10, color = "black"),
@@ -87,11 +89,14 @@ ggsave("depth_72hrs.pdf",
        plot = each_plot$`72hpi`, path = "results/r/figures",
        width = 10, height = 5)
 
+# genomic map plot
+genome <- make_genomic_map("raw_files/annotations/THEVannotated_genesOnly.bed")
+
 
 # 2. patchwork
-p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72hpi`) +
-  plot_annotation(title = "RNA-seq Mapping Depth of THEV Genome",
-                  tag_levels = "I") &
+p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72hpi`/genome) +
+  plot_annotation(title = "RNA-seq Mapping Depth of THEV Genome") +
+  plot_layout(heights = c(rep(6, 4), 2)) &
   theme(plot.tag = element_text(
     size = 18,
     face = "bold",
@@ -104,7 +109,7 @@ p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72
 
 ggsave("patch_alltimes.pdf",
        plot = p_alltime, path = "results/r/figures",
-       width = 10, height = 15)
+       width = 10, height = 14)
 
 
 

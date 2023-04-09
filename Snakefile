@@ -168,7 +168,9 @@ rule bulk_depth:
 #################### MAKE FIGURES FOR DEPTH/COVERAGE ############
 rule make_coverage_figures:
     input:
-        r_script = "scripts/r/thev_cov_depth.R",
+        r_script1 = "scripts/r/thev_cov_depth.R",
+        r_script2 = "scripts/r/thev_genomic_map.R",
+        bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
         depth = expand("results/hisat2/coverage/thev_{time}hrsdepth.txt", \
         time = [4, 12, 24, 72]),
         coverage = "results/hisat2/coverage/bulk_coverage.txt"
@@ -178,7 +180,7 @@ rule make_coverage_figures:
         expand("results/r/figures/{plotkind}_alltimes.pdf", \
         plotkind = ["patch", "overlay", "correlate"])
     shell:
-       "{input.r_script}"
+       "{input.r_script1}"
 
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:
