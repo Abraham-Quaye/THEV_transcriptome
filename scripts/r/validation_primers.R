@@ -26,7 +26,7 @@ all_primers <- all_primers %>%
   filter(primer_name != "sMLP_trxptH_J2 R")
 
 # Save Primer list to order:
-export_table(all_primers, format = "html", sep = )
+# export_table(all_primers, format = "html", sep = )
 
 
 

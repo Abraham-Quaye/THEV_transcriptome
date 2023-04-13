@@ -1,0 +1,2 @@
+E4_ORF8 F	CCCtctagaCAGTGCAATCCGACGCTCTG	29-mer	TM = 62 Celcius (Hostart Taq)
+E4_ORF8 R	CCCggtaccGGACACGTGTTCGTTAGAGAACC	32-mer	TM = 59 Celcius (Hostart Taq)
