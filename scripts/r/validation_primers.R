@@ -1,5 +1,6 @@
 
 library(tidyverse)
+library(magrittr)
 
 
 # read primer data from all trancripts
@@ -8,11 +9,11 @@ primer_data <- list.files("wet_lab_validation/transcriptome_validation",
                           pattern = "[-a-zA-Z]+\\.txt",
                           full.names = TRUE)
 
-all_primers <- map_dfr(primer_data, read_tsv, col_names = F, col_types = "c" )
-colnames(all_primers) <- c(paste0("primer_", c("name", "seq", "length", "tm")))
+all_primers <- map_dfr(primer_data, read_tsv, col_names = F, col_types = "c" ) %>% 
+set_colnames(paste0("primer_", c("name", "seq", "length", "tm")))
 
 ## give the primer_tm column a standard format and filter out duplicates
-all_primers <- all_primers %>%
+all_primers %<>%
   mutate(primer_tm = str_replace(string = primer_tm,
                                  pattern = "(\\w+\\s=\\s\\d+\\s\\w+)\\s\\(\\w+\\s?[\\w]+?\\)",
                                  replacement = "\\1")) %>% 
@@ -24,10 +25,9 @@ all_primers <- all_primers %>%
 
 all_primers <- all_primers %>%
   filter(primer_name != "sMLP_trxptH_J2 R")
-
-# Save Primer list to order:
-# export_table(all_primers, format = "html", sep = )
-
+# 
+# write.table(all_primers, "wet_lab_validation/E4_validation_primers.csv",
+#             quote = F, col.names = T, row.names = F, sep = ",")
 
 
 

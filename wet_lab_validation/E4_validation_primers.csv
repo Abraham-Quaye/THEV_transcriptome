@@ -1,0 +1,3 @@
+primer_name,primer_seq,primer_length,primer_tm
+E4_ORF8 F,CCCtctagaCAGTGCAATCCGACGCTCTG,29-mer,TM = 62 Celcius
+E4_ORF8 R,CCCggtaccGGACACGTGTTCGTTAGAGAACC,32-mer,TM = 59 Celcius
