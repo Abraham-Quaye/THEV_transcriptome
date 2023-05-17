@@ -86,9 +86,10 @@ associated IS.
     - *`trimmedReads/`* - Add README for more details
       - `forwardTrims/`
       - `reverseTrims/`
+      - `uninfected_reads/`
     - *`wet_lab_validation/`* - Add README for more details
       - `all_validation_primers.tsv/`
-      - `transcriptome_validation/`
+      - `E4_validation_primers.csv/`
   - **Files**
     - *`environment.yml`*
     - *`LICENSE.md`*

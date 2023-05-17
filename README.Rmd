@@ -73,6 +73,7 @@ wetlab_dir <- list.files("wet_lab_validation")
         * *``r dirs[7]`/`* - Add README for more details
             * ``r reads_dir[1]`/`
             * ``r reads_dir[2]`/`
+            * ``r reads_dir[3]`/`
         * *``r dirs[8]`/`* - Add README for more details
             * ``r wetlab_dir[1]`/`
             * ``r wetlab_dir[2]`/`
