@@ -1,25 +1,19 @@
 #!/usr/bin/env Rscript
 
 
-library(tidyverse)
+library(magrittr)
 library(glue)
 library(patchwork)
 library(ggsci)
 library(ggtext)
+library(tidyverse)
 
 source("scripts/r/thev_genomic_map.R")
 
-### remove older files before generating new files
-path <- "results/r/figures"
-files <- list.files(path, pattern = ".+(.pdf|.png|.jpg|.jpeg)", 
-                    full.names = TRUE, recursive = TRUE)
-unlink(files, recursive = FALSE, force = FALSE)
-
-# load in depth files
 
 ### find all the depth files
 all_depth_files <- list.files("results/hisat2/coverage",
-                              pattern = "thev_+\\d+[a-z]+\\.txt",
+                              pattern = "ctrl_+\\d+[a-z]+\\.txt",
                               full.names = TRUE) %>% 
   setNames(c("12hpi", "24hpi", "4hpi", "72hpi"))
 
@@ -73,19 +67,19 @@ each_plot <- all_depths %>%
 
 # save plot for each time-point
 
-ggsave("depth_4hrs.pdf",
+ggsave("ctrl_depth_4hrs.pdf",
        plot = each_plot$`4hpi`, path = "results/r/figures",
        width = 10, height = 5)
 
-ggsave("depth_12hrs.pdf",
+ggsave("ctrl_depth_12hrs.pdf",
        plot = each_plot$`12hpi`, path = "results/r/figures",
        width = 10, height = 5)
 
-ggsave("depth_24hrs.pdf",
+ggsave("ctrl_depth_24hrs.pdf",
        plot = each_plot$`24hpi`, path = "results/r/figures",
        width = 10, height = 5)
 
-ggsave("depth_72hrs.pdf",
+ggsave("ctrl_depth_72hrs.pdf",
        plot = each_plot$`72hpi`, path = "results/r/figures",
        width = 10, height = 5)
 
@@ -107,7 +101,7 @@ p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72
                               size = 16),
     plot.title.position = "panel")
 
-ggsave("patch_alltimes.pdf",
+ggsave("ctrl_patch_alltimes.pdf",
        plot = p_alltime, path = "results/r/figures",
        width = 10, height = 14)
 
@@ -120,7 +114,7 @@ compare_all <- all_depths %>%
     keywidth = unit(1, "cm"),
     keyheight = unit(1.2, "cm"))) +
   scale_color_igv() +
-  scale_y_sqrt(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0),
                      breaks = seq(1000, 26000, 1000),
                      labels = glue("{seq(1,26,1)}kb")) +
@@ -152,15 +146,15 @@ compare_all <- all_depths %>%
                                    margin = margin(rep(10, 4)),
                                    face = "bold"))
 
-ggsave("overlay_alltimes.pdf",
+ggsave("ctrl_overlay_alltimes.pdf",
        plot = compare_all, path = "results/r/figures",
        width = 15, height = 10)
 
 
-################# coverage data #########################
+############### coverage data ######################
 
 
-cov_all <- read_tsv("results/hisat2/coverage/bulk_coverage.txt",
+cov_all <- read_tsv("results/hisat2/coverage/ctrl_coverage.tsv",
                     comment = "Coverage", show_col_types = FALSE) %>% 
   rename("organism" = "#rname") %>% 
   filter(organism != "#rname") %>% 
@@ -184,22 +178,22 @@ corr <- cov_all %>%
               linewidth = 0.2) +
   geom_point(size = 15) +
   geom_text(aes(label = glue("Mean Depth \n{round(meandepth,1)}")),
-            nudge_y = 0.25,
-            nudge_x = -0.05,
+            nudge_y = 5,
+            nudge_x = -100,
             size = 4,
             fontface = "bold",
             show.legend = F, color = "black") +
   geom_text(aes(label = glue("Reads \n{numreads}")),
             fontface = "bold",
-            nudge_y = -0.25,
-            nudge_x = 0.1,
+            nudge_y = -5,
+            nudge_x = 200,
             size = 4,
             show.legend = F, color = "black") +
-  annotate(geom = "text", x = 2.5e5, y = 5e2, 
+  annotate(geom = "text", x = 1.25e4, y = 60, 
            label = glue("R^2 == {round(slmod$adj.r.squared,4)}"),
            parse = T, size = 12) +
-  scale_y_log10() +
-  scale_x_log10(limits = c(300, 1e8)) +
+  # scale_y_log10() +
+  # scale_x_log10(limits = c(300, 1e8)) +
   labs(title = "Correlation of Mapped Reads to Coverage Depth of THEV genome",
        x = "Total Mapped Reads",
        y = "Mean Depth",
@@ -223,6 +217,6 @@ corr <- cov_all %>%
         legend.justification = c(0, 0),
         legend.position = c(0.05, 0.6))
 
-ggsave("correlate_alltimes.pdf",
+ggsave("ctrl_correlate_alltimes.pdf",
        plot = corr, path = "results/r/figures",
        width = 20, height = 14)

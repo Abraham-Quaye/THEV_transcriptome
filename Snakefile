@@ -182,6 +182,69 @@ rule make_coverage_figures:
     shell:
        "{input.r_script1}"
 
+
+################# BULK MAP UNINFECTED READS ############################
+rule uninfected_map_to_bam:
+    input:
+        script = "scripts/zsh/ctrl_bulk_map_sort_to_bam.zsh",
+        seqidx = expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
+        n = [1, 2, 3, 4, 5, 6, 7, 8]),
+        reads = expand("trimmedReads/uninfected_reads/LCS9132_U_{tp}hrsN{rep}_Clean_Data{strand}.fq.gz", \
+        tp = [72, 24, 12, 4], rep = [1, 2], strand = [1, 2])
+    output:
+        expand("results/hisat2/bulk/uninfected/sortedTHEV_{time}hrsNeg.bam", \
+        time = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
+
+############### INDEX UNINFECTED ##################
+rule uninfected_index:
+    input:
+        rules.uninfected_map_to_bam.output,
+        script = "scripts/zsh/ctrl_index.zsh"
+    output:
+        expand("results/hisat2/bulk/uninfected/sortedTHEV_{time}hrsNeg.bam.bai", \
+        time = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
+rule uninfected_coverage:
+    input:
+        rules.uninfected_map_to_bam.output,
+        script = "scripts/zsh/ctrl_coverage.zsh"
+    output:
+        "results/hisat2/coverage/ctrl_coverage.tsv"
+    shell:
+        "{input.script}"
+
+rule uninfected_depth:
+    input:
+        rules.uninfected_map_to_bam.output,
+        script = "scripts/zsh/ctrl_depth.zsh"
+    output:
+        expand("results/hisat2/coverage/ctrl_{time}hrsdepth.txt", \
+        time = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
+rule uninfected_coverage_figures:
+    input:
+        r_script1 = "scripts/r/ctrl_cov_depth.R",
+        r_script2 = "scripts/r/thev_genomic_map.R",
+        bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
+        depth = expand("results/hisat2/coverage/ctrl_{time}hrsdepth.txt", \
+        time = [4, 12, 24, 72]),
+        coverage = "results/hisat2/coverage/ctrl_coverage.tsv"
+    output:
+        expand("results/r/figures/ctrl_depth_{time}hrs.pdf", \
+        time = [4, 12, 24, 72]),
+        expand("results/r/figures/ctrl_{plotkind}_alltimes.pdf", \
+        plotkind = ["patch", "overlay", "correlate"])
+    shell:
+       "{input.r_script1}"
+
+
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:
     input:
@@ -197,5 +260,10 @@ rule run_pipeline:
         rules.bulk_map_sort_to_bam.output,
         rules.bulk_coverage.output,
         rules.bulk_depth.output,
-        rules.make_coverage_figures.output
+        rules.make_coverage_figures.output,
+        rules.uninfected_map_to_bam.output,
+        rules.uninfected_index.output,
+        rules.uninfected_coverage.output,
+        rules.uninfected_depth.output,
+        rules.uninfected_coverage_figures.output
         
