@@ -1,11 +1,12 @@
 #!/usr/bin/env Rscript
 
 
-library(tidyverse)
+library(magrittr)
 library(glue)
 library(patchwork)
 library(ggsci)
 library(ggtext)
+library(tidyverse)
 
 source("scripts/r/thev_genomic_map.R")
 
