@@ -244,6 +244,15 @@ rule uninfected_coverage_figures:
     shell:
        "{input.r_script1}"
 
+rule write_manuscript:
+    input:
+        "manuscript_thev_transcriptome.Rmd"
+    output:
+        "manuscript_thev_transcriptome.pdf"
+    shell:
+        """
+        R -e "library(rmarkdown);render('manuscript_thev_transcriptome.Rmd', output_format = 'all')"
+        """
 
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:
@@ -265,5 +274,6 @@ rule run_pipeline:
         rules.uninfected_index.output,
         rules.uninfected_coverage.output,
         rules.uninfected_depth.output,
-        rules.uninfected_coverage_figures.output
+        rules.uninfected_coverage_figures.output,
+        rules.write_manuscript.output
         

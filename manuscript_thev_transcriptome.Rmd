@@ -1,0 +1,70 @@
+---
+output:
+  word_document: default
+  pdf_document: default
+geometry: margin=1in
+font-size: 11pt
+header-includes:
+  - \usepackage{helvet}
+  - \renewcommand*\familydefault{\sfdefault}
+  - \usepackage{setspace}
+  - \doublespacing
+  - \usepackage[left]{lineno}
+  - \linenumbers
+---
+
+# Turkey Hemorrhagic Enteritis Virus transcriptome profiling
+
+\vspace{10mm}
+
+**Running Title:** Novel Insights into Turkey Hemorrhagic Enteritis Virus Transcriptome
+
+\vspace{25mm}
+Abraham Quaye${^1}$, Bret Pickett, Joel S. Griffitts, Bradford K. Berges, Brian D. Poole${^\dagger}$
+
+\vspace{5mm}
+${\dagger}$ Corresponding Author
+
+\vspace{10mm}
+Department of Microbiology and Molecular Biology,  
+Brigham Young University,  
+A-153ASB Provo, Utah  
+
+\newpage
+
+```{r call_libs, echo=FALSE,include=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+## Abstract
+
+\newpage
+## Introduction
+
+\newpage
+## Methods
+### Cell culture and THEV Infection  
+### RNA extraction and Sequencing  
+### Computational Analysis of Sequencing Data  
+### PCR Validation of Novel Splice Sites and Sanger Sequencing  
+### 3' Rapid Amplification of cDNA Ends (3'RACE)  
+
+\newpage
+## Results
+
+\newpage
+## Discussion/Conclusions
+
+\newpage
+## Scripts and Supplementary Materials
+
+\newpage
+## Figures
+
+\newpage
+## Acknowledgements
+
+\newpage
+## References
+
+

@@ -20,4 +20,5 @@ dependencies:
   - r-ggsci=2.9
   - r-ggtext=0.1.2
   - r-here=1.0.1
+  - r-tinytex=0.44
   - snakemake=7.24.0
