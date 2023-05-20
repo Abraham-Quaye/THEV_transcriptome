@@ -246,9 +246,13 @@ rule uninfected_coverage_figures:
 
 rule write_manuscript:
     input:
-        "manuscript_thev_transcriptome.Rmd"
+        "manuscript_thev_transcriptome.Rmd",
+        "results/r/thev_genomic_map.png",
+        "asm.csl",
+        "transcriptome_refs.bib"
     output:
-        "manuscript_thev_transcriptome.pdf"
+        "manuscript_thev_transcriptome.pdf",
+        "manuscript_thev_transcriptome.docx"
     shell:
         """
         R -e "library(rmarkdown);render('manuscript_thev_transcriptome.Rmd', output_format = 'all')"

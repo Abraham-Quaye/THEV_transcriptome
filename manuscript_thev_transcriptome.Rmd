@@ -11,6 +11,8 @@ header-includes:
   - \doublespacing
   - \usepackage[left]{lineno}
   - \linenumbers
+bibliography: transcriptome_refs.bib
+csl: asm.csl
 ---
 
 # Turkey Hemorrhagic Enteritis Virus transcriptome profiling
@@ -20,10 +22,10 @@ header-includes:
 **Running Title:** Novel Insights into Turkey Hemorrhagic Enteritis Virus Transcriptome
 
 \vspace{25mm}
-Abraham Quaye${^1}$, Bret Pickett, Joel S. Griffitts, Bradford K. Berges, Brian D. Poole${^\dagger}$
+Abraham Quaye^1^, Bret Pickett, Joel S. Griffitts, Bradford K. Berges, Brian D. Poole${^\dagger}$
 
 \vspace{5mm}
-${\dagger}$ Corresponding Author
+${\dagger}$ **Corresponding Author**
 
 \vspace{10mm}
 Department of Microbiology and Molecular Biology,  
@@ -34,37 +36,87 @@ A-153ASB Provo, Utah
 
 ```{r call_libs, echo=FALSE,include=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
+library(here)
+library(knitr)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+inline_hook <- function(x) {
+  paste0("***", x, "***")
+}
+knit_hooks$set(iniline = inline_hook)
 ```
 
-## Abstract
+## ABSTRACT
+#### Background:
+Hemorrhagic enteritis (HE)is a disease affecting 6-12-week-old turkeys characterized by **immunosuppression (IS)**, bloody diarrhea, and up to 60% mortality. This disease is caused by **_Turkey Hemorrhagic Enteritis Virus (THEV)_** of which avirulent strains (THEV-A) that do not cause HE but retain the immunosuppressive ability have been isolated. The THEV-A Virginia Avirulent Strain (VAS) is still used as a live vaccine despite its immunosuppressive properties. **_Our objective is to understand the genetic basis by which VAS brings about IS_**. The **transcriptome of THEV** was studied to set the stage for further experimentation with specific viral genes that may mediate IS.
 
-\newpage
-## Introduction
+#### Methods:
+After infecting a turkey B-cell line (MDTC-RP19) with the VAS vaccine strain, samples in triplicates were collected at 4-, 12-, 24-, and 72-hours post-infection. Total RNA was subsequently extracted, and poly-A-tailed mRNA sequencing done at LC Sciences. The raw sequencing reads were trimmed with the FastQC program, mapped to the THEV genome using Hisat2 and transcripts assembled with StringTie. An in-house script was used to consolidate transcripts from all timepoints, generating the final transcriptome.
 
+#### Results:
+Over 18 millionXXXXXX reads mapped to THEV genome providing good coverage/depth, leaving no regions unmapped. All predicted genes in the genome were represented. In keeping with all adenoviruses, all transcripts were spliced with either with 5'- or 3'-multi exon UTRs hitherto unknown. ThirteenXXXXX novel exons were identified which were validated by PCR and Sanger sequencing. The splicing patterns strongly suggest that there are 3XXXXX main promoters (E1, E3, and major late promoters) driving expression of most of the genes with 2XXXXXX possible minor promoters driving single genes (ORF7 and ORF8).
+
+#### Conclusions:
+This RNA-sequencing experiment is the first study of THEV gene expression to date. In keeping with other Adenoviruses, almost all THEV genes are spliced, and several genes are expressed as one transcription unit under a single promoter. This insight into THEV's transcriptome may allow the engineering of the VAS to provide immune protection with less or no associated IS. 
 \newpage
-## Methods
-### Cell culture and THEV Infection  
-### RNA extraction and Sequencing  
-### Computational Analysis of Sequencing Data  
+
+## INTRODUCTION   
+Adenoviruses (AdVs) are non-enveloped icosahedral-shaped DNA viruses, causing infection in virtually all vertebrates. Their double-stranded linear DNA genomes range between 26 and 45kb in size, with wide variations in the number of proteins encoded and producing a broad repertoire of proteins via a highly complex alternative splicing mechanism [@Davison2003; @Harrach2008]. The AdV genome is one of the most optimally economized; both the forward and reverse DNA strands harbor protein-coding genes making it highly gene-dense. There are 16 genes termed "genus-common" that are homologous in all AdVs; these are thought to be inherited from a common ancestor. All other genes are termed "genus-specific". "Genus-specific" genes tend to be located at the termini of the genome while "genus-common" genes are usually central [@Davison2003]. This pattern is observed in *Adenoviridae*, *Poxviridae*, and *Herpesviridae* [@Davison2003; @Upton2003; @McGeoch1999]. The family *Adenoviridae* consists of five genera: *Mastadenovirus* (MAdV), *Aviadenovirus*, *Atadenovirus*, *Ichtadenovirus*, and *Siadenovirus* (SiAdV) [@Harrach2011; @Guimet2016]. Currently, there are three recognized members of the genus SiAdV: frog adenovirus 1, raptor adenovirus 1, and turkey adenovirus 3 also called turkey hemorrhagic enteritis virus (THEV) [@Harrach2011; @Kovács2011; @Davison2000; @Kovács2010; @Katoh2009]. Members of SiAdV have the smallest genome size (~26 kb) and gene content (~23 genes) of all known AdVs, and many “genus-specific” putative genes of unknown functions have been annotated [@Harrach2008; @Kovács2011]. The genomic map of THEV showing details of the "genus-specific" and "genus-common" genes, and the gene distribution patterns described above is shown in __Figure 1__.
+
+ Virulent strains (THEV-V) and avirulent strains (THEV-A) of THEV are serologically indistinguishable, infecting turkeys, chickens, and pheasants. They infect via the fecal-oral route, and the THEV-V cause different clinical diseases in these birds [@Harrach2008; @Beach2006]. In turkeys, the THEV-V cause hemorrhagic enteritis (HE), a debilitating acute disease affecting predominantly 6-12-week-old turkeys characterized by immunosuppression (IS), weight loss, intestinal lesions leading to bloody diarrhea, splenomegaly, and up to 60% mortality [@Beach2006; @Gross1967]. HE is the most economically significant disease caused by any strain of THEV [@Beach2006]. While the current vaccine strain (a THEV-A isolated from a pheasant, Virginia Avirulent Strain [VAS]) have proven effective at preventing HE in young turkey poults, it still retains the immunosuppressive ability. Thus, vaccinated birds are rendered more susceptible to opportunistic infections and death than unvaccinated cohorts leading to substantial economic losses [@Beach2006; @Rautenschlein2000; @Larsen1985; @Dhama2017]. The induced IS also interferes with vaccination schemes for other infections of turkeys [@Beach2006; @Rautenschlein2000]. To eliminate this immunossupressive side-effect of the vaccine, a thorough understanding of the viral factors (genes) mediating this phenomenon is essential. However, the transcriptome (splicing and gene expression patterns) of THEV has not been characterized, making the investigation of specific viral genes for possible roles in causing IS impractical. To identify such viral factors, a well-characterized transcriptome of THEV is required to set the stage for experimentation with specific viral genes that may mediate IS.
+
+MAdVs - specifically human adenoviruses - are by far the most extensively studied; hence, most of the current knowledge regarding AdV gene expression and replication is based on MAdV studies, which is used representatively for all other AdVs [@Guimet2016; @Wolfrum2013]. MAdV genes are transcribed in a temporal manner; therefore, genes are categorized into five early transcription units (E1A, E1B, E2, E3, and E4), two intermediate units (pIX and IVa2), and one major late unit (MLTU), generating five families of late mRNAs (L1-L5). An additional gene (UXP or U exon) is located on the reverse strand. The early genes encode non-structural proteins such as enzymes or host cell modulating proteins, primarily involved in DNA replication or providing the necessary intracellular niche for optimal replication while late genes encode structural proteins. The immediate early gene E1A is expressed first, followed by the the delayed early genes, E1B, E2, E3 and E4. Then the intermediate early genes, IVa2 and pIX are expressed, after which the late genes are expressed [@Zhao2014; @Donovan2020; @Guimet2016]. MAdV makes an extensive use of alternative RNA splicing to produce a very complex array of mRNAs; all but pIX mRNA undergo at least one splicing event. The MLTU produces over 20 distinct splice variants all of which contain three non-coding exons at the 5'-end (collectively known as the tripartite leader, TPL) [@Donovan2020; @Zhao2014]. There is an alternate 5' three non-coding exons present in varying amounts on a subset of MLTU mRNAs (known as the x-, y- and z-leaders). Lastly, there is the i-leader exon, which is infrequently included between the second and third TPL exons, and codes for the i-leader protein [@Falvey1983]. Thus, the MLTU produces a complex repertoire of mRNA with diverse 5'-UTRs, spliced onto different 3' coding exons grouped into five different 3'-end classes (L1-L5). Each transcription unit contains its own promoter that drives the expression of all the array of mRNA transcripts produced via alternative splicing of the genes encoded in the unit[@Zhao2014; @Donovan2020; @Guimet2016]. 
+
+Almost all AdV mRNAs are generated by the excision of one or more introns and most of these introns are located in the 5' or 3' UTRs of pre-mRNA. Thus the viral introns do only in a few cases interrupt the open reading frames (ORFs) [@Davison2003; @Zhao2014]. The development of high throughput sequencing methods has facilitated the discovery of many novel transcribed regions and splicing isoforms. It is also a very powerful tool to study alternative splicing under different conditions at an unparalleled depth [@Djebali2012; @Zhao2014]. Here, a paired-end deep sequencing experiment was performed to characterize for the first time, the transcriptome of THEV (VAS strain) during different phases of the infection, yielding a complete THEV splicing map. Our paired-end sequencing allowed for reading 150bp long sequences from each end of cDNA fragments. The data generated from paired-end sequencing, utilized in our experiment, should thus be reliable.
+\newpage
+
+## METHODS   
+### Cell culture and THEV Infection   
+The Turkey B-cell line (MDTC-RP19, ATCC CRL-8135) was grown as suspension cultures in 1:1 complete Leibovitz's L-15/McCoy's 5A medium with 10% fetal bovine serum (FBS), 20% chicken serum (ChS), 5% tryptose phosphate broth (TPB), and 1% antibiotics solution (100 U/mL Penicillin and 100ug/mL Streptomycin), at 41^o^C in a humidified atmosphere with 5% CO~2~. When infected, the cells were maintained in 1:1 serum-reduced Leibovitz's L15/McCoy's 5A media (SRLM) with 2.5% FBS, 5% ChS, 1.2% TPB, and  1% antibiotics solution (100 U/mL Penicillin and 100ug/mL Streptomycin). A commercially available HE vaccine was purchased from Hygieia Biological Labs as a source of THEV-A. The stock virus was titrated using an in-house qPCR assay with titer expressed as genome copy number(GCN)/mL. Cells were infected at a multiplicity of infection (MOI) of 100 GCN/cell and samples in triplicates were harvested at 4-, 12-, 24-, and 72-h.p.i for RNA sequencing. A second infection was done but samples in triplicates were harvested at 12-, 24-, 36-, 48-, and 72-h.p.i for PCR validation of novel splice sites.
+
+### RNA extraction and Sequencing   
+Total RNA was extracted from infected cells using Thermofishers' RNAqueous™-4PCR Total RNA Isolation Kit `(#AM1914)` as per manufacturer's instructions. The RNA quantity and purity was initially assessed using nanodrop, and RNA was used only if the A260/A280 ratio was 2.0 ± 0.05 and the A260/A230 ratio was >2 and <2.2. Extracted total RNA samples were sent to `LC Sciences, Houston TX` for poly-A-tailed mRNA sequencing where RNA integrity was checked with `Agilent Technologies 2100 Bioanalyzer High Sensitivity DNA Chip` and poly(A) RNA sequencing library was prepared following `Illumina's TruSeq-stranded-mRNA sample preparation protocol`. Paired-end sequencing was performed on `Illumina's NovaSeq 6000 sequencing system`.
+
+### Computational Analysis of RNA Sequencing Data: Mapping and Transcript characterization
+Analysis of our sequencing reads were analyzed following a well established general outline described by Pertea _et al_ [@Pertea2016]. Briefly, sequencing reads were trimmed with the `FastQC`[@FastQC] program to acheive an overall `Mean Sequence Quality (Phred Score)` of 36. Trimmed reads were mapped to the complete sequence of avirulent turkey hemorrhagic enteritis virus strain Virginia (https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/) using `Hisat2` [@Pertea2016] with default settings except increasing the CPU cores to 10. The generated `BAM` files from each infection timepoint were fed into `StringTie` [@Pertea2016] using a `gff3` file from NCBI containing the predicted genes of THEV as a guide. A custom script was used to consolidate all transcripts from all timepoints without redundancy, generating the final transcriptome of THEV.
+
 ### PCR Validation of Novel Splice Sites and Sanger Sequencing  
+All splice sites identified in this work are novel except one splice site predicted for pTP, DBP, and 33K each. However, these predictions fell short of the full splicing of these genes and were not experimentally validated. We designed primers that crossed a range of novel exon–exon boundaries for all transcripts in a transcription units with their respective universal primers (supplementary PCR methodsXXXXXXXXX). After first-strand cDNA synthesis with Thermofishers' SuperScript™ III First-Strand Synthesis System (`#18080051`), these primers were used in a targeted PCR experiment, the PCR products were analysed on agarose gels, cloned by traditional restriction enzyme-ligation method and sanger sequenced at `Eton Bioscience, Inc, San Diego, CA` to validate these splice junctions at the sequence level.
+
 ### 3' Rapid Amplification of cDNA Ends (3'RACE)  
 
 \newpage
-## Results
+
+## RESULTS
 
 \newpage
-## Discussion/Conclusions
+
+## DISCUSSION/CONCLUSIONS
 
 \newpage
-## Scripts and Supplementary Materials
+
+## SCRIPTS AND SUPPLEMENTARY MATERIALS    
+
+### DATA AVAILABILITY    
+
+### CODE AVAILABILITY    
+All the code/scripts written for analysis of the data is available on github (linkXXXXXX)
+\newpage
+
+## ACKNOWLEDGMENTS  
 
 \newpage
-## Figures
 
+## REFERENCES     
+\setlength{\parindent}{-0.25in}
+\setlength{\leftskip}{0.25in}
+\noindent
+<div id="refs"></div>
+\setlength{\parindent}{0in}
+\setlength{\leftskip}{0in}
 \newpage
-## Acknowledgements
 
-\newpage
-## References
-
+## FIGURES     
+![Fig.1](results/r/thev_genomic_map.png)  
+**Figure 1. _Genomic map of THEV avirulent strain_**. The central horizontal line represents the double-stranded DNA marked at 5kb intervals as white line breaks. Blocks represent viral genes. Blocks above the DNA line are transcribed rightward, those below are transcribed leftward. pTP, DBP and 33K predicted to be spliced are shown as having tails. Shaded regions indicates regions containing genes (colored red) that are not conserved across adenovirus genera (i.e. "genus-specific"). Genes colored in blue are "genus-common".  Gene colored in light green is conserved in all but Atadenoviruses. The U exon (light blue) is an incomplete gene present in almost all AdVs.
 
