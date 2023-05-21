@@ -35,9 +35,8 @@ A-153ASB Provo, Utah
 \newpage
 
 ```{r call_libs, echo=FALSE,include=FALSE, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(here)
 library(knitr)
+library(tidyverse)
 opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 inline_hook <- function(x) {
@@ -46,6 +45,35 @@ inline_hook <- function(x) {
 knit_hooks$set(iniline = inline_hook)
 ```
 
+```{r inline_values}
+
+# extract paired-end sequencing read length
+bam_info <- read_tsv("results/sgseq/bam_extracted_sampleData.tsv",
+                     show_col_types = F) 
+seq_len <- bam_info %>% select(read_length) %>% slice_head() %>% pull()
+
+# extract coverage and mapping information
+cov_all <- read_tsv("results/hisat2/coverage/bulk_coverage.txt",
+                    comment = "Coverage", show_col_types = FALSE) %>%
+  rename("organism" = "#rname") %>%
+  filter(organism != "#rname") %>%
+  mutate(timepoint = c("4hpi", "12hpi", "24hpi", "72hpi"),
+         timepoint = factor(timepoint,
+            levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
+  map_at(c(2:9), as.numeric) %>%
+  as_tibble()
+
+cov_4hr <- cov_all %>% filter(timepoint == "4hpi") %>%
+              select(numreads) %>% pull()
+cov_72hr <- cov_all %>% filter(timepoint == "72hpi") %>%
+              select(numreads) %>% pull()
+cov_72hr <- round(cov_72hr / 1e6, 2)
+total_mapped <- round(sum(cov_all$numreads) / 1e6, 2)
+
+load_count <- read_table("results/hisat2/coverage/bulk_counts.txt",
+                         col_names = T, show_col_types = F) %>% pull()
+tot_count <- round(mean(load_count) / 1e6, 2)
+````
 ## ABSTRACT
 #### Background:
 Hemorrhagic enteritis (HE)is a disease affecting 6-12-week-old turkeys characterized by **immunosuppression (IS)**, bloody diarrhea, and up to 60% mortality. This disease is caused by **_Turkey Hemorrhagic Enteritis Virus (THEV)_** of which avirulent strains (THEV-A) that do not cause HE but retain the immunosuppressive ability have been isolated. The THEV-A Virginia Avirulent Strain (VAS) is still used as a live vaccine despite its immunosuppressive properties. **_Our objective is to understand the genetic basis by which VAS brings about IS_**. The **transcriptome of THEV** was studied to set the stage for further experimentation with specific viral genes that may mediate IS.
@@ -54,7 +82,7 @@ Hemorrhagic enteritis (HE)is a disease affecting 6-12-week-old turkeys character
 After infecting a turkey B-cell line (MDTC-RP19) with the VAS vaccine strain, samples in triplicates were collected at 4-, 12-, 24-, and 72-hours post-infection. Total RNA was subsequently extracted, and poly-A-tailed mRNA sequencing done at LC Sciences. The raw sequencing reads were trimmed with the FastQC program, mapped to the THEV genome using Hisat2 and transcripts assembled with StringTie. An in-house script was used to consolidate transcripts from all timepoints, generating the final transcriptome.
 
 #### Results:
-Over 18 millionXXXXXX reads mapped to THEV genome providing good coverage/depth, leaving no regions unmapped. All predicted genes in the genome were represented. In keeping with all adenoviruses, all transcripts were spliced with either with 5'- or 3'-multi exon UTRs hitherto unknown. ThirteenXXXXX novel exons were identified which were validated by PCR and Sanger sequencing. The splicing patterns strongly suggest that there are 3XXXXX main promoters (E1, E3, and major late promoters) driving expression of most of the genes with 2XXXXXX possible minor promoters driving single genes (ORF7 and ORF8).
+A total of `r total_mapped` million reads mapped to THEV genome providing good coverage/depth, leaving no regions unmapped. All predicted genes in the genome were represented. In keeping with all adenoviruses, all transcripts were spliced with either with 5'- or 3'-multi exon UTRs hitherto unknown. ThirteenXXXXX novel exons were identified which were validated by PCR and Sanger sequencing. The splicing patterns strongly suggest that there are 3XXXXX main promoters (E1, E3, and major late promoters) driving expression of most of the genes with 2XXXXXX possible minor promoters driving single genes (ORF7 and ORF8).
 
 #### Conclusions:
 This RNA-sequencing experiment is the first study of THEV gene expression to date. In keeping with other Adenoviruses, almost all THEV genes are spliced, and several genes are expressed as one transcription unit under a single promoter. This insight into THEV's transcriptome may allow the engineering of the VAS to provide immune protection with less or no associated IS. 
@@ -67,28 +95,29 @@ Adenoviruses (AdVs) are non-enveloped icosahedral-shaped DNA viruses, causing in
 
 MAdVs - specifically human adenoviruses - are by far the most extensively studied; hence, most of the current knowledge regarding AdV gene expression and replication is based on MAdV studies, which is used representatively for all other AdVs [@Guimet2016; @Wolfrum2013]. MAdV genes are transcribed in a temporal manner; therefore, genes are categorized into five early transcription units (E1A, E1B, E2, E3, and E4), two intermediate units (pIX and IVa2), and one major late unit (MLTU), generating five families of late mRNAs (L1-L5). An additional gene (UXP or U exon) is located on the reverse strand. The early genes encode non-structural proteins such as enzymes or host cell modulating proteins, primarily involved in DNA replication or providing the necessary intracellular niche for optimal replication while late genes encode structural proteins. The immediate early gene E1A is expressed first, followed by the the delayed early genes, E1B, E2, E3 and E4. Then the intermediate early genes, IVa2 and pIX are expressed, after which the late genes are expressed [@Zhao2014; @Donovan2020; @Guimet2016]. MAdV makes an extensive use of alternative RNA splicing to produce a very complex array of mRNAs; all but pIX mRNA undergo at least one splicing event. The MLTU produces over 20 distinct splice variants all of which contain three non-coding exons at the 5'-end (collectively known as the tripartite leader, TPL) [@Donovan2020; @Zhao2014]. There is an alternate 5' three non-coding exons present in varying amounts on a subset of MLTU mRNAs (known as the x-, y- and z-leaders). Lastly, there is the i-leader exon, which is infrequently included between the second and third TPL exons, and codes for the i-leader protein [@Falvey1983]. Thus, the MLTU produces a complex repertoire of mRNA with diverse 5'-UTRs, spliced onto different 3' coding exons grouped into five different 3'-end classes (L1-L5). Each transcription unit contains its own promoter that drives the expression of all the array of mRNA transcripts produced via alternative splicing of the genes encoded in the unit[@Zhao2014; @Donovan2020; @Guimet2016]. 
 
-Almost all AdV mRNAs are generated by the excision of one or more introns and most of these introns are located in the 5' or 3' UTRs of pre-mRNA. Thus the viral introns do only in a few cases interrupt the open reading frames (ORFs) [@Davison2003; @Zhao2014]. The development of high throughput sequencing methods has facilitated the discovery of many novel transcribed regions and splicing isoforms. It is also a very powerful tool to study alternative splicing under different conditions at an unparalleled depth [@Djebali2012; @Zhao2014]. Here, a paired-end deep sequencing experiment was performed to characterize for the first time, the transcriptome of THEV (VAS strain) during different phases of the infection, yielding a complete THEV splicing map. Our paired-end sequencing allowed for reading 150bp long sequences from each end of cDNA fragments. The data generated from paired-end sequencing, utilized in our experiment, should thus be reliable.
+Almost all AdV mRNAs are generated by the excision of one or more introns and most of these introns are located in the 5' or 3' UTRs of pre-mRNA. Thus the viral introns do only in a few cases interrupt the open reading frames (ORFs) [@Davison2003; @Zhao2014]. The development of high throughput sequencing methods has facilitated the discovery of many novel transcribed regions and splicing isoforms. It is also a very powerful tool to study alternative splicing under different conditions at an unparalleled depth [@Djebali2012; @Zhao2014]. Here, a paired-end deep sequencing experiment was performed to characterize for the first time, the transcriptome of THEV (VAS strain) during different phases of the infection, yielding a complete THEV splicing map. Our paired-end sequencing allowed for reading `r seq_len` bp long sequences from each end of cDNA fragments. The data generated from paired-end sequencing, utilized in our experiment, should thus be reliable.
+\newpage
+
+## RESULTS      
+**Overview of sequencing data and analysis pipeline outputs**     
+A previous study by Zeinab *et al* showed that most THEV transcripts were detectable beginning at 4 hours[@Aboezz2019]; hence, infected MDTC-RP19 cells were collected in triplicates at 4-, 12-, 24-, and 72-hours post-infection(h.p.i) to ensure an amply wide window for transcript capture. Our `r seq_len`bp paired-end RNA sequencing experiment yielded an average of `r tot_count` million total reads per timepoint and the reads mapping to the virus genome increased dramatically from `r cov_4hr` reads at 4 h.p.i to `r cov_72hr` million reads at 72 h.p.i. Altogether, `r total_mapped` million reads from all timepoints mapped to THEV genome providing good coverage/depth, leaving no regions unmapped.
+
 \newpage
 
 ## METHODS   
-
 ### Cell culture and THEV Infection   
-The Turkey B-cell line (MDTC-RP19, ATCC CRL-8135) was grown as suspension cultures in 1:1 complete Leibovitz's L-15/McCoy's 5A medium with 10% fetal bovine serum (FBS), 20% chicken serum (ChS), 5% tryptose phosphate broth (TPB), and 1% antibiotics solution (100 U/mL Penicillin and 100ug/mL Streptomycin), at 41^o^C in a humidified atmosphere with 5% CO~2~. When infected, the cells were maintained in 1:1 serum-reduced Leibovitz's L15/McCoy's 5A media (SRLM) with 2.5% FBS, 5% ChS, 1.2% TPB, and  1% antibiotics solution (100 U/mL Penicillin and 100ug/mL Streptomycin). A commercially available HE vaccine was purchased from Hygieia Biological Labs as a source of THEV-A. The stock virus was titrated using an in-house qPCR assay with titer expressed as genome copy number(GCN)/mL. Cells were infected at a multiplicity of infection (MOI) of 100 GCN/cell and samples in triplicates were harvested at 4-, 12-, 24-, and 72-h.p.i for RNA sequencing. A second infection was done but samples in triplicates were harvested at 12-, 24-, 36-, 48-, and 72-h.p.i for PCR validation of novel splice sites.
+The Turkey B-cell line (MDTC-RP19, ATCC CRL-8135) was grown as suspension cultures in 1:1 complete Leibovitz's L-15/McCoy's 5A medium with 10% fetal bovine serum (FBS), 20% chicken serum (ChS), 5% tryptose phosphate broth (TPB), and 1% antibiotics solution (100 U/mL Penicillin and 100ug/mL Streptomycin), at 41^o^C in a humidified atmosphere with 5% CO~2~. When infected, the cells were maintained in 1:1 serum-reduced Leibovitz's L15/McCoy's 5A media (SRLM) with 2.5% FBS, 5% ChS, 1.2% TPB, and  1% antibiotics solution (100 U/mL Penicillin and 100ug/mL Streptomycin). A commercially available HE vaccine was purchased from Hygieia Biological Labs as a source of THEV-A (VAS strain). The stock virus was titrated using an in-house qPCR assay with titer expressed as genome copy number(GCN)/mL. Cells were infected at a multiplicity of infection (MOI) of 100 GCN/cell and samples in triplicates were harvested at 4-, 12-, 24-, and 72-h.p.i for RNA sequencing. A second infection was done but samples in triplicates were harvested at 12-, 24-, 36-, 48-, and 72-h.p.i for PCR validation of novel splice sites.
 
 ### RNA extraction and Sequencing   
 Total RNA was extracted from infected cells using Thermofishers' RNAqueous™-4PCR Total RNA Isolation Kit `(#AM1914)` as per manufacturer's instructions. The RNA quantity and purity was initially assessed using nanodrop, and RNA was used only if the A260/A280 ratio was 2.0 ± 0.05 and the A260/A230 ratio was >2 and <2.2. Extracted total RNA samples were sent to `LC Sciences, Houston TX` for poly-A-tailed mRNA sequencing where RNA integrity was checked with `Agilent Technologies 2100 Bioanalyzer High Sensitivity DNA Chip` and poly(A) RNA sequencing library was prepared following `Illumina's TruSeq-stranded-mRNA sample preparation protocol`. Paired-end sequencing was performed on `Illumina's NovaSeq 6000 sequencing system`.
 
 ### Computational Analysis of RNA Sequencing Data: Mapping and Transcript characterization
-Analysis of our sequencing reads were analyzed following a well established general outline described by Pertea _et al_ [@Pertea2016]. Briefly, sequencing reads were trimmed with the `FastQC`[@FastQC] program to acheive an overall `Mean Sequence Quality (Phred Score)` of 36. Trimmed reads were mapped to the complete sequence of avirulent turkey hemorrhagic enteritis virus strain Virginia (https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/) using `Hisat2` [@Pertea2016] with default settings except increasing the CPU cores to 10. The generated `BAM` files from each infection timepoint were fed into `StringTie` [@Pertea2016] using a `gff3` file from NCBI containing the predicted genes of THEV as a guide. A custom script was used to consolidate all transcripts from all timepoints without redundancy, generating the final transcriptome of THEV.
+Analysis of our sequencing reads were analyzed following a well established general outline described by Pertea _et al_ [@Pertea2016]. Briefly, sequencing reads were trimmed with the `FastQC`[@FastQC] program to acheive an overall `Mean Sequence Quality (Phred Score)` of 36. Trimmed reads were mapped to the complete sequence of avirulent turkey hemorrhagic enteritis virus strain Virginia (https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/) using `Hisat2` (version `xxxxxx`) [@Pertea2016] with default settings except increasing the CPU cores to 10 without relying on known splice sites. The generated `BAM` files from each infection timepoint were fed into `StringTie` [@Pertea2016] using a `gff3` file from NCBI containing the predicted genes of THEV as a guide. A custom script was used to consolidate all transcripts from all timepoints without redundancy, generating the final transcriptome of THEV.
 
 ### PCR Validation of Novel Splice Sites and Sanger Sequencing  
 All splice sites identified in this work are novel except one splice site predicted for pTP, DBP, and 33K each. However, these predictions fell short of the full splicing of these genes and were not experimentally validated. We designed primers that crossed a range of novel exon–exon boundaries for all transcripts in a transcription units with their respective universal primers (supplementary PCR methodsXXXXXXXXX). After first-strand cDNA synthesis with Thermofishers' SuperScript™ III First-Strand Synthesis System (`#18080051`), these primers were used in a targeted PCR experiment, the PCR products were analysed on agarose gels, cloned by traditional restriction enzyme-ligation method and sanger sequenced at `Eton Bioscience, Inc, San Diego, CA` to validate these splice junctions at the sequence level.
 
 ### 3' Rapid Amplification of cDNA Ends (3'RACE)  
-
-\newpage
-
-## RESULTS
 
 \newpage
 

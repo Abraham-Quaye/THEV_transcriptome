@@ -165,6 +165,17 @@ rule bulk_depth:
     shell:
         "{input.script}"
 
+#################### BULK COUNTING READS ############
+rule count_total_reads:
+    input:
+        script = "scripts/zsh/count_total_reads.zsh",
+        bam = expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
+        time = [4, 12, 24, 72])
+    output:
+        "results/hisat2/coverage/bulk_counts.txt"
+    shell:
+        "{input.script}"
+
 #################### MAKE FIGURES FOR DEPTH/COVERAGE ############
 rule make_coverage_figures:
     input:
@@ -249,7 +260,9 @@ rule write_manuscript:
         "manuscript_thev_transcriptome.Rmd",
         "results/r/thev_genomic_map.png",
         "asm.csl",
-        "transcriptome_refs.bib"
+        "transcriptome_refs.bib",
+        "results/hisat2/coverage/bulk_coverage.txt",
+        rules.count_total_reads.output
     output:
         "manuscript_thev_transcriptome.pdf",
         "manuscript_thev_transcriptome.docx"
@@ -273,6 +286,7 @@ rule run_pipeline:
         rules.bulk_map_sort_to_bam.output,
         rules.bulk_coverage.output,
         rules.bulk_depth.output,
+        rules.count_total_reads.output,
         rules.make_coverage_figures.output,
         rules.uninfected_map_to_bam.output,
         rules.uninfected_index.output,

@@ -20,7 +20,7 @@ cov_all <- read_tsv("results/hisat2/coverage/bulk_coverage.txt",
   map_at(c(2:9), as.numeric) %>% 
   as_tibble()
 
-total_mapped <- round(sum(cov_all$numreads)/1e6)
+total_mapped <- round(sum(cov_all$numreads) / 1e6, 2)
 ```
 ## Background
 
