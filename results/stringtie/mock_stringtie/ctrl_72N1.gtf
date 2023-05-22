@@ -1,0 +1,32 @@
+# stringtie -p 10 results/hisat2/map_mock/ctrl_sorted_72N1.bam -t -G raw_files/annotations/thev_from_NCBI.gtf -l 72S1 -o results/stringtie/mock_stringtie/ctrl_72N1.gtf
+# StringTie version 2.2.1
+AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "72S1.1"; transcript_id "72S1.1.1"; reference_id "gene-ORF7"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF7"; cov "1.136986"; FPKM "10625.243164"; TPM "32849.441406";
+AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "72S1.1"; transcript_id "72S1.1.1"; exon_number "1"; reference_id "gene-ORF7"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF7"; cov "1.136986";
+AY849321.1	StringTie	transcript	4298	16976	1000	+	.	gene_id "72S1.2"; transcript_id "72S1.2.1"; cov "10.853576"; FPKM "101427.703125"; TPM "313578.125000";
+AY849321.1	StringTie	exon	4298	4360	1000	+	.	gene_id "72S1.2"; transcript_id "72S1.2.1"; exon_number "1"; cov "3.695566";
+AY849321.1	StringTie	exon	7454	7531	1000	+	.	gene_id "72S1.2"; transcript_id "72S1.2.1"; exon_number "2"; cov "10.487180";
+AY849321.1	StringTie	exon	7754	7807	1000	+	.	gene_id "72S1.2"; transcript_id "72S1.2.1"; exon_number "3"; cov "9.222222";
+AY849321.1	StringTie	exon	12238	16976	1000	+	.	gene_id "72S1.2"; transcript_id "72S1.2.1"; exon_number "4"; cov "10.973353";
+AY849321.1	StringTie	transcript	13610	16330	1000	+	.	gene_id "72S1.2"; transcript_id "72S1.2.2"; reference_id "gene-II"; ref_gene_id "nbis-gene-10"; ref_gene_name "II"; cov "1.366065"; FPKM "12766.008789"; TPM "39467.921875";
+AY849321.1	StringTie	exon	13610	16330	1000	+	.	gene_id "72S1.2"; transcript_id "72S1.2.2"; exon_number "1"; reference_id "gene-II"; ref_gene_id "nbis-gene-10"; ref_gene_name "II"; cov "1.366065";
+AY849321.1	StringTie	transcript	16973	18186	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.1"; reference_id "gene-DBP"; ref_gene_id "nbis-gene-6"; ref_gene_name "DBP"; cov "6.987022"; FPKM "65294.386719"; TPM "201866.843750";
+AY849321.1	StringTie	exon	16973	18087	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.1"; exon_number "1"; reference_id "gene-DBP"; ref_gene_id "nbis-gene-6"; ref_gene_name "DBP"; cov "7.070691";
+AY849321.1	StringTie	exon	18159	18186	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.1"; exon_number "2"; reference_id "gene-DBP"; ref_gene_id "nbis-gene-6"; ref_gene_name "DBP"; cov "3.655190";
+AY849321.1	StringTie	transcript	17793	22293	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.2"; cov "3.482591"; FPKM "32545.146484"; TPM "100617.921875";
+AY849321.1	StringTie	exon	17793	18087	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.2"; exon_number "1"; cov "3.996803";
+AY849321.1	StringTie	exon	18159	18189	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.2"; exon_number "2"; cov "3.085635";
+AY849321.1	StringTie	exon	18684	18751	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.2"; exon_number "3"; cov "3.670130";
+AY849321.1	StringTie	exon	21682	21735	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.2"; exon_number "4"; cov "2.049809";
+AY849321.1	StringTie	exon	22264	22293	1000	-	.	gene_id "72S1.3"; transcript_id "72S1.3.2"; exon_number "5"; cov "0.990288";
+AY849321.1	StringTie	transcript	18230	20227	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.1"; reference_id "gene-100K"; ref_gene_id "nbis-gene-1"; ref_gene_name "100K"; cov "1.831466"; FPKM "17115.224609"; TPM "52914.140625";
+AY849321.1	StringTie	exon	18230	20227	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.1"; exon_number "1"; reference_id "gene-100K"; ref_gene_id "nbis-gene-1"; ref_gene_name "100K"; cov "1.831466";
+AY849321.1	StringTie	transcript	18250	22116	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.2"; cov "3.490579"; FPKM "32619.794922"; TPM "100848.710938";
+AY849321.1	StringTie	exon	18250	18350	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.2"; exon_number "1"; cov "2.028288";
+AY849321.1	StringTie	exon	18717	18768	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.2"; exon_number "2"; cov "5.100403";
+AY849321.1	StringTie	exon	20162	22116	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.2"; exon_number "3"; cov "3.523306";
+AY849321.1	StringTie	transcript	18250	22258	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.3"; cov "3.446140"; FPKM "32204.509766"; TPM "99564.796875";
+AY849321.1	StringTie	exon	18250	18350	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.3"; exon_number "1"; cov "2.042213";
+AY849321.1	StringTie	exon	20162	22258	1000	+	.	gene_id "72S1.4"; transcript_id "72S1.4.3"; exon_number "2"; cov "3.513759";
+AY849321.1	StringTie	transcript	25634	26075	1000	-	.	gene_id "72S1.5"; transcript_id "72S1.5.1"; cov "1.649043"; FPKM "15410.463867"; TPM "47643.632812";
+AY849321.1	StringTie	exon	25634	25970	1000	-	.	gene_id "72S1.5"; transcript_id "72S1.5.1"; exon_number "1"; cov "1.627174";
+AY849321.1	StringTie	exon	26055	26075	1000	-	.	gene_id "72S1.5"; transcript_id "72S1.5.1"; exon_number "2"; cov "2.000000";

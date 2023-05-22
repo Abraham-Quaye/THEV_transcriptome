@@ -1,6 +1,6 @@
 Coverage 4hrs
 #rname	startpos	endpos	numreads	covbases	coverage	meandepth	meanbaseq	meanmapq
-AY849321.1	1	26266	434	12065	45.9339	2.43547	35.5	60
+AY849321.1	1	26266	6148	24372	92.7892	34.7557	35.5	59.9
 Coverage 12hrs
 #rname	startpos	endpos	numreads	covbases	coverage	meandepth	meanbaseq	meanmapq
 AY849321.1	1	26266	6700	24216	92.1952	37.7068	35.7	59.8
