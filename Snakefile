@@ -121,6 +121,16 @@ rule remove_duplicate_transcripts:
     shell:
         "{input.r_script}"
 
+#################### COUNT ALL SPLICE JUNCTIONS ####################
+rule count_junctions:
+    input:
+        bams = rules.map_sort_to_bam.output,
+        script = "scripts/zsh/splice_site_stats.zsh"
+    output:
+        expand("results/hisat2/junction_stats_{tp}S{rep}.bed", tp = [4, 24, 72], rep = [1, 2, 3]),
+        expand("results/hisat2/junction_stats_12S{rep}.bed", rep = [1, 3])
+    shell:
+        "{input.script}"
 
 #################### BULK MAP READS ##########
 rule bulk_map_sort_to_bam:
@@ -131,7 +141,7 @@ rule bulk_map_sort_to_bam:
         fordata = expand("trimmedReads/forwardTrims/LCS9132_I_{tp}hrsS{rep}_Clean_Data1_val_1.fq.gz", \
         tp = [72, 24, 4], rep = [1, 2, 3]),
         for12 = expand("trimmedReads/forwardTrims/LCS9132_I_12hrsS{rep}_Clean_Data1_val_1.fq.gz", \ 
-        rep = [1, 3] ),
+        rep = [1, 3]),
         revdata = expand("trimmedReads/reverseTrims/LCS9132_I_{tp}hrsS{rep}_Clean_Data2_val_2.fq.gz", \
         tp = [72, 24, 4], rep = [1, 2, 3]),
         rev12 = expand("trimmedReads/reverseTrims/LCS9132_I_12hrsS{rep}_Clean_Data2_val_2.fq.gz", \
@@ -322,6 +332,7 @@ rule run_pipeline:
         rules.make_transcripts.output,
         rules.merge_gtfs.output,
         rules.remove_duplicate_transcripts.output,
+        rules.count_junctions.output,
         rules.bulk_map_sort_to_bam.output,
         rules.bulk_coverage.output,
         rules.bulk_depth.output,

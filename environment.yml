@@ -12,6 +12,7 @@ dependencies:
   - gffcompare=0.12.6
   - stringtie=2.2.1
   - agat=1.0.0
+  - regtools=1.0.0
   - r-base=4.2.2
   - r-tidyverse=1.3.2
   - r-devtools=2.4.5
