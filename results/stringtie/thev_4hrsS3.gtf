@@ -1,4 +1,4 @@
-# stringtie -p 10 results/hisat2/thev_sorted_4hrsS3.bam -t -G raw_files/annotations/thev_from_NCBI.gtf -l 4S3 -o results/stringtie/thev_4hrsS3.gtf
+# stringtie -p 10 results/hisat2/thev_sorted_4hrsS3.bam -t -A results/stringtie/t4S3.tab -G raw_files/annotations/thev_from_NCBI.gtf -l 4S3 -o results/stringtie/thev_4hrsS3.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	273	2325	1000	+	.	gene_id "4S3.1"; transcript_id "4S3.1.1"; cov "9.482001"; FPKM "11120.638672"; TPM "27244.880859";
 AY849321.1	StringTie	exon	273	304	1000	+	.	gene_id "4S3.1"; transcript_id "4S3.1.1"; exon_number "1"; cov "5.500000";

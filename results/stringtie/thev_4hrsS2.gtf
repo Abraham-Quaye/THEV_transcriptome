@@ -1,4 +1,4 @@
-# stringtie -p 10 results/hisat2/thev_sorted_4hrsS2.bam -t -G raw_files/annotations/thev_from_NCBI.gtf -l 4S2 -o results/stringtie/thev_4hrsS2.gtf
+# stringtie -p 10 results/hisat2/thev_sorted_4hrsS2.bam -t -A results/stringtie/t4S2.tab -G raw_files/annotations/thev_from_NCBI.gtf -l 4S2 -o results/stringtie/thev_4hrsS2.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; reference_id "gene-II"; ref_gene_id "nbis-gene-10"; ref_gene_name "II"; cov "2.807791"; FPKM "104444.859375"; TPM "125860.828125";
 AY849321.1	StringTie	exon	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; exon_number "1"; reference_id "gene-II"; ref_gene_id "nbis-gene-10"; ref_gene_name "II"; cov "2.807791";

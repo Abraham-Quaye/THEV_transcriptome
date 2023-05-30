@@ -307,7 +307,7 @@ rule uninfected_coverage_figures:
 rule write_manuscript:
     input:
         "manuscript_thev_transcriptome.Rmd",
-        "results/r/thev_genomic_map.png",
+        "results/thev_genomic_map.png",
         "asm.csl",
         "transcriptome_refs.bib",
         "results/hisat2/coverage/bulk_coverage.txt",
