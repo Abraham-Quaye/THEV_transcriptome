@@ -175,6 +175,29 @@ rule bulk_depth:
     shell:
         "{input.script}"
 
+#################### BULK INDEX ############
+rule bulk_index:
+    input:
+        script = "scripts/zsh/bulk_index.zsh",
+        bam = expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
+        time = [4, 12, 24, 72])
+    output:
+        expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam.bai", \
+        time = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
+#################### BULK COUNT JUNCTIONS ############
+rule bulk_count_junctions:
+    input:
+        bams = rules.bulk_map_sort_to_bam.output,
+        index = rules.bulk_index.output,
+        script = "scripts/zsh/bulk_splice_stats.zsh"
+    output:
+        expand("results/hisat2/bulk/junction_stats_{tp}hrs.bed", tp = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
 #################### BULK COUNTING READS ############
 rule count_total_reads:
     input:
@@ -336,6 +359,8 @@ rule run_pipeline:
         rules.bulk_map_sort_to_bam.output,
         rules.bulk_coverage.output,
         rules.bulk_depth.output,
+        rules.bulk_index.output,
+        rules.bulk_count_junctions.output,
         rules.count_total_reads.output,
         rules.make_coverage_figures.output,
         rules.uninfected_map.output,
