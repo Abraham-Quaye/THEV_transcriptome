@@ -19,7 +19,7 @@ regtools junctions extract -m 50 -s RF -o $mapdir/junction_stats_24S3.bed $mapdi
 
 echo "splice junction stats for 72h.p.i samples"
 regtools junctions extract -m 50 -s RF -o $mapdir/junction_stats_72S1.bed $mapdir/thev_sorted_72hrsS1.bam $fasta &
-regtools junctions extract -m 50 -s RF -o $mapdir/junction_stats_72S2.bed $mapdir/thev_sorted_72hrsS2.bam $fasta
-regtools junctions extract -m 50 -s RF -o $mapdir/junction_stats_72S3.bed $mapdir/thev_sorted_72hrsS3.bam $fasta 
+regtools junctions extract -m 50 -s RF -o $mapdir/junction_stats_72S2.bed $mapdir/thev_sorted_72hrsS2.bam $fasta ;
+regtools junctions extract -m 50 -s RF -o $mapdir/junction_stats_72S3.bed $mapdir/thev_sorted_72hrsS3.bam $fasta ;
 
 echo "splice junction stats complete!!!"

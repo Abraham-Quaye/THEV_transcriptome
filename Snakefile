@@ -125,6 +125,7 @@ rule remove_duplicate_transcripts:
 rule count_junctions:
     input:
         bams = rules.map_sort_to_bam.output,
+        index = rules.index_bam_files.output,
         script = "scripts/zsh/splice_site_stats.zsh"
     output:
         expand("results/hisat2/junction_stats_{tp}S{rep}.bed", tp = [4, 24, 72], rep = [1, 2, 3]),
