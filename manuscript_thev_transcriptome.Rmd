@@ -76,6 +76,7 @@ cov_4hr <- cov_all %>% filter(timepoint == "4hpi") %>%
 cov_72hr <- cov_all %>% filter(timepoint == "72hpi") %>%
               select(numreads) %>% pull()
 cov_72hr <- round(cov_72hr / 1e6, 1)
+
 total_mapped <- round(sum(cov_all$numreads) / 1e6, 1)
 
 load_count <- read_table("results/hisat2/coverage/bulk_counts.txt",
