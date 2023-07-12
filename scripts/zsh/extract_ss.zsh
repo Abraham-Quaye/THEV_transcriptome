@@ -3,16 +3,14 @@
 
 filedir=raw_files/annotations
 
-
-if [ -f $filedir/thev_predicted_genes.ss ] 
-    then
-        rm $filedir/thev_predicted_genes.ss
-        echo "old splice-site file removed"
-    else
-        echo "no splice-site file in directory"
-fi
-
-################# EXTRACT SPLICESITES FROM GTF FILE ################
-echo "extracting splice-sites ..."
+################# EXTRACT SPLICESITES FROM THEV GTF FILE ################
+echo "extracting THEV splice-sites ..."
 extract_splice_sites.py $filedir/thev_from_NCBI.gtf > $filedir/thev_predicted_genes.ss &&
-echo "splice-site extraction completed successfully" || exit 3
+echo "THEV splice-site extraction completed successfully"
+
+################# EXTRACT SPLICESITES FROM THEV GTF FILE ################
+echo "extracting TURKEY splice-sites ..."
+extract_splice_sites.py $filedir/turkey_genome.gtf > $filedir/turkey_genome.ss &&
+echo "TURKEY splice-site extraction completed successfully"
+
+cat $filedir/*.ss > $filedir/host_thev.ss

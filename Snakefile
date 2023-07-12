@@ -4,10 +4,13 @@
 rule make_gtf:
     input:
         script = "scripts/zsh/make_gtf.zsh",
-        gff = "raw_files/annotations/thev_from_NCBI.gff3"
+        thevgff = "raw_files/annotations/thev_from_NCBI.gff3",
+        hostgff = "raw_files/annotations/turkey_genome.gff"
     output:
         "raw_files/annotations/thev_from_NCBI.gtf",
-        "raw_files/annotations/thev_from_NCBI.agat.log"
+        "raw_files/annotations/thev_from_NCBI.agat.log",
+        "raw_files/annotations/turkey_genome.gtf",
+        "raw_files/annotations/turkey_genome.agat.log"
     shell:
         "{input.script}"
 
@@ -15,9 +18,11 @@ rule make_gtf:
 rule extract_splice_site:
     input:
         script = "scripts/zsh/extract_ss.zsh",
-        gtf = "raw_files/annotations/thev_from_NCBI.gtf"
+        thevgtf = "raw_files/annotations/thev_from_NCBI.gtf",
+        hostgtf = "raw_files/annotations/turkey_genome.gtf"
     output:
-        "raw_files/annotations/thev_predicted_genes.ss"
+        "raw_files/annotations/thev_predicted_genes.ss",
+        "raw_files/annotations/turkey_genome.ss"
     shell:
         "{input.script}"
 
@@ -25,9 +30,11 @@ rule extract_splice_site:
 rule extract_exons:
     input:
         script = "scripts/zsh/extract_exons.zsh",
-        gtf = "raw_files/annotations/thev_from_NCBI.gtf"
+        thevgtf = "raw_files/annotations/thev_from_NCBI.gtf",
+        hostgtf = "raw_files/annotations/turkey_genome.gtf"
     output:
-        "raw_files/annotations/thev_predicted_genes.exons"
+        "raw_files/annotations/thev_predicted_genes.exons",
+        "raw_files/annotations/turkey_genome.exons"
     shell:
         "{input.script}"
 
@@ -35,12 +42,13 @@ rule extract_exons:
 rule build_genome_index:
     input:
         script = "scripts/zsh/build_genome_index.zsh",
-        ss = "raw_files/annotations/thev_predicted_genes.ss",
-        exon = "raw_files/annotations/thev_predicted_genes.exons",
-        genome = "raw_files/genome_file/AY849321.1.fa"
+        # ss = "raw_files/annotations/host_thev.ss",
+        # exon = "raw_files/annotations/host_thev.exons",
+        thevgenome = "raw_files/genome_file/AY849321.1.fa",
+        hostgenome = "raw_files/genome_file/turkey_genome.fa"
     output:
-        expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
-        n = [1, 2, 3, 4, 5, 6, 7,8])
+        expand("raw_files/host_virus_genome_index/mix_tran.{n}.ht2", \
+        n = range(1,9))
     shell:
         "{input.script}"
 
@@ -48,8 +56,7 @@ rule build_genome_index:
 rule map_sort_to_bam:
     input:
         script = "scripts/zsh/map_sort_to_bam.zsh",
-        seqidx = expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
-        n = [1, 2, 3, 4, 5, 6, 7,8]),
+        # seqidx = rules.build_genome_index.output,
         fordata = expand("trimmedReads/forwardTrims/LCS9132_I_{tp}hrsS{rep}_Clean_Data1_val_1.fq.gz", \
         tp = [72, 24, 4], rep = [1, 2, 3]),
         for12 = expand("trimmedReads/forwardTrims/LCS9132_I_12hrsS{rep}_Clean_Data1_val_1.fq.gz", \ 
@@ -82,19 +89,56 @@ rule index_bam_files:
     shell:
         "{input.script}"
 
+#################### SUBSET SORTED BAM FILES FOR THEV ##################
+rule filter_thev:
+    input:
+        script = "scripts/zsh/thev_subset.zsh",
+        bam = expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam", \
+        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
+        bam12 = expand("results/hisat2/thev_sorted_12hrsS{rep}.bam", \
+        rep = ["1", "3"]),
+        idx = expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam.bai", \
+        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
+        idx12 = expand("results/hisat2/thev_sorted_12hrsS{rep}.bam.bai", \
+        rep = ["1", "3"])
+    output:
+        expand("results/hisat2/thev_subset_{time}hrsS{rep}.bam", \
+        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
+        expand("results/hisat2/thev_subset_12hrsS{rep}.bam", \
+        rep = ["1", "3"])
+    shell:
+        "{input.script}"
+
+#################### INDEX ALL SUBSET BAM FILES ##################
+rule index_subset_bam:
+    input:
+        script = "scripts/zsh/subset_index.zsh",
+        bam = expand("results/hisat2/thev_subset_{time}hrsS{rep}.bam", \
+        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
+        bam12 = expand("results/hisat2/thev_subset_12hrsS{rep}.bam", \
+        rep = ["1", "3"])
+    output:
+        expand("results/hisat2/thev_subset_{time}hrsS{rep}.bam.bai", \
+        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
+        expand("results/hisat2/thev_subset_12hrsS{rep}.bam.bai", \
+        rep = ["1", "3"])
+    shell:
+        "{input.script}"
+
 #################### CONSTRUCT TRANSCRIPTS WITH STRINGTIE ##############
 rule make_transcripts:
     input:
         script = "scripts/zsh/assemble_transcripts.zsh",
         gtf = "raw_files/annotations/thev_from_NCBI.gtf",
-        bam = expand("results/hisat2/thev_sorted_{time}hrsS{rep}.bam", \
-        time = ["72", "24", "4"], rep = ["1", "2", "3"]),
-        bam12 = expand("results/hisat2/thev_sorted_12hrsS{rep}.bam", \
-        rep = ["1", "3"])
+        bam = rules.filter_thev.output
     output:
         expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
         time = [4, 24, 72], rep = [1, 2, 3]),
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
+        rep = [1, 3]),
+        expand("results/stringtie/t{time}S{rep}.tab", \
+        time = [4, 24, 72], rep = [1, 2, 3]),
+        expand("results/stringtie/t12S{rep}.tab", \
         rep = [1, 3])
     shell:
         "{input.script}"
@@ -137,8 +181,7 @@ rule count_junctions:
 rule bulk_map_sort_to_bam:
     input:
         script = "scripts/zsh/bulk_map_sort_to_bam.zsh",
-        seqidx = expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
-        n = [1, 2, 3, 4, 5, 6, 7,8]),
+        seqidx = rules.build_genome_index.output,
         fordata = expand("trimmedReads/forwardTrims/LCS9132_I_{tp}hrsS{rep}_Clean_Data1_val_1.fq.gz", \
         tp = [72, 24, 4], rep = [1, 2, 3]),
         for12 = expand("trimmedReads/forwardTrims/LCS9132_I_12hrsS{rep}_Clean_Data1_val_1.fq.gz", \ 
@@ -153,12 +196,47 @@ rule bulk_map_sort_to_bam:
     shell:
         "{input.script}"
 
+#################### BULK INDEX ############
+rule bulk_index:
+    input:
+        script = "scripts/zsh/bulk_index.zsh",
+        bam = expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
+        time = [4, 12, 24, 72])
+    output:
+        expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam.bai", \
+        time = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
+#################### BULK SUBSET THEV #########
+rule filter_bulk_thev:
+    input:
+        script = "scripts/zsh/subset_bulk_thev.zsh",
+        bams = rules.bulk_map_sort_to_bam.output,
+        idx = rules.bulk_index.output
+    output:
+        expand("results/hisat2/bulk/subsetTHEV_{time}hrs.bam", \
+        time = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
+#################### BULK SUBSET INDEX ############
+rule bulk_subset_index:
+    input:
+        script = "scripts/zsh/subset_bulk_idx.zsh",
+        bams = rules.filter_bulk_thev.output
+    output:
+        expand("results/hisat2/bulk/subsetTHEV_{time}hrs.bam.bai", \
+        time = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
 #################### BULK COVERAGE #########
 rule bulk_coverage:
     input:
         script = "scripts/zsh/bulk_coverage.zsh",
-        bam = expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
-        time = [4, 12, 24, 72])
+        bam = rules.filter_bulk_thev.output,
+        idx = rules.bulk_subset_index.output
     output:
         "results/hisat2/coverage/bulk_coverage.txt"
     shell:
@@ -168,22 +246,9 @@ rule bulk_coverage:
 rule bulk_depth:
     input:
         script = "scripts/zsh/bulk_depth.zsh",
-        bam = expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
-        time = [4, 12, 24, 72])
+        bam = rules.filter_bulk_thev.output
     output:
         expand("results/hisat2/coverage/thev_{time}hrsdepth.txt", \
-        time = [4, 12, 24, 72])
-    shell:
-        "{input.script}"
-
-#################### BULK INDEX ############
-rule bulk_index:
-    input:
-        script = "scripts/zsh/bulk_index.zsh",
-        bam = expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam", \
-        time = [4, 12, 24, 72])
-    output:
-        expand("results/hisat2/bulk/sortedTHEV_{time}hrsSamples.bam.bai", \
         time = [4, 12, 24, 72])
     shell:
         "{input.script}"
@@ -353,24 +418,28 @@ rule run_pipeline:
         rules.build_genome_index.output,
         rules.map_sort_to_bam.output,
         rules.index_bam_files.output,
+        rules.filter_thev.output,
+        rules.index_subset_bam.output,
         rules.make_transcripts.output,
         rules.merge_gtfs.output,
         rules.remove_duplicate_transcripts.output,
         rules.count_junctions.output,
         rules.bulk_map_sort_to_bam.output,
+        rules.bulk_index.output,
+        rules.filter_bulk_thev.output,
+        rules.bulk_subset_index.output,
         rules.bulk_coverage.output,
         rules.bulk_depth.output,
-        rules.bulk_index.output,
         rules.bulk_count_junctions.output,
         rules.count_total_reads.output,
-        rules.make_coverage_figures.output,
-        rules.uninfected_map.output,
-        rules.uninfected_single_index.output,
-        rules.uninfected_assemble.output,
-        rules.uninfected_map_to_bam.output,
-        rules.uninfected_index.output,
-        rules.uninfected_coverage.output,
-        rules.uninfected_depth.output,
-        rules.uninfected_coverage_figures.output,
-        rules.write_manuscript.output
+        rules.make_coverage_figures.output
+        # rules.uninfected_map.output,
+        # rules.uninfected_single_index.output,
+        # rules.uninfected_assemble.output,
+        # rules.uninfected_map_to_bam.output,
+        # rules.uninfected_index.output,
+        # rules.uninfected_coverage.output,
+        # rules.uninfected_depth.output,
+        # rules.uninfected_coverage_figures.output,
+        # rules.write_manuscript.output
         

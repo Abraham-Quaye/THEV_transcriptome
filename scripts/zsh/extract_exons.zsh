@@ -4,16 +4,15 @@
 filedir=raw_files/annotations
 
 
-if [ -f $filedir/thev_predicted_genes.exons ] 
-    then
-        rm $filedir/thev_predicted_genes.exons
-        echo "old exon file removed"
-    else
-        echo "no exon file in directory"
-fi
 
-
-################# EXTRACT EXONS FROM GTF FILE 
-echo "extracting exons ..."
+################# EXTRACT EXONS FROM THEV GTF FILE 
+echo "THEV extracting exons ..."
 extract_exons.py $filedir/thev_from_NCBI.gtf > $filedir/thev_predicted_genes.exons &&
-echo "exon extration complete" || exit 4
+echo "THEV exon extration complete"
+
+################# EXTRACT EXONS FROM TURKEY GTF FILE 
+echo "TURKEY extracting exons ..."
+extract_exons.py $filedir/turkey_genome.gtf > $filedir/turkey_genome.exons &&
+echo "TURKEY exon extration complete"
+
+cat $filedir/*.exons > $filedir/host_thev.exons

@@ -3,28 +3,17 @@
 
 filedir=raw_files/annotations
 
-# remove older gtf version
-
-if [ -f $filedir/thev_from_NCBI.gtf ] 
-    then
-        rm $filedir/thev_predicted_genes.gtf
-        echo "old GTF file removed"
-    else
-        echo "no GTF file in directory"
-fi
-
-################# CONVERT .GFF3 TO GTF ###########
-echo "Converting .gff3 file to .gtf file ..." ;
+################# CONVERT THEV .GFF3 TO GTF ###########
+echo "Converting THEV .gff3 file to .gtf file ..." ;
 agat_convert_sp_gff2gtf.pl --gff $filedir/thev_from_NCBI.gff3 -o $filedir/thev_from_NCBI.gtf && 
-echo ".GTF file created successfully" || exit 2 
+echo "THEV .GTF file created successfully"
 
 
-if [ -f $filedir/thev_predicted_genes.agat.log ]
-    then
-        rm $filedir/thev_from_NCBI.agat.log 
-        echo "Old Agat logfile removed"
-    else:
-        echo "Agat logfile not yet moved"
-fi
+################# CONVERT TURKEY .GFF3 TO GTF ###########
+echo "Converting TURKEY .gff file to .gtf file ..." ;
+agat_convert_sp_gff2gtf.pl --gff $filedir/turkey_genome.gff -o $filedir/turkey_genome.gtf ;
+echo "TURKEY .GTF file created successfully" ;
 
-mv thev_from_NCBI.agat.log $filedir
+
+mv thev_from_NCBI.agat.log $filedir ;
+mv turkey_genome.agat.log $filedir ;

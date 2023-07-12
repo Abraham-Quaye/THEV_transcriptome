@@ -4,7 +4,7 @@
 |   https://github.com/NBISweden/AGAT                                          |
 |   National Bioinformatics Infrastructure Sweden (NBIS) - www.nbis.se         |
  ------------------------------------------------------------------------------
-                            03/17/2023 at 02h56m22s                             
+                            07/05/2023 at 18h58m38s                             
 
 ********************************************************************************
 *                              - Start parsing -                               *
@@ -36,7 +36,7 @@ We filter the ontology to apply this rule.		We found 1861 terms that are sequenc
 => Number of features lines: 84
 => Number of feature lines with 1 fields (while 9 expected): 1
 => Number of feature type (3rd column): 5
-	* Level1: 4 => inverted_repeat gene sequence_feature region
+	* Level1: 4 => region gene sequence_feature inverted_repeat
 	* level2: 0 => 
 	* level3: 1 => CDS
 	* unknown: 0 => 
@@ -55,10 +55,10 @@ AY849321.1	Genbank	CDS	22260	22520	.	-	0	Dbxref "NCBI_GP:AAX51188.1"  ; ID "cds-
 Use of uninitialized value $locusTAGvalue in lc at /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/AGAT/OmniscientI.pm line 881, <GEN1> line 72.
 WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. @ the feature is:
 AY849321.1	Genbank	CDS	21247	22116	.	+	0	Dbxref "NCBI_GP:AAX51187.2"  ; ID "cds-AAX51187.2"  ; Name "AAX51187.2"  ; Parent "gene-E3"  ; gbkey CDS ; gene E3 ; product E3 ; protein_id "AAX51187.2" 
+2 warning messages: WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. 
 1 warning messages: WARNING level3: No Parent attribute found 
 1 warning messages: Use of uninitialized value $locusTAGvalue in lc at /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/AGAT/OmniscientI.pm line 881, <GEN1> line 72.
 
-2 warning messages: WARNING gff3 reader: Hmmm, be aware that your feature doesn't contain any Parent and locus tag. No worries, we will handle it by considering it as strictly sequential. If you disagree, please provide an ID or a comon tag by locus. 
 ********************************************************************************
 *                               - End parsing -                                *
 *                              done in 1 seconds                               *

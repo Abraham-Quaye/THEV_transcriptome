@@ -203,7 +203,7 @@ corr <- cov_all %>%
   scale_x_log10(limits = c(300, 1e8)) +
   labs(title = "Correlation of Mapped Reads to Coverage Depth of THEV genome",
        x = "Total Mapped Reads",
-       y = "Mean Depth",
+       y = "Mean Depth/Basepair",
        color = element_blank()) +
   scale_color_manual(values = rainbow(4)) +
   theme(plot.background = element_blank(),
