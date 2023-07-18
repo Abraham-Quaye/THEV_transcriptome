@@ -22,7 +22,7 @@ make_genomic_map <- function(bedfile){
            exon1end = ifelse(blockCount > 1, (start + exon1Size), thickEnd),
            exon2start = thickEnd - exon2Size,
            exon2end = thickEnd,
-           color = ifelse(strand == "+", "#B897A4", "#8B62D1"),
+           color = ifelse(strand == "+", "#FF0000", "skyblue"),
            gene_name = case_match(gene_name,
                                   "33K_spliced" ~ "33K",
                                   "pVIII gene" ~ "pVIII",
@@ -67,7 +67,7 @@ make_genomic_map <- function(bedfile){
           )
 }
 
-
+make_genomic_map("raw_files/annotations/THEVannotated_genesOnly.bed")
 
 ## position the plus strand genes above genome line and minus strand genes below
 make_genomic_map2 <- function(bedfile){

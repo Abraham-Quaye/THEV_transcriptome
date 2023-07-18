@@ -20,7 +20,7 @@ unlink(files, recursive = FALSE, force = FALSE)
 
 ### find all the depth files
 all_depth_files <- list.files("results/hisat2/coverage",
-                              pattern = "thev_+\\d+[a-z]+\\.txt",
+                              pattern = "thev_\\d+[a-z]+\\.txt",
                               full.names = TRUE) %>% 
   setNames(c("12hpi", "24hpi", "4hpi", "72hpi"))
 
@@ -74,21 +74,21 @@ each_plot <- all_depths %>%
 
 # save plot for each time-point
 
-ggsave("depth_4hrs.pdf",
-       plot = each_plot$`4hpi`, path = "results/r/figures",
-       width = 10, height = 5)
-
-ggsave("depth_12hrs.pdf",
-       plot = each_plot$`12hpi`, path = "results/r/figures",
-       width = 10, height = 5)
-
-ggsave("depth_24hrs.pdf",
-       plot = each_plot$`24hpi`, path = "results/r/figures",
-       width = 10, height = 5)
-
-ggsave("depth_72hrs.pdf",
-       plot = each_plot$`72hpi`, path = "results/r/figures",
-       width = 10, height = 5)
+# ggsave("depth_4hrs.png",
+#        plot = each_plot$`4hpi`, path = "results/r/figures",
+#        width = 10, height = 5)
+# 
+# ggsave("depth_12hrs.png",
+#        plot = each_plot$`12hpi`, path = "results/r/figures",
+#        width = 10, height = 5)
+# 
+# ggsave("depth_24hrs.png",
+#        plot = each_plot$`24hpi`, path = "results/r/figures",
+#        width = 10, height = 5)
+# 
+# ggsave("depth_72hrs.png",
+#        plot = each_plot$`72hpi`, path = "results/r/figures",
+#        width = 10, height = 5)
 
 # genomic map plot
 genome <- make_genomic_map("raw_files/annotations/THEVannotated_genesOnly.bed")
@@ -108,9 +108,9 @@ p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72
                               size = 16),
     plot.title.position = "panel")
 
-ggsave("patch_alltimes.pdf",
+ggsave("patch_alltimes.png",
        plot = p_alltime, path = "results/r/figures",
-       width = 10, height = 14)
+       width = 12, height = 14, dpi = 1000)
 
 
 
@@ -153,44 +153,56 @@ compare_all <- all_depths %>%
                                    margin = margin(rep(10, 4)),
                                    face = "bold"))
 
-ggsave("overlay_alltimes.pdf",
+ggsave("overlay_alltimes.png",
        plot = compare_all, path = "results/r/figures",
-       width = 15, height = 10)
+       width = 15, height = 10, dpi = 1000)
 
 
 ################# coverage data #########################
 
+### find all the coverage files
+all_cov_files <- list.files("results/hisat2/coverage",
+                            pattern = "host_thev_cov\\d+.txt",
+                            full.names = TRUE) %>% 
+  setNames(c("12hpi", "24hpi", "4hpi", "72hpi"))
 
-cov_all <- read_tsv("results/hisat2/coverage/bulk_coverage.txt",
-                    comment = "Coverage", show_col_types = FALSE) %>% 
+# read depth_files as one master tibble
+all_covs <- map_dfr(all_cov_files, read_tsv,
+                    show_col_types = FALSE,
+                    comment = "Coverage",
+                    .id = "timepoint") %>%
   rename("organism" = "#rname") %>% 
-  filter(organism != "#rname") %>% 
-  mutate(timepoint = c("4hpi", "12hpi", "24hpi","72hpi"),
-         timepoint = factor(timepoint,levels = c("4hpi","12hpi","24hpi","72hpi"))) %>% 
-  map_at(c(2:9), as.numeric) %>% 
-  as_tibble()
+  mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
+  map_at(c(3:10), as.numeric) %>% 
+  as_tibble() %>%
+  mutate(organism = ifelse(organism == "AY849321.1", "thev", "m.gallopavo")) %>% 
+  group_by(organism, timepoint) %>%
+  reframe(total_mapped = sum(numreads),
+          mean_depth = mean(meandepth), mean_cov = mean(coverage))
+
+cov_thev <- all_covs %>% filter(organism == "thev")
 
 
-lmod <- lm(meandepth ~ numreads, 
-           data = cov_all %>% select(numreads, meandepth))
+lmod <- lm(mean_depth ~ total_mapped, 
+           data = cov_thev %>% select(total_mapped, mean_depth))
 slmod <- summary(lmod)
 
 
-corr <- cov_all %>%
-  ggplot(aes(numreads, meandepth, color = timepoint)) +
+corr <- cov_thev %>%
+  ggplot(aes(total_mapped, mean_depth, color = timepoint)) +
   geom_smooth(show.legend = FALSE, se = FALSE,
               method = "lm", 
               formula = y ~ x,
               color = "black",
               linewidth = 0.2) +
   geom_point(size = 15) +
-  geom_text(aes(label = glue("Mean Depth \n{round(meandepth,1)}")),
+  geom_text(aes(label = glue("Mean Depth \n{round(mean_depth,1)}")),
             nudge_y = 0.25,
             nudge_x = -0.05,
             size = 4,
             fontface = "bold",
             show.legend = F, color = "black") +
-  geom_text(aes(label = glue("Reads \n{numreads}")),
+  geom_text(aes(label = glue("Reads \n{total_mapped}")),
             fontface = "bold",
             nudge_y = -0.25,
             nudge_x = 0.1,
@@ -224,6 +236,6 @@ corr <- cov_all %>%
         legend.justification = c(0, 0),
         legend.position = c(0.05, 0.6))
 
-ggsave("correlate_alltimes.pdf",
+ggsave("correlate_alltimes.png",
        plot = corr, path = "results/r/figures",
-       width = 20, height = 14)
+       width = 20, height = 14, dpi = 1000)

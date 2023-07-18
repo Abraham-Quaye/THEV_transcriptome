@@ -1,5 +1,6 @@
 
 library(magrittr)
+library(glue)
 library(tidyverse)
 
 
@@ -32,29 +33,48 @@ bulk_sum_stats <- bulk_junc_stats %>%
             reads100  = sum(read_count > 100),
             reads1000  = sum(read_count > 1000),
             total_reads_supporting = sum(read_count),
-            mean_read_supporting = total_reads_supporting/total_junctions) %>% 
+            mean_read_supporting = total_reads_supporting/total_junctions,
+            organism = "thev") %>% 
   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
   arrange(total_junctions)
-  
-cov_all <- read_tsv("results/hisat2/coverage/bulk_coverage.txt",
-                    comment = "Coverage", show_col_types = FALSE) %>%
-  rename("organism" = "#rname") %>%
-  filter(organism != "#rname") %>%
-  mutate(timepoint = c("4hpi", "12hpi", "24hpi", "72hpi"),
-         timepoint = factor(timepoint,
-                            levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
-  map_at(c(2:9), as.numeric) %>%
-  as_tibble() %>% 
-  select(Timepoint = timepoint, "Total Mapped" = numreads, "Mean Depth" = meandepth)
-  
-total_seq_reads <- read_table("results/hisat2/coverage/bulk_counts.txt",
-                              col_names = T, show_col_types = F)
 
-join_stats <- left_join(cov_all, bulk_sum_stats, by = c("Timepoint" = "timepoint")) %>% 
-  bind_cols(total_seq_reads) %>%
-  mutate(perc_map = (`Total Mapped`/total_reads) * 100) %>% 
-  select(Timepoint, "Total Reads" = total_reads, `Total Mapped`, "Mapped (%)" = perc_map, `Mean Depth`,
-         "Splice Junctions" = total_junctions, "Total Junction Reads" = total_reads_supporting,
-         reads10, reads100, reads1000) %>%
-  map_at(c(2), format, big.mark = ",") %>% as_tibble()
+total_reads <- read_table("results/hisat2/coverage/bulk_counts.txt",
+                          col_names = T, show_col_types = F)
+
+### find all the coverage files
+all_cov_files <- list.files("results/hisat2/coverage",
+                            pattern = "host_thev_cov\\d+.txt",
+                            full.names = TRUE) %>% 
+  setNames(c("12hpi", "24hpi", "4hpi", "72hpi"))
+
+# read depth_files as one master tibble
+all_covs <- map_dfr(all_cov_files, read_tsv,
+                    show_col_types = FALSE,
+                    comment = "Coverage",
+                    .id = "timepoint") %>%
+  rename("organism" = "#rname") %>% 
+  # filter(organism != "#rname") %>% 
+  mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
+  map_at(c(3:10), as.numeric) %>% 
+  as_tibble() %>%
+  mutate(organism = ifelse(organism == "AY849321.1", "thev", "m.gallopavo")) %>% 
+  group_by(organism, timepoint) %>%
+  reframe(total_mapped = sum(numreads),
+          mean_depth = mean(meandepth), mean_cov = mean(coverage)) %>% 
+  cbind(total_reads) %>% 
+  mutate(perc_mapped = round((total_mapped/total_reads)*100,4)) %>%
+  tibble()
+
+join_stats <- left_join(all_covs, bulk_sum_stats, by = c("timepoint", "organism")) %>%
+  select(organism, timepoint, total_reads, total_mapped, perc_mapped, mean_depth, mean_cov,
+         total_junctions, total_reads_supporting, reads10, reads100, reads1000) %>%
+  map_at(c(3), format, big.mark = ",") %>% as_tibble()
+
+
+tab1 <- tibble(Metric = c("Total reads", "Mapped\n(Host)", "Mapped\n(THEV)", "Splice junctions", "Junction coverage\n>= 1 read","Junction coverage\n>= 10 reads","Junction coverage\n>= 100 reads", "Junction coverage\n>= 1000 reads"),
+               "4h.p.i" = c(all_covs$total_reads[1], glue("{all_covs$total_mapped[1]} ({all_covs$perc_mapped[1]}%)"), glue("{all_covs$total_mapped[5]} ({all_covs$perc_mapped[5]}%)"), join_stats$total_junctions[5], join_stats$total_reads_supporting[5], join_stats$reads10[5], join_stats$reads100[5], join_stats$reads1000[5]),
+               "12h.p.i" = c(all_covs$total_reads[2], glue("{all_covs$total_mapped[2]} ({all_covs$perc_mapped[2]}%)"), glue("{all_covs$total_mapped[6]} ({all_covs$perc_mapped[6]}%)"), join_stats$total_junctions[6], join_stats$total_reads_supporting[6], join_stats$reads10[6], join_stats$reads100[6], join_stats$reads1000[6]),
+               "24h.p.i" = c(all_covs$total_reads[3], glue("{all_covs$total_mapped[3]} ({all_covs$perc_mapped[3]}%)"), glue("{all_covs$total_mapped[7]} ({all_covs$perc_mapped[7]}%)"), join_stats$total_junctions[7], join_stats$total_reads_supporting[7], join_stats$reads10[7], join_stats$reads100[7], join_stats$reads1000[7]),
+               "72h.p.i" = c(all_covs$total_reads[4], glue("{all_covs$total_mapped[4]} ({all_covs$perc_mapped[4]}%)"), glue("{all_covs$total_mapped[8]} ({all_covs$perc_mapped[8]}%)"), join_stats$total_junctions[8], join_stats$total_reads_supporting[8], join_stats$reads10[8], join_stats$reads100[8], join_stats$reads1000[8]),
+               Total = c(sum(all_covs$total_reads[1:4]), sum(all_covs$total_mapped[1:4]), sum(all_covs$total_mapped[5:8]), sum(join_stats$total_junctions, na.rm = T), sum(join_stats$total_reads_supporting, na.rm = T), sum(join_stats$reads10, na.rm = T), sum(join_stats$reads100, na.rm = T), sum(join_stats$reads1000, na.rm = T))) 
 

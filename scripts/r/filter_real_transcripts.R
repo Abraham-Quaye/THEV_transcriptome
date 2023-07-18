@@ -17,12 +17,13 @@ merged_gtf <- read_tsv("results/stringtie/all_merged.gtf",
                        col_names = FALSE,
                        show_col_types = FALSE) 
 
-duplicates <- 'gene_id "24S2.11"|gene_id "24S1.11"|gene_id "72S3.10"|transcript_id "24S1.2.1"|transcript_id "24S3.2.5"|gene_id "12S1.2"|transcript_id "24S1.1.1"|gene_id "24S2.1"|transcript_id "24S2.2.5"|transcript_id "72S1.8.1"|transcript_id "72S2.8.1"|transcript_id "4S2.3.1"|transcript_id "72S1.10.1"|transcript_id "24S1.12.1"|transcript_id "72S2.9.1"|transcript_id "72S1.1.1"|transcript_id "72S1.2.2"|transcript_id "72S3.1.1"|transcript_id "24S3.1.1"|transcript_id "24S1.1.2"|transcript_id "12S1.1.1"|transcript_id "24S2.10.1"|transcript_id "12S1.10.2"|transcript_id "24S2.2.1"|transcript_id "4S1.4.1"'
+duplicates <- 'gene_id "24S2.11"|gene_id "24S1.11"|gene_id "72S3.10"|transcript_id "24S1.2.1"|transcript_id "24S3.2.5"|gene_id "12S1.2"|transcript_id "24S1.1.1"|gene_id "24S2.1"|transcript_id "24S2.2.5"|transcript_id "72S1.8.1"|transcript_id "72S2.8.1"|transcript_id "4S2.3.1"|transcript_id "72S1.10.1"|transcript_id "24S1.12.1"|transcript_id "72S2.9.1"|transcript_id "72S1.1.1"|transcript_id "72S3.2.1"|transcript_id "72S3.1.1"|transcript_id "24S3.1.1"|transcript_id "24S1.1.2"|transcript_id "12S1.1.1"|transcript_id "24S2.10.1"|transcript_id "12S1.10.2"|transcript_id "24S2.2.1"|transcript_id "4S1.4.1"'
 
 filter_real_transcripts <- merged_gtf %>% 
   filter(!str_detect(X9,"ref_gene_name")) %>% 
   filter(!str_detect(X9, duplicates)) %>%
-  arrange(X4)
+  group_by(X7) %>% 
+  arrange(X4, .by_group = T)
 
 # save modified .gtf
 write.table(filter_real_transcripts, "results/stringtie/all_real_transcripts_merged.gtf",
