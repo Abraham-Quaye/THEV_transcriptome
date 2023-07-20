@@ -279,6 +279,16 @@ rule make_coverage_figures:
     shell:
        "{input.r_script1}"
 
+#################### PLOT THEV GENOMIC MAP ############
+rule make_orf_map:
+    input:
+        r_script = "scripts/r/thev_orf_map.R",
+        bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
+    output:
+        "results/r/figures/thev_orf_map.png"
+    shell:
+       "{input.r_script}"
+
 ################# MAP UNINFECTED READS ############################
 # rule uninfected_map:
 #     input:
@@ -397,10 +407,13 @@ rule write_manuscript:
         "results/thev_genomic_map.png",
         "asm.csl",
         "transcriptome_refs.bib",
+        "scripts/r/bam_file_analysis.R",
+        rules.bulk_count_junctions.output,
         rules.total_bulk_coverage.output,
         rules.count_total_reads.output,
         rules.make_coverage_figures.output,
-        rules.make_growth_curve.output
+        rules.make_growth_curve.output,
+        rules.make_orf_map.output,
     output:
         "manuscript_thev_transcriptome.pdf",
         "manuscript_thev_transcriptome.docx"
@@ -412,24 +425,8 @@ rule write_manuscript:
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:
     input:
-        rules.build_genome_index.output,
-        rules.map_sort_to_bam.output,
-        rules.index_bam_files.output,
-        rules.filter_thev.output,
-        rules.index_subset_bam.output,
-        rules.make_transcripts.output,
-        rules.merge_gtfs.output,
         rules.remove_duplicate_transcripts.output,
         rules.count_junctions.output,
-        rules.bulk_map_sort_to_bam.output,
-        rules.bulk_index.output,
-        rules.total_bulk_coverage.output,
-        rules.filter_bulk_thev.output,
-        rules.bulk_subset_index.output,
-        rules.bulk_depth.output,
-        rules.bulk_count_junctions.output,
-        rules.count_total_reads.output,
-        rules.make_coverage_figures.output,
         rules.write_manuscript.output
         # rules.uninfected_map.output,
         # rules.uninfected_single_index.output,

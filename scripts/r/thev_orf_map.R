@@ -1,0 +1,108 @@
+#!/usr/bin/env Rscript
+
+
+library(magrittr)
+library(ggtext)
+library(tidyverse)
+
+## position the plus strand genes above genome line and minus strand genes below
+make_genomic_map2 <- function(bedfile){
+  genus_specific <- c("ORF1", "Hyd", "E3", "ORF7", "ORF8")
+  thev_genome2 <- read_tsv(bedfile,
+                          col_names = FALSE,
+                          col_types = "ciiciciicicc") %>% 
+    set_colnames(c("chr", "start", "end", "gene_name", "score", "strand", "thickStart",
+                   "thickEnd", "color", "blockCount", "blockSizes", "blockStarts")) %>% 
+    mutate(exon1Size = str_replace(blockSizes, pattern = "(\\d+),\\d+", replacement = "\\1"),
+           exon1Size = as.numeric(exon1Size),
+           exon2Size = str_replace(blockSizes, pattern = "\\d+,(\\d+)", replacement = "\\1"),
+           exon2Size  = as.numeric(exon2Size),
+           exon2Size = ifelse(exon2Size == exon1Size, NA_real_, exon2Size),
+           exon1start = thickStart,
+           exon1end = ifelse(blockCount > 1, (start + exon1Size), thickEnd),
+           exon2start = thickEnd - exon2Size,
+           exon2end = thickEnd,
+           color = "#6D58F5",
+           color = ifelse(gene_name %in% genus_specific, "red", color),
+           color = ifelse(gene_name == "U exon", "skyblue", color),
+           color = ifelse(gene_name == "22K", "green", color),
+           gene_name = case_match(gene_name,
+                                  "33K_spliced" ~ "33K",
+                                  "pVIII gene" ~ "pVIII",
+                                  .default = gene_name),
+           ypos = ifelse(strand == "-", c(22, 23), c(26, 27)),
+           ypos = ifelse(gene_name == "22K", 28, ypos))
+  
+  spliced2 <- thev_genome2 %>% filter(blockCount > 1)
+  
+  genome_ruler <- tibble(x = seq(0,26000,2000),
+                         y = 24.8,
+                         yend = 25.3,
+                         lab = paste0(seq(0,26, 2), "kb"))
+  
+  shade_regions <- tribble(~xmin, ~xmax, ~ymin, ~ymax,
+                           0, thev_genome2$end[2], 20, 30,
+                           thev_genome2$start[19], thev_genome2$end[19], 20, 30,
+                           thev_genome2$start[22], 26266, 20, 30
+                           )
+  
+  trxpt_units <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
+                         0, thev_genome2$end[2], 19.5, "E1", 19,
+                         thev_genome2$start[19], thev_genome2$end[19], 19.5, "E3", 19,
+                         thev_genome2$start[22], 26266, 19.5, "E4", 19,
+                         thev_genome2$start[3], thev_genome2$end[3], 19.5, "IM", 19,
+                         thev_genome2$start[4], thev_genome2$exon1end[4], 19.5, "E2B", 19,
+                         thev_genome2$start[14], thev_genome2$end[14], 19.5, "E2A", 19
+                         )
+
+  ggplot(thev_genome2) +
+    geom_rect(data = shade_regions,
+              aes(NULL, NULL, xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+              alpha = 0.15) +
+    # line representing whole genome
+    geom_segment(aes(x = 0, xend = 26266, y = 25, yend = 25),
+                 linewidth = 3.5, color = "black") +
+    # genome size marker
+    geom_segment(data = genome_ruler, aes(x = x, xend = x, y = y, yend = yend),
+                 color = "#ffffff", linewidth = 0.5) +
+    # genome size labels
+    geom_richtext(data = genome_ruler, aes(x = x, y = (y - 0.5), label = lab),
+                  label.size = NA, label.padding = unit(0, "pt"), fill = NA) +
+    # plot genes
+    geom_segment(aes(x = thickStart, xend = thickEnd, y = ypos, yend = ypos),
+                 color = thev_genome2$color, linetype = "dashed") +
+    geom_segment(aes(x = exon1start, xend = exon1end, y = ypos, yend = ypos),
+                 color = thev_genome2$color, linewidth = 7) +
+    geom_segment(data = spliced2, aes(x = exon2start, xend = exon2end, y = ypos, yend = ypos),
+                 color = spliced2$color, linewidth = 7) +
+    geom_text(aes(x = (thickStart + thickEnd)/2, y = ypos, label = gene_name),
+              fontface = "bold", size = 3.5) +
+    # transcription unit labels
+    geom_segment(data = trxpt_units, aes(x = x, xend = xend, y = y, yend = y),
+                 linewidth = 1, arrow = arrow(ends = "both", type = "closed",
+                                              angle = 25, length = unit(0.1, "inches"))) +
+    geom_text(data = trxpt_units, aes(x = (x + xend)/2, y = ylabb, label = labb),
+              fontface = "bold", size = 5) +
+    scale_x_continuous(expand = c(0.01,0.01),
+                       limits = c(0, 26400),
+                       breaks = seq(0,26000,2000), 
+                       labels = paste0(seq(0,26, 2), "kb")) +
+    scale_y_continuous(expand = c(0.01,0.01),
+                       limits = c(0, 50)) +
+    theme(plot.margin = margin(rep(15, 4)),
+          plot.background = element_rect(fill = "#ffffff"),
+          panel.background = element_rect(fill = "#ffffff"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major.y = element_blank(),
+          axis.title = element_blank(),
+          axis.text= element_blank(),
+          axis.line.x = element_blank(),
+          axis.ticks = element_blank(),
+    )
+}
+
+predicted_genemap <- make_genomic_map2("raw_files/annotations/THEVannotated_genesOnly.bed")
+
+ggsave(plot = predicted_genemap, filename = "results/r/figures/thev_orf_map.png",
+       dpi = 1000, width = 18, height = 12)
