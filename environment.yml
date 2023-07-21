@@ -22,6 +22,5 @@ dependencies:
   - r-ggtext=0.1.2
   - r-here=1.0.1
   - r-tinytex=0.44
-  - r-kableExtra=1.3.4
   - r-gt=0.9.0
   - snakemake=7.24.0

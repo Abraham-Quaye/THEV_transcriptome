@@ -65,12 +65,12 @@ source("scripts/r/bam_file_analysis.R")
 cov_thev <- all_covs %>% filter(organism == "thev")
 
 cov_4hr <- cov_thev %>% filter(timepoint == "4hpi") %>%
-              select(total_mapped) %>% pull()
+              select(total_mapped) %>% pull() %>% as.numeric(.)
 cov_72hr <- cov_thev %>% filter(timepoint == "72hpi") %>%
-              select(total_mapped) %>% pull()
+              select(total_mapped) %>% pull() %>% as.numeric(.)
 cov_72hr <- round(cov_72hr / 1e6, 1)
 
-total_mapped <- round(sum(cov_thev$total_mapped) / 1e6, 1)
+total_mapped <- round(sum(as.numeric(cov_thev$total_mapped)) / 1e6, 1)
 
 avg_tot_count <- round(mean(total_reads$total_reads) / 1e6, 1)
 ```
@@ -153,10 +153,7 @@ tab1 %>%
   gt(rowname_col = "Metric") %>% 
   tab_header(title = md("**Table 1**"),
              subtitle = "Summary of sequence alignment metrics") %>%
-  opt_align_table_header(align = "left") %>% 
-  fmt_number(suffixing = T,
-             rows = everything(),
-             columns = everything()) %>% 
+  opt_align_table_header(align = "left") %>%
   cols_width(Metric ~ px(150)) %>% 
   opt_row_striping(row_striping = T) %>% 
   tab_options(table.layout = "auto",
