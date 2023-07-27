@@ -1,7 +1,6 @@
 # Raw files
 raw_files/annotations/turkey*
-raw_files/genome_file/turkey*
-raw_files/genome_file/mp_chr*
+raw_files/genome_file/*
 raw_files/host_virus_genome_index/*
 
 # R coding

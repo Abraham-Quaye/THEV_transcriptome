@@ -50,7 +50,7 @@ make_genomic_map <- function(bedfile){
                        breaks = seq(0,26000,2000), 
                        labels = paste0(seq(0,26, 2), "kb")) +
     scale_y_continuous(expand = c(0, 0),
-                       limits = c(0, 20)) +
+                       limits = c(0, 1.6)) +
     theme(plot.margin = margin(rep(15, 4)),
           plot.background = element_blank(),
           panel.background = element_blank(),

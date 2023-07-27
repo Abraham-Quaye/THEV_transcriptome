@@ -22,7 +22,8 @@ rule extract_splice_site:
         hostgtf = "raw_files/annotations/turkey_genome.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.ss",
-        "raw_files/annotations/turkey_genome.ss"
+        "raw_files/annotations/turkey_genome.ss",
+        "raw_files/annotations/host_thev.ss"
     shell:
         "{input.script}"
 
@@ -34,7 +35,8 @@ rule extract_exons:
         hostgtf = "raw_files/annotations/turkey_genome.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.exons",
-        "raw_files/annotations/turkey_genome.exons"
+        "raw_files/annotations/turkey_genome.exons",
+        "raw_files/annotations/host_thev.exons"
     shell:
         "{input.script}"
 
@@ -42,10 +44,9 @@ rule extract_exons:
 rule build_genome_index:
     input:
         script = "scripts/zsh/build_genome_index.zsh",
-        # ss = "raw_files/annotations/host_thev.ss",
-        # exon = "raw_files/annotations/host_thev.exons",
-        thevgenome = "raw_files/genome_file/AY849321.1.fa",
-        hostgenome = "raw_files/genome_file/turkey_genome.fa"
+        ss = "raw_files/annotations/host_thev.ss",
+        exon = "raw_files/annotations/host_thev.exons",
+        mix_genome = "raw_files/genome_file/mix_genomes.fa"
     output:
         expand("raw_files/host_virus_genome_index/mix_tran.{n}.ht2", \
         n = range(1,9))
