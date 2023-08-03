@@ -122,13 +122,17 @@ rule make_transcripts:
         bam = rules.filter_thev.output
     output:
         expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
-        time = [4, 24, 72], rep = [1, 2, 3]),
+        time = [24, 72], rep = [1, 2, 3]),
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
         rep = [1, 3]),
+        expand("results/stringtie/thev_4hrsS{rep}.gtf", \
+        rep = [1, 2]),
         expand("results/stringtie/t{time}S{rep}.tab", \
-        time = [4, 24, 72], rep = [1, 2, 3]),
+        time = [24, 72], rep = [1, 2, 3]),
         expand("results/stringtie/t12S{rep}.tab", \
-        rep = [1, 3])
+        rep = [1, 3]),
+        expand("results/stringtie/t4S{rep}.tab", \
+        rep = [1, 2])
     shell:
         "{input.script}"
 
