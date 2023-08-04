@@ -1,0 +1,14 @@
+AY849321.1	StringTie	transcript	7401	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; cov "2.060748"; FPKM "61682.425781"; TPM "78292.148438";
+AY849321.1	StringTie	exon	7401	7531	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "1"; cov "2.038168";
+AY849321.1	StringTie	exon	7754	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "2"; cov "2.096385";
+AY849321.1	StringTie	transcript	16972	18746	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; cov "2.941931"; FPKM "88058.039062"; TPM "111770.132812";
+AY849321.1	StringTie	exon	16972	18087	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "1"; cov "2.896599";
+AY849321.1	StringTie	exon	18159	18189	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "2"; cov "3.097375";
+AY849321.1	StringTie	exon	18684	18746	1000	-	.	gene_id "4S1.4"; transcript_id "4S1.4.1"; exon_number "3"; cov "3.668474";
+AY849321.1	StringTie	transcript	18241	20732	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; cov "2.001704"; FPKM "59915.109375"; TPM "76048.937500";
+AY849321.1	StringTie	exon	18241	18350	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; exon_number "1"; cov "3.178298";
+AY849321.1	StringTie	exon	20162	20732	1000	+	.	gene_id "4S1.5"; transcript_id "4S1.5.1"; exon_number "2"; cov "1.775040";
+AY849321.1	StringTie	transcript	16959	18722	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; cov "1.801042"; FPKM "67399.218750"; TPM "80961.640625";
+AY849321.1	StringTie	exon	16959	18087	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "1"; cov "1.730146";
+AY849321.1	StringTie	exon	18159	18189	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "2"; cov "3.315849";
+AY849321.1	StringTie	exon	18684	18722	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "3"; cov "2.649310";

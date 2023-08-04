@@ -140,23 +140,41 @@ rule make_transcripts:
 rule merge_gtfs:
     input:
         expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
-        time = [4, 24, 72], rep = [1, 2, 3]),
+        time = [24, 72], rep = [1, 2, 3]),
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
-        rep = [1, 3])
+        rep = [1, 3]),
+        expand("results/stringtie/thev_4hrsS{rep}.gtf", \
+        rep = [1, 2])
     output:
         "results/stringtie/all_merged.gtf"
     shell:
         "cat {input} > {output}"
 
 ##################### FILTER FOR REAL TRANSCRIPTS (REMOVE PREDICTED ORFs) ######
-rule remove_duplicate_transcripts:
+rule split_timepoint_transcripts:
     input:
         r_script = "scripts/r/filter_real_transcripts.R",
         all_gtf = rules.merge_gtfs.output
     output:
-        "results/stringtie/all_real_transcripts_merged.gtf"
+        expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
+        tp = [4, 12, 24, 72])
     shell:
         "{input.r_script}"
+
+############## GFFCOMPARE TO GENERATE FINAL TRANSCRIPTOME ##############
+rule make_unredundant_transcriptome:
+    input:
+        gtfs = rules.split_timepoint_transcripts.output,
+        script = "scripts/zsh/gffcompare.zsh",
+        orfs = "raw_files/annotations/thev_from_NCBI.gtf"
+    output:
+        expand("results/gffcompare/gffcomp_alltimes.{metric}", \
+        metric = ["combined.gtf", "loci", "stats", "tracking"])
+    shell:
+        """
+        {input.script}
+        mv results/stringtie/gffcomp_alltimes.* results/gffcompare/
+        """
 
 #################### COUNT ALL SPLICE JUNCTIONS ####################
 rule count_junctions:
@@ -430,15 +448,7 @@ rule write_manuscript:
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:
     input:
-        rules.remove_duplicate_transcripts.output,
+        rules.make_unredundant_transcriptome.output,
         rules.count_junctions.output,
         rules.write_manuscript.output
-        # rules.uninfected_map.output,
-        # rules.uninfected_single_index.output,
-        # rules.uninfected_assemble.output,
-        # rules.uninfected_map_to_bam.output,
-        # rules.uninfected_index.output,
-        # rules.uninfected_coverage.output,
-        # rules.uninfected_depth.output,
-        # rules.uninfected_coverage_figures.output,
         
