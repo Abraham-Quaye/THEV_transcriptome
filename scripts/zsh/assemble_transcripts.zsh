@@ -2,7 +2,7 @@
 
 
 mapdir=results/hisat2
-GTF=raw_files/annotations/thev_from_NCBI.gtf
+GTF=raw_files/annotations/thev_predicted_genes.gtf
 assembled=results/stringtie
 
 
@@ -13,7 +13,7 @@ stringtie -p 10 $mapdir/thev_subset_72hrsS1.bam -t -a 1 -A $assembled/t72S1.tab 
 stringtie -p 10 $mapdir/thev_subset_72hrsS2.bam -t -a 1 -A $assembled/t72S2.tab -G $GTF -l 72S2 -o $assembled/thev_72hrsS2.gtf &&
 stringtie -p 10 $mapdir/thev_subset_72hrsS3.bam -t -a 1 -g 1 -j 0.0001 -A $assembled/t72S3.tab -G $GTF -l 72S3 -o $assembled/thev_72hrsS3.gtf
 
-stringtie -p 10 $mapdir/thev_subset_24hrsS1.bam -t -a 1 -A $assembled/t24S1.tab -G $GTF -l 24S1 -o $assembled/thev_24hrsS1.gtf &
+stringtie -p 10 $mapdir/thev_subset_24hrsS1.bam -t -a 1 -f 0.02 -A $assembled/t24S1.tab -G $GTF -l 24S1 -o $assembled/thev_24hrsS1.gtf &
 stringtie -p 10 $mapdir/thev_subset_24hrsS2.bam -t -a 1 -A $assembled/t24S2.tab -G $GTF -l 24S2 -o $assembled/thev_24hrsS2.gtf &&
 stringtie -p 10 $mapdir/thev_subset_24hrsS3.bam -t -a 1 -A $assembled/t24S3.tab -G $GTF -l 24S3 -o $assembled/thev_24hrsS3.gtf
 

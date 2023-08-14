@@ -32,3 +32,5 @@ trimmedReads/*
 
 
 *.fai
+
+results/ballgown/*

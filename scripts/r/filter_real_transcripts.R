@@ -16,12 +16,25 @@ library(tidyverse)
 merged_gtf <- read_tsv("results/stringtie/all_merged.gtf",
                        comment = "#",
                        col_names = FALSE,
-                       show_col_types = FALSE)
+                       show_col_types = FALSE) 
+
+duplicates <- 'gene_id "24S2.11"|gene_id "24S1.11"|gene_id "72S3.10"|transcript_id "24S3.2.5"|gene_id "12S1.2"|transcript_id "24S1.1.1"|gene_id "24S2.1"|transcript_id "24S2.2.5"|transcript_id "72S1.8.1"|transcript_id "72S2.8.1"|transcript_id "4S2.3.1"|transcript_id "72S1.10.1"|transcript_id "24S1.12.1"|transcript_id "72S2.9.1"|transcript_id "72S1.1.1"|transcript_id "72S3.1.1"|transcript_id "24S3.1.1"|transcript_id "24S1.1.2"|transcript_id "12S1.1.1"|transcript_id "24S2.10.1"|transcript_id "12S1.10.2"|transcript_id "24S2.2.1"|transcript_id "4S1.4.1"|transcript_id "24S2.2.2"|transcript_id "24S3.2.1"|transcript_id "72S1.12.1"|transcript_id "24S1.2.4"|transcript_id "12S1.11.3"|transcript_id "24S3.11.1"|transcript_id "72S1.13.1"|transcript_id "72S1.13.2"|transcript_id "24S1.14.1"|transcript_id "12S1.4.2"'
+
+filter_real_transcripts <- merged_gtf %>% 
+  filter(str_detect(X9, "reference_id", negate = T)) %>%
+  filter(!str_detect(X9, duplicates)) %>%
+  group_by(X7) %>% 
+  arrange(X4, .by_group = T)
+
+# save modified .gtf of all unique transcripts across all time-points
+write.table(filter_real_transcripts, "results/stringtie/all_real_transcripts_merged.gtf",
+            col.names = FALSE, row.names = FALSE, sep = "\t", quote = FALSE)
+
 
 # function to filter any given time-point
 sub_timepoint <- function(timepoint){
   out <- merged_gtf %>%
-    filter(str_detect(X9, "ref_gene_name", negate = T)) %>% 
+    filter(str_detect(X9, "reference_id", negate = T)) %>%
     filter(str_detect(X9, paste0('gene_id\\s"', timepoint)))
   
   # save filtered results

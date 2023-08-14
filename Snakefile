@@ -1,14 +1,27 @@
 
+################# CONVERT .BED TO GFF AND MOVE AGAT LOGFILE ###########
+rule make_gff:
+    input:
+        script = "scripts/zsh/make_gff.zsh",
+        r_script = "scripts/r/trim_gff.R",
+        bed = "raw_files/annotations/THEVannotated_genesOnly.bed"
+    output:
+        "raw_files/annotations/thev_predicted_genes.gff"
+    shell:
+        """
+        {input.script}
+        Rscript scripts/r/trim_gff.R
+        """
 
 ################# CONVERT .GFF3 TO GTF AND MOVE AGAT LOGFILE ###########
 rule make_gtf:
     input:
         script = "scripts/zsh/make_gtf.zsh",
-        thevgff = "raw_files/annotations/thev_from_NCBI.gff3",
+        thevgff = rules.make_gff.output,
         hostgff = "raw_files/annotations/turkey_genome.gff"
     output:
-        "raw_files/annotations/thev_from_NCBI.gtf",
-        "raw_files/annotations/thev_from_NCBI.agat.log",
+        "raw_files/annotations/thev_predicted_genes.gtf",
+        "raw_files/annotations/thev_predicted_genes.agat.log",
         "raw_files/annotations/turkey_genome.gtf",
         "raw_files/annotations/turkey_genome.agat.log"
     shell:
@@ -18,7 +31,7 @@ rule make_gtf:
 rule extract_splice_site:
     input:
         script = "scripts/zsh/extract_ss.zsh",
-        thevgtf = "raw_files/annotations/thev_from_NCBI.gtf",
+        thevgtf = "raw_files/annotations/thev_predicted_genes.gtf",
         hostgtf = "raw_files/annotations/turkey_genome.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.ss",
@@ -30,15 +43,19 @@ rule extract_splice_site:
 ################### EXTRACT EXONS ####################
 rule extract_exons:
     input:
-        script = "scripts/zsh/extract_exons.zsh",
-        thevgtf = "raw_files/annotations/thev_from_NCBI.gtf",
+        bash_script = "scripts/zsh/extract_exons.zsh",
+        r_script = "scripts/r/extract_thev_exons.R",
+        thevgtf = "raw_files/annotations/thev_predicted_genes.gtf",
         hostgtf = "raw_files/annotations/turkey_genome.gtf"
     output:
         "raw_files/annotations/thev_predicted_genes.exons",
         "raw_files/annotations/turkey_genome.exons",
         "raw_files/annotations/host_thev.exons"
     shell:
-        "{input.script}"
+        """
+        {input.r_script}
+        {input.bash_script}
+        """
 
 #################### BUILD THEV GENOMIC INDEX FOR MAPPING WITH HISAT2 ######
 rule build_genome_index:
@@ -118,7 +135,7 @@ rule index_subset_bam:
 rule make_transcripts:
     input:
         script = "scripts/zsh/assemble_transcripts.zsh",
-        gtf = "raw_files/annotations/thev_from_NCBI.gtf",
+        gtf = "raw_files/annotations/thev_predicted_genes.gtf",
         bam = rules.filter_thev.output
     output:
         expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
@@ -156,6 +173,7 @@ rule split_timepoint_transcripts:
         r_script = "scripts/r/filter_real_transcripts.R",
         all_gtf = rules.merge_gtfs.output
     output:
+        "results/stringtie/all_real_transcripts_merged.gtf",
         expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
         tp = [4, 12, 24, 72])
     shell:
@@ -164,9 +182,10 @@ rule split_timepoint_transcripts:
 ############## GFFCOMPARE TO GENERATE FINAL TRANSCRIPTOME ##############
 rule make_unredundant_transcriptome:
     input:
-        gtfs = rules.split_timepoint_transcripts.output,
+        gtfs = expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
+        tp = [4, 12, 24, 72]),
         script = "scripts/zsh/gffcompare.zsh",
-        orfs = "raw_files/annotations/thev_from_NCBI.gtf"
+        orfs = "raw_files/annotations/thev_predicted_genes.gtf"
     output:
         expand("results/gffcompare/gffcomp_alltimes.{metric}", \
         metric = ["combined.gtf", "loci", "stats", "tracking"])
@@ -175,6 +194,18 @@ rule make_unredundant_transcriptome:
         {input.script}
         mv results/stringtie/gffcomp_alltimes.* results/gffcompare/
         """
+
+############## ESTIMATE TRANSCRIPT ABUNDANCES##############
+rule est_abundances:
+    input:
+        script = "scripts/zsh/est_trxpt_abund.zsh",
+        bams = rules.filter_thev.output,
+        ref = "results/stringtie/all_real_transcripts_merged.gtf",
+    output:
+        expand("results/ballgown/abund_{s}/abund_{s}.gtf", \
+        s = ["72hrsS1", "72hrsS2", "72hrsS3", "24hrsS1", "24hrsS2", "24hrsS3", "12hrsS1", "12hrsS3", "4hrsS1", "4hrsS2"])
+    shell:
+        "{input.script}"
 
 #################### COUNT ALL SPLICE JUNCTIONS ####################
 rule count_junctions:
@@ -427,7 +458,6 @@ rule make_growth_curve:
 rule write_manuscript:
     input:
         "manuscript_thev_transcriptome.Rmd",
-        "results/thev_genomic_map.png",
         "asm.csl",
         "transcriptome_refs.bib",
         "scripts/r/bam_file_analysis.R",
@@ -438,7 +468,7 @@ rule write_manuscript:
         rules.make_growth_curve.output,
         rules.make_orf_map.output,
     output:
-        "manuscript_thev_transcriptome.pdf",
+        "manuscript_thev_transcriptome.html",
         "manuscript_thev_transcriptome.docx"
     shell:
         """
@@ -449,6 +479,7 @@ rule write_manuscript:
 rule run_pipeline:
     input:
         rules.make_unredundant_transcriptome.output,
+        rules.est_abundances.output,
         rules.count_junctions.output,
         rules.write_manuscript.output
         

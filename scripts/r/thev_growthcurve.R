@@ -11,7 +11,9 @@ replicate_data <- read_excel(exp2,
                           sheet = "Results",
                           skip = 6,
                           trim_ws = TRUE) %>% 
-  rename(well = "Well", sample_name = "Sample Name", conc = "Quantity") %>%
+  dplyr::rename(well = "Well",
+                sample_name = "Sample Name",
+                conc = "Quantity") %>%
   select(well, sample_name, conc) %>% 
   drop_na(sample_name) %>% 
   mutate(sample_name = str_replace(string = sample_name,
@@ -105,7 +107,9 @@ rep1_data <- read_excel(exp1,
                         sheet = "Results",
                         skip = 6,
                         trim_ws = TRUE) %>% 
-  rename(well = "Well", sample_name = "Sample Name",task = "Task", conc = "Quantity") %>% 
+  dplyr::rename(well = "Well",
+                sample_name = "Sample Name",
+                task = "Task", conc = "Quantity") %>% 
   select(well, task, sample_name, conc) %>% 
   drop_na(sample_name) %>% 
   filter(!str_detect(sample_name, ".*DNA.*")) %>% 
@@ -144,15 +148,14 @@ growth_curve <- full_prepped %>%
   geom_point(size = 5) +
   geom_line(linewidth  = 1.5) +
   scale_color_aaas(breaks = c("Inf", "Neg"),
-                   labels = c("Infected", "Mock-Infected"),
-                   guide = guide_legend(title = "Treatment")) +
+                   labels = c("Infected", "Mock-Infected")) +
   scale_x_continuous(expand = c(0.01, 0.01),
                      breaks = full_prepped$hrs_pi,
                      labels = c(paste(full_prepped$hrs_pi, "hpi"))) +
   scale_y_continuous(expand = c(0.02, 0.02)) +
   labs(title = "THEV One-Step Growth Curve in RP-19 Turkey B-Cells",
        x = element_blank(),
-       y = "Virus Titer (GCN/\U00B5L)",
+       y = "Virus Titer (GCN/mL)",
        size = element_blank()
   ) +
   theme(plot.background = element_rect(fill = "#ffffff"),
@@ -174,8 +177,7 @@ growth_curve <- full_prepped %>%
         axis.title.y = element_text(size = 22, face = "bold", colour = "#000000",
                                     margin = margin(r = 10)),
         axis.ticks.length.y = unit(0, "cm"),
-        legend.title = element_text(size = 18, face = "bold", colour = "#000000",
-                                    hjust = 0.5),
+        legend.title = element_blank(),
         legend.text = element_text(size = 14, face = "bold", colour = "#000000",
                                    margin = margin(rep(5, 4))),
         legend.key = element_rect(fill = "#ffffff",

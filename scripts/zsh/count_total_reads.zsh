@@ -5,12 +5,12 @@ mapdir=results/hisat2/bulk
 
 echo "counting total reads"
 echo "total_reads" > $countfile ;
-samtools view -c $mapdir/sortedTHEV_4hrsSamples.bam >> $countfile ;
+samtools view -c -F 0x900 $mapdir/sortedTHEV_4hrsSamples.bam >> $countfile ;
 
-samtools view -c $mapdir/sortedTHEV_12hrsSamples.bam >> $countfile ;
+samtools view -c -F 0x900 $mapdir/sortedTHEV_12hrsSamples.bam >> $countfile ;
 
-samtools view -c $mapdir/sortedTHEV_24hrsSamples.bam >> $countfile ;
+samtools view -c -F 0x900 $mapdir/sortedTHEV_24hrsSamples.bam >> $countfile ;
 
-samtools view -c $mapdir/sortedTHEV_72hrsSamples.bam >> $countfile ;
+samtools view -c -F 0x900 $mapdir/sortedTHEV_72hrsSamples.bam >> $countfile ;
 
 echo "counting reads complete"

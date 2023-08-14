@@ -4,7 +4,7 @@
 |   https://github.com/NBISweden/AGAT                                          |
 |   National Bioinformatics Infrastructure Sweden (NBIS) - www.nbis.se         |
  ------------------------------------------------------------------------------
-                            03/16/2023 at 14h58m33s                             
+                            08/07/2023 at 16h44m13s                             
 
 ********************************************************************************
 *                              - Start parsing -                               *
@@ -30,17 +30,17 @@ Using standard /opt/anaconda3/envs/rnaseq/lib/perl5/site_perl/auto/share/dist/AG
 The feature type (3rd column) is constrained to be either a term from the Sequence Ontology or an SO accession number. The latter alternative is distinguished using the syntax SO:000000. In either case, it must be sequence_feature (SO:0000110) or an is_a child of it.
 We filter the ontology to apply this rule.		We found 1861 terms that are sequence_feature or is_a child of it.
 --------------------------------- parsing file ---------------------------------
-=> Number of line in file: 99
-=> Number of comment lines: 1
+=> Number of line in file: 75
+=> Number of comment lines: 0
 => Fasta included: No
-=> Number of features lines: 98
-=> Number of feature type (3rd column): 5
+=> Number of features lines: 75
+=> Number of feature type (3rd column): 3
 	* Level1: 1 => gene
 	* level2: 0 => 
-	* level3: 4 => three_prime_UTR five_prime_UTR exon CDS
+	* level3: 2 => exon CDS
 	* unknown: 0 => 
 =>Check because only level3 features:
- * Number of feature with Parent attribute:75
+ * Number of feature with Parent attribute:52
  * Number of feature with a common attribute:0
   => Some common attributes and some Parent attributes missing.
   /!\ For features where both are missing A single Level2 features (e.g. mRNA) and a single level1 (e.g. gene) will be created by AGAT, and all level3 feautres (e,g, CDS,exon) will be attached to them. This is probably not what you want...
@@ -50,7 +50,7 @@ We filter the ontology to apply this rule.		We found 1861 terms that are sequenc
 => Version of the Bioperl GFF parser selected by AGAT: 3
 ********************************************************************************
 *                               - End parsing -                                *
-*                              done in 1 seconds                               *
+*                              done in 0 seconds                               *
 ********************************************************************************
 
 ********************************************************************************
@@ -72,29 +72,29 @@ Nothing to check as sequential bucket!
 ------------------------------ done in 0 seconds -------------------------------
 
 --------------------------- Check4: l2 linked to l3 ----------------------------
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	313	1953	.	+	.	ID 1 ; Name ORF1 ; Parent "nbis-gene-1"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	12712	12888	.	+	.	ID 10 ; Name pX ; Parent "nbis-gene-2"  ; blockCount 1 ; blockSizes 177 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12888 ; thickStart 12711
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	12906	13601	.	+	.	ID 11 ; Name pVI ; Parent "nbis-gene-3"  ; blockCount 1 ; blockSizes 696 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 13601 ; thickStart 12905
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	13610	16330	.	+	.	ID 12 ; Name Hexon ; Parent "nbis-gene-4"  ; blockCount 1 ; blockSizes 2721 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 16330 ; thickStart 13609
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	16332	16976	.	+	.	ID 13 ; Name Protease ; Parent "nbis-gene-5"  ; blockCount 1 ; blockSizes 645 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 16976 ; thickStart 16331
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	16973	18186	.	-	.	ID 14 ; Name DBP ; Parent "nbis-gene-6"  ; blockCount 2 ; blockSizes "1115,28"  ; blockStarts "0,1186"  ; itemRgb "0,0,255"  ; thickEnd 18186 ; thickStart 16972
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	18230	20227	.	+	.	ID 15 ; Name 100K ; Parent "nbis-gene-7"  ; blockCount 1 ; blockSizes 1998 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 20227 ; thickStart 18229
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	20142	20699	.	+	.	ID 16 ; Name 33K_spliced ; Parent "nbis-gene-8"  ; blockCount 2 ; blockSizes "82,281"  ; blockStarts "0,277"  ; itemRgb "255,0,0"  ; thickEnd 20699 ; thickStart 20141
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	20142	20411	.	+	.	ID 17 ; Name 22K ; Parent "nbis-gene-9"  ; blockCount 1 ; blockSizes 270 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 20411 ; thickStart 20141
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	20769	21371	.	+	.	ID 18 ; Name "pVIII gene"  ; Parent "nbis-gene-10"  ; blockCount 1 ; blockSizes 603 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 21371 ; thickStart 20768
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	21247	22116	.	+	.	ID 19 ; Name E3 ; Parent "nbis-gene-11"  ; blockCount 1 ; blockSizes 870 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 22116 ; thickStart 21246
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	2098	2325	.	+	.	ID 2 ; Name Hyd ; Parent "nbis-gene-12"  ; blockCount 1 ; blockSizes 228 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 2325 ; thickStart 2097
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	22260	22520	.	-	.	ID 20 ; Name "U exon"  ; Parent "nbis-gene-13"  ; blockCount 1 ; blockSizes 261 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 22520 ; thickStart 22259
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	22520	23884	.	+	.	ID 21 ; Name Fiber ; Parent "nbis-gene-14"  ; blockCount 1 ; blockSizes 1365 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 23883 ; thickStart 22519
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	24512	25168	.	+	.	ID 22 ; Name ORF7 ; Parent "nbis-gene-15"  ; blockCount 1 ; blockSizes 657 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 25168 ; thickStart 24511
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	25204	25701	.	-	.	ID 23 ; Name ORF8 ; Parent "nbis-gene-16"  ; blockCount 1 ; blockSizes 498 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 25701 ; thickStart 25203
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	2334	3437	.	-	.	ID 3 ; Name IVa2 ; Parent "nbis-gene-17"  ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	3430	6768	.	-	.	ID 4 ; Name AdPOL ; Parent "nbis-gene-18"  ; blockCount 1 ; blockSizes 3339 ; blockStarts 0 ; itemRgb "0,0,255"  ; thickEnd 6768 ; thickStart 3429
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	6765	10995	.	-	.	ID 5 ; Name pTP ; Parent "nbis-gene-19"  ; blockCount 2 ; blockSizes "1779,15"  ; blockStarts "0,4216"  ; itemRgb "0,0,255"  ; thickEnd 10995 ; thickStart 6764
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	8570	9472	.	+	.	ID 6 ; Name 52K ; Parent "nbis-gene-20"  ; blockCount 1 ; blockSizes 903 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 9472 ; thickStart 8569
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	9462	10979	.	+	.	ID 7 ; Name pIIIa ; Parent "nbis-gene-21"  ; blockCount 1 ; blockSizes 1518 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 10979 ; thickStart 9461
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	11001	12347	.	+	.	ID 8 ; Name III ; Parent "nbis-gene-22"  ; blockCount 1 ; blockSizes 1347 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12347 ; thickStart 11000
-L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:THEV	AbQuaye	mRNA	12347	12709	.	+	.	ID 9 ; Name pVII ; Parent "nbis-gene-23"  ; blockCount 1 ; blockSizes 363 ; blockStarts 0 ; itemRgb "255,0,0"  ; thickEnd 12709 ; thickStart 12346
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	18230	20227	.	+	.	ID 100K ; Name 100K ; Parent "nbis-gene-1"  ; blockCount 1 ; blockSizes 1998 ; blockStarts 0 ; gene 100K ; itemRgb "255,0,0"  ; thickEnd 20227 ; thickStart 18229
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	20142	20411	.	+	.	ID 22K ; Name 22K ; Parent "nbis-gene-2"  ; blockCount 1 ; blockSizes 270 ; blockStarts 0 ; gene 22K ; itemRgb "255,0,0"  ; thickEnd 20411 ; thickStart 20141
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	20142	20699	.	+	.	ID 33K ; Name 33K ; Parent "nbis-gene-3"  ; blockCount 2 ; blockSizes "82,281"  ; blockStarts "0,277"  ; gene 33K ; itemRgb "255,0,0"  ; thickEnd 20699 ; thickStart 20141
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	8570	9472	.	+	.	ID 52K ; Name 52K ; Parent "nbis-gene-4"  ; blockCount 1 ; blockSizes 903 ; blockStarts 0 ; gene 52K ; itemRgb "255,0,0"  ; thickEnd 9472 ; thickStart 8569
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	3430	6768	.	-	.	ID AdPOL ; Name AdPOL ; Parent "nbis-gene-5"  ; blockCount 1 ; blockSizes 3339 ; blockStarts 0 ; gene AdPOL ; itemRgb "0,0,255"  ; thickEnd 6768 ; thickStart 3429
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	16973	18186	.	-	.	ID DBP ; Name DBP ; Parent "nbis-gene-6"  ; blockCount 2 ; blockSizes "1115,28"  ; blockStarts "0,1186"  ; gene DBP ; itemRgb "0,0,255"  ; thickEnd 18186 ; thickStart 16972
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	21247	22116	.	+	.	ID E3 ; Name E3 ; Parent "nbis-gene-7"  ; blockCount 1 ; blockSizes 870 ; blockStarts 0 ; gene E3 ; itemRgb "255,0,0"  ; thickEnd 22116 ; thickStart 21246
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	22520	23884	.	+	.	ID Fiber ; Name Fiber ; Parent "nbis-gene-8"  ; blockCount 1 ; blockSizes 1365 ; blockStarts 0 ; gene Fiber ; itemRgb "255,0,0"  ; thickEnd 23883 ; thickStart 22519
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	13610	16330	.	+	.	ID Hexon ; Name Hexon ; Parent "nbis-gene-9"  ; blockCount 1 ; blockSizes 2721 ; blockStarts 0 ; gene Hexon ; itemRgb "255,0,0"  ; thickEnd 16330 ; thickStart 13609
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	2098	2325	.	+	.	ID Hyd ; Name Hyd ; Parent "nbis-gene-10"  ; blockCount 1 ; blockSizes 228 ; blockStarts 0 ; gene Hyd ; itemRgb "255,0,0"  ; thickEnd 2325 ; thickStart 2097
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	11001	12347	.	+	.	ID III ; Name III ; Parent "nbis-gene-11"  ; blockCount 1 ; blockSizes 1347 ; blockStarts 0 ; gene III ; itemRgb "255,0,0"  ; thickEnd 12347 ; thickStart 11000
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	2334	3437	.	-	.	ID IVa2 ; Name IVa2 ; Parent "nbis-gene-12"  ; blockCount 1 ; blockSizes 1104 ; blockStarts 0 ; gene IVa2 ; itemRgb "0,0,255"  ; thickEnd 3437 ; thickStart 2333
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	313	1953	.	+	.	ID ORF1 ; Name ORF1 ; Parent "nbis-gene-13"  ; blockCount 1 ; blockSizes 1641 ; blockStarts 0 ; gene ORF1 ; itemRgb "255,0,0"  ; thickEnd 1953 ; thickStart 312
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	24512	25168	.	+	.	ID ORF7 ; Name ORF7 ; Parent "nbis-gene-14"  ; blockCount 1 ; blockSizes 657 ; blockStarts 0 ; gene ORF7 ; itemRgb "255,0,0"  ; thickEnd 25168 ; thickStart 24511
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	25204	25701	.	-	.	ID ORF8 ; Name ORF8 ; Parent "nbis-gene-15"  ; blockCount 1 ; blockSizes 498 ; blockStarts 0 ; gene ORF8 ; itemRgb "0,0,255"  ; thickEnd 25701 ; thickStart 25203
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	9462	10979	.	+	.	ID pIIIa ; Name pIIIa ; Parent "nbis-gene-16"  ; blockCount 1 ; blockSizes 1518 ; blockStarts 0 ; gene pIIIa ; itemRgb "255,0,0"  ; thickEnd 10979 ; thickStart 9461
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	16332	16976	.	+	.	ID Protease ; Name Protease ; Parent "nbis-gene-17"  ; blockCount 1 ; blockSizes 645 ; blockStarts 0 ; gene Protease ; itemRgb "255,0,0"  ; thickEnd 16976 ; thickStart 16331
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	6765	10995	.	-	.	ID pTP ; Name pTP ; Parent "nbis-gene-18"  ; blockCount 2 ; blockSizes "1779,15"  ; blockStarts "0,4216"  ; gene pTP ; itemRgb "0,0,255"  ; thickEnd 10995 ; thickStart 6764
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	12906	13601	.	+	.	ID pVI ; Name pVI ; Parent "nbis-gene-19"  ; blockCount 1 ; blockSizes 696 ; blockStarts 0 ; gene pVI ; itemRgb "0,0,0"  ; thickEnd 13601 ; thickStart 12905
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	12347	12709	.	+	.	ID pVII ; Name pVII ; Parent "nbis-gene-20"  ; blockCount 1 ; blockSizes 363 ; blockStarts 0 ; gene pVII ; itemRgb "255,0,0"  ; thickEnd 12709 ; thickStart 12346
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	20769	21371	.	+	.	ID pVIII ; Name pVIII ; Parent "nbis-gene-21"  ; blockCount 1 ; blockSizes 603 ; blockStarts 0 ; gene pVIII ; itemRgb "255,0,0"  ; thickEnd 21371 ; thickStart 20768
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	12712	12888	.	+	.	ID pX ; Name pX ; Parent "nbis-gene-22"  ; blockCount 1 ; blockSizes 177 ; blockStarts 0 ; gene pX ; itemRgb "255,0,0"  ; thickEnd 12888 ; thickStart 12711
+L3 was directly linked to L1. Corrected by creating the intermediate L2 feature from L1 feature:AY849321.1	Genbank	mRNA	22260	22520	.	-	.	ID UXP ; Name UXP ; Parent "nbis-gene-23"  ; blockCount 1 ; blockSizes 261 ; blockStarts 0 ; gene UXP ; itemRgb "0,0,255"  ; thickEnd 22520 ; thickStart 22259
 23 cases fixed where L3 features have parent feature(s) missing
 ------------------------------ done in 0 seconds -------------------------------
 
@@ -122,31 +122,11 @@ No level2 locations modified
 ------------------------------ done in 0 seconds -------------------------------
 
 ----------------------------- Check10: check utrs ------------------------------
-Remove 1 supernumerary UTRs for 1
-Remove 1 supernumerary UTRs for 10
-Remove 1 supernumerary UTRs for 11
-Remove 1 supernumerary UTRs for 12
-Remove 1 supernumerary UTRs for 13
-Remove 1 supernumerary UTRs for 14
-Remove 1 supernumerary UTRs for 15
-Remove 1 supernumerary UTRs for 16
-Remove 1 supernumerary UTRs for 17
-Remove 1 supernumerary UTRs for 18
-Remove 1 supernumerary UTRs for 19
-Remove 1 supernumerary UTRs for 2
-Remove 1 supernumerary UTRs for 20
-Remove 1 supernumerary UTRs for 22
-Remove 1 supernumerary UTRs for 23
-Remove 1 supernumerary UTRs for 3
-Remove 1 supernumerary UTRs for 4
-Remove 1 supernumerary UTRs for 5
-Remove 1 supernumerary UTRs for 6
-Remove 1 supernumerary UTRs for 7
-Remove 1 supernumerary UTRs for 8
-Remove 1 supernumerary UTRs for 9
-No UTRs created
+Create one UTR for fiber
+:AY849321.1	Genbank	three_prime_UTR	23884	23884	.	+	.	ID "nbis-three_prime_utr-1"  ; Parent Fiber ; gene Fiber
+1 UTRs created that were missing
 No UTRs locations modified
-22 UTRs removed that were supernumerary
+No supernumerary UTRs removed
 ------------------------------ done in 0 seconds -------------------------------
 
 ------------------------ Check11: all level2 locations -------------------------
@@ -165,4 +145,4 @@ None found
 *                              done in 0 seconds                               *
 ********************************************************************************
 
-=> OmniscientI total time: 1 seconds
+=> OmniscientI total time: 0 seconds

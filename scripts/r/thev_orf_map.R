@@ -30,29 +30,29 @@ make_genomic_map2 <- function(bedfile){
                                   "33K_spliced" ~ "33K",
                                   "pVIII gene" ~ "pVIII",
                                   .default = gene_name),
-           ypos = ifelse(strand == "-", c(22, 23), c(26, 27)),
-           ypos = ifelse(gene_name == "22K", 28, ypos))
+           ypos = ifelse(strand == "-", c(24, 24.5), c(25.5, 26)),
+           ypos = ifelse(gene_name == "22K", 26.5, ypos))
   
   spliced2 <- thev_genome2 %>% filter(blockCount > 1)
   
   genome_ruler <- tibble(x = seq(0,26000,2000),
-                         y = 24.8,
-                         yend = 25.3,
+                         y = 24.9,
+                         yend = 25.1,
                          lab = paste0(seq(0,26, 2), "kb"))
   
   shade_regions <- tribble(~xmin, ~xmax, ~ymin, ~ymax,
-                           0, thev_genome2$end[2], 20, 30,
-                           thev_genome2$start[19], thev_genome2$end[19], 20, 30,
-                           thev_genome2$start[22], 26266, 20, 30
+                           0, thev_genome2$end[2], 23, 27,
+                           thev_genome2$start[19], thev_genome2$end[19], 23, 27,
+                           thev_genome2$start[22], 26266, 23, 27
                            )
   
   trxpt_units <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
-                         0, thev_genome2$end[2], 19.5, "E1", 19,
-                         thev_genome2$start[19], thev_genome2$end[19], 19.5, "E3", 19,
-                         thev_genome2$start[22], 26266, 19.5, "E4", 19,
-                         thev_genome2$start[3], thev_genome2$end[3], 19.5, "IM", 19,
-                         thev_genome2$start[4], thev_genome2$exon1end[4], 19.5, "E2B", 19,
-                         thev_genome2$start[14], thev_genome2$end[14], 19.5, "E2A", 19
+                         0, thev_genome2$end[2], 23, "E1", 22.85,
+                         thev_genome2$start[19], thev_genome2$end[19], 23, "E3", 22.85,
+                         thev_genome2$start[22], 26266, 23, "E4", 22.85,
+                         thev_genome2$start[3], thev_genome2$end[3], 23, "IM", 22.85,
+                         thev_genome2$start[4], thev_genome2$exon1end[5], 23, "E2B", 22.85,
+                         thev_genome2$start[14], thev_genome2$end[14], 23, "E2A", 22.85
                          )
 
   ggplot(thev_genome2) +
@@ -66,7 +66,7 @@ make_genomic_map2 <- function(bedfile){
     geom_segment(data = genome_ruler, aes(x = x, xend = x, y = y, yend = yend),
                  color = "#ffffff", linewidth = 0.5) +
     # genome size labels
-    geom_richtext(data = genome_ruler, aes(x = x, y = (y - 0.5), label = lab),
+    geom_richtext(data = genome_ruler, aes(x = x, y = (y - 0.2), label = lab),
                   label.size = NA, label.padding = unit(0, "pt"), fill = NA) +
     # plot genes
     geom_segment(aes(x = thickStart, xend = thickEnd, y = ypos, yend = ypos),
@@ -88,7 +88,7 @@ make_genomic_map2 <- function(bedfile){
                        breaks = seq(0,26000,2000), 
                        labels = paste0(seq(0,26, 2), "kb")) +
     scale_y_continuous(expand = c(0.01,0.01),
-                       limits = c(0, 50)) +
+                       limits = c(20, 30)) +
     theme(plot.margin = margin(rep(15, 4)),
           plot.background = element_rect(fill = "#ffffff"),
           panel.background = element_rect(fill = "#ffffff"),
@@ -105,4 +105,4 @@ make_genomic_map2 <- function(bedfile){
 predicted_genemap <- make_genomic_map2("raw_files/annotations/THEVannotated_genesOnly.bed")
 
 ggsave(plot = predicted_genemap, filename = "results/r/figures/thev_orf_map.png",
-       dpi = 1000, width = 18, height = 12)
+       dpi = 1000, width = 12, height = 7)

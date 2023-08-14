@@ -5,7 +5,7 @@ filedir=raw_files/annotations
 
 ################# CONVERT THEV .GFF3 TO GTF ###########
 echo "Converting THEV .gff3 file to .gtf file ..." ;
-agat_convert_sp_gff2gtf.pl --gff $filedir/thev_from_NCBI.gff3 -o $filedir/thev_from_NCBI.gtf && 
+agat_convert_sp_gff2gtf.pl --gff $filedir/thev_predicted_genes.gff -o $filedir/thev_predicted_genes.gtf && 
 echo "THEV .GTF file created successfully"
 
 
@@ -15,5 +15,5 @@ agat_convert_sp_gff2gtf.pl --gff $filedir/turkey_genome.gff -o $filedir/turkey_g
 echo "TURKEY .GTF file created successfully" ;
 
 
-mv thev_from_NCBI.agat.log $filedir ;
+mv thev_predicted_genes.agat.log $filedir ;
 mv turkey_genome.agat.log $filedir ;
