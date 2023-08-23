@@ -6,6 +6,7 @@ library(glue)
 library(patchwork)
 library(ggsci)
 library(ggtext)
+library(grDevices)
 library(tidyverse)
 
 source("scripts/r/thev_genomic_map.R")
@@ -45,7 +46,7 @@ all_depths <- map_dfr(all_depth_files, read_tsv,
   set_colnames(c("timepoint", "genome", "position",
                  "depth", "color", "titles"))
   
-
+# -------------------
 ## split the table into individual time-points and plot iteratively with map()
 each_plot <- all_depths %>% 
   split(.$timepoint) %>% 
@@ -112,22 +113,22 @@ ggsave("patch_alltimes.png",
        plot = p_alltime, path = "results/r/figures",
        width = 12, height = 14, dpi = 1000)
 
+## --------------------
 
-
-compare_all <- all_depths %>%
-  ggplot(aes(position, depth, fill = timepoint, color = timepoint)) +
-  geom_col() +
-  scale_fill_igv(guide = guide_legend(
-    keywidth = unit(1, "cm"),
-    keyheight = unit(1.2, "cm"))) +
+comp_all <- all_depths %>%
+  select(timepoint, position, depth) %>% 
+  mutate(depth = ifelse(depth < 1, 1, depth)) %>% 
+  ggplot(aes(position, sqrt(depth), group = timepoint, fill = timepoint, color = timepoint)) +
+  geom_area(key_glyph = "crossbar") +
+  scale_fill_igv(guide = guide_legend(keywidth = unit(1, "cm"))) +
   scale_color_igv() +
-  scale_y_sqrt(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0),
                      breaks = seq(1000, 26000, 1000),
                      labels = glue("{seq(1,26,1)}kb")) +
-  labs(title = "All timepoint samples",
+  coord_trans(clip = "off", expand = F) +
+  labs(title = "RNA-seq Mapping Depth of THEV Genome",
        x = element_blank(),
-       y = "Mapping Depth",
+       y = expression(sqrt("Mapping Depth")),
        fill = element_blank(),
        color = element_blank()) +
   theme_classic() +
@@ -143,7 +144,7 @@ compare_all <- all_depths %>%
                                   face = "bold", 
                                   hjust = 0.5,
                                   margin = margin(t = 10)),
-        axis.title.y = element_text(size = 18, face = "bold",
+        axis.title.y = element_text(size = 22, face = "bold",
                                     margin = margin(l = 10)),
         legend.justification = c(0, 0),
         legend.position = c(0.04, 0.7),
@@ -152,6 +153,10 @@ compare_all <- all_depths %>%
         legend.text = element_text(size = 14, 
                                    margin = margin(rep(10, 4)),
                                    face = "bold"))
+
+
+compare_all <- (comp_all/genome) +
+  plot_layout(heights = c(11, 1)) 
 
 ggsave("overlay_alltimes.png",
        plot = compare_all, path = "results/r/figures",

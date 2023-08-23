@@ -195,6 +195,38 @@ rule make_unredundant_transcriptome:
         mv results/stringtie/gffcomp_alltimes.* results/gffcompare/
         """
 
+############## ADD REGION ATTRIBUTE TO GFFCOMPARE GTF FILE ##############
+rule mod_final_trxptome:
+    input:
+        gtf = "results/gffcompare/gffcomp_alltimes.combined.gtf",
+        rscript = "scripts/r/add_region_to_trxptome.R"
+    output:
+        "results/gffcompare/updated_alltimes.combined.gtf"
+    shell:
+        "{input.rscript}"
+
+################### MAKE FULL TRANSCRIPTOME WITH UNREDUNDANT GTF FILE FROM GFFCOMPARE ############
+rule make_full_splice_map:
+    input:
+        spliced_gtf = "results/gffcompare/gffcomp_alltimes.combined.gtf",
+        orf_gtf = rules.merge_gtfs.output,
+        rscript = "scripts/r/thev_splicing_fullMap.R"
+    output:
+        "results/r/figures/thev_spliced_map.png"
+    shell:
+        "{input.rscript}"
+
+################### MAKE TRANSCRIPTOME MAP PER TIMEPOINT OF INFECTION #####################
+rule make_timepoint_splice_map:
+    input:
+        rscript = "scripts/r/plot_thev_timepoint_splicing.R",
+        gtfs = expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
+        tp = [4, 12, 24, 72])
+    output:
+        "results/r/figures/thev_patched_timepoints_spliced_map.png"
+    shell:
+        "{input.rscript}"
+
 ############## ESTIMATE TRANSCRIPT ABUNDANCES##############
 rule est_abundances:
     input:
@@ -307,6 +339,18 @@ rule bulk_count_junctions:
     shell:
         "{input.script}"
 
+#################### BULK ANNOTATE JUNCTIONS ############
+rule bulk_annotate_junctions:
+    input:
+        script = "scripts/zsh/annotate_junctions.zsh",
+        bedfiles = rules.bulk_count_junctions.output,
+        fasta = "raw_files/genome_file/AY849321.1.fa",
+        gtf= rules.mod_final_trxptome.output
+    output:
+       expand("results/hisat2/bulk/annot_{tp}hrsSS.txt", tp = [4, 12, 24, 72])
+    shell:
+        "{input.script}"
+
 #################### BULK COUNTING READS ############
 rule count_total_reads:
     input:
@@ -332,6 +376,17 @@ rule make_coverage_figures:
         plotkind = ["patch", "overlay", "correlate"])
     shell:
        "{input.r_script1}"
+
+################## PLOT JUNCTION ABUNDANCE FIGURES ################
+rule junc_abund_plots:
+    input:
+        trxptome = rules.mod_final_trxptome.output,
+        annot_juncs = rules.bulk_annotate_junctions.output,
+        rscript = "scripts/r/splice_site_analyses.R"
+    output:
+        "results/r/figures/junc_abundances.png"
+    shell:
+        "{input.rscript}"
 
 #################### PLOT THEV GENOMIC MAP ############
 rule make_orf_map:
@@ -461,25 +516,37 @@ rule write_manuscript:
         "asm.csl",
         "transcriptome_refs.bib",
         "scripts/r/bam_file_analysis.R",
-        rules.bulk_count_junctions.output,
+        rules.bulk_annotate_junctions.output,
         rules.total_bulk_coverage.output,
         rules.count_total_reads.output,
         rules.make_coverage_figures.output,
         rules.make_growth_curve.output,
         rules.make_orf_map.output,
+        rules.make_full_splice_map.output,
+        rules.make_timepoint_splice_map.output,
+        rules.junc_abund_plots.output
     output:
         "manuscript_thev_transcriptome.html",
-        "manuscript_thev_transcriptome.docx"
+        # "manuscript_thev_transcriptome.docx"
     shell:
         """
         R -e "library(rmarkdown);render('manuscript_thev_transcriptome.Rmd', output_format = 'all')"
         """
 
+rule write_supplementary:
+    input:
+        "supplementary_thev_trxptome.Rmd",
+        "scripts/r/bam_file_analysis.R",
+    output:
+        "manuscript_thev_transcriptome.pdf"
+    shell:
+        """
+        R -e "library(rmarkdown);render('supplementary_thev_trxptome.Rmd')"
+        """
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:
     input:
-        rules.make_unredundant_transcriptome.output,
         rules.est_abundances.output,
-        rules.count_junctions.output,
-        rules.write_manuscript.output
+        rules.write_manuscript.output,
+        rules.write_supplementary.output
         

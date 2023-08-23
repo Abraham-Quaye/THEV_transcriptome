@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 library(magrittr)
 library(glue)
 library(tidyverse)

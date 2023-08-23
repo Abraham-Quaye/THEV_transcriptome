@@ -33,7 +33,7 @@ replicate_data <- read_excel(exp2,
 
 plot_prepped <- replicate_data %>%
   group_by(inf_hrs, hrs_pi) %>% 
-  summarize(mean_conc = mean(conc), 
+  reframe(mean_conc = mean(conc), 
             mean_conc_per_mL = (mean_conc * 10 * 1000),
             replicates = n(),
             stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000,
@@ -101,7 +101,7 @@ plot_prepped <- replicate_data %>%
        # width = 14, height = 8, dpi = 1000)
 
 # add data from first experiment with more time-points (use only extra time-points)
-
+# ---------------------
 exp1 <- "raw_files/wetlab_data/thev_growthcurve2021.xls"
 rep1_data <- read_excel(exp1,
                         sheet = "Results",
@@ -118,8 +118,9 @@ rep1_data <- read_excel(exp1,
          sample_name = str_replace(sample_name,
                                    "([a-zA-Z]+)\\d?-D(\\d)",
                                    "\\1_\\2")) %>% 
-  separate(sample_name, into = c("condition", "day"),
-           sep = "_") %>% 
+  separate_wider_delim(sample_name,
+                       names = c("condition", "day"),
+                       delim = "_") %>% 
   mutate(inf_day = paste0(condition, "_", day),
          day = as.numeric(day),
          hrs_pi = day * 24,
@@ -130,17 +131,15 @@ rep1_data <- read_excel(exp1,
 fulltimes <- bind_rows(replicate_data, rep1_data)
 
 
-full_prepped <- fulltimes %>% 
-group_by(inf_hrs, hrs_pi) %>% 
-  summarize(mean_conc = mean(conc), 
+full_prepped <- fulltimes %>%
+group_by(condition, hrs_pi) %>% 
+  reframe(mean_conc = mean(conc), 
             mean_conc_per_mL = (mean_conc * 10 * 1000),
             replicates = n(),
-            stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000,
-            .groups = "drop") %>% 
-  mutate(treatment = str_replace(inf_hrs, "([a-zA-Z]{3})_\\d{1,3}", "\\1"))
+            stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000)
 
 growth_curve <- full_prepped %>% 
-  ggplot(aes(hrs_pi, mean_conc_per_mL, color = treatment)) +
+  ggplot(aes(hrs_pi, mean_conc_per_mL, color = condition)) +
   geom_errorbar(aes(ymax = mean_conc_per_mL + stderr_conc_perML,
                     ymin = mean_conc_per_mL - stderr_conc_perML),
                 width = 0.8, show.legend = F,
@@ -190,6 +189,7 @@ growth_curve <- full_prepped %>%
         legend.justification = c(0, 0),
         legend.position = c(0.1, 0.7)
   )
+
 ggsave(plot = growth_curve, filename = "results/r/figures/thev_growth_curve.png",
        width = 14, height = 8, dpi = 1000)
 

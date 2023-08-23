@@ -1,0 +1,67 @@
+---
+title: "Supplementary Materials: Elucidating the Transcriptome of Turkey Hemorrhagic Enteritis Virus"
+output: pdf_document
+geometry: margin=1in
+font-size: 11pt
+header-includes:
+  - \usepackage{helvet}
+  - \renewcommand*\familydefault{\sfdefault}
+  - \usepackage{setspace}
+  - \doublespacing
+  - \usepackage[left]{lineno}
+  - \linenumbers
+editor_options:
+  chunck_output_type: console
+---
+\vspace{5mm}
+
+**Running Title:** Novel Insights into Turkey Hemorrhagic Enteritis Virus Transcriptome
+
+\vspace{10mm}
+Abraham Quaye^1\*^, Bret Pickett^\*^, Joel S. Griffitts^\*^, Bradford K. Berges^\*^, Brian D. Poole${^\dagger}$^\*^   
+
+\vspace{5mm}
+
+^\*^Department of Microbiology and Molecular Biology, Brigham Young University       
+^1^First-author      
+${^\dagger}$ Corresponding Author   
+
+\vspace{5mm}
+**Corresponding Author Information**     
+[brian_poole@byu.edu](mailto:brian_poole@byu.edu)       
+Department of Microbiology and Molecular Biology,       
+4007 Life Sciences Building (LSB),    
+Brigham Young University,   
+Provo, Utah  
+\newpage
+
+
+```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(tidyverse)
+library(gt)
+
+source("scripts/r/bam_file_analysis.R")
+```
+
+
+## Supplementary Table 1A
+
+```{r Sup Table 1A}
+gt(tp_reg_expr_12)
+```
+
+## Supplementary Table 1B
+
+```{r Sup Table 1B}
+gt(tp_reg_expr_24)
+```
+
+## Supplementary Table 1C
+
+```{r Sup Table 1C}
+gt(tp_reg_expr_72)
+```
+
+
