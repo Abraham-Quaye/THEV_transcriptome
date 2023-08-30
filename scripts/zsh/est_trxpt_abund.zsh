@@ -2,7 +2,7 @@
 
 
 mapdir=results/hisat2
-GTF=results/gffcompare/gffcomp_alltimes.combined.gtf
+GTF=results/gffcompare/updated_alltimes.combined.gtf
 assembled=results/ballgown
 samples="72hrsS1 72hrsS2 72hrsS3 24hrsS1 24hrsS2 24hrsS3 12hrsS1 12hrsS3 4hrsS1 4hrsS2"
 

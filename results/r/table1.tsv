@@ -1,0 +1,28 @@
+Metric	4h.p.i	12h.p.i	24h.p.i	72h.p.i	Total
+Total reads	1.17E+08	7.63E+07	1.20E+08	1.15E+08	4.28E+08
+"Mapped
+(Host)"	"1.04e+08
+(89.06%)"	"6.79e+07
+(89.0393%)"	"1.06e+08
+(88.2719%)"	"8.38e+07
+(72.9802%)"	3.62E+08
+"Mapped
+(THEV)"	"4.32e+02
+( 0.0004%)"	"6.70e+03
+( 0.0088%)"	"1.18e+06
+( 0.9841%)"	"1.69e+07
+(14.6904%)"	1.81E+07
+"Mean Per Base
+Coverage/Depth"	2.42	37.71	"6,666.96"	"95,041.70"	"101,749"
+"Total unique
+splice junctions"	13	37	236	"2,374"	"2,457"
+"Junction coverage
+Total (³ 1 read)"	37	605	"115,075"	2.13E+06	2.25E+06
+"Junction coverage
+Mean reads"	2.8	16.4	487.6	898.4	351.3
+"Junction coverage
+³ 10 reads"	0	13	132	"1,791"	"1,936"
+"Junction coverage
+³ 100 reads"	0	1	53	805	859
+"Junction coverage
+³ 1000 reads"	0	0	18	168	186

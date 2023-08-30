@@ -398,6 +398,19 @@ rule make_orf_map:
     shell:
        "{input.r_script}"
 
+#################### PLOT TRANSCRIPT ABUNDANCES OVER TIME ############
+rule trxpt_abund_plots:
+    input:
+        r_script = "scripts/r/ballgown.R",
+        abun_files = rules.est_abundances.output,
+        bams = rules.filter_thev.output,
+    output:
+        "results/r/figures/region_fpkm_percent_abund.png",
+        "results/r/figures/trxpt_fpkm_percent_abund.png",
+        "results/r/figures/fpkm_dist_by_time.png"
+    shell:
+       "{input.r_script}"
+
 ################# MAP UNINFECTED READS ############################
 # rule uninfected_map:
 #     input:
@@ -524,7 +537,9 @@ rule write_manuscript:
         rules.make_orf_map.output,
         rules.make_full_splice_map.output,
         rules.make_timepoint_splice_map.output,
-        rules.junc_abund_plots.output
+        rules.junc_abund_plots.output,
+        "results/r/figures/region_fpkm_percent_abund.png",
+        "results/r/figures/trxpt_fpkm_percent_abund.png",
     output:
         "manuscript_thev_transcriptome.html",
         # "manuscript_thev_transcriptome.docx"
