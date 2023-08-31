@@ -1,4 +1,4 @@
-# stringtie -p 10 results/hisat2/thev_subset_72hrsS3.bam -t -a 1 -g 1 -j 0.0001 -A results/stringtie/t72S3.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 72S3 -o results/stringtie/thev_72hrsS3.gtf
+# stringtie -p 10 results/hisat2/thev_subset_72hrsS3.bam -t -a 1 -g 1 -j 0.0001 -G raw_files/annotations/thev_predicted_genes.gtf -l 72S3 -o results/stringtie/thev_72hrsS3.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	137	2325	1000	+	.	gene_id "72S3.1"; transcript_id "72S3.1.1"; cov "15896.838867"; FPKM "69030.242188"; TPM "69664.445312";
 AY849321.1	StringTie	exon	137	304	1000	+	.	gene_id "72S3.1"; transcript_id "72S3.1.1"; exon_number "1"; cov "542.434021";

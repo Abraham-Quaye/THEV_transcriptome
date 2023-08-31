@@ -150,12 +150,7 @@ rule make_transcripts:
 #################### MERGE ALL GTF FILES #####################
 rule merge_gtfs:
     input:
-        expand("results/stringtie/thev_{time}hrsS{rep}.gtf", \
-        time = [24, 72], rep = [1, 2, 3]),
-        expand("results/stringtie/thev_12hrsS{rep}.gtf", \
-        rep = [1, 3]),
-        expand("results/stringtie/thev_4hrsS{rep}.gtf", \
-        rep = [1, 2])
+        rules.make_transcripts.output
     output:
         "results/stringtie/all_merged.gtf"
     shell:
@@ -226,7 +221,7 @@ rule est_abundances:
     input:
         script = "scripts/zsh/est_trxpt_abund.zsh",
         bams = rules.filter_thev.output,
-        ref = "results/stringtie/all_real_transcripts_merged.gtf",
+        ref = rules.mod_final_trxptome.output,
     output:
         expand("results/ballgown/abund_{s}/abund_{s}.gtf", \
         s = ["72hrsS1", "72hrsS2", "72hrsS3", "24hrsS1", "24hrsS2", "24hrsS3", "12hrsS1", "12hrsS3", "4hrsS1", "4hrsS2"])
@@ -547,7 +542,7 @@ rule write_supplementary:
         "supplementary_thev_trxptome.Rmd",
         "scripts/r/bam_file_analysis.R",
     output:
-        "manuscript_thev_transcriptome.pdf"
+        "supplementary_thev_trxptome.pdf"
     shell:
         """
         R -e "library(rmarkdown);render('supplementary_thev_trxptome.Rmd')"

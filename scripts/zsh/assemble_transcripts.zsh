@@ -27,5 +27,5 @@ stringtie -p 10 $mapdir/thev_subset_4hrsS3.bam -t -G $GTF -l 4S3 -o $assembled/t
 echo "All transcript assemblies complete!"
 
 echo "Remove empty file: 4hrsS3"
-rm $assembled/thev_4hrsS3.gtf $assembled/t4S3.tab
+rm $assembled/thev_4hrsS3.gtf
 

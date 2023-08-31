@@ -37,7 +37,7 @@ Provo, Utah
 
 
 ```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 library(knitr)
 library(tidyverse)
 library(gt)

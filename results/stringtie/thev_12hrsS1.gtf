@@ -1,4 +1,4 @@
-# stringtie -p 10 results/hisat2/thev_subset_12hrsS1.bam -t -a 5 -A results/stringtie/t12S1.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 12S1 -o results/stringtie/thev_12hrsS1.gtf
+# stringtie -p 10 results/hisat2/thev_subset_12hrsS1.bam -t -a 5 -G raw_files/annotations/thev_predicted_genes.gtf -l 12S1 -o results/stringtie/thev_12hrsS1.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	271	2303	1000	+	.	gene_id "12S1.1"; transcript_id "12S1.1.1"; cov "5.733065"; FPKM "7481.157227"; TPM "10633.214844";
 AY849321.1	StringTie	exon	271	304	1000	+	.	gene_id "12S1.1"; transcript_id "12S1.1.1"; exon_number "1"; cov "4.628576";

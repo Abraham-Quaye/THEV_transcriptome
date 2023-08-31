@@ -1,4 +1,4 @@
-# stringtie -p 10 results/hisat2/thev_subset_24hrsS1.bam -t -a 1 -f 0.02 -A results/stringtie/t24S1.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 24S1 -o results/stringtie/thev_24hrsS1.gtf
+# stringtie -p 10 results/hisat2/thev_subset_24hrsS1.bam -t -a 1 -f 0.02 -G raw_files/annotations/thev_predicted_genes.gtf -l 24S1 -o results/stringtie/thev_24hrsS1.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	228	2325	1000	+	.	gene_id "24S1.1"; transcript_id "24S1.1.1"; cov "315.399811"; FPKM "5095.289062"; TPM "8720.764648";
 AY849321.1	StringTie	exon	228	304	1000	+	.	gene_id "24S1.1"; transcript_id "24S1.1.1"; exon_number "1"; cov "76.955627";
@@ -67,7 +67,7 @@ AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "24S1.12"; transcri
 AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "24S1.12"; transcript_id "24S1.12.1"; exon_number "1"; reference_id "ORF7"; ref_gene_id "nbis-gene-14"; ref_gene_name "ORF7"; cov "892.283081";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "24S1.13"; transcript_id "24S1.13.1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "216.783127"; FPKM "3502.135010"; TPM "5994.025391";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "24S1.13"; transcript_id "24S1.13.1"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "216.783127";
-# stringtie -p 10 results/hisat2/thev_subset_24hrsS2.bam -t -a 1 -A results/stringtie/t24S2.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 24S2 -o results/stringtie/thev_24hrsS2.gtf
+# stringtie -p 10 results/hisat2/thev_subset_24hrsS2.bam -t -a 1 -G raw_files/annotations/thev_predicted_genes.gtf -l 24S2 -o results/stringtie/thev_24hrsS2.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	55	2325	1000	+	.	gene_id "24S2.1"; transcript_id "24S2.1.1"; cov "259.971954"; FPKM "4479.086914"; TPM "7659.040039";
 AY849321.1	StringTie	exon	55	304	1000	+	.	gene_id "24S2.1"; transcript_id "24S2.1.1"; exon_number "1"; cov "29.667009";
@@ -136,7 +136,7 @@ AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "24S2.12"; transcri
 AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "24S2.12"; transcript_id "24S2.12.1"; exon_number "1"; reference_id "ORF7"; ref_gene_id "nbis-gene-14"; ref_gene_name "ORF7"; cov "832.952820";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "24S2.13"; transcript_id "24S2.13.1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "176.927704"; FPKM "3048.307861"; TPM "5212.471191";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "24S2.13"; transcript_id "24S2.13.1"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "176.927704";
-# stringtie -p 10 results/hisat2/thev_subset_24hrsS3.bam -t -a 1 -A results/stringtie/t24S3.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 24S3 -o results/stringtie/thev_24hrsS3.gtf
+# stringtie -p 10 results/hisat2/thev_subset_24hrsS3.bam -t -a 1 -G raw_files/annotations/thev_predicted_genes.gtf -l 24S3 -o results/stringtie/thev_24hrsS3.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	225	2325	1000	+	.	gene_id "24S3.1"; transcript_id "24S3.1.1"; cov "524.291748"; FPKM "9498.161133"; TPM "15933.432617";
 AY849321.1	StringTie	exon	225	304	1000	+	.	gene_id "24S3.1"; transcript_id "24S3.1.1"; exon_number "1"; cov "115.284973";
@@ -208,7 +208,7 @@ AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "24S3.12"; transcri
 AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "24S3.12"; transcript_id "24S3.12.1"; exon_number "1"; reference_id "ORF7"; ref_gene_id "nbis-gene-14"; ref_gene_name "ORF7"; cov "847.770142";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "24S3.13"; transcript_id "24S3.13.1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "179.186752"; FPKM "3246.178711"; TPM "5445.556152";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "24S3.13"; transcript_id "24S3.13.1"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "179.186752";
-# stringtie -p 10 results/hisat2/thev_subset_72hrsS1.bam -t -a 1 -A results/stringtie/t72S1.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 72S1 -o results/stringtie/thev_72hrsS1.gtf
+# stringtie -p 10 results/hisat2/thev_subset_72hrsS1.bam -t -a 1 -G raw_files/annotations/thev_predicted_genes.gtf -l 72S1 -o results/stringtie/thev_72hrsS1.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	55	2325	1000	+	.	gene_id "72S1.1"; transcript_id "72S1.1.1"; cov "9373.446289"; FPKM "8089.396973"; TPM "15647.281250";
 AY849321.1	StringTie	exon	55	304	1000	+	.	gene_id "72S1.1"; transcript_id "72S1.1.1"; exon_number "1"; cov "1137.977295";
@@ -277,7 +277,7 @@ AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "72S1.14"; transcri
 AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "72S1.14"; transcript_id "72S1.14.1"; exon_number "1"; reference_id "ORF7"; ref_gene_id "nbis-gene-14"; ref_gene_name "ORF7"; cov "7326.051758";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "72S1.15"; transcript_id "72S1.15.1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "1419.694824"; FPKM "1225.213745"; TPM "2369.925049";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "72S1.15"; transcript_id "72S1.15.1"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "1419.694824";
-# stringtie -p 10 results/hisat2/thev_subset_72hrsS2.bam -t -a 1 -A results/stringtie/t72S2.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 72S2 -o results/stringtie/thev_72hrsS2.gtf
+# stringtie -p 10 results/hisat2/thev_subset_72hrsS2.bam -t -a 1 -G raw_files/annotations/thev_predicted_genes.gtf -l 72S2 -o results/stringtie/thev_72hrsS2.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	54	2325	1000	+	.	gene_id "72S2.1"; transcript_id "72S2.1.1"; cov "6566.772461"; FPKM "5917.693848"; TPM "24956.687500";
 AY849321.1	StringTie	exon	54	304	1000	+	.	gene_id "72S2.1"; transcript_id "72S2.1.1"; exon_number "1"; cov "775.855652";
@@ -358,7 +358,7 @@ AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "72S2.4"; transcrip
 AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "72S2.4"; transcript_id "72S2.4.14"; exon_number "1"; reference_id "ORF7"; ref_gene_id "nbis-gene-14"; ref_gene_name "ORF7"; cov "837.297119";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "72S2.10"; transcript_id "72S2.10.1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "1474.281128"; FPKM "1328.558960"; TPM "5602.931152";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "72S2.10"; transcript_id "72S2.10.1"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "1474.281128";
-# stringtie -p 10 results/hisat2/thev_subset_72hrsS3.bam -t -a 1 -g 1 -j 0.0001 -A results/stringtie/t72S3.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 72S3 -o results/stringtie/thev_72hrsS3.gtf
+# stringtie -p 10 results/hisat2/thev_subset_72hrsS3.bam -t -a 1 -g 1 -j 0.0001 -G raw_files/annotations/thev_predicted_genes.gtf -l 72S3 -o results/stringtie/thev_72hrsS3.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	137	2325	1000	+	.	gene_id "72S3.1"; transcript_id "72S3.1.1"; cov "15896.838867"; FPKM "69030.242188"; TPM "69664.445312";
 AY849321.1	StringTie	exon	137	304	1000	+	.	gene_id "72S3.1"; transcript_id "72S3.1.1"; exon_number "1"; cov "542.434021";
@@ -445,7 +445,7 @@ AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "72S3.11"; transcri
 AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "72S3.11"; transcript_id "72S3.11.8"; exon_number "1"; reference_id "ORF7"; ref_gene_id "nbis-gene-14"; ref_gene_name "ORF7"; cov "3947.666016";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "72S3.12"; transcript_id "72S3.12.1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "748.955811"; FPKM "3252.256836"; TPM "3282.136230";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "72S3.12"; transcript_id "72S3.12.1"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "748.955811";
-# stringtie -p 10 results/hisat2/thev_subset_12hrsS1.bam -t -a 5 -A results/stringtie/t12S1.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 12S1 -o results/stringtie/thev_12hrsS1.gtf
+# stringtie -p 10 results/hisat2/thev_subset_12hrsS1.bam -t -a 5 -G raw_files/annotations/thev_predicted_genes.gtf -l 12S1 -o results/stringtie/thev_12hrsS1.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	271	2303	1000	+	.	gene_id "12S1.1"; transcript_id "12S1.1.1"; cov "5.733065"; FPKM "7481.157227"; TPM "10633.214844";
 AY849321.1	StringTie	exon	271	304	1000	+	.	gene_id "12S1.1"; transcript_id "12S1.1.1"; exon_number "1"; cov "4.628576";
@@ -520,7 +520,7 @@ AY849321.1	StringTie	transcript	24512	25168	1000	+	.	gene_id "12S1.13"; transcri
 AY849321.1	StringTie	exon	24512	25168	1000	+	.	gene_id "12S1.13"; transcript_id "12S1.13.1"; exon_number "1"; reference_id "ORF7"; ref_gene_id "nbis-gene-14"; ref_gene_name "ORF7"; cov "19.995434";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "12S1.14"; transcript_id "12S1.14.1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "17.287149"; FPKM "22558.244141"; TPM "32062.777344";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "12S1.14"; transcript_id "12S1.14.1"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "17.287149";
-# stringtie -p 10 results/hisat2/thev_subset_12hrsS3.bam -t -a 5 -A results/stringtie/t12S3.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 12S3 -o results/stringtie/thev_12hrsS3.gtf
+# stringtie -p 10 results/hisat2/thev_subset_12hrsS3.bam -t -a 5 -G raw_files/annotations/thev_predicted_genes.gtf -l 12S3 -o results/stringtie/thev_12hrsS3.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	313	1953	1000	+	.	gene_id "12S3.1"; transcript_id "12S3.1.1"; reference_id "ORF1"; ref_gene_id "nbis-gene-13"; ref_gene_name "ORF1"; cov "1.205363"; FPKM "5377.076172"; TPM "10278.332031";
 AY849321.1	StringTie	exon	313	1953	1000	+	.	gene_id "12S3.1"; transcript_id "12S3.1.1"; exon_number "1"; reference_id "ORF1"; ref_gene_id "nbis-gene-13"; ref_gene_name "ORF1"; cov "1.205363";
@@ -553,7 +553,7 @@ AY849321.1	StringTie	exon	25192	25701	1000	-	.	gene_id "12S3.8"; transcript_id "
 AY849321.1	StringTie	exon	26055	26247	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.1"; exon_number "2"; cov "3.818653";
 AY849321.1	StringTie	transcript	25204	25701	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.2"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "1.392030"; FPKM "6209.790039"; TPM "11870.073242";
 AY849321.1	StringTie	exon	25204	25701	1000	-	.	gene_id "12S3.8"; transcript_id "12S3.8.2"; exon_number "1"; reference_id "ORF8"; ref_gene_id "nbis-gene-15"; ref_gene_name "ORF8"; cov "1.392030";
-# stringtie -p 10 results/hisat2/thev_subset_4hrsS1.bam -t -A results/stringtie/t4S1.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 4S1 -o results/stringtie/thev_4hrsS1.gtf
+# stringtie -p 10 results/hisat2/thev_subset_4hrsS1.bam -t -G raw_files/annotations/thev_predicted_genes.gtf -l 4S1 -o results/stringtie/thev_4hrsS1.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	7401	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; cov "2.060748"; FPKM "61682.425781"; TPM "78292.148438";
 AY849321.1	StringTie	exon	7401	7531	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "1"; cov "2.038168";
@@ -573,7 +573,7 @@ AY849321.1	StringTie	transcript	20769	21371	1000	+	.	gene_id "4S1.6"; transcript
 AY849321.1	StringTie	exon	20769	21371	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.1"; exon_number "1"; reference_id "pVIII"; ref_gene_id "nbis-gene-21"; ref_gene_name "pVIII"; cov "4.295008";
 AY849321.1	StringTie	transcript	21247	22116	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.2"; reference_id "E3"; ref_gene_id "nbis-gene-7"; ref_gene_name "E3"; cov "7.812770"; FPKM "233852.250000"; TPM "296823.531250";
 AY849321.1	StringTie	exon	21247	22116	1000	+	.	gene_id "4S1.6"; transcript_id "4S1.6.2"; exon_number "1"; reference_id "E3"; ref_gene_id "nbis-gene-7"; ref_gene_name "E3"; cov "7.812770";
-# stringtie -p 10 results/hisat2/thev_subset_4hrsS2.bam -t -A results/stringtie/t4S2.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 4S2 -o results/stringtie/thev_4hrsS2.gtf
+# stringtie -p 10 results/hisat2/thev_subset_4hrsS2.bam -t -G raw_files/annotations/thev_predicted_genes.gtf -l 4S2 -o results/stringtie/thev_4hrsS2.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; reference_id "Hexon"; ref_gene_id "nbis-gene-9"; ref_gene_name "Hexon"; cov "2.753032"; FPKM "103024.921875"; TPM "123756.132812";
 AY849321.1	StringTie	exon	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; exon_number "1"; reference_id "Hexon"; ref_gene_id "nbis-gene-9"; ref_gene_name "Hexon"; cov "2.753032";

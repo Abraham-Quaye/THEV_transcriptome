@@ -1,4 +1,4 @@
-# stringtie -p 10 results/hisat2/thev_subset_4hrsS1.bam -t -A results/stringtie/t4S1.tab -G raw_files/annotations/thev_predicted_genes.gtf -l 4S1 -o results/stringtie/thev_4hrsS1.gtf
+# stringtie -p 10 results/hisat2/thev_subset_4hrsS1.bam -t -G raw_files/annotations/thev_predicted_genes.gtf -l 4S1 -o results/stringtie/thev_4hrsS1.gtf
 # StringTie version 2.2.1
 AY849321.1	StringTie	transcript	7401	7836	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; cov "2.060748"; FPKM "61682.425781"; TPM "78292.148438";
 AY849321.1	StringTie	exon	7401	7531	1000	+	.	gene_id "4S1.1"; transcript_id "4S1.1.1"; exon_number "1"; cov "2.038168";
