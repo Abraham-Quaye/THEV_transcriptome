@@ -105,4 +105,4 @@ make_genomic_map2 <- function(bedfile){
 predicted_genemap <- make_genomic_map2("raw_files/annotations/THEVannotated_genesOnly.bed")
 
 ggsave(plot = predicted_genemap, filename = "results/r/figures/thev_orf_map.png",
-       dpi = 1000, width = 12, height = 7)
+       dpi = 500, width = 12, height = 7)

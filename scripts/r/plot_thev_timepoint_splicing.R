@@ -192,7 +192,7 @@ tp_trxptome <- list.files("results/stringtie",
 #   catch_timepoint <- str_extract(gtf_file, "\\d+") %>% paste0(., "hpi")
 #   graph_trxpts(gtf_file)
 #   ggsave(filename = glue("results/r/figures/thev_spliced_map_{catch_timepoint}.png"),
-#          dpi = 1000, width = 12, height = 8)
+#          dpi = 500, width = 12, height = 8)
 # }
 
 p12 <- graph_trxpts(tp_trxptome[1])
@@ -206,7 +206,8 @@ all_plots <- (p4/ p12 / p24 / p72) +
   plot_annotation(tag_levels = "1", tag_prefix = "B") &
   theme(plot.tag = element_text(size = 22, face = "bold"))
 
-ggsave(plot = all_plots, filename = "results/r/figures/thev_patched_timepoints_spliced_map.png",
-                dpi = 1000, width = 12, height = 10.5)
+ggsave(plot = all_plots,
+       filename = "results/r/figures/thev_patched_timepoints_spliced_map.png",
+       dpi = 500, width = 12, height = 10.5)
 
 

@@ -217,7 +217,7 @@ trxptome_juncs <- plot_time_genexpression(bulk_count_trxptome_ss) +
 
 # ggsave(plot = trxptome_juncs,
 #        filename = "results/r/figures/temporal_gene_expression.png",
-#        dpi = 1000, width = 14, height = 12)
+#        dpi = 500, width = 14, height = 12)
 
 
 # prepare data to plot abundances of all juncs extracted from BAM files
@@ -254,7 +254,7 @@ patch_expr <- (all_juncs | trxptome_juncs) +
 
 ggsave("junc_abundances.png",
        plot = patch_expr, path = "results/r/figures",
-       width = 20, height = 12, dpi = 1000)
+       width = 20, height = 12, dpi = 500)
 
 
 # -------------------

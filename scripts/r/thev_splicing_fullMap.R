@@ -237,6 +237,6 @@ plot_full_trxptome <- function(combined_gtf){
 
 ggsave(plot = plot_full_trxptome(combined_gtf),
        filename = "results/r/figures/thev_spliced_map.png",
-       dpi = 1000, width = 12, height = 8)
+       dpi = 500, width = 12, height = 8)
 
 

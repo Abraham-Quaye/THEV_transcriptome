@@ -111,7 +111,7 @@ p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72
 
 ggsave("patch_alltimes.png",
        plot = p_alltime, path = "results/r/figures",
-       width = 12, height = 14, dpi = 1000)
+       width = 12, height = 14, dpi = 500)
 
 ## --------------------
 
@@ -160,7 +160,7 @@ compare_all <- (comp_all/genome) +
 
 ggsave("overlay_alltimes.png",
        plot = compare_all, path = "results/r/figures",
-       width = 15, height = 10, dpi = 1000)
+       width = 15, height = 10, dpi = 500)
 
 
 ################# coverage data #########################
@@ -243,4 +243,4 @@ corr <- cov_thev %>%
 
 ggsave("correlate_alltimes.png",
        plot = corr, path = "results/r/figures",
-       width = 20, height = 14, dpi = 1000)
+       width = 20, height = 14, dpi = 500)

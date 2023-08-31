@@ -98,7 +98,7 @@ plot_prepped <- replicate_data %>%
 #         legend.position = c(0.1, 0.7)
 #   )
 # ggsave(filename = "qpcr/plots/thev_growth_curve_2023.png",
-       # width = 14, height = 8, dpi = 1000)
+       # width = 14, height = 8, dpi = 500)
 
 # add data from first experiment with more time-points (use only extra time-points)
 # ---------------------
@@ -191,6 +191,6 @@ growth_curve <- full_prepped %>%
   )
 
 ggsave(plot = growth_curve, filename = "results/r/figures/thev_growth_curve.png",
-       width = 14, height = 8, dpi = 1000)
+       width = 14, height = 8, dpi = 500)
 
 

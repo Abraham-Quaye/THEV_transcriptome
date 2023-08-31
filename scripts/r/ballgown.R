@@ -1,4 +1,4 @@
-
+#!/usr/bin/env Rscript
 
 library(ballgown)
 library(devtools)
@@ -95,7 +95,7 @@ reg_fpkms <- t_exp_lev_byregion %>%
   ))
 
 ggsave(plot = reg_fpkms, "results/r/figures/region_fpkm_percent_abund.png",
-       width = 18, height = 12, dpi = 1000)
+       width = 18, height = 12, dpi = 500)
 ## ---------------------
 # expression levels by transcript
 t_expr_each <- t_exp_levels %>%
@@ -177,7 +177,7 @@ trxpt_fpkms <- t_expr_each %>%
         legend.text.align = 0)
 
 ggsave(plot = trxpt_fpkms, "results/r/figures/trxpt_fpkm_percent_abund.png",
-       width = 18, height = 12, dpi = 1000)
+       width = 18, height = 12, dpi = 500)
 
 # ------------------------------
 # distribution of fpkm levels in samples
@@ -206,15 +206,8 @@ fpkm_dist <- t_exp_levels %>%
         legend.key.size = unit(1, "cm"),
         legend.text = element_text(size = 14, face = "bold"))
 
-# plot transcript maps
-plotTranscripts(unique(geneIDs(raw_data))[1], raw_data, 
-                samples = c(pData(raw_data) %>% select(sample_name) %>% pull()),
-                legend = T,
-                labelTranscripts = T)
-
-
 ggsave(plot = fpkm_dist, "results/r/figures/fpkm_dist_by_time.png",
-       width = 14, height = 10, dpi = 1000)
+       width = 14, height = 10, dpi = 500)
 
 
 

@@ -143,12 +143,6 @@ rule make_transcripts:
         expand("results/stringtie/thev_12hrsS{rep}.gtf", \
         rep = [1, 3]),
         expand("results/stringtie/thev_4hrsS{rep}.gtf", \
-        rep = [1, 2]),
-        expand("results/stringtie/t{time}S{rep}.tab", \
-        time = [24, 72], rep = [1, 2, 3]),
-        expand("results/stringtie/t12S{rep}.tab", \
-        rep = [1, 3]),
-        expand("results/stringtie/t4S{rep}.tab", \
         rep = [1, 2])
     shell:
         "{input.script}"
@@ -541,8 +535,8 @@ rule write_manuscript:
         "results/r/figures/region_fpkm_percent_abund.png",
         "results/r/figures/trxpt_fpkm_percent_abund.png",
     output:
-        "manuscript_thev_transcriptome.html",
-        # "manuscript_thev_transcriptome.docx"
+        "manuscript_thev_transcriptome.pdf",
+        "manuscript_thev_transcriptome.docx"
     shell:
         """
         R -e "library(rmarkdown);render('manuscript_thev_transcriptome.Rmd', output_format = 'all')"
@@ -561,7 +555,6 @@ rule write_supplementary:
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:
     input:
-        rules.est_abundances.output,
         rules.write_manuscript.output,
         rules.write_supplementary.output
         
