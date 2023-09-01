@@ -58,8 +58,9 @@ library(knitr)
 library(tidyverse)
 library(tibble)
 library(scales)
-library(kableExtra)
+library(flextable)
 opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(tab.cap.pre = "", tab.cap.sep = "")
 
 inline_hook <- function(x) {
   if(is.numeric(x)){
@@ -204,51 +205,74 @@ LC Sciences
 ## TABLES AND FIGURES     
 ![](results/r/figures/thev_orf_map.png)
 **Figure 1. _Genomic map of THEV avirulent strain_**. The central horizontal line represents the double-stranded DNA marked at 5kb intervals as white line breaks. Blocks represent viral genes. Blocks above the DNA line are transcribed rightward, those below are transcribed leftward. pTP, DBP and 33K predicted to be spliced are shown as having tails. Shaded regions indicate regions containing "genus-specific" genes (colored red). Genes colored in blue are "genus-common".  Gene colored in light green is conserved in all but Atadenoviruses. The UXP (light blue) is an incomplete gene present in almost all AdVs. Regions comprising the different transcription units are labelled at the bottom (E1, E2A, E2B, E3, E4, and IM); the unlabeled regions comprise the MLTU.
+\newpage
 
 ```{r}
-tab1 %>%
-kbl(format = "latex", booktabs = T) %>%
-  kable_styling(latex_options = c("striped", "scale_down", "HOLD_position")) %>%
-  row_spec(0, font_size = 15) %>%
-  column_spec(1, bold = T)
-  
-```
+#| tab.id: NULL
+#| tab.cap.pre: ""
+#| tab.cap.sep: ""
 
+set_flextable_defaults(font.size = 8)
+t1 <- flextable(tab1) %>% theme_zebra() %>%
+  set_table_properties(layout = "fixed", width = 0.95,
+                       opts_pdf = list(caption_repeat = F)) %>%
+  font(part = "all", fontname = "Avenir") %>%
+  width(., j = "Metric", 1.5) %>%
+  set_caption("Overview of sequencing results",
+              style = "Table Caption")
+bold(t1, j = "Metric", bold = T)
+
+```
+\newpage
 
 ![](results/r/figures/overlay_alltimes.png)
 ![](results/r/figures/thev_growth_curve.png)
 **Figure 2. a) _Per base coverage of sequence reads mapping to THEV genome by time point_**. The pileup of mRNA reads mapping to THEV genome at the base-pair level for each indicated time point show remarkable difference in terms of quantities. There is a dramatic increase of mean coverage/depth from `r dep_4` at 4 h.p.i to `r dep_72` at 72 h.p.i, strongly demonstrating an active infection. Unexpectedly, the pileup of reads seems consistently skewed over similar regions of the genome. We could speculate that the temporal gene expression regulation of THEV is different from MAdVs or this could simply mean that the infection was not well synchronized. However, the relative proportions over these similar regions shows some variation over time. **b) _One-step growth of THEV (VAS vaccine strain) in MDTC-RP19 cell line_**. After infecting cells at an MOI of 100 GCN/cell, triplicates of harvested infected cells were quantified with an in-house qPCR assay measuring the total copies of THEV genome. There is no discernible increase in virus titer up 12 h.p.i, after which there is a steady increase in virus titer is measured. The virus titer expands exponentially beginning from 48 h.p.i, increasing by orders of magnitude before reaching a plateau at 120 h.p.i, probably due to high cell death. GCN: genome copy number.
 
+\newpage
 ![](results/r/figures/thev_spliced_map.png)
 ![](results/r/figures/thev_patched_timepoints_spliced_map.png)
 **Figure 3. a) __Full transcriptome of THEV__**. THEV transcripts assembled from all time points by `StringTie` are unified forming this final transcriptome (splicing map). Transcripts belonging to the same transcription unit (TU) are located in close proximity on the genome and are color coded and labeled in this figure as such. The organization of TUs in the THEV genome is unsurprisingly similar to MAdVs; however, the MAdV genome shows significantly more transcripts. The TUs are color coded: E1 transcripts - red, E2 - black, E3 - dark grey, E4 - green, MLP - blue. Predicted ORFs are also indicated here, colored light grey. **b) __THEV transcripts identified at given time points__**. Transcripts are color coded as explained in **a**. 
 
-**Table 2A**   
+\newpage
 
 ```{r}
-sig_12_juncs%>%
-  kbl(format = "latex", booktabs = T) %>%
-  kable_styling(latex_options = c("striped", "scale_down", "HOLD_position")) %>%
-  row_spec(0, font_size = 15)
+#| tab.id: NULL
+#| tab.cap.pre: ""
+#| tab.cap.sep: ""
+set_flextable_defaults(font.size = 8)
+flextable(sig_12_juncs) %>% theme_zebra() %>%
+  set_table_properties(layout = "fixed", width = 1,
+                       opts_pdf = list(caption_repeat = F)) %>%
+  font(part = "all", fontname = "Avenir") %>%
+  set_caption("Table 2a: Most abundant splice junctions at 12h.p.i",
+              style = "Table Caption")
 ```
-
-**Table 2B**   
+\newpage
 
 ```{r}
-sig_24_juncs %>%
-  kbl(format = "latex", booktabs = T) %>%
-  kable_styling(latex_options = c("striped", "scale_down", "HOLD_position")) %>%
-  row_spec(0, font_size = 15)
+#| tab.id: NULL
+set_flextable_defaults(font.size = 8)
+flextable(sig_24_juncs) %>% theme_zebra() %>%
+  set_table_properties(layout = "fixed", width = 1,
+                       opts_pdf = list(caption_repeat = F)) %>%
+  font(part = "all", fontname = "Avenir") %>%
+  set_caption("Table 2b: Most abundant splice junctions at 24h.p.i",
+              style = "Table Caption")
 ```
-
-**Table 2C**    
+\newpage
 
 ```{r}
-sig_72_juncs %>%
-  kbl(format = "latex") %>%
-  kable_styling(latex_options = c("striped", "scale_down", "HOLD_position")) %>%
-  row_spec(0, font_size = 15)
+#| tab.id: NULL
+set_flextable_defaults(font.size = 8)
+flextable(sig_72_juncs) %>% theme_zebra() %>%
+  set_table_properties(layout = "fixed", width = 1,
+                       opts_pdf = list(caption_repeat = F)) %>%
+  font(part = "all", fontname = "Avenir") %>%
+  set_caption("Table 2c: Most abundant splice junctions at 72h.p.i",
+              style = "Table Caption")
 ```
+\newpage
 
 ![](results/r/figures/trxpt_fpkm_percent_abund.png)
 
@@ -257,6 +281,7 @@ sig_72_juncs %>%
 **a)** 
 **b)**
 
+\newpage
 ![](results/r/figures/junc_abundances.png)
 **Figure 5. a) Relative abundances of splice junctions over time as a proxy of estimating activity levels of THEV promoters**. ## Description here ##########. **b) Relative abundances of junctions in final transcriptome**. ##Description here #######.
 

@@ -23,6 +23,7 @@ dependencies:
   - r-here=1.0.1
   - r-tinytex=0.44
   - r-gt=0.9.0
+  - r-flextable=0.9.2
   - bioconductor-ballgown
   - bioconductor-biocinstaller
   - bioconductor-GenomicRanges

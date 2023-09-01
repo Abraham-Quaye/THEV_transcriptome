@@ -41,7 +41,7 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 library(knitr)
 library(tidyverse)
 library(gt)
-
+library(kableExtra)
 source("scripts/r/bam_file_analysis.R")
 ```
 
@@ -63,5 +63,4 @@ gt(tp_reg_expr_24)
 ```{r Sup Table 1C}
 gt(tp_reg_expr_72)
 ```
-
 
