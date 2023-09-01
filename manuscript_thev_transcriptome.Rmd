@@ -213,14 +213,14 @@ LC Sciences
 #| tab.cap.sep: ""
 
 set_flextable_defaults(font.size = 8)
-t1 <- flextable(tab1) %>% theme_zebra() %>%
-  set_table_properties(layout = "fixed", width = 0.95,
+flextable(tab1) %>% theme_zebra() %>%
+  flextable::set_table_properties(layout = "fixed", width = 0.95,
                        opts_pdf = list(caption_repeat = F)) %>%
-  font(part = "all", fontname = "Avenir") %>%
-  width(., j = "Metric", 1.5) %>%
-  set_caption("Overview of sequencing results",
-              style = "Table Caption")
-bold(t1, j = "Metric", bold = T)
+  flextable::font(part = "all", fontname = "Avenir") %>%
+  flextable::width(., j = ~ Metric, width = 1.5) %>%
+  flextable::set_caption("Overview of sequencing results",
+              style = "Table Caption") %>%
+  flextable::bold(part = "body", j = ~ Metric)
 
 ```
 \newpage
@@ -242,11 +242,14 @@ bold(t1, j = "Metric", bold = T)
 #| tab.cap.sep: ""
 set_flextable_defaults(font.size = 8)
 flextable(sig_12_juncs) %>% theme_zebra() %>%
-  set_table_properties(layout = "fixed", width = 1,
+  flextable::set_table_properties(layout = "fixed", width = 1,
                        opts_pdf = list(caption_repeat = F)) %>%
-  font(part = "all", fontname = "Avenir") %>%
-  set_caption("Table 2a: Most abundant splice junctions at 12h.p.i",
-              style = "Table Caption")
+  flextable::font(part = "all", fontname = "Avenir") %>%
+  flextable::set_caption("Table 2a: Most abundant splice junctions at 12h.p.i",
+              style = "Table Caption") %>%
+  flextable::align(align = "center", part = "all") %>%
+  flextable::width(., width = 0.7) %>%
+  flextable::width(., j = ~ Reads_Percentage, width = 1)
 ```
 \newpage
 
@@ -254,11 +257,14 @@ flextable(sig_12_juncs) %>% theme_zebra() %>%
 #| tab.id: NULL
 set_flextable_defaults(font.size = 8)
 flextable(sig_24_juncs) %>% theme_zebra() %>%
-  set_table_properties(layout = "fixed", width = 1,
+  flextable::set_table_properties(layout = "fixed", width = 1,
                        opts_pdf = list(caption_repeat = F)) %>%
-  font(part = "all", fontname = "Avenir") %>%
-  set_caption("Table 2b: Most abundant splice junctions at 24h.p.i",
-              style = "Table Caption")
+  flextable::font(part = "all", fontname = "Avenir") %>%
+  flextable::set_caption("Table 2b: Most abundant splice junctions at 24h.p.i",
+              style = "Table Caption") %>%
+  flextable::align(align = "center", part = "all") %>%
+  flextable::width(., width = 0.7) %>%
+  flextable::width(., j = ~ Reads_Percentage, width = 1)
 ```
 \newpage
 
@@ -266,11 +272,14 @@ flextable(sig_24_juncs) %>% theme_zebra() %>%
 #| tab.id: NULL
 set_flextable_defaults(font.size = 8)
 flextable(sig_72_juncs) %>% theme_zebra() %>%
-  set_table_properties(layout = "fixed", width = 1,
+  flextable::set_table_properties(layout = "fixed", width = 1,
                        opts_pdf = list(caption_repeat = F)) %>%
-  font(part = "all", fontname = "Avenir") %>%
-  set_caption("Table 2c: Most abundant splice junctions at 72h.p.i",
-              style = "Table Caption")
+  flextable::font(part = "all", fontname = "Avenir") %>%
+  flextable::set_caption("Table 2c: Most abundant splice junctions at 72h.p.i",
+              style = "Table Caption") %>%
+  flextable::align(align = "center", part = "all") %>%
+  flextable::width(., width = 0.7) %>%
+  flextable::width(., j = ~ Reads_Percentage, width = 1)
 ```
 \newpage
 
