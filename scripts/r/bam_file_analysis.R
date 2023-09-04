@@ -271,7 +271,6 @@ find_sig_juncs <- function(tp){
     left_join(meta_dt, est, by = join_by(timepoint, start, end)) %>%
     filter(perc >= 1) %>%
     arrange(desc(perc)) %>%
-    distinct(start, end, .keep_all = T) %>%
     mutate(tot_tp_j_rds = comma(tot_tp_j_rds),
            intron_len = comma(intron_len),
            counts_percent = glue("{tot_tp_j_rds} ({perc}%)")) %>%

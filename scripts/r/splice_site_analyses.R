@@ -61,36 +61,6 @@ unq_trxptome_juncs <- rbind(get_junc_pair("j1_ss", "j1_ts"), get_junc_pair("j2_s
 # load in counted splice sites from regtools output to quantify 
 # the splices sites of any specified region 
 # -----------------
-# single_jun_files <- list.files("results/hisat2", full.names = T,
-#                                pattern = "\\w+\\.bed") %>%
-#   setNames(c("t12s1","t12s3", "t24s1", "t24s2", "t24s3","t4s1",
-#              "t4s2", "t4s3", "t72s1", "t72s2", "t72s3"))
-# 
-# single_junc_stats <- map_dfr(single_jun_files, read_tsv,
-#                              col_names = F,
-#                              show_col_types = F,
-#                              col_types = c("ciiciciicicc"),
-#                              .id = "timepoint") %>%
-#   set_colnames(c("timepoint", "chrom", "start", "end", "junc_name",
-#                  "read_count", "strand", "thickStart", "thickEnd",
-#                  "color", "exons", "exon_sizes", "exon_starts")) %>%
-#   arrange(start, end) %>%
-#   mutate(timepoint = case_when(timepoint %in% glue("t4s{c(1,2,3)}") ~ "4hpi",
-#                                timepoint %in% glue("t12s{c(1,3)}") ~ "12hpi",
-#                                timepoint %in% glue("t24s{c(1,2,3)}") ~ "24hpi",
-#                                timepoint %in% glue("t72s{c(1,2,3)}") ~ "72hpi",
-#                                TRUE ~ timepoint)) %>% 
-#   separate(exon_sizes, c("exon1size", "exon2size"), sep = ",", convert = T) %>%
-#   mutate(junc_ss = start + exon1size,
-#          junc_ts = (end - exon2size) + 1) %>%
-  # select(timepoint, strand, junc_ss, junc_ts, read_count) %>%
-  # group_by(timepoint, junc_ss, junc_ts) %>%
-  # reframe(count_accumul_juncs = n(),
-  #         tot_rds_j_time = sum(read_count))
-
-
-# -----------------
-
 
 bulk_jun_files <- list.files("results/hisat2/bulk", full.names = T,
                              pattern = "annot_\\d+hrsSS\\.txt") %>% 
@@ -100,29 +70,52 @@ bulk_jun_files <- list.files("results/hisat2/bulk", full.names = T,
 bulk_junc_stats <- map_dfr(bulk_jun_files, read_tsv,
                            col_types = c("ciicicciiiciiiccc"),
                            show_col_types = F,
-                           .id = "timepoint") %>% 
-  dplyr::rename(read_count = score) %>%
-  arrange(start, end) %>%
-  mutate(exact_ss = str_replace(splice_site,
-                                "[A-Z]([A-Z])-([A-Z])[A-Z]",
-                                "\\1-\\2")) %>%
-  mutate(region = case_when(strand == "+" & start > 0 & end <= 2325 ~ "E1",
-                            strand == "-" & start >= 2334 & end > 3678 & end <= 18752 ~ "E2",
-                            strand == "+" & start >= 18230 & end <= 25168 ~ "E3",
-                            strand == "-" & start >= 25191 & end <= 26266 ~ "E4",
-                            strand == "-" & start >= 2334 & end <= 3678 ~ "IM",
-                            strand == "+" & start < 18230 & end <= 25168 ~ "MLP",
-                            TRUE ~ NA)) %>% 
-  mutate(region = ifelse(is.na(region) & !is.na(gene_names), gene_names, region)
-         )
+                           .id = "timepoint")
 
-na_reg <- bulk_junc_stats %>% filter(is.na(region))
+assign_region <- function(df){
+  df %>%
+    dplyr::rename(read_count = score) %>%
+    dplyr::arrange(start, end) %>%
+    dplyr::mutate(exact_ss = str_replace(splice_site,
+                                  "[A-Z]([A-Z])-([A-Z])[A-Z]",
+                                  "\\1-\\2")) %>%
+    mutate(region = case_when(strand == "+" & start > 0 & end <= 2325 ~ "E1",
+                              strand == "-" & start >= 2334 & end > 3678 & end <= 18752 ~ "E2",
+                              strand == "+" & start >= 18230 & end <= 25168 ~ "E3",
+                              strand == "-" & start >= 25191 & end <= 26266 ~ "E4",
+                              strand == "-" & start >= 2334 & end <= 3678 ~ "IM",
+                              strand == "+" & start < 18230 & end <= 25168 ~ "MLP",
+                              TRUE ~ NA)) %>% 
+    mutate(region = ifelse(is.na(region) & !is.na(gene_names), gene_names, region))
+}
 
-bulk_juncs <- bulk_junc_stats %>%
+bulk_junc_stats <- assign_region(bulk_junc_stats)
+
+# na_reg <- bulk_junc_stats %>% filter(is.na(region)) %>% distinct(start, end) %>% nrow()
+
+group_unq_juncs <- function(df){
+  df %>%
   group_by(timepoint, start, end, exact_ss, splice_site) %>%
   reframe(accum_tally_j = n(),
+          region = list(region),
           tot_rds_j_time = sum(read_count),
           trxpts = list(transcripts))
+}
+
+unq_bulk_juncs <- group_unq_juncs(bulk_junc_stats)
+
+cleanup_reg_name <- function(df){
+  # cleanup region column of duplicated and NA values
+  df$region <- map(df$region, ~unique(na.omit(.x)))
+  
+  # convert region column back to string vector
+  df$region <- map_chr(df$region, ~paste(.x, collapse = ","))
+  
+  df <- mutate(df, region = ifelse(region == "", NA_character_, region))
+  return (df)
+}
+
+unq_bulk_juncs <- cleanup_reg_name(unq_bulk_juncs)
 
 # -----------------------
 # filter out splice sites in the e1 region to be joined with the counted splice sites
@@ -132,7 +125,7 @@ count_trxptome_ss <- function(count_data){
   spl_sites <- left_join(unq_trxptome_juncs,
                          count_data,
                          by = join_by(junc_ss == start, junc_ts == end)) %>%
-    select(timepoint, region, transcript_id, strand, junc_name,
+    select(timepoint, region = region.x, transcript_id, strand, junc_name,
            junc_ss, junc_ts, exact_ss, splice_site, trxpts) %>%
     mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
     distinct(junc_name, timepoint, region, .keep_all = T)
@@ -141,7 +134,7 @@ count_trxptome_ss <- function(count_data){
   counts <- left_join(unq_trxptome_juncs,
                       count_data,
                       by = join_by(junc_ss == start, junc_ts == end)) %>%
-  select(timepoint, region, junc_name, accum_tally_j, tot_rds_j_time) %>%
+  select(timepoint, region = region.x, junc_name, accum_tally_j, tot_rds_j_time) %>%
   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
   group_by(timepoint, junc_name, region) %>% 
   reframe(accumul_juncs_reg = sum(accum_tally_j),
@@ -164,15 +157,20 @@ count_trxptome_ss <- function(count_data){
   )
 }
 
+bulk_count_trxptome_ss <- count_trxptome_ss(unq_bulk_juncs) 
 
+summarize_trxptome_ss <- function(df){
+  df_mod <- df %>%
+    group_by(timepoint, region, .drop = FALSE) %>%
+    reframe(mean_tot_rds_time = mean(tot_reads_time, na.rm = T),
+            tot_rds_tp_reg = sum(total_rd_j_tp_reg, na.rm = T),
+            reg_junc_percent = round((tot_rds_tp_reg / mean_tot_rds_time) * 100, 2)) %>%
+    replace_na(replace = list(mean_tot_rds_time = 0,
+                              reg_junc_percent = 0))
+  return(df_mod)
+}
 
-bulk_count_trxptome_ss <- count_trxptome_ss(bulk_juncs) %>%
-  group_by(timepoint, region, .drop = FALSE) %>%
-  reframe(mean_tot_rds_time = mean(tot_reads_time, na.rm = T),
-          tot_rds_tp_reg = sum(total_rd_j_tp_reg, na.rm = T),
-          reg_junc_percent = round((tot_rds_tp_reg / mean_tot_rds_time) * 100, 2)) %>%
-  replace_na(replace = list(mean_tot_rds_time = 0,
-                            reg_junc_percent = 0))
+bulk_count_trxptome_ss <- summarize_trxptome_ss(bulk_count_trxptome_ss)
 
 ## visualize
 plot_time_genexpression <- function(count_ss){
@@ -247,10 +245,7 @@ all_juncs <- plot_time_genexpression(plot_all_junc_abunds) +
   labs(x = element_blank(),
        y = "Relative Abundances of All Junctions")
 
-patch_expr <- (all_juncs | trxptome_juncs) +
-  plot_layout(tag_level = "new") +
-  plot_annotation(tag_levels = "A") &
-  theme(plot.tag = element_text(size = 22, face = "bold"))
+patch_expr <- (all_juncs | trxptome_juncs)
 
 ggsave("junc_abundances.png",
        plot = patch_expr, path = "results/r/figures",
@@ -261,7 +256,7 @@ ggsave("junc_abundances.png",
 ## splice donor and acceptor frequencies
 
 # acceptors and donors in trxptome
-bulk_trxptome_ss_seq <- count_trxptome_ss(bulk_juncs) %$%
+bulk_trxptome_ss_seq <- count_trxptome_ss(unq_bulk_juncs) %$%
   count(exact_ss) %>%
   mutate(sum_junc_count = sum(freq),
          percent_abund = (freq / sum_junc_count) * 100) %>%
