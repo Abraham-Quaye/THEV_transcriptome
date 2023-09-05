@@ -297,7 +297,7 @@ flextable(sig_72_juncs) %>% theme_zebra() %>%
 
 
 ```{r region-by-region_e1_figure}
-set_flextable_defaults(font.size = 8)
+set_flextable_defaults(font.size = 7)
 flextable(reg_e1_brkdown) %>% theme_zebra() %>%
   flextable::set_table_properties(layout = "fixed",
                        opts_pdf = list(caption_repeat = F)) %>%
@@ -309,12 +309,13 @@ flextable(reg_e1_brkdown) %>% theme_zebra() %>%
                                intron_len = "Intron Length", "4hpi" = "4h.p.i",
                                "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
                                "72hpi" = "72h.p.i") %>%
-  flextable::width(., width = 0.6) %>%
+  flextable::width(., width = 0.5) %>%
   flextable::align(align = "center", part = "all") %>%
   add_header_row(., values = c("", "Splice Junction", "", "", "Junction Reads", ""),
                  colwidths = c(1, 4, 1, 1, 4, 1)) %>%
   flextable::vline(j = c(1, 5, 7, 11), border = fp_border_default(color = "grey",
-                                                                  width = 1.5))
+                                                                  width = 1.5))  %>%
+  flextable::width(., j = ~ coding_potential, width = 1)
 ```
 
 

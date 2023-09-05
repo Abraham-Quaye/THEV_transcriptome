@@ -90,7 +90,7 @@ plot_full_trxptome <- function(combined_gtf){
   # add y-axis positions to negative strand transcripts
   
   ypos_e4 <- combined_gtf %>% filter(region == "E4")
-  ypos_e4$ypos <- rep(c(23, 24), length.out = nrow(ypos_e4))
+  ypos_e4$ypos <- rep(c(22, 23), length.out = nrow(ypos_e4))
   
   ypos_e2 <- combined_gtf %>% filter(region == "E2")
   ypos_e2$ypos <- rep(c(23:18), length.out = nrow(ypos_e2))
