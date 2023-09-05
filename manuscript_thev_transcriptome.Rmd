@@ -81,7 +81,7 @@ seq_len <- bam_info %>% select(read_length) %>% slice_head() %>% pull()
 ## load in variables to be used inline 
 source("scripts/r/bam_file_analysis.R")
 source("scripts/r/thev_splicing_fullMap.R")
-
+source("scripts/r/abundance_analyses.R")
 
 cov_thev <- all_covs %>% filter(organism == "thev")
 
@@ -139,11 +139,12 @@ AdV gene expression occurs under exquisite temporal control, supervised by desig
 Secondly, we estimated relative abundances of all splice junctions for each time point, counting as significantly expressed only those with coverage of at least 1% of the total splice junction reads counted at the given time point. At 12 h.p.i, `r nrow(sig_12_juncs)` junctions meet the 1% threshold, and were predominantly early region (E1, E2, and E3) junctions, albeit a significant proportion are MLP-derived (__Table 2a__). Junctions from the E2 region were the most abundant at this time point, constituting `r round(most_sig_12, 1)`% of all junctions. The two most abundant junctions at 12 h.p.i were maintained at 24 h.p.i also as the most significantly expressed. However, the MLP-derived junctions were unsurprisingly the most preponderant overall at this time point, accounting for `r round(most_sig_24, 1)`% of all the junction reads counted (__Table 2b__). At 72 h.p.i, the trend of increased activity of the MLP continued as expected; at this time, the MLP-derived junctions was not only the most abundant overall - accounting for `r round(most_sig_72, 1)`% of all junctions reads - but also contained the most significantly expressed individual junctions (__Table 2c__. Also see __Supplementary Tables 1a-c__; __Figure 4c__). When we limited this analysis to only junctions in the final transcriptome, the relative abundances of the junctions for each region over time was substantially similar to the pattern seen with all the junctions included (__Figure 4d__).  
 Furthermore, we analyzed splice donor and acceptor site nucleotide usage over time to investigate any peculiarities that THEV may show, generally or over the course of the infection. This revealed that, with the exception of one junction (which was a T-G donor-acceptor pair), all splice donor-acceptor pairs in the final transcriptome were the canonical T-A pair.
 
-**Early Region 1 (E1) transcripts**. This region in MAdVs is the first transcribed after successful entry of the viral DNA into the nucleus of the host cell but at low levels [@Zhao2014]. The host transcription machinery is solely responsible for the transcription of this region. After their translation, the E1 proteins in concert with a myriad of host transcription factors activate the other viral promoters [@Guimet2016]. We discovered four novel transcripts in this region with varying protein-coding potential (PCP). 
+**Early Region 1 (E1) transcripts**. This region in MAdVs is the first transcribed after successful entry of the viral DNA into the nucleus of the host cell but at low levels [@Zhao2014]. The host transcription machinery is solely responsible for the transcription of this region. After their translation, the E1 proteins in concert with a myriad of host transcription factors activate the other viral promoters [@Guimet2016]. Only two ORFs (ORF1 [sialidase] and Hyd) are predicted in this region; however, we discovered four novel transcripts in this region (__Figure 5__). The abundance of the transcripts and splice junctions varied over time. The most abundant was #### at #### and 
 
 ~~and also validated the predicted ORF (sialidase; ORF1)~~.
 
 Early Region 2A (E2A) transcripts.
+some with multiple protein-coding potential (PCP)
 
 Early Region 2B (E2B) transcripts.
 
@@ -295,5 +296,25 @@ flextable(sig_72_juncs) %>% theme_zebra() %>%
 **c)** Relative abundances of all splice junctions over time. **d)** Relative abundances of junctions in final transcriptome.
 
 
+```{r region-by-region_e1_figure}
+set_flextable_defaults(font.size = 8)
+flextable(reg_e1_brkdown) %>% theme_zebra() %>%
+  flextable::set_table_properties(layout = "fixed",
+                       opts_pdf = list(caption_repeat = F)) %>%
+  flextable::font(part = "all", fontname = "Avenir") %>%
+  flextable::set_header_labels(start = "Start", end = "End",
+                               splice_site = "Splice Site", region = "Region",
+                               strand = "Strand", trxpt_id = "Transcript ID",
+                               coding_potential = "Protein Coding Potential",
+                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
+                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
+                               "72hpi" = "72h.p.i") %>%
+  flextable::width(., width = 0.6) %>%
+  flextable::align(align = "center", part = "all") %>%
+  add_header_row(., values = c("", "Splice Junction", "", "", "Junction Reads", ""),
+                 colwidths = c(1, 4, 1, 1, 4, 1)) %>%
+  flextable::vline(j = c(1, 5, 7, 11), border = fp_border_default(color = "grey",
+                                                                  width = 1.5))
+```
 
 

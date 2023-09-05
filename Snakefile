@@ -366,16 +366,6 @@ rule make_coverage_figures:
     shell:
        "{input.r_script1}"
 
-################## PLOT JUNCTION ABUNDANCE FIGURES ################
-rule junc_abund_plots:
-    input:
-        trxptome = rules.mod_final_trxptome.output,
-        annot_juncs = rules.bulk_annotate_junctions.output,
-        rscript = "scripts/r/splice_site_analyses.R"
-    output:
-        "results/r/figures/junc_abundances.png"
-    shell:
-        "{input.rscript}"
 
 #################### PLOT THEV GENOMIC MAP ############
 rule make_orf_map:
@@ -387,18 +377,22 @@ rule make_orf_map:
     shell:
        "{input.r_script}"
 
-#################### PLOT TRANSCRIPT ABUNDANCES OVER TIME ############
-rule trxpt_abund_plots:
+#################### PLOT TRANSCRIPT  AND JUNCTION ABUNDANCES OVER TIME ############
+rule abund_plots:
     input:
-        r_script = "scripts/r/ballgown.R",
+        trxptome = rules.mod_final_trxptome.output,
+        annot_juncs = rules.bulk_annotate_junctions.output,
         abun_files = rules.est_abundances.output,
         bams = rules.filter_thev.output,
+        rscript1 = "scripts/r/plot_abundances.R",
+        rscript2 = "scripts/r/abundance_analyses.R"
     output:
+        "results/r/figures/junc_abundances.png",
         "results/r/figures/region_fpkm_percent_abund.png",
         "results/r/figures/trxpt_fpkm_percent_abund.png",
         "results/r/figures/fpkm_dist_by_time.png"
     shell:
-       "{input.r_script}"
+        "{input.rscript1}"
 
 ################# MAP UNINFECTED READS ############################
 # rule uninfected_map:
@@ -526,9 +520,10 @@ rule write_manuscript:
         rules.make_orf_map.output,
         rules.make_full_splice_map.output,
         rules.make_timepoint_splice_map.output,
-        rules.junc_abund_plots.output,
+        rules.abund_plots.output,
         "results/r/figures/region_fpkm_percent_abund.png",
         "results/r/figures/trxpt_fpkm_percent_abund.png",
+        "scripts/r/abundance_analyses.R"
     output:
         "manuscript_thev_transcriptome.pdf",
         "manuscript_thev_transcriptome.docx"
