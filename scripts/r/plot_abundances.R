@@ -70,17 +70,18 @@ ggsave("junc_abundances.png",
 ## splice donor and acceptor frequencies
 
 # acceptors and donors in trxptome
-bulk_trxptome_ss_seq <- count_trxptome_ss(unq_bulk_juncs) %$%
-  count(exact_ss) %>%
+bulk_trxptome_ss_seq <- count_trxptome_ss(unq_bulk_juncs) %>%
+  distinct(junc_ss, junc_ts, .keep_all = T) %>%
+  dplyr::group_by(exact_ss) %>%
+  reframe(freq = n()) %>% 
   mutate(sum_junc_count = sum(freq),
-         percent_abund = (freq / sum_junc_count) * 100) %>%
-  dplyr::rename(ss_seq = x)
+         percent_abund = (freq / sum_junc_count) * 100)
 
 # plot trxptome acceptors and donor frequencies
 ss <- bulk_trxptome_ss_seq %>%
-  ggplot(aes(ss_seq, percent_abund, color = ss_seq)) +
+  ggplot(aes(exact_ss, percent_abund, color = exact_ss)) +
   geom_point(show.legend = F, size = 10) +
-  geom_segment(aes(x = ss_seq, xend = ss_seq,
+  geom_segment(aes(x = exact_ss, xend = exact_ss,
                    y = 0, yend = percent_abund),
                linewidth = 2,
                show.legend = F) +
@@ -107,6 +108,7 @@ ss <- bulk_trxptome_ss_seq %>%
 
 # All acceptors and donors
 all_ss_seq <- bulk_junc_stats %>%
+  distinct(timepoint, start, end, .keep_all = T) %>%
   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
   group_by(timepoint, exact_ss) %>%
   reframe(tally = n(),

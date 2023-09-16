@@ -1,14 +1,16 @@
+
 #!/usr/bin/env Rscript
 
 library(magrittr)
-library(ggtext)
 library(glue)
 library(rtracklayer)
-library(ggbrace)
 library(patchwork)
+library(ggtext)
+library(ggbrace)
 library(plyr)
 library(tidyverse)
 library(ballgown)
+
 
 # Import GTF and Wrangle for plotting ==========================================
 #===============================================================================
@@ -99,7 +101,7 @@ predicted_orfs <- predicted_orfs %>%
   mutate(region = case_when(gene_name %in% c("ORF1", "Hyd") ~ "E1",
                             gene_name %in% c("ORF8") ~ "E4",
                             gene_name %in% c("DBP", "pTP", "AdPOL") ~ "E2",
-                            gene_name  %in% c("E3", "100K") ~ "E3",
+                            gene_name  %in% c("E3", "100K", "33K", "22K", "pVIII") ~ "E3",
                             gene_name == "IVa2" ~ "IM",
                             gene_name == "UXP" ~ "LONE",
                             TRUE ~ "MLP")) %>%
@@ -128,22 +130,22 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   
   # add y-axis positions to postive strand E3 transcripts
   ypos_pos_e3 <- combined_gtf %>% filter(region == "E3")
-  ypos_pos_e3$ypos <- rep(c(36:45), length.out = nrow(ypos_pos_e3))
+  ypos_pos_e3$ypos <- rep(c(26:45), length.out = nrow(ypos_pos_e3))
   
   
   # add y-axis positions to negative strand transcripts
   
   ypos_e4 <- combined_gtf %>% filter(region == "E4")
-  ypos_e4$ypos <- rep(c(22, 23), length.out = nrow(ypos_e4))
+  ypos_e4$ypos <- rep(c(23, 24), length.out = nrow(ypos_e4))
   
   ypos_e2 <- combined_gtf %>% filter(region == "E2")
-  ypos_e2$ypos <- rep(c(23:18), length.out = nrow(ypos_e2))
+  ypos_e2$ypos <- rep(c(24:19), length.out = nrow(ypos_e2))
   
   ypos_im <- combined_gtf %>% filter(region == "IM")
   ypos_im$ypos <- rep(c(19, 20), length.out = nrow(ypos_im))
   
   ypos_uxp <- combined_gtf %>% filter(region == "LONE")
-  ypos_uxp$ypos <- rep(c(23), length.out = nrow(ypos_uxp))
+  ypos_uxp$ypos <- rep(c(24), length.out = nrow(ypos_uxp))
   
   
   trxpt_regs <- if(trxptome_part == "all"){
@@ -160,11 +162,16 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
                              region == "IM" ~ "steelblue",
                              TRUE ~ "#0000ff")) %>%
     mutate(color = ifelse(!is.na(gene_name), "grey80", color),
-           ypos = case_when(gene_name == "pVIII" ~ 29, 
-                            gene_name == "Protease" ~ 43,
-                            gene_name == "E3" ~ 42,
-                            gene_name == "ORF7" ~ 26,
-                            TRUE ~ ypos)) %>%
+           ypos = case_when(gene_name == "Hyd" ~ 30,
+                            gene_name == "pVIII" ~ 32,
+                            gene_name == "52K" ~ 39,
+                            gene_name == "pVII" ~ 36.5,
+                            gene_name == "Hexon" ~ 34.5,
+                            gene_name == "E3" ~ 33,
+                            gene_name == "22K" ~ 32.5,
+                            # gene_name == "ORF7" ~ 26,
+                            TRUE ~ ypos)
+           ) %>%
     as_tibble() %>%
     filter(region %in% trxpt_regs)
   
@@ -182,12 +189,6 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
       rbind(., mlp_adj_ypos)
   }
   
-  # e3
-  if(trxptome_part == "E3"){
-    combined_gtf <- combined_gtf %>%
-      mutate(ypos = rep(c(26:43), length.out = nrow(.)))
-  }
-  
   # ===================================================================
   # SINGLE EXON TRXPTS AND REGION LABELS FOR FULL TRANSCRIPTOME =======
   single_orfs <- combined_gtf %>% filter(is.na(start_2), is.na(end_2))
@@ -196,21 +197,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
                          y = 24.8,
                          yend = 25.3,
                          lab = paste0(seq(0,26, 2), "kb")
-                         )
-  
-  trxpt_units <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
-                         0, 2325, 17.5, "E1", 17,
-                         24511, 26266, 17.5, "E4", 17,
-                         2333, 3437, 17.5, "IM", 17,
-                         3429, 8543, 17.5, "E2B", 17,
-                         16972, 18186, 17.5, "E2A", 17
-                         )
-  e3_lab <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
-                     18186, filter(combined_gtf, transcript_id == "TCONS_00000027") %>% pull(end_1), 43, "E3", 43.5
-                    )
-  
-  mlp_lab <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
-                     filter(combined_gtf, transcript_id == "TCONS_00000006") %>% pull(start_1), filter(combined_gtf, transcript_id == "TCONS_00000022") %>% pull(end_1), 44.5, "MLP", 46.5)
+  )
   
   
   # ========================================================
@@ -223,8 +210,10 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   
   # 
   x_axis_start <- min(combined_gtf[, start_cols[1]])
-  if(trxptome_part != "all"){
-    x_axis_start <- x_axis_start - (x_axis_start * 0.1)
+  if(!str_detect(trxptome_part, "all|E1")){
+    if(trxptome_part == "E4"){
+      x_axis_start <- x_axis_start - (x_axis_start * 0.01)
+    }else{x_axis_start <- x_axis_start - (x_axis_start * 0.03)}
     x_axis_start <- plyr::round_any(x_axis_start, 100)
   } else{x_axis_start <- 0}
   
@@ -238,21 +227,24 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
     # pull the max of the candidate maximums
     x_axis_end <- max(x_axis_candidates, na.rm = T)
     # modify for use in axis
-    x_axis_end <- x_axis_end + (x_axis_end * 0.1)
+    if(trxptome_part == "E4"){
+      x_axis_end <- x_axis_end + (x_axis_end * 0.01)
+    }else{x_axis_end <- x_axis_end + (x_axis_end * 0.03)}
     x_axis_end <- plyr::round_any(x_axis_end, 100, f = ceiling)
+    x_axis_end <- ifelse(x_axis_end > 26266, 26266, x_axis_end)
   } else{x_axis_end <- 26266}
   
   
   if(trxptome_part == "all"){
     y_lims <- c(NA, 48)
-    } else{y_lims <- c(NA, NA)}
+  } else{y_lims <- c(NA, NA)}
   
   splice_map <- combined_gtf %>%
     ggplot() +
     # line representing whole genome
     geom_segment(aes(x = x_axis_start, xend = x_axis_end, y = 25, yend = 25),
                  linewidth = 3.5, color = "black") +
-   
+    
     # plot full trxpts: start_pos to end_pos
     geom_segment(aes_string(x = start_cols[1], xend = end_cols[1],
                             y = "ypos", yend = "ypos"),
@@ -290,58 +282,81 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   }
   
   # Add labels for full plot -----------------
-  if(trxptome_part == "all"){
-    splice_map <- splice_map +
-      # genome size marker
-      geom_segment(data = genome_ruler, aes(x = x, xend = x, y = y, yend = yend),
-                   color = "#ffffff", linewidth = 0.5) +
-      # genome size labels
-      geom_richtext(data = genome_ruler, aes(x = x, y = (y - 0.5), label = lab),
-                    label.size = NA, label.padding = unit(0, "pt"), fill = NA) +
-      # transcription unit labels
-      geom_segment(data = trxpt_units, aes(x = x, xend = xend, y = y, yend = y),
-                   linewidth = 0.65, arrow = arrow(ends = "both", type = "closed",
-                                                   angle = 25, length = unit(0.1, "inches"))) +
-      geom_text(data = trxpt_units, aes(x = (x + xend)/2, y = ylabb, label = labb),
-                fontface = "bold", size = 5) +
-      
-      # E3 transcription unit labels
-      geom_text(data = e3_lab, aes(x = (x + xend)/2, y = ylabb, label = labb),
-                fontface = "bold", size = 6) +
-      
-      geom_brace(aes(x = c(e3_lab$x, e3_lab$xend),
-                     y = c(e3_lab$y, e3_lab$ylabb - 1)),
-                 inherit.data = F) +
-      
-      # MLP transcription unit labels
-      geom_text(data = mlp_lab, aes(x = (x + xend)/2, y = ylabb, label = labb),
-                fontface = "bold", size = 6) +
-      
-      geom_brace(aes(x = c(mlp_lab$x, mlp_lab$xend),
-                     y = c(mlp_lab$y, mlp_lab$ylabb - 1)),
-                 inherit.data = F)
-  }else{
-    splice_map <- splice_map +
+  splice_map <- splice_map +
     # label each transcript
     geom_richtext(aes(x = (end_1), y = ypos, label = trxpt_id,
                       hjust = 0, fontface = "bold"), size = 3,
                   label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, label.margin = margin(l = 5),
                   show.legend = F)
-  }
   
-  if(trxptome_part == "all"){
-    splice_map <- splice_map +
-      plot_annotation(tag_levels = "A") &
-      theme(plot.tag = element_text(size = 22, face = "bold"))
-  }
   return(splice_map)
 }  
 
-## Save final figure of full transcriptome
-ggsave(plot = plot_full_trxptome(combined_gtf, "all"),
-       filename = "results/r/figures/thev_spliced_map.png",
-       dpi = 500, width = 12, height = 8)
+
+# ===============================================================
+# REGION-BY-REGION BREAKDOWN PLOTS
+# ===============================================================
+
+# PLOT FOR E1 REGION ==============================================
+brkdown_reg_plots <- function(reg){
+  
+  # genome ruler for region-by-region breakdown
+  if(reg %in% c("E1", "IM")){
+    genome_ruler <- tibble(x = seq(0, 26000, 200),
+                           y = 24.8,
+                           yend = 25.3,
+                           lab = paste0(seq(0, 26, 0.2), "kb")
+    )
+  }
+  
+  if(reg %in% c("E2", "MLP")){
+    genome_ruler <- tibble(x = seq(2000, 26000, 2000),
+                           y = 24.8,
+                           yend = 25.3,
+                           lab = paste0(seq(2, 26, 2), "kb")
+    )
+  }
+  
+  if(reg == "E3"){
+    genome_ruler <- tibble(x = seq(0, 26000, 2000),
+                           y = 24.8,
+                           yend = 25.3,
+                           lab = paste0(seq(0, 26, 2), "kb")
+    )
+  }
+  
+  # genome ruler for region-by-region breakdown
+  if(reg == "E4"){
+    genome_ruler <- tibble(x = seq(0, 26266, 200),
+                           y = 24.8,
+                           yend = 25.3,
+                           lab = paste0(seq(0, 26.266, 0.2), "kb")
+    )
+  }
+  
+  plot_full_trxptome(combined_gtf, reg) +
+  # genome size marker
+  geom_segment(data = genome_ruler, aes(x = x, xend = x, y = y, yend = yend),
+               color = "#ffffff", linewidth = 0.5) +
+  # genome size labels
+  geom_richtext(data = genome_ruler, aes(x = x, y = (y - 0.1), label = lab),
+                label.size = NA, label.padding = unit(0, "pt"), fill = NA)
+
+}
+
+e1_trxtps <- brkdown_reg_plots("E1")
+
+e2_trxtps <- brkdown_reg_plots("E2")
+
+e3_trxtps <- brkdown_reg_plots("E3")
+
+e4_trxtps <- brkdown_reg_plots("E4")
+
+im_trxtps <- brkdown_reg_plots("IM")
+
+mlp_trxtps <- brkdown_reg_plots("MLP")
+
 
 
 

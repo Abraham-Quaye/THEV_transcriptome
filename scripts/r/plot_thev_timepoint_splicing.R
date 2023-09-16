@@ -153,8 +153,8 @@ graph_trxpts <- function(gtf){
         scale_y_continuous(expand = c(0.01,0.01),
                            limits = ylimits) +
         theme(plot.margin = margin(rep(5, 4)),
-              plot.background = element_rect(fill = "#ffffff"),
-              panel.background = element_rect(fill = c("#FFF0F0")),
+              plot.background = element_rect(fill = "#ffffff", color = "grey"),
+              panel.background = element_rect(fill = "#ffffff"),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(),
               panel.grid.major.y = element_blank(),

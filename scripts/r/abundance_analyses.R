@@ -318,116 +318,116 @@ t_expr_each <- t_exp_levels %>%
 # REGION-BY-REGION ANALYSES TABLES/DATA
 # =================================================================
 
-reg_brkdown_tab <- function(reg){
-  
-  cleanup_cols <- function(df){
-    # cleanup column of duplicates and set them to vectors
-    for(col in seq_along(df)){
-      
-      df[[col]] <- map(df[[col]], ~unique(.x))
-      df[[col]] <- map_chr(df[[col]], ~base::paste(.x, collapse = ", "))
-    }
-    return (df)
-  }
-  
-  reg_ss <- rbind(get_junc_pair("j1_ss", "j1_ts"), get_junc_pair("j2_ss", "j2_ts"),
-              get_junc_pair("j3_ss", "j3_ts"), get_junc_pair("j4_ss", "j4_ts"),
-              get_junc_pair("j5_ss", "j5_ts"), get_junc_pair("j6_ss", "j6_ts")) %>%
-    drop_na() %>%
-    mutate(region = factor(region, levels = c("IM", "E1", "E2", "E3", "E4", "MLP")),
-           transcript_name = dplyr::case_match(transcript_name,
-                                      "trxptA_novel" ~ "Hyd_iso_1",
-                                      "trxptB_ORF1" ~ "ORF1_novel_iso",
-                                      "trxptC_hyd" ~ "Hyd_iso_2",
-                                      "trxptD_ORF4" ~ "ORF4_novel",
-                                      "DBP" ~ "DBP",
-                                      "ptp_pol1" ~ "pTP/Pol_iso_1",
-                                      "ptp_pol2" ~ "pTP/Pol_iso_2",
-                                      "trunc_hypothetical" ~ "novel_truncated",
-                                      "IVa2" ~ "IVa2",
-                                      "100K:Fib" ~ "100K->Fiber",
-                                      "33K_pVIII_E3_Fib" ~ "33K->Fiber",
-                                      "33K_pVIII_E3_lngr_tts" ~ "33K->E3_iso_1",
-                                      "33K_pVIII_E3_xtra_exon" ~ "33K->E3_iso_2",
-                                      "22K:Fib" ~ "22K->Fiber",
-                                      "E3_Fib_ORF7" ~ "E3->ORF7",
-                                      "ORF8" ~ "ORF8",
-                                      "33K:E3" ~ "33K->E3",
-                                      "52K" ~ "52K",
-                                      "Hexon" ~ "Hexon",
-                                      "Hexon:protease" ~ "Hexon/Protease",
-                                      "TPL_exons_trunc" ~ "TPL",
-                                      "MLP_Fib_ORF7" ~ "Fiber/ORF7",
-                                      "pIIIa:pVII" ~ "pIIIa->pVII",
-                                      "pVII:protease" ~ "pVII->Protease_iso_1",
-                                      "pVII:protease_2" ~ "pVII->Protease_iso_2",
-                                      "III_pVII" ~ "III/pVII",
-                                      "pVII" ~ "pVII",
-                                      "pX:Hexon" ~ "pX->Hexon",
-                                      .default =  transcript_name)
-           ) %>%
-    arrange(region) %>%
-    group_by(junc_ss, junc_ts) %>%
-    reframe(t_name = list(transcript_name),
-            trxpt_id = list(trxpt_id),
-            region = list(region),
-            strand = list(strand)) %>%
-    select(t_name, trxpt_id, region, strand, junc_ss, junc_ts)
-  
-  # unlist columns
-  cln_reg_ss <- cleanup_cols(reg_ss)
-  
-  
-  # add junction count data
-  cln_reg_ss_counts <- cln_reg_ss %>%
-    mutate(junc_ss = as.numeric(junc_ss),
-           junc_ts = as.numeric(junc_ts),
-           intron_len = (junc_ts - junc_ss) + 1) %>% 
-    left_join(., unq_bulk_juncs, by = join_by(junc_ss == start, junc_ts == end)) %>%
-    select(-c(trxpts, region.y, accum_tally_j, exact_ss)) %>%
-    group_by(timepoint, junc_ss, junc_ts) %>%
-    reframe(sum_reads = sum(tot_rds_j_time),
-            trxpt_id = list(trxpt_id),
-            region = list(region.x),
-            strand = list(strand),
-            splice_site = list(splice_site),
-            intron_len = list(intron_len),
-            coding_potential = list(t_name)
-            )
-  
-  cln_reg_ss_counts <- cleanup_cols(cln_reg_ss_counts) %>%
-    pivot_wider(names_from = timepoint, values_from = sum_reads) %>%
-    dplyr::filter(str_detect(region, reg)) %>%
-    dplyr::select(trxpt_id, start = junc_ss, end = junc_ts, splice_site, intron_len,
-                  region, strand, "4hpi", "12hpi", "24hpi", "72hpi", coding_potential) %>%
-    mutate("4hpi" = ifelse(is.na(`4hpi`), 0, `4hpi`),
-           "12hpi" = ifelse(is.na(`12hpi`), 0, `12hpi`),
-           "24hpi" = ifelse(is.na(`24hpi`), 0, `24hpi`),
-           "72hpi" = ifelse(is.na(`72hpi`), 0, `72hpi`),
-           intron_len = glue("{intron_len}bp"))
-  
-  return(cln_reg_ss_counts)
-}
-  
-
-# E1 region table analysis for discussion
-reg_e1_brkdown <- reg_brkdown_tab("E1")
-  
-# E2 region table analysis for discussion
-reg_e2_brkdown <- reg_brkdown_tab("E2")
-
-# E3 region table analysis for discussion
-reg_e3_brkdown <- reg_brkdown_tab("E3")
-
-# E4 region table analysis for discussion
-reg_e4_brkdown <- reg_brkdown_tab("E4")
-
-
-# IM region table analysis for discussion
-reg_im_brkdown <- reg_brkdown_tab("IM")
-
-# MLP region table analysis for discussion
-reg_mlp_brkdown <- reg_brkdown_tab("MLP")
-
-
+# reg_brkdown_tab <- function(reg){
+#   
+#   cleanup_cols <- function(df){
+#     # cleanup column of duplicates and set them to vectors
+#     for(col in seq_along(df)){
+#       
+#       df[[col]] <- map(df[[col]], ~unique(.x))
+#       df[[col]] <- map_chr(df[[col]], ~base::paste(.x, collapse = ", "))
+#     }
+#     return (df)
+#   }
+#   
+#   reg_ss <- rbind(get_junc_pair("j1_ss", "j1_ts"), get_junc_pair("j2_ss", "j2_ts"),
+#               get_junc_pair("j3_ss", "j3_ts"), get_junc_pair("j4_ss", "j4_ts"),
+#               get_junc_pair("j5_ss", "j5_ts"), get_junc_pair("j6_ss", "j6_ts")) %>%
+#     drop_na() %>%
+#     mutate(region = factor(region, levels = c("IM", "E1", "E2", "E3", "E4", "MLP")),
+#            transcript_name = dplyr::case_match(transcript_name,
+#                                       "trxptA_novel" ~ "Hyd_iso_1",
+#                                       "trxptB_ORF1" ~ "ORF1_novel_iso",
+#                                       "trxptC_hyd" ~ "Hyd_iso_2",
+#                                       "trxptD_ORF4" ~ "ORF4_novel",
+#                                       "DBP" ~ "DBP",
+#                                       "ptp_pol1" ~ "pTP/Pol_iso_1",
+#                                       "ptp_pol2" ~ "pTP/Pol_iso_2",
+#                                       "trunc_hypothetical" ~ "novel_truncated",
+#                                       "IVa2" ~ "IVa2",
+#                                       "100K:Fib" ~ "100K->Fiber",
+#                                       "33K_pVIII_E3_Fib" ~ "33K->Fiber",
+#                                       "33K_pVIII_E3_lngr_tts" ~ "33K->E3_iso_1",
+#                                       "33K_pVIII_E3_xtra_exon" ~ "33K->E3_iso_2",
+#                                       "22K:Fib" ~ "22K->Fiber",
+#                                       "E3_Fib_ORF7" ~ "E3->ORF7",
+#                                       "ORF8" ~ "ORF8",
+#                                       "33K:E3" ~ "33K->E3",
+#                                       "52K" ~ "52K",
+#                                       "Hexon" ~ "Hexon",
+#                                       "Hexon:protease" ~ "Hexon/Protease",
+#                                       "TPL_exons_trunc" ~ "TPL",
+#                                       "MLP_Fib_ORF7" ~ "Fiber/ORF7",
+#                                       "pIIIa:pVII" ~ "pIIIa->pVII",
+#                                       "pVII:protease" ~ "pVII->Protease_iso_1",
+#                                       "pVII:protease_2" ~ "pVII->Protease_iso_2",
+#                                       "III_pVII" ~ "III/pVII",
+#                                       "pVII" ~ "pVII",
+#                                       "pX:Hexon" ~ "pX->Hexon",
+#                                       .default =  transcript_name)
+#            ) %>%
+#     arrange(region) %>%
+#     group_by(junc_ss, junc_ts) %>%
+#     reframe(t_name = list(transcript_name),
+#             trxpt_id = list(trxpt_id),
+#             region = list(region),
+#             strand = list(strand)) %>%
+#     select(t_name, trxpt_id, region, strand, junc_ss, junc_ts)
+#   
+#   # unlist columns
+#   cln_reg_ss <- cleanup_cols(reg_ss)
+#   
+#   
+#   # add junction count data
+#   cln_reg_ss_counts <- cln_reg_ss %>%
+#     mutate(junc_ss = as.numeric(junc_ss),
+#            junc_ts = as.numeric(junc_ts),
+#            intron_len = (junc_ts - junc_ss) + 1) %>% 
+#     left_join(., unq_bulk_juncs, by = join_by(junc_ss == start, junc_ts == end)) %>%
+#     select(-c(trxpts, region.y, accum_tally_j, exact_ss)) %>%
+#     group_by(timepoint, junc_ss, junc_ts) %>%
+#     reframe(sum_reads = sum(tot_rds_j_time),
+#             trxpt_id = list(trxpt_id),
+#             region = list(region.x),
+#             strand = list(strand),
+#             splice_site = list(splice_site),
+#             intron_len = list(intron_len),
+#             coding_potential = list(t_name)
+#             )
+#   
+#   cln_reg_ss_counts <- cleanup_cols(cln_reg_ss_counts) %>%
+#     pivot_wider(names_from = timepoint, values_from = sum_reads) %>%
+#     dplyr::filter(str_detect(region, reg)) %>%
+#     dplyr::select(trxpt_id, start = junc_ss, end = junc_ts, splice_site, intron_len,
+#                   region, strand, "4hpi", "12hpi", "24hpi", "72hpi", coding_potential) %>%
+#     mutate("4hpi" = ifelse(is.na(`4hpi`), 0, `4hpi`),
+#            "12hpi" = ifelse(is.na(`12hpi`), 0, `12hpi`),
+#            "24hpi" = ifelse(is.na(`24hpi`), 0, `24hpi`),
+#            "72hpi" = ifelse(is.na(`72hpi`), 0, `72hpi`),
+#            intron_len = glue("{intron_len}bp"))
+#   
+#   return(cln_reg_ss_counts)
+# }
+#   
+# 
+# # E1 region table analysis for discussion
+# reg_e1_brkdown <- reg_brkdown_tab("E1")
+#   
+# # E2 region table analysis for discussion
+# reg_e2_brkdown <- reg_brkdown_tab("E2")
+# 
+# # E3 region table analysis for discussion
+# reg_e3_brkdown <- reg_brkdown_tab("E3")
+# 
+# # E4 region table analysis for discussion
+# reg_e4_brkdown <- reg_brkdown_tab("E4")
+# 
+# 
+# # IM region table analysis for discussion
+# reg_im_brkdown <- reg_brkdown_tab("IM")
+# 
+# # MLP region table analysis for discussion
+# reg_mlp_brkdown <- reg_brkdown_tab("MLP")
+# 
+# 
 
