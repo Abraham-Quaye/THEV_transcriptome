@@ -59,6 +59,7 @@ library(tidyverse)
 library(tibble)
 library(scales)
 library(flextable)
+library(english)
 opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 knitr::opts_chunk$set(tab.cap.pre = "", tab.cap.sep = "")
 
@@ -78,10 +79,13 @@ bam_info <- read_tsv("results/sgseq/bam_extracted_sampleData.tsv",
                      show_col_types = F) 
 seq_len <- bam_info %>% select(read_length) %>% slice_head() %>% pull()
 
+
 ## load in variables to be used inline 
 source("scripts/r/bam_file_analysis.R")
 source("scripts/r/thev_splicing_fullMap.R")
 source("scripts/r/abundance_analyses.R")
+source("scripts/r/reg_by_reg_plots.R")
+
 
 cov_thev <- all_covs %>% filter(organism == "thev")
 
@@ -139,22 +143,19 @@ AdV gene expression occurs under exquisite temporal control, supervised by desig
 Secondly, we estimated relative abundances of all splice junctions for each time point, counting as significantly expressed only those with coverage of at least 1% of the total splice junction reads counted at the given time point. At 12 h.p.i, `r nrow(sig_12_juncs)` junctions meet the 1% threshold, and were predominantly early region (E1, E2, and E3) junctions, albeit a significant proportion are MLP-derived (__Table 2a__). Junctions from the E2 region were the most abundant at this time point, constituting `r round(most_sig_12, 1)`% of all junctions. The two most abundant junctions at 12 h.p.i were maintained at 24 h.p.i also as the most significantly expressed. However, the MLP-derived junctions were unsurprisingly the most preponderant overall at this time point, accounting for `r round(most_sig_24, 1)`% of all the junction reads counted (__Table 2b__). At 72 h.p.i, the trend of increased activity of the MLP continued as expected; at this time, the MLP-derived junctions was not only the most abundant overall - accounting for `r round(most_sig_72, 1)`% of all junctions reads - but also contained the most significantly expressed individual junctions (__Table 2c__. Also see __Supplementary Tables 1a-c__; __Figure 4c__). When we limited this analysis to only junctions in the final transcriptome, the relative abundances of the junctions for each region over time was substantially similar to the pattern seen with all the junctions included (__Figure 4d__).  
 Furthermore, we analyzed splice donor and acceptor site nucleotide usage over time to investigate any peculiarities that THEV may show, generally or over the course of the infection. This revealed that, with the exception of one junction (which was a T-G donor-acceptor pair), all splice donor-acceptor pairs in the final transcriptome were the canonical T-A pair.
 
-**Early Region 1 (E1) transcripts**. This region in MAdVs is the first transcribed after successful entry of the viral DNA into the nucleus of the host cell but at low levels [@Zhao2014]. The host transcription machinery is solely responsible for the transcription of this region. After their translation, the E1 proteins in concert with a myriad of host transcription factors activate the other viral promoters [@Guimet2016]. Only two ORFs (ORF1 [sialidase] and Hyd) are predicted in this region; however, we discovered four novel transcripts in this region (__Figure 5__). The abundance of the transcripts and splice junctions varied over time. The most abundant was #### at #### and 
+**Early Region 1 (E1) transcripts**. This region in MAdVs is the first transcribed after successful entry of the viral DNA into the host cell nucleus, albeit at low levels [@Zhao2014]. The host transcription machinery solely mediates the transcription of this region. After their translation, the E1 proteins in concert with a myriad of host transcription factors activate the other viral promoters [@Guimet2016]. Only two ORFs (ORF1 [sialidase] and Hyd) are predicted in this region; however, we discovered `r as.character(english(nrow(filter(spliced_gtf, region == "E1"))))` novel transcripts in this region, which collectively contain `r nrow(reg_e1_brkdown)` unique splice junctions (__Figure 5__). Most of the encoded proteins of the novel transcripts are distinct from the predicted ORFs, although they all have the potential to encode the Hyd protein as the 3'-most coding sequence (CDS) if the first start codon (SSC) is skipped. The 5'-most CDS of TRXPT_1 is multi-exonic, producing a 17.9 kilodalton (kDa) protein of 160 residues [amino acids (aa)]. The CDS begins in the first exon, starting at position 211, spans the second exon, and terminates in the third exon at position 2312. From the 5'-most SSC, TRXPT_2 encodes the largest protein in this region ——  a 64.3 kDa, 580 aa protein with the same SSC as TRXPT_1 (position 211). This CDS spans almost the entire predicted ORF1 and Hyd, coming short in two regards: it is spliced from 1655 to 1964 (ORF1's C-terminus, including the stop codon), and it's stop codon (STC; position 2312) is 13 bp short of the Hyd STC. However, it has an SSC 102 bp upstream and in-frame with ORF1's predicted SSC. The N-terminus of TRXPT_2 CDS therefore, shares substantial protein sequence similarity with ORF1 but Hyd and TRXPT_2 are not in-frame; hence no protein sequence similarity. TRXPT_3 is almost identical to TRXPT_1, except for the lack of TRXPT_1's second exon. From our analysis, TRXPT_3 and TRXPT_4 seem to have transcription start sites (TSS) downstream of the TSS of TRXPT_1 and TRXPT_2; however, given that studies in MAdVs show that E1 mRNAs share a common 5' and 3' positions, only differing from each other regarding the introns [@Zhao2014], it is likely that TRXPT_3 and TRXPT_4 are truncated, and the TSS just like the transcription termination site (TTS) are identical for all E1 transcripts. Regardless of the TSS considered for TRXPT_3, the coding potential remains unaffected. Its 5'-most CDS, beginning at 1965 and sharing the same STC as TRXPT_1 and TRXPT_2, produces a 13.1 kDa, 115 residue protein. This CDS (ORF4) was predicted in an earlier study [@Pitcovski1998] but was excluded in later studies [@Beach2009a; @Davison2003], but our data suggests it is a bona fide ORF. The coding potential of TRXPT_4 is affected by the TSS considered; if we consider its unmodified TSS, then its coding potential is the same as TRXPT_3 (ORF4 as the first CDS and Hyd as second CDS if the first SSC is skipped). However, if we assume that TRXPT_4 shares the same TSS as TRXPT_1, then the 5'-most CDS is a distinct multi-exonic 15.9 kDa, 143 aa protein with the same SSC as TRXPT_1 and TRXPT_2 but with a unique STC. All splice junctions of the transcripts in this region (except the junction for TRXPT_4) have been validated by cloning and Sanger sequencing of cDNA (__Figure 5b__; __supplementary PCR methods__). Finally, during our validation of TRXPT_2, ORF1 was present on the agarose gel and Sanger sequencing results as a bona fide transcript (__supplementary PCR methods__). This is corroborated by 3' Rapid Amplification of cDNA Ends (3'RACE) experiment, which shows transcripts spanning the entire ORF1 and Hyd ORFs without any splicing. The 5'-most CDS of this transcript would encode ORF1. Given that the SSC of the predicted ORF1 is in-frame but downstream of TRXPT_2 SSC, it suggests that the predicted ORF1 CDS is truncated; it shares the same SSC as TRXPT_2, but has a unique STC, albeit it has the same TTS.
 
-~~and also validated the predicted ORF (sialidase; ORF1)~~.
+**Early Region 2 (E2) and Intermediate Region (IM) transcripts**. The E2 TU expressed on the reverse strand, is subdivided into E2A and E2B and encodes three classical AdV proteins: pTP and Ad-pol (E2B proteins), and DBP (E2A protein) [####]. Unlike MAdV where two promoters (E2-early and E2-late) were discovered [###], we discovered only a single promoter from which both E2A and E2B transcription is initiated. However, similar to MAdVs, E2A and E2B transcripts have distinct TTSs; the E2B transcripts sharing the TTS of the IVa2 transcript of the IM region [####] (__Figure 6__). ~~Analysis of the coding potential of the transcripts; include the variant of DBP from 3'RACE data~~. 
 
-Early Region 2A (E2A) transcripts.
-some with multiple protein-coding potential (PCP)
+The IM region is a single-transcript TU, encoding a single classical protein, IVa2. The promoter expressing this single transcript (TRXPT_5) is embedded in E2B region and shares a TTS with E2B transcripts [@Donovan2020; @Zhao2014]. TRXPT_5 is a two-exon transcript located on the reverse strand spliced at 3447-3615. The first exon is an untranslated region (UTR), except the last 2 nucleotides, which connect with the first nucleotide of second exon to form the 5'-most SSC. This first SSC is 4 codons upstream and in-frame of the predicted IVa2 SSC. Regardless of the SSC considered, the encoded protein (IVa2) is largely unaffected. Except for the four extra residues at the N-terminus (considering the 5'-most SSC), the entire protein sequence is identical. 
 
-Early Region 2B (E2B) transcripts.
+The splice junction of ~~TRXPT_5 add trxpts from E2~~ were confirmed by cloning and Sanger sequencing of cDNA (__supplementary PCR methods__).
 
-Early Region 3 (E3) transcripts.
+**Early Region 3 (E3) transcripts**.
 
-Early Region 4 (E4) transcripts.
+**Early Region 4 (E4) transcripts**. This transcription unit (TU) is the found at the tail-end (3'-end) of the genome, on the reverse strand. Based on nucleotide position, ORF7 and ORF8 were predicted in this region [@Davison2003]; however, as ORF7 is neither on the same strand as ORF8 nor transcribed from a promoter in the E4 region, only ORF8 can legitimately be classified as a transcript in this TU. This is corroborated by our RNA-seq data, as only one transcript was identified in this region on the reverse strand (__Figure 8__). The transcript (TRXPT_28) spans 25192-26247 and is spliced at 25701-26055; hence, a two-exon transcript. The second exon fully matches the predicted ORF8 with 12 extra base pairs at the 3'-end; however, the encoded protein is an exact match. There is a SSC in the first exon at position 26246 (second nucleotide of the transcript). The encoded protein from this SSC is in-frame with the SSC of ORF8 in the second exon; hence, the C-terminus of this longer protein (26.4 kDa, 229 aa) would be the identical to the predicted ORF8 protein. The splice junction of TRXPT_28 was validated by cloning and Sanger sequencing of cDNA (__supplementary PCR methods__).
 
-Intermediate Region (IM) transcripts.
-
-Major Late Promoter Region (MLP) transcripts.
+**Major Late Promoter Region (MLP) transcripts**.
 
 \newpage
 
@@ -178,7 +179,9 @@ The novel splice junctions after consolidating all transcripts with `StringTie` 
 \newpage
 
 ## DISCUSSION/CONCLUSIONS
+In the original study where the ORFs of THEV were predicted, ORF4 was predicted in the E1 region spanning the Hyd gene. However, later studies predicted and preferred Hyd instead of ORF4; hence, the current prediction map. However, this study shows that while both Hyd and ORF4 may be both expressed, ORF4 is most likely the bona fide gene.
 
+TRXPT_2 and ORF1 are isoforms
 \newpage
 
 ## SCRIPTS AND SUPPLEMENTARY MATERIALS    
@@ -296,26 +299,139 @@ flextable(sig_72_juncs) %>% theme_zebra() %>%
 **c)** Relative abundances of all splice junctions over time. **d)** Relative abundances of junctions in final transcriptome.
 
 
-```{r region-by-region_e1_figure}
+```{r region-by-region_e1_figure, fig.height=16, fig.width=18, warning=FALSE}
 set_flextable_defaults(font.size = 7)
-flextable(reg_e1_brkdown) %>% theme_zebra() %>%
+ft <- flextable(reg_e1_brkdown,
+                col_keys = c("trxpt_id", "start", "end", "splice_site", "intron_len",
+                             "strand", "4hpi", "12hpi", "24hpi", "72hpi", "status")) %>%
+  theme_zebra() %>%
   flextable::set_table_properties(layout = "fixed",
                        opts_pdf = list(caption_repeat = F)) %>%
-  flextable::font(part = "all", fontname = "Avenir") %>%
   flextable::set_header_labels(start = "Start", end = "End",
-                               splice_site = "Splice Site", region = "Region",
+                               splice_site = "Splice Site",
                                strand = "Strand", trxpt_id = "Transcript ID",
-                               coding_potential = "Protein Coding Potential",
                                intron_len = "Intron Length", "4hpi" = "4h.p.i",
                                "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
-                               "72hpi" = "72h.p.i") %>%
-  flextable::width(., width = 0.5) %>%
+                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
   flextable::align(align = "center", part = "all") %>%
-  add_header_row(., values = c("", "Splice Junction", "", "", "Junction Reads", ""),
-                 colwidths = c(1, 4, 1, 1, 4, 1)) %>%
-  flextable::vline(j = c(1, 5, 7, 11), border = fp_border_default(color = "grey",
-                                                                  width = 1.5))  %>%
-  flextable::width(., j = ~ coding_potential, width = 1)
+  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
+                 colwidths = c(1, 4, 1, 4, 1)) %>%
+  flextable::vline(j = c(1, 5, 6, 10), border = fp_border_default(color = "grey",
+                                                                  width = 1.5)) %>%
+  footnote(., i = 2, j = 11, value = as_paragraph(c("Not validated for TRXPT_4")),
+           ref_symbols = c("*"), part = "body")
+
+brkdwn_e1_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
+  plot_layout(heights = c(2, 0.05, 2)) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(size = 22, face = "bold"))
+
 ```
+
+**Figure 5: E1 region transcripts. a)** The splice map of the E1 transcription unit. Exons are depicted as boxes connected by introns (dotted lines). Transcripts from RNA-seq data are colored red, predicted ORFs are colored grey, and the previously annotated ORF4 is colored black. Each transcript or ORF is labelled with its name to the right. The start codon (SSC) and stop codon (STC) of the 5'-most CDS of each transcript is indicated with the nucleotide position in brackets. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference **b)** The sequence reads covering the splice junctions are indicated with information about their validation status using cloning and Sanger sequencing.
+
+```{r region-by-region_e2ANDim_figure, fig.height=16, fig.width=18, warning=FALSE}
+set_flextable_defaults(font.size = 7)
+ft <- flextable(reg_e2_brkdown,
+                col_keys = c("trxpt_id", "start", "end", "splice_site", "intron_len",
+                             "strand", "region", "4hpi", "12hpi", "24hpi", "72hpi", "status")) %>%
+  theme_zebra() %>%
+  flextable::set_table_properties(layout = "fixed",
+                       opts_pdf = list(caption_repeat = F)) %>%
+  flextable::set_header_labels(start = "Start", end = "End",
+                               splice_site = "Splice Site",
+                               strand = "Strand", trxpt_id = "Transcript ID",
+                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
+                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
+                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
+  flextable::align(align = "center", part = "all") %>%
+  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
+                 colwidths = c(1, 4, 2, 4, 1)) %>%
+  flextable::vline(j = c(1, 5, 7, 11), border = fp_border_default(color = "grey",
+                                                                  width = 1.5)) %>%
+  footnote(., i = 9, j = 12, value = as_paragraph(c("Truncated transcript")),
+           ref_symbols = c("*"), part = "body")
+
+brkdwn_e2_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
+  plot_layout(heights = c(1, 0.05, 2))
+
+```
+
+**Figure 6: E2 and IM region transcripts. a)** The splice map of the E1 and IM transcription units. Exons are depicted as boxes connected by introns (dotted lines). Red transcripts are generated from RNA-seq data and predicted ORFs are colored grey. Each transcript or ORF is labelled with its name to the right. The start codon (SSC) and stop codon (STC) of the 5'-most CDS of each transcript is indicated with the nucleotide position in brackets. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference **b)** The sequence reads covering the splice junctions are indicated with information about their validation status using cloning and Sanger sequencing.
+
+
+```{r region-by-region_e4_figure, fig.height=5, fig.width=7, warning=FALSE}
+reg_e4_brkdown <- reg_e4_brkdown %>%
+  mutate(splice_site = "GT-AG",
+         `4hpi` = as.numeric(`4hpi`), `12hpi` = as.numeric(`12hpi`),
+         `24hpi` = as.numeric(`24hpi`), `72hpi` = as.numeric(`72hpi`)) %>%
+  select(-c(coding_potential, region)) %>%
+  group_by(trxpt_id, start, end, splice_site, intron_len, strand, status) %>%
+  reframe("4hpi" = sum(`4hpi`),
+          "12hpi" = sum(`12hpi`),
+          "24hpi" = sum(`24hpi`),
+          "72hpi" = sum(`72hpi`)) %>%
+  select(trxpt_id, start, end, splice_site, intron_len, strand, "4hpi", "12hpi",
+         "24hpi", "72hpi", status)
+
+set_flextable_defaults(font.size = 7)
+ft <- flextable(reg_e4_brkdown,
+                col_keys = c("trxpt_id", "start", "end", "splice_site", "intron_len",
+                             "strand", "4hpi", "12hpi", "24hpi", "72hpi", "status")) %>%
+  theme_zebra() %>%
+  flextable::set_table_properties(layout = "fixed",
+                       opts_pdf = list(caption_repeat = F)) %>%
+  flextable::set_header_labels(start = "Start", end = "End",
+                               splice_site = "Splice Site",
+                               strand = "Strand", trxpt_id = "Transcript ID",
+                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
+                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
+                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
+  flextable::align(align = "center", part = "all") %>%
+  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
+                 colwidths = c(1, 4, 1, 4, 1)) %>%
+  flextable::vline(j = c(1, 5, 6, 10), border = fp_border_default(color = "grey",
+                                                                  width = 1.5))
+
+brkdwn_e4_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
+  plot_layout(heights = c(1, 0.01, 1)) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(size = 18, face = "bold"))
+
+```
+
+**Figure 8:  E4 region transcripts. a)** The splice map of the E4 transcription unit. Exons are depicted as boxes connected by introns (dotted lines). The transcript from RNA-seq data is colored red and the predicted ORF, grey. The transcript and ORF are labelled with their names to the right. The start codon (SSC) and stop codon (STC) of the 5'-most CDS is indicated with the nucleotide position in brackets. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference **b)** The sequence reads covering the splice junction are indicated.
+
+```{r region-by-region_im_figure, fig.height=5, fig.width=10, warning=FALSE, include=FALSE}
+reg_im_brkdown <- reg_im_brkdown %>%
+  mutate(trxpt_id = "TRXPT_5")
+
+set_flextable_defaults(font.size = 7)
+ft <- flextable(reg_im_brkdown,
+                col_keys = c("trxpt_id", "start", "end", "splice_site", "intron_len",
+                             "strand", "4hpi", "12hpi", "24hpi", "72hpi", "status")) %>%
+  theme_zebra() %>%
+  flextable::set_table_properties(layout = "fixed",
+                       opts_pdf = list(caption_repeat = F)) %>%
+  flextable::set_header_labels(start = "Start", end = "End",
+                               splice_site = "Splice Site",
+                               strand = "Strand", trxpt_id = "Transcript ID",
+                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
+                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
+                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
+  flextable::align(align = "center", part = "all") %>%
+  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
+                 colwidths = c(1, 4, 1, 4, 1)) %>%
+  flextable::vline(j = c(1, 5, 6, 10), border = fp_border_default(color = "grey",
+                                                                  width = 1.5))
+
+brkdwn_im_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
+  plot_layout(heights = c(1, 0.01, 1)) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(size = 18, face = "bold"))
+
+```
+
+<!-- **Figure 9 IM region transcripts. a)** The splice map of the IM transcription unit. **b)** The sequence reads covering the splice junction are indicated. -->
 
 

@@ -523,7 +523,8 @@ rule write_manuscript:
         rules.abund_plots.output,
         "results/r/figures/region_fpkm_percent_abund.png",
         "results/r/figures/trxpt_fpkm_percent_abund.png",
-        "scripts/r/abundance_analyses.R"
+        "scripts/r/abundance_analyses.R",
+        "scripts/r/reg_by_reg_plots.R"
     output:
         "manuscript_thev_transcriptome.pdf",
         "manuscript_thev_transcriptome.docx"
@@ -536,6 +537,9 @@ rule write_supplementary:
     input:
         "supplementary_thev_trxptome.Rmd",
         "scripts/r/bam_file_analysis.R",
+        "scripts/r/reg_by_reg_plots.R",
+        expand("wet_lab_validation/validation_gels/trxpt_{trx_n}_gel.png", \
+        trx_n = [1, 2, 3, 5, 28])
     output:
         "supplementary_thev_trxptome.pdf"
     shell:

@@ -70,7 +70,9 @@ t_exp_levels <- texpr(raw_data, meas = "all") %>%
   select(trxpt_id, t_name, num_exons)
 
 comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
-                              by = "trxpt_id")
+                              by = "trxpt_id") %>%
+  mutate(sstcodon = c(rep(211, 3), 1965, rep(NA, 22), 26246, 3616),
+         stpcodon = c(2312, 1953, rep(2312, 2), rep(NA, 22), 25204, 2334))
 
 
 # load in data and prepare predicted ORFs only
@@ -105,8 +107,10 @@ predicted_orfs <- predicted_orfs %>%
                             gene_name == "IVa2" ~ "IM",
                             gene_name == "UXP" ~ "LONE",
                             TRUE ~ "MLP")) %>%
-  arrange(strand, region)
-
+  arrange(strand, region) %>%
+  rbind(tibble( gene_name = "ORF4", transcript_id = "gp04", strand = "+",
+                start_1 = 1965, start_2 = NA, start_3 = NA, end_1 = 2312,
+                end_2 = NA, end_3 = NA, region = "E1")) 
 
 combined_gtf <- plyr::rbind.fill(comp_spliced_gtf, predicted_orfs) %>% 
   arrange(strand, region) %>% as_tibble() %>%
@@ -114,7 +118,8 @@ combined_gtf <- plyr::rbind.fill(comp_spliced_gtf, predicted_orfs) %>%
 
 
 
-plot_full_trxptome <- function(combined_gtf, trxptome_part){
+plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
+  regs <- c(trxptome_part, trxpt_part2)
   
   # =======================================================
   # TRANSCRIPT X AND Y POSITIONS FOR FULL TRANSCRIPTOME MAP
@@ -142,7 +147,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   ypos_e2$ypos <- rep(c(24:19), length.out = nrow(ypos_e2))
   
   ypos_im <- combined_gtf %>% filter(region == "IM")
-  ypos_im$ypos <- rep(c(19, 20), length.out = nrow(ypos_im))
+  ypos_im$ypos <- rep(c(21, 21.5), length.out = nrow(ypos_im))
   
   ypos_uxp <- combined_gtf %>% filter(region == "LONE")
   ypos_uxp$ypos <- rep(c(24), length.out = nrow(ypos_uxp))
@@ -155,13 +160,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   # recreate full dataframe with y-axis positions
   combined_gtf <- rbind(ypos_pos_e1, ypos_pos_mlp, ypos_pos_e3,
                         ypos_e4, ypos_e2, ypos_im, ypos_uxp) %>% 
-    mutate(color = case_when(region == "E1" ~ "#ff0000",
-                             region == "E2" ~ "#000000",
-                             region == "E3" ~ "grey50",
-                             region == "E4" ~ "#00ff00",
-                             region == "IM" ~ "steelblue",
-                             TRUE ~ "#0000ff")) %>%
-    mutate(color = ifelse(!is.na(gene_name), "grey80", color),
+    mutate(color = ifelse(!is.na(gene_name), "grey80", "#ff0000"),
            ypos = case_when(gene_name == "Hyd" ~ 30,
                             gene_name == "pVIII" ~ 32,
                             gene_name == "52K" ~ 39,
@@ -169,11 +168,12 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
                             gene_name == "Hexon" ~ 34.5,
                             gene_name == "E3" ~ 33,
                             gene_name == "22K" ~ 32.5,
-                            # gene_name == "ORF7" ~ 26,
-                            TRUE ~ ypos)
-           ) %>%
+                            gene_name == "ORF4" ~ 28.5,
+                            gene_name %in% c("pTP", "DBP") ~ 23.5,
+                            TRUE ~ ypos)) %>% 
+    mutate(color = ifelse(trxpt_id == "ORF4", "#000000", color)) %>%
     as_tibble() %>%
-    filter(region %in% trxpt_regs)
+    filter(region %in% regs)
   
   # ==================================================================
   # TRANSCRIPT POSITIONS FOR REGION-BY-REGION TRANSCRIPT MAPS
@@ -237,13 +237,19 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   
   if(trxptome_part == "all"){
     y_lims <- c(NA, 48)
-  } else{y_lims <- c(NA, NA)}
+  } else if(trxptome_part == "E4"){
+    y_lims <- c(22.5, NA)
+  }else if(trxptome_part == "E2"){
+    y_lims <- c(20.5, NA)
+  }else if(trxptome_part == "IM"){
+    y_lims <- c(20.5, NA)
+  }else{y_lims <- c(NA, NA)}
   
   splice_map <- combined_gtf %>%
     ggplot() +
     # line representing whole genome
     geom_segment(aes(x = x_axis_start, xend = x_axis_end, y = 25, yend = 25),
-                 linewidth = 3.5, color = "black") +
+                 linewidth = 2, color = "black") +
     
     # plot full trxpts: start_pos to end_pos
     geom_segment(aes_string(x = start_cols[1], xend = end_cols[1],
@@ -252,7 +258,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
     
     # plot single orfs
     geom_segment(data = single_orfs, aes(x = start_1, xend = end_1, y = ypos, yend = ypos),
-                 linewidth = 5, color = single_orfs$color) +
+                 linewidth = 7, color = single_orfs$color) +
     
     # aesthetics
     scale_x_continuous(expand = c(0.01,0.01),
@@ -261,7 +267,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
                        labels = paste0(seq(0,26, 2), "kb")) +
     scale_y_continuous(expand = c(0.01,0.01),
                        limits = y_lims) +
-    theme(plot.margin = margin(rep(15, 4)),
+    theme(plot.margin = margin(rep(20, 4)),
           plot.background = element_rect(fill = "#ffffff", color = c("grey")),
           panel.background = element_rect(fill = "#ffffff"),
           panel.grid.major = element_blank(),
@@ -278,20 +284,20 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   for (i in seq_along(start_cols)[-1]) {
     splice_map <- splice_map +
       geom_segment(aes_string(x = start_cols[i], xend = end_cols[i], y = "ypos", yend = "ypos"),
-                   color = combined_gtf$color, linewidth = 5)
+                   color = combined_gtf$color, linewidth = 7)
   }
   
   # Add labels for full plot -----------------
   splice_map <- splice_map +
     # label each transcript
-    geom_richtext(aes(x = (end_1), y = ypos, label = trxpt_id,
+    geom_richtext(aes(x = end_1, y = ypos, label = trxpt_id,
                       hjust = 0, fontface = "bold"), size = 3,
                   label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, label.margin = margin(l = 5),
                   show.legend = F)
   
   return(splice_map)
-}  
+}
 
 
 # ===============================================================
@@ -299,7 +305,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
 # ===============================================================
 
 # PLOT FOR E1 REGION ==============================================
-brkdown_reg_plots <- function(reg){
+brkdown_reg_plots <- function(reg, reg2=NULL){
   
   # genome ruler for region-by-region breakdown
   if(reg %in% c("E1", "IM")){
@@ -308,26 +314,19 @@ brkdown_reg_plots <- function(reg){
                            yend = 25.3,
                            lab = paste0(seq(0, 26, 0.2), "kb")
     )
-  }
-  
-  if(reg %in% c("E2", "MLP")){
+  }else if(reg %in% c("E2", "MLP")){
     genome_ruler <- tibble(x = seq(2000, 26000, 2000),
                            y = 24.8,
                            yend = 25.3,
                            lab = paste0(seq(2, 26, 2), "kb")
     )
-  }
-  
-  if(reg == "E3"){
+  }else if(reg == "E3"){
     genome_ruler <- tibble(x = seq(0, 26000, 2000),
                            y = 24.8,
                            yend = 25.3,
                            lab = paste0(seq(0, 26, 2), "kb")
     )
-  }
-  
-  # genome ruler for region-by-region breakdown
-  if(reg == "E4"){
+  }else{
     genome_ruler <- tibble(x = seq(0, 26266, 200),
                            y = 24.8,
                            yend = 25.3,
@@ -335,28 +334,89 @@ brkdown_reg_plots <- function(reg){
     )
   }
   
-  plot_full_trxptome(combined_gtf, reg) +
+  if(reg %in% c("E1")){
+    offset_y <- 0.1
+  }else if (reg %in% c("E2")){
+    offset_y <- 0.15
+  }else{offset_y <- 0.25}
+ 
+  
+  plot_full_trxptome(combined_gtf, reg, reg2) +
   # genome size marker
   geom_segment(data = genome_ruler, aes(x = x, xend = x, y = y, yend = yend),
                color = "#ffffff", linewidth = 0.5) +
   # genome size labels
   geom_richtext(data = genome_ruler, aes(x = x, y = (y - 0.1), label = lab),
-                label.size = NA, label.padding = unit(0, "pt"), fill = NA)
+                label.size = NA, label.padding = unit(0, "pt"), fill = NA) +
+  # start codon positions
+  geom_richtext(aes(x = sstcodon, y = ypos, label = glue("|")),
+                size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                fill = NA, nudge_y = offset_y/2) +
+  geom_richtext(aes(x = sstcodon, y = ypos, label = glue("<sup>SSC ({sstcodon})</sup>")),
+                size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                fill = NA, nudge_y = offset_y, hjust = 0) +
+  # stop codon positions
+  geom_richtext(aes(x = stpcodon, y = ypos, label = glue("|")),
+                size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                fill = NA, nudge_y = offset_y/2) +
+    geom_richtext(aes(x = stpcodon, y = ypos, label = glue("<sup>STC ({stpcodon})</sup>")),
+                  size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                  fill = NA, nudge_y = offset_y, hjust = 0)
 
 }
 
-e1_trxtps <- brkdown_reg_plots("E1")
+brkdwn_e1_trxtps <- brkdown_reg_plots("E1")
 
-e2_trxtps <- brkdown_reg_plots("E2")
+brkdwn_e2_trxtps <- brkdown_reg_plots(reg = "E2", reg2 = "IM")
 
-e3_trxtps <- brkdown_reg_plots("E3")
+brkdwn_e3_trxtps <- brkdown_reg_plots("E3")
 
-e4_trxtps <- brkdown_reg_plots("E4")
+brkdwn_e4_trxtps <- brkdown_reg_plots("E4")
 
-im_trxtps <- brkdown_reg_plots("IM")
+brkdwn_im_trxtps <- brkdown_reg_plots("IM")
 
-mlp_trxtps <- brkdown_reg_plots("MLP")
+brkdwn_mlp_trxtps <- brkdown_reg_plots("MLP")
 
+# =========================================================================
+# Table of transcripts with their primer and gel validation images
+# for supplementary PRC methods section
+# =========================================================================
+trxpt_exons <- comp_spliced_gtf %>%
+  mutate(full_trxpt = paste0(start_1, "-", end_1),
+         exon1 = paste0(start_2, "-", end_2),
+         exon2 = paste0(start_3, "-", end_3),
+         exon3 = paste0(start_4, "-", end_4),
+         exon4 = paste0(start_5, "-", end_5),
+         exon5 = paste0(start_6, "-", end_6),
+         exon6 = paste0(start_7, "-", end_7),
+         exon7 = paste0(start_8, "-", end_8)) %>% 
+  select(trxpt_id, region, num_exons, full_trxpt, paste0("exon", c(1:7))) %>%
+  mutate(exon3 = str_replace(exon3, "NA-NA", "-"),
+         exon4 = str_replace(exon4, "NA-NA", "-"),
+         exon5 = str_replace(exon5, "NA-NA", "-"),
+         exon6 = str_replace(exon6, "NA-NA", "-"),
+         exon7 = str_replace(exon7, "NA-NA", "-")) %>%
+  arrange(region)
 
+wetlab_val <- tibble(trxpt_id = c(paste0("TRXPT_", 1:4), "TRXPT_28", "TRXPT_5"),
+                     forwardP = c("CCCggtaccGTCCGAAGTCTCAGCAACAGATTC",
+                                  "CCCggtaccGAGGCCTGTTGGAATTGTTGC",
+                                  "CCCggtacCATTTCCCGTACACGGTGTTG",
+                                  "CCCggtaccGTCATCACAACTGACCTTGTCGTC",
+                                  "CCCtctagaCAGTGCAATCCGACGCTCTG",
+                                  "CCCtctagaCGCAACCTGTAGGTCCGATTAC"),
+                     reverseP = c(rep("CCCggtacCTGAGGAGGTCGTAGACTCTGC", 4),
+                                  "CCCggtaccGGACACGTGTTCGTTAGAGAACC",
+                                  "CCCggtaccTCTGGTGAGATCTTCCAAACAGAAAG"),
+                     valid_status = c(rep("Validated", 3), "Not Validated",
+                                      rep("Validated", 2)),
+                     gel_image = c("wet_lab_validation/validation_gels/trxpt_1_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_2_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_3_gel.png",
+                                   NA,
+                                   "wet_lab_validation/validation_gels/trxpt_28_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_5_gel.png"))
 
+supp_pcr_meth_tab <- left_join(trxpt_exons[trxpt_exons$region %in% c("E1", "E4", "IM"),],
+                               wetlab_val, by = "trxpt_id")
 
