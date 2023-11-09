@@ -156,7 +156,9 @@ The splice junction of ~~TRXPT_5 add trxpts from E2~~ were confirmed by cloning 
 **Early Region 4 (E4) transcripts**. This transcription unit (TU) is the found at the tail-end (3'-end) of the genome, on the reverse strand. Based on nucleotide position, ORF7 and ORF8 were predicted in this region [@Davison2003]; however, as ORF7 is neither on the same strand as ORF8 nor transcribed from a promoter in the E4 region, only ORF8 can legitimately be classified as a transcript in this TU. This is corroborated by our RNA-seq data, as only one transcript was identified in this region on the reverse strand (__Figure 8__). The transcript (TRXPT_28) spans 25192-26247 and is spliced at 25701-26055; hence, a two-exon transcript. The second exon fully matches the predicted ORF8 with 12 extra base pairs at the 3'-end; however, the encoded protein is an exact match. There is a SSC in the first exon at position 26246 (second nucleotide of the transcript). The encoded protein from this SSC is in-frame with the SSC of ORF8 in the second exon; hence, the C-terminus of this longer protein (26.4 kDa, 229 aa) would be the identical to the predicted ORF8 protein. The splice junction of TRXPT_28 was validated by cloning and Sanger sequencing of cDNA (__supplementary PCR methods__).
 
 **Major Late Promoter Region (MLP) transcripts**.
-
+\newpage
+## DISCUSSION/CONCLUSIONS
+In the original study where the ORFs of THEV were predicted, ORF4 was predicted in the E1 region spanning the Hyd gene. However, later studies predicted and preferred Hyd instead of ORF4; hence, the current prediction map. However, this study shows that while both Hyd and ORF4 may be both expressed, ORF4 is most likely the bona fide gene.
 \newpage
 
 ## MATERIALS AND METHODS   
@@ -166,20 +168,16 @@ The Turkey B-cell line (MDTC-RP19, ATCC CRL-8135) was grown as suspension cultur
 ### RNA extraction and Sequencing   
 Total RNA was extracted from infected cells using Thermofishers' RNAqueous™-4PCR Total RNA Isolation Kit `(#AM1914)` as per manufacturer's instructions. An agarose gel electrophoresis was performed to check RNA integrity. The RNA quantity and purity was initially assessed using `nanodrop`, and RNA was used only if the A260/A280 ratio was 2.0 ± 0.05 and the A260/A230 ratio was >2 and <2.2. Extracted total RNA samples were sent to `LC Sciences, Houston TX` for poly-A-tailed mRNA sequencing where RNA integrity was checked with `Agilent Technologies 2100 Bioanalyzer High Sensitivity DNA Chip` and poly(A) RNA-seq library was prepared following `Illumina's TruSeq-stranded-mRNA sample preparation protocol`. Paired-end sequencing was performed on `Illumina's NovaSeq 6000 sequencing system`.
 
-### Computational Analysis of RNA Sequencing Data: Mapping and Transcript characterization
-Analysis of our sequence reads were analyzed following a well established protocol described by Pertea _et al_ [@Pertea2016], using `SNAKEMAKE 7.24.0` to drive the pipeline. Briefly, sequencing reads were trimmed with the `FastQC - version 0.11.9` [@FastQC] program to achieve an overall `Mean Sequence Quality (Phred Score)` of 36. Trimmed reads were mapped to the complete sequence of avirulent turkey hemorrhagic enteritis virus strain Virginia (https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/) and *Meleagris gallopavo* (https://www.ncbi.nlm.nih.gov/genome/?term=Meleagris+gallopavo) using `Hisat2 - version 2.2.1` [@Pertea2016] with default settings without relying on known splice sites. The generated `BAM` files from each infection time-point were filtered for reads mapping to the THEV genome and fed into `StringTie - version 2.2.1` [@Pertea2016] using a `gff3` file from NCBI containing the predicted ORFs of THEV as a guide. A custom script was used to consolidate all transcripts from all time-points without redundancy, generating the final transcriptome of THEV.
-
 ### Validation of Novel Splice Junctions 
-All splice junctions identified in this work are novel except one predicted splice site each for pTP and DBP, which were corroborated in our work. However, these predicted splice junctions have not been experimentally validated hitherto, and we identified additional novel splice junctions beside the predicted junctions, giving a more complete picture of the transcripts.
-
-The novel splice junctions after consolidating all transcripts with `StringTie` which we validated by PCR and Sanger Sequencing are shown in ~~Table###1~~. We designed primers that crossed a range of novel exon–exon boundaries for each specific transcript in a transcription unit with their respective universal primers (~~supplementary, PCR methods~~). Each forward primer contained a KpnI restriction site and reverse primers, an XbaI site. After first-strand cDNA synthesis with SuperScript™ III First-Strand Synthesis System (ThermoFisher SCIENTIFIC), these primers were used in a targeted PCR experiment, the PCR products were analysed on Agarose gels, cloned by traditional restriction enzyme method and Sanger sequenced to validate these splice junctions at the sequence level.
+All splice junctions identified in this work are novel except one predicted splice site each for pTP and DBP, which were corroborated in our work. However, these predicted splice junctions have not been experimentally validated hitherto, and we identified additional novel exons, giving a more complete picture of the transcripts.
+~~The novel splice junctions after consolidating all transcripts with `StringTie` which we validated by PCR and Sanger Sequencing are shown in Table###1~~. We designed primers that crossed a range of novel exon–exon boundaries for each specific transcript in a transcription unit paired with their respective universal primers (~~supplementary, PCR methods~~). Each forward primer contained a KpnI restriction site and reverse primers, an XbaI site. After first-strand cDNA synthesis with SuperScript™ III First-Strand Synthesis System (ThermoFisher SCIENTIFIC), these primers were used in a targeted PCR experiment, the PCR products were analysed on Agarose gels, cloned by traditional restriction enzyme method and Sanger sequenced to validate these splice junctions at the sequence level.
 
 ### 3' Rapid Amplification of cDNA Ends (3'RACE)  
 
-\newpage
 
-## DISCUSSION/CONCLUSIONS
-In the original study where the ORFs of THEV were predicted, ORF4 was predicted in the E1 region spanning the Hyd gene. However, later studies predicted and preferred Hyd instead of ORF4; hence, the current prediction map. However, this study shows that while both Hyd and ORF4 may be both expressed, ORF4 is most likely the bona fide gene.
+### Computational Analysis of RNA Sequencing Data: Mapping and Transcript characterization
+Analysis of our sequence reads were analyzed following a well established protocol described by Pertea _et al_ [@Pertea2016], using `SNAKEMAKE 7.24.0` to drive the pipeline. Briefly, sequencing reads were trimmed with the `FastQC - version 0.11.9` [@FastQC] program to achieve an overall `Mean Sequence Quality (Phred Score)` of 36. Trimmed reads were mapped to the complete sequence of avirulent turkey hemorrhagic enteritis virus strain Virginia (https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/) and *Meleagris gallopavo* (https://www.ncbi.nlm.nih.gov/genome/?term=Meleagris+gallopavo) using `Hisat2 - version 2.2.1` [@Pertea2016] with default settings without relying on known splice sites. The generated `BAM` files from each infection time-point were filtered for reads mapping to the THEV genome and fed into `StringTie - version 2.2.1` [@Pertea2016] using a `gff3` file from NCBI containing the predicted ORFs of THEV as a guide. A custom script was used to consolidate all transcripts from all time-points without redundancy, generating the final transcriptome of THEV.
+\newpage
 
 TRXPT_2 and ORF1 are isoforms
 \newpage
@@ -193,8 +191,8 @@ All the code/scripts written for analysis of the data is available on github (li
 \newpage
 
 ## ACKNOWLEDGMENTS  
-LC Sciences
-`Eton Bioscience, Inc, San Diego, CA`
+`LC Sciences` - RNA sequencing was done here
+`Eton Bioscience, Inc, San Diego, CA` - All Sanger sequencing validations was done here
 \newpage
 
 ## REFERENCES     
