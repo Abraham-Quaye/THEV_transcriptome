@@ -13,11 +13,9 @@ make_genomic_map <- function(bedfile){
                           col_types = "ciiciciicicc") %>% 
     set_colnames(c("chr", "start", "end", "gene_name", "score", "strand", "thickStart",
                    "thickEnd", "color", "blockCount", "blockSizes", "blockStarts")) %>% 
-    mutate(exon1Size = str_replace(blockSizes, pattern = "(\\d+),\\d+", replacement = "\\1"),
-           exon1Size = as.numeric(exon1Size),
-           exon2Size = str_replace(blockSizes, pattern = "\\d+,(\\d+)", replacement = "\\1"),
-           exon2Size  = as.numeric(exon2Size),
-           exon2Size = ifelse(exon2Size == exon1Size, NA_real_, exon2Size),
+    mutate(exon1Size = as.numeric(str_replace(blockSizes, pattern = "(\\d+),\\d+", replacement = "\\1")),
+           exon2Size = as.numeric(str_replace(blockSizes, pattern = "\\d+,(\\d+)", replacement = "\\1"))) %>%
+    mutate(exon2Size = ifelse(exon2Size == exon1Size, NA_real_, exon2Size),
            exon1start = thickStart,
            exon1end = ifelse(blockCount > 1, (start + exon1Size), thickEnd),
            exon2start = thickEnd - exon2Size,
@@ -27,7 +25,7 @@ make_genomic_map <- function(bedfile){
                                   "33K_spliced" ~ "33K",
                                   "pVIII gene" ~ "pVIII",
                                   .default = gene_name),
-           ypos = c(rep(c(0.5, 1, 1.5),7), 0.5 , 1)) 
+           ypos = c(rep(c(0.5, 1, 1.5),7), 0.5 , 1))
   
   spliced <- thev_genome %>% filter(blockCount > 1)
   
@@ -66,3 +64,5 @@ make_genomic_map <- function(bedfile){
           axis.ticks.y = element_blank()
           )
 }
+
+make_genomic_map("raw_files/annotations/THEVannotated_genesOnly.bed")

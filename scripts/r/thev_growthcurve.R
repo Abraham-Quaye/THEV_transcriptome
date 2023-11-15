@@ -6,6 +6,8 @@ library(glue)
 library(lubridate)
 library(tidyverse)
 
+source("scripts/r/thev_cov_depth.R")
+
 exp2 <- "raw_files/wetlab_data/thev_growthcurve04_2023.xls"
 replicate_data <- read_excel(exp2,
                           sheet = "Results",
@@ -36,8 +38,7 @@ plot_prepped <- replicate_data %>%
   reframe(mean_conc = mean(conc), 
             mean_conc_per_mL = (mean_conc * 10 * 1000),
             replicates = n(),
-            stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000,
-            .groups = "drop") %>% 
+            stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000) %>% 
   mutate(treatment = str_replace(inf_hrs, "([a-zA-Z]{3})_\\d{1,2}", "\\1"))
 
 #================= visualize data just data from exp 2 ========================
@@ -112,15 +113,16 @@ rep1_data <- read_excel(exp1,
                 task = "Task", conc = "Quantity") %>% 
   select(well, task, sample_name, conc) %>% 
   drop_na(sample_name) %>% 
-  filter(!str_detect(sample_name, ".*DNA.*")) %>% 
-  mutate(sample_name = ifelse(well == "B3", "Inf1-D0", sample_name),
-         sample_name = ifelse(well == "B4", "Inf2-D0", sample_name),
-         sample_name = str_replace(sample_name,
+  filter(!str_detect(sample_name, ".*DNA.*")) %>%
+  mutate(sample_name = case_when(well == "B3" ~ "Inf1-D0",
+                                 well == "B4" ~ "Inf2-D0",
+                                 TRUE ~ sample_name)) %>%
+  mutate(sample_name = str_replace(sample_name,
                                    "([a-zA-Z]+)\\d?-D(\\d)",
                                    "\\1_\\2")) %>% 
   separate_wider_delim(sample_name,
                        names = c("condition", "day"),
-                       delim = "_") %>% 
+                       delim = "_") %>%
   mutate(inf_day = paste0(condition, "_", day),
          day = as.numeric(day),
          hrs_pi = day * 24,
@@ -152,7 +154,7 @@ growth_curve <- full_prepped %>%
                      breaks = full_prepped$hrs_pi,
                      labels = c(paste(full_prepped$hrs_pi, "hpi"))) +
   scale_y_continuous(expand = c(0.02, 0.02)) +
-  labs(title = "THEV One-Step Growth Curve in RP-19 Turkey B-Cells",
+  labs(title = "THEV Growth Curve in RP-19 Turkey B-Cells",
        x = element_blank(),
        y = "Virus Titer (GCN/mL)",
        size = element_blank()
@@ -190,7 +192,15 @@ growth_curve <- full_prepped %>%
         legend.position = c(0.1, 0.7)
   )
 
-ggsave(plot = growth_curve, filename = "results/r/figures/thev_growth_curve.png",
-       width = 14, height = 8, dpi = 500)
+# ggsave(plot = growth_curve, filename = "results/r/figures/thev_growth_curve.png",
+#        width = 14, height = 8, dpi = 500)
 
+
+fig_2 <- (comp_all/ growth_curve) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(size = 26, face = "bold"))
+
+
+ggsave(plot = fig_2,
+       filename = "results/r/figures/fig_2.png",width = 14, height = 16, dpi = 500)
 

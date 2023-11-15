@@ -31,14 +31,14 @@ plot_time_genexpression <- function(count_ss){
     theme(plot.margin = margin(rep(30, 4)),
           panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
                                             linetype = "dashed"),
-          axis.title.y = element_text(size = 16, face = "bold", margin = margin(r = 15)),
-          axis.text.x = element_text(size = 16, face = "bold"),
-          axis.text.y = element_text(size = 14, face = "bold"),
+          axis.title.y = element_text(size = 28, face = "bold", margin = margin(r = 15)),
+          axis.text.x = element_text(size = 28, face = "bold"),
+          axis.text.y = element_text(size = 18, face = "bold"),
           legend.justification = c(0, 0),
           legend.position = c(0.05, 0.9),
           legend.key.width = unit(2, "cm"),
           legend.title = element_blank(),
-          legend.text = element_text(size = 14, face = "bold", colour = "black"),
+          legend.text = element_text(size = 15, face = "bold", colour = "black"),
           legend.text.align = 0) +
     guides(color = guide_legend(label.position = "top",
                                 label.hjust = 0.5,
@@ -59,11 +59,11 @@ all_juncs <- plot_time_genexpression(plot_all_junc_abunds) +
   labs(x = element_blank(),
        y = "Relative Abundances of All Junctions")
 
-patch_expr <- (all_juncs | trxptome_juncs)
+# patch_expr <- (all_juncs | trxptome_juncs)
 
-ggsave("junc_abundances.png",
-       plot = patch_expr, path = "results/r/figures",
-       width = 20, height = 12, dpi = 500)
+# ggsave("junc_abundances.png",
+#        plot = patch_expr, path = "results/r/figures",
+#        width = 20, height = 12, dpi = 500)
 
 
 # -------------------
@@ -72,16 +72,16 @@ ggsave("junc_abundances.png",
 # acceptors and donors in trxptome
 bulk_trxptome_ss_seq <- count_trxptome_ss(unq_bulk_juncs) %>%
   distinct(junc_ss, junc_ts, .keep_all = T) %>%
-  dplyr::group_by(exact_ss) %>%
+  dplyr::group_by(splice_site) %>%
   reframe(freq = n()) %>% 
   mutate(sum_junc_count = sum(freq),
          percent_abund = (freq / sum_junc_count) * 100)
 
 # plot trxptome acceptors and donor frequencies
 ss <- bulk_trxptome_ss_seq %>%
-  ggplot(aes(exact_ss, percent_abund, color = exact_ss)) +
+  ggplot(aes(splice_site, percent_abund, color = splice_site)) +
   geom_point(show.legend = F, size = 10) +
-  geom_segment(aes(x = exact_ss, xend = exact_ss,
+  geom_segment(aes(x = splice_site, xend = splice_site,
                    y = 0, yend = percent_abund),
                linewidth = 2,
                show.legend = F) +
@@ -110,16 +110,16 @@ ss <- bulk_trxptome_ss_seq %>%
 all_ss_seq <- bulk_junc_stats %>%
   distinct(timepoint, start, end, .keep_all = T) %>%
   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
-  group_by(timepoint, exact_ss) %>%
+  group_by(timepoint, splice_site) %>%
   reframe(tally = n(),
           total_reads = sum(read_count)) %>%
   split(.$timepoint) %>%
   map(mutate, tot_tally_tp = sum(tally)) %>% 
   do.call("rbind", .) %>%
   mutate(percent_abund = (tally / tot_tally_tp) * 100) %>% 
-  ggplot(aes(exact_ss, percent_abund, group = timepoint, color = timepoint)) +
+  ggplot(aes(splice_site, percent_abund, group = timepoint, color = timepoint)) +
   geom_point(show.legend = F, size = 10) +
-  geom_segment(aes(x = exact_ss, xend = exact_ss,
+  geom_segment(aes(x = splice_site, xend = splice_site,
                    y = 0, yend = percent_abund),
                linewidth = 2,
                show.legend = F) +
@@ -170,18 +170,18 @@ trxpt_fpkms <- t_expr_each %>%
   theme(plot.margin = margin(t = 20, l = 20, r = 20, b = 5),
         panel.grid.major.y = element_line(linewidth = 0.2, color = "grey",
                                           linetype = "dashed"),
-        axis.title.y = element_text(size = 16, face = "bold", margin = margin(r = 15)),
-        axis.text.x = element_text(size = 12, face = "bold", angle = 45, hjust = 1),
-        axis.text.y = element_text(size = 14, face = "bold"),
+        axis.title.y = element_text(size = 28, face = "bold", margin = margin(r = 15)),
+        axis.text.x = element_text(size = 28, face = "bold", angle = 45, hjust = 1),
+        axis.text.y = element_text(size = 18, face = "bold"),
         legend.justification = c(0, 0),
-        legend.position = c(0.9, 0.8),
-        legend.key.size = unit(1, "cm"),
+        legend.position = c(0.02, 0.8),
+        legend.key.size = unit(1.5, "cm"),
         legend.title = element_blank(),
-        legend.text = element_text(size = 14, face = "bold", colour = "black"),
+        legend.text = element_text(size = 18, face = "bold", colour = "black"),
         legend.text.align = 0)
 
-ggsave(plot = trxpt_fpkms, "results/r/figures/trxpt_fpkm_percent_abund.png",
-       width = 18, height = 12, dpi = 500)
+# ggsave(plot = trxpt_fpkms, "results/r/figures/trxpt_fpkm_percent_abund.png",
+#        width = 18, height = 12, dpi = 500)
 
 
 # plot transcript expression levels
@@ -201,14 +201,15 @@ reg_fpkms <- t_exp_lev_byregion %>%
   theme(plot.margin = margin(rep(30, 4)),
         panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
                                           linetype = "dashed"),
-        axis.title.y = element_text(size = 16, face = "bold", margin = margin(r = 15)),
-        axis.text.x = element_text(size = 16, face = "bold"),
-        axis.text.y = element_text(size = 14, face = "bold"),
+        axis.title.y = element_text(size = 28, face = "bold", margin = margin(r = 15)),
+        axis.text.x = element_text(size = 28, face = "bold"),
+        axis.text.y = element_text(size = 18, face = "bold"),
         legend.justification = c(0, 0),
         legend.position = c(0.05, 0.9),
         legend.key.width = unit(2, "cm"),
+        legend.background = element_rect(fill = NA, colour = NA),
         legend.title = element_blank(),
-        legend.text = element_text(size = 14, face = "bold", colour = "black"),
+        legend.text = element_text(size = 15, face = "bold", colour = "black"),
         legend.text.align = 0) +
   guides(color = guide_legend(label.position = "top",
                               label.hjust = 0.5,
@@ -217,10 +218,18 @@ reg_fpkms <- t_exp_lev_byregion %>%
                               nrow = 1,
   ))
 
-ggsave(plot = reg_fpkms, "results/r/figures/region_fpkm_percent_abund.png",
-       width = 18, height = 12, dpi = 500)
+# ggsave(plot = reg_fpkms, "results/r/figures/region_fpkm_percent_abund.png",
+#        width = 18, height = 12, dpi = 500)
+
+# plot for figure 4A-D
 
 
+patch_fig4 <- (trxpt_fpkms/(reg_fpkms| all_juncs | trxptome_juncs)) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(size = 52, face = "bold"))
+
+ggsave(plot = patch_fig4, "results/r/figures/figure_4a_d.png",
+       width = 45, height = 30, dpi = 350)
 # ------------------------------
 # distribution of fpkm levels in samples
 
@@ -250,5 +259,3 @@ fpkm_dist <- t_exp_levels %>%
 
 ggsave(plot = fpkm_dist, "results/r/figures/fpkm_dist_by_time.png",
        width = 14, height = 10, dpi = 500)
-
-

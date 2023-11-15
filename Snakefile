@@ -350,23 +350,6 @@ rule count_total_reads:
     shell:
         "{input.script}"
 
-#################### MAKE FIGURES FOR DEPTH/COVERAGE ############
-rule make_coverage_figures:
-    input:
-        r_script1 = "scripts/r/thev_cov_depth.R",
-        r_script2 = "scripts/r/thev_genomic_map.R",
-        bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
-        depth = rules.bulk_depth.output,
-        coverage = rules.total_bulk_coverage.output
-    output:
-        # expand("results/r/figures/depth_{time}hrs.png", \
-        # time = [4, 12, 24, 72]),
-        expand("results/r/figures/{plotkind}_alltimes.png", \
-        plotkind = ["patch", "overlay", "correlate"])
-    shell:
-       "{input.r_script1}"
-
-
 #################### PLOT THEV GENOMIC MAP ############
 rule make_orf_map:
     input:
@@ -378,7 +361,7 @@ rule make_orf_map:
        "{input.r_script}"
 
 #################### PLOT TRANSCRIPT  AND JUNCTION ABUNDANCES OVER TIME ############
-rule abund_plots:
+rule make_fig4:
     input:
         trxptome = rules.mod_final_trxptome.output,
         annot_juncs = rules.bulk_annotate_junctions.output,
@@ -387,121 +370,23 @@ rule abund_plots:
         rscript1 = "scripts/r/plot_abundances.R",
         rscript2 = "scripts/r/abundance_analyses.R"
     output:
-        "results/r/figures/junc_abundances.png",
-        "results/r/figures/region_fpkm_percent_abund.png",
-        "results/r/figures/trxpt_fpkm_percent_abund.png",
-        "results/r/figures/fpkm_dist_by_time.png"
+        "results/r/figures/fpkm_dist_by_time.png",
+        "results/r/figures/figure_4a_d.png"
     shell:
         "{input.rscript1}"
 
-################# MAP UNINFECTED READS ############################
-# rule uninfected_map:
-#     input:
-#         script = "scripts/zsh/ctrl_map_to_bam.zsh",
-#         seqidx = expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
-#         n = [1, 2, 3, 4, 5, 6, 7, 8]),
-#         reads = expand("trimmedReads/uninfected_reads/LCS9132_U_{tp}hrsN{rep}_Clean_Data{strand}.fq.gz", \
-#         tp = [72, 24, 12, 4], rep = [1, 2], strand = [1, 2])
-#     output:
-#         expand("results/hisat2/map_mock/ctrl_sorted_{time}N{rep}.bam", \
-#         time = [72, 24, 12, 4], rep = [1, 2])
-#     shell:
-#         "{input.script}"
-
-# ################# INDEX UNINFECTED READS ############################
-# rule uninfected_single_index:
-#     input:
-#         bam = rules.uninfected_map.output,
-#         script = "scripts/zsh/ctrl_single_index.zsh"
-#     output:
-#         expand("results/hisat2/map_mock/ctrl_sorted_{time}N{rep}.bam.bai", \
-#         time = ["72", "24", "12", "4"], rep = ["1", "2"])
-#     shell:
-#         "{input.script}"
-
-# ################# ASSEMBLE UNINFECTED TRANSCRITPS ############################
-# rule uninfected_assemble:
-#     input:
-#         bam = rules.uninfected_map.output,
-#         script = "scripts/zsh/ctrl_assemble.zsh",
-#         gtf = "raw_files/annotations/thev_from_NCBI.gtf"
-#     output:
-#         expand("results/stringtie/mock_stringtie/ctrl_{time}N{rep}.gtf", \
-#         time = [4, 12, 24, 72], rep = [1, 2])
-#     shell:
-#         "{input.script}"
-
-# ################# BULK MAP UNINFECTED READS ############################
-# rule uninfected_map_to_bam:
-#     input:
-#         script = "scripts/zsh/ctrl_bulk_map_sort_to_bam.zsh",
-#         seqidx = expand("raw_files/thevgenome_index/thev_tran.{n}.ht2", \
-#         n = [1, 2, 3, 4, 5, 6, 7, 8]),
-#         reads = expand("trimmedReads/uninfected_reads/LCS9132_U_{tp}hrsN{rep}_Clean_Data{strand}.fq.gz", \
-#         tp = [72, 24, 12, 4], rep = [1, 2], strand = [1, 2])
-#     output:
-#         expand("results/hisat2/bulk/uninfected/sortedTHEV_{time}hrsNeg.bam", \
-#         time = [4, 12, 24, 72])
-#     shell:
-#         "{input.script}"
-
-# ############### INDEX UNINFECTED ##################
-# rule uninfected_index:
-#     input:
-#         rules.uninfected_map_to_bam.output,
-#         script = "scripts/zsh/ctrl_index.zsh"
-#     output:
-#         expand("results/hisat2/bulk/uninfected/sortedTHEV_{time}hrsNeg.bam.bai", \
-#         time = [4, 12, 24, 72])
-#     shell:
-#         "{input.script}"
-
-# ############### COVERAGE UNINFECTED ##################
-# rule uninfected_coverage:
-#     input:
-#         rules.uninfected_map_to_bam.output,
-#         script = "scripts/zsh/ctrl_coverage.zsh"
-#     output:
-#         "results/hisat2/coverage/ctrl_coverage.tsv"
-#     shell:
-#         "{input.script}"
-
-# ############### DEPTH UNINFECTED ##################
-# rule uninfected_depth:
-#     input:
-#         rules.uninfected_map_to_bam.output,
-#         script = "scripts/zsh/ctrl_depth.zsh"
-#     output:
-#         expand("results/hisat2/coverage/ctrl_{time}hrsdepth.txt", \
-#         time = [4, 12, 24, 72])
-#     shell:
-#         "{input.script}"
-
-# ############### FIGURES FOR UNINFECTED ##################
-# rule uninfected_coverage_figures:
-#     input:
-#         r_script1 = "scripts/r/ctrl_cov_depth.R",
-#         r_script2 = "scripts/r/thev_genomic_map.R",
-#         bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
-#         depth = expand("results/hisat2/coverage/ctrl_{time}hrsdepth.txt", \
-#         time = [4, 12, 24, 72]),
-#         coverage = "results/hisat2/coverage/ctrl_coverage.tsv"
-#     output:
-#         expand("results/r/figures/ctrl_depth_{time}hrs.pdf", \
-#         time = [4, 12, 24, 72]),
-#         expand("results/r/figures/ctrl_{plotkind}_alltimes.pdf", \
-#         plotkind = ["patch", "overlay", "correlate"])
-#     shell:
-#        "{input.r_script1}"
-
 #################### MAKE THEV GROWTH CURVE ############
-rule make_growth_curve:
+rule make_fig2:
     input:
         r_script = "scripts/r/thev_growthcurve.R",
         exp1 = "raw_files/wetlab_data/thev_growthcurve2021.xls",
-        exp2 = "raw_files/wetlab_data/thev_growthcurve04_2023.xls"
+        exp2 = "raw_files/wetlab_data/thev_growthcurve04_2023.xls",
+         r_script1 = "scripts/r/thev_cov_depth.R",
+        bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
+        depth = rules.bulk_depth.output,
+        coverage = rules.total_bulk_coverage.output
     output:
-        "results/r/figures/thev_growth_curve.png"
+        "results/r/figures/fig_2.png"
     shell:
        "{input.r_script}"
 
@@ -515,14 +400,11 @@ rule write_manuscript:
         rules.bulk_annotate_junctions.output,
         rules.total_bulk_coverage.output,
         rules.count_total_reads.output,
-        rules.make_coverage_figures.output,
-        rules.make_growth_curve.output,
+        rules.make_fig2.output,
         rules.make_orf_map.output,
         rules.make_full_splice_map.output,
         rules.make_timepoint_splice_map.output,
-        rules.abund_plots.output,
-        "results/r/figures/region_fpkm_percent_abund.png",
-        "results/r/figures/trxpt_fpkm_percent_abund.png",
+        rules.make_fig4.output,
         "scripts/r/abundance_analyses.R",
         "scripts/r/reg_by_reg_plots.R"
     output:

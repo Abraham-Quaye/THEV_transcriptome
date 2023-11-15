@@ -426,7 +426,8 @@ reg_e1_brkdown <- reg_brkdown_tab("E1") %>%
 
 # E2 region table analysis for discussion
 reg_e2_brkdown <- reg_brkdown_tab("E2") %>%
-  mutate(status = c(rep("Validated", 8), "Unvalidated"))
+  distinct(start, end, intron_len, .keep_all = T) %>% 
+  mutate(status = c(rep("Validated", 5), "Unvalidated"))
 
 # E3 region table analysis for discussion
 reg_e3_brkdown <- reg_brkdown_tab("E3")
@@ -441,7 +442,9 @@ reg_im_brkdown <- reg_brkdown_tab("IM") %>%
   mutate(status = "Validated")
 
 # MLP region table analysis for discussion
-reg_mlp_brkdown <- reg_brkdown_tab("MLP")
+reg_mlp_brkdown <- reg_brkdown_tab("MLP") %>%
+  distinct(start, end, intron_len, .keep_all = T) %>% 
+  mutate(status = rep("Validated", 15))
 
 
 
