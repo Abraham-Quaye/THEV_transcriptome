@@ -304,11 +304,11 @@ plot_all_junc_abunds <- bulk_junc_stats %>%
   group_by(timepoint, region) %>%
   reframe(accum_tally_j = n(),
           total_rd_j_tp_reg = sum(read_count)) %>%
-  drop_na(region) %>% 
+  drop_na(region) %>%
   split(.$timepoint) %>%
   map(mutate, tot_reads_time = sum(total_rd_j_tp_reg)) %>% 
   do.call("rbind", .) %>%
-  mutate(region = factor(region, levels = c("E1", "E2", "E3", "E4", "IM", "MLP"))) %>%
+  mutate(region = factor(region, levels=c("E1", "E2", "E3", "E4", "IM", "MLP"))) %>%
   group_by(timepoint, region, .drop = F) %>% 
   reframe(total_rd_j_tp_reg = total_rd_j_tp_reg,
           tot_reads_time = tot_reads_time,

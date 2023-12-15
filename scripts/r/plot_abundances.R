@@ -52,7 +52,7 @@ plot_time_genexpression <- function(count_ss){
 # plot and save abundances of juncs found in final trxptome
 trxptome_juncs <- plot_time_genexpression(bulk_count_trxptome_ss) +
   labs(x = element_blank(),
-       y = "Relative Abundances of Junctions in Final Transcriptome")
+       y = "Relative Abundances of Junctions in Transcriptome")
 
 
 all_juncs <- plot_time_genexpression(plot_all_junc_abunds) +

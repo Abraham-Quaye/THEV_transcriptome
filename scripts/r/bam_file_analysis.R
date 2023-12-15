@@ -247,28 +247,50 @@ tab1 <- tibble(Metric = c("Total reads",
                         ifelse(Total > 1000 & Total < 1000000, comma(Total),
                                Total)))
 
-
+# ---------------------
 # ---------------------
 # For Table 2A-C
-find_sig_juncs <- function(tp){
-  total_tp_juncs <- bulk_junc_stats %>% filter(timepoint == tp) %>% pull(read_count) %>% sum()
+# ---------------------
+# ----------------------
+find_sig_juncs <- function(tp, rg){
+  tp <- "12hpi"
+  regs <- c("E1","E2", "E3", "E4", "IM", "MLP")
   
-  meta_dt <-  bulk_junc_stats %>%
+  total_tp_juncs <- bulk_junc_stats %>%
+    filter(timepoint == tp) %>% pull(read_count) %>% sum()
+  
+  meta_dt <- bulk_junc_stats %>%
     filter(timepoint == tp) %>%
     select(timepoint, strand, start, end, splice_site,
            exact_ss, region) %>%
-    distinct(start, end, .keep_all = T)
+    distinct(region, start, end, .keep_all = T) %>%
+    drop_na()
   
-  est <- bulk_junc_stats %>%
-  filter(timepoint == tp) %>%
-  group_by(timepoint, start, end) %>%
-  reframe(tot_tp_j_rds = sum(read_count)
-          ) %>%
-  mutate(perc = round((tot_tp_j_rds/ total_tp_juncs) * 100, 1),
-         intron_len = end - start) 
+  # function to compute values for each region
+  est_percent <- function(rg){
+    est <- bulk_junc_stats %>%
+      filter(timepoint == tp, region == rg) %>%
+      group_by(region, start, end) %>%
+      reframe(tot_tp_j_rds = sum(read_count)) %>%
+      mutate(perc = round((tot_tp_j_rds/ total_tp_juncs) * 100, 1),
+             intron_len = end - start) 
+    return(est)
+  }
+  
+  # Initialize an empty list to store the dataframes
+  temp_list <- list()
+  
+  # Call the function iteratively and store the results
+  for(i in 1:length(regs)){
+    df <- est_percent(regs[i])
+    temp_list[[i]] <- df
+  }
+  # Combine all the dataframes into one final result
+  all_ests <- base::do.call(rbind, temp_list)
   
   return(
-    left_join(meta_dt, est, by = join_by(timepoint, start, end)) %>%
+    # add back the metadata
+    left_join(meta_dt, all_ests, by = join_by(region, start, end)) %>%
     filter(perc >= 1) %>%
     arrange(desc(perc)) %>%
     mutate(tot_tp_j_rds = comma(tot_tp_j_rds),
@@ -322,4 +344,11 @@ tp_reg_expr_12 <- tp_reg_expr_abund("12hpi")
 tp_reg_expr_24 <- tp_reg_expr_abund("24hpi")
 
 tp_reg_expr_72 <- tp_reg_expr_abund("72hpi")
+
+
+
+
+
+
+
 
