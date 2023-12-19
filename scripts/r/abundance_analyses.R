@@ -304,7 +304,7 @@ plot_all_junc_abunds <- bulk_junc_stats %>%
   group_by(timepoint, region) %>%
   reframe(accum_tally_j = n(),
           total_rd_j_tp_reg = sum(read_count)) %>%
-  drop_na(region) %>%
+  # drop_na(region) %>%
   split(.$timepoint) %>%
   map(mutate, tot_reads_time = sum(total_rd_j_tp_reg)) %>% 
   do.call("rbind", .) %>%
@@ -320,7 +320,8 @@ plot_all_junc_abunds <- bulk_junc_stats %>%
           reg_junc_percent = round((tot_rds_tp_reg / mean_tot_rds_time) * 100, 2)) %>%
   replace_na(replace = list(mean_tot_rds_time = 0,
                             reg_junc_percent = 0)) %>%
-  mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi")))
+  mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
+  drop_na()
 
 
 

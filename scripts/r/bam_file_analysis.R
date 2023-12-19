@@ -253,7 +253,6 @@ tab1 <- tibble(Metric = c("Total reads",
 # ---------------------
 # ----------------------
 find_sig_juncs <- function(tp, rg){
-  tp <- "12hpi"
   regs <- c("E1","E2", "E3", "E4", "IM", "MLP")
   
   total_tp_juncs <- bulk_junc_stats %>%

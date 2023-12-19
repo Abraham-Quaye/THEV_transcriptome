@@ -71,8 +71,8 @@ t_exp_levels <- texpr(raw_data, meas = "all") %>%
 
 comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
                               by = "trxpt_id") %>%
-  mutate(sstcodon = c(rep(211, 3), 1965, rep(NA, 22), 26246, 3616),
-         stpcodon = c(2312, 1953, rep(2312, 2), rep(NA, 22), 25204, 2334))
+  mutate(sstcodon = c(rep(211, 3), 1965, rep(NA, 18), 18186, rep(NA, 3), 26246, 3616),
+         stpcodon = c(2312, 1953, rep(2312, 2), rep(NA, 18), 16973, rep(NA, 3), 25204, 2334))
 
 
 # load in data and prepare predicted ORFs only
@@ -108,13 +108,30 @@ predicted_orfs <- predicted_orfs %>%
                             gene_name == "UXP" ~ "LONE",
                             TRUE ~ "MLP")) %>%
   arrange(strand, region) %>%
+  # manually added transcripts not from StringTie
   rbind(tibble( gene_name = "ORF4", transcript_id = "gp04", strand = "+",
                 start_1 = 1965, start_2 = NA, start_3 = NA, end_1 = 2312,
-                end_2 = NA, end_3 = NA, region = "E1")) 
+                end_2 = NA, end_3 = NA, region = "E1")) %>%
+  # Full ORF1 transcript
+  rbind(tibble( gene_name = "Full ORF1", transcript_id = "fORF1", strand = "+",
+                start_1 = 54, start_2 = 54, start_3 = 54, end_1 = 2325,
+                end_2 = 2325, end_3 = 2325, region = "E1")) %>%
+  #TRXPT_21B (DBP isoform2)
+  rbind(tibble( gene_name = "TRXPT_21B", transcript_id = "DBP_iso2", strand = "-",
+                start_1 = 16934, start_2 = 16934, start_3 = 18684, end_1 = 18751,
+                end_2 = 18189, end_3 = 18751, region = "E2"))
 
 combined_gtf <- plyr::rbind.fill(comp_spliced_gtf, predicted_orfs) %>% 
   arrange(strand, region) %>% as_tibble() %>%
-  mutate(trxpt_id = ifelse(is.na(trxpt_id), gene_name, trxpt_id))
+  mutate(trxpt_id = ifelse(is.na(trxpt_id), gene_name, trxpt_id),
+         sstcodon = dplyr::case_match(transcript_id,
+                                      "fORF1" ~ 211,
+                                      "DBP_iso2" ~ 18013,
+                                      .default = sstcodon),
+         stpcodon = dplyr::case_match(transcript_id,
+                                      "fORF1" ~ 1953,
+                                      "DBP_iso2" ~ 16973,
+                                      .default = stpcodon))
 
 
 
@@ -169,9 +186,12 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
                             gene_name == "E3" ~ 33,
                             gene_name == "22K" ~ 32.5,
                             gene_name == "ORF4" ~ 28.5,
-                            gene_name %in% c("pTP", "DBP") ~ 23.5,
+                            gene_name == "Full ORF1" ~ 29.5,
+                            gene_name == "TRXPT_21B" ~ 23.5,
+                            gene_name == "pTP" ~ 23.5,
+                            gene_name == "DBP" ~ 22.5,
                             TRUE ~ ypos)) %>% 
-    mutate(color = ifelse(trxpt_id == "ORF4", "#000000", color)) %>%
+    mutate(color = ifelse(trxpt_id %in% c("ORF4", "Full ORF1", "TRXPT_21B"), "#000000", color)) %>%
     as_tibble() %>%
     filter(region %in% regs)
   
@@ -389,34 +409,47 @@ trxpt_exons <- comp_spliced_gtf %>%
          exon4 = paste0(start_5, "-", end_5),
          exon5 = paste0(start_6, "-", end_6),
          exon6 = paste0(start_7, "-", end_7),
-         exon7 = paste0(start_8, "-", end_8)) %>% 
+         exon7 = paste0(start_8, "-", end_8)) %>%
   select(trxpt_id, region, num_exons, full_trxpt, paste0("exon", c(1:7))) %>%
   mutate(exon3 = str_replace(exon3, "NA-NA", "-"),
          exon4 = str_replace(exon4, "NA-NA", "-"),
          exon5 = str_replace(exon5, "NA-NA", "-"),
          exon6 = str_replace(exon6, "NA-NA", "-"),
-         exon7 = str_replace(exon7, "NA-NA", "-")) %>%
+         exon7 = str_replace(exon7, "NA-NA", "-")
+         # dplyr::across(c(base::paste0("exon", 3:7)), ~ str_replace(.x, "NA-NA", "-")),
+         ) %>%
   arrange(region)
 
-wetlab_val <- tibble(trxpt_id = c(paste0("TRXPT_", 1:4), "TRXPT_28", "TRXPT_5"),
-                     forwardP = c("CCCggtaccGTCCGAAGTCTCAGCAACAGATTC",
+wetlab_val <- tibble(trxpt_id = c(paste0("TRXPT_", 1:4), "TRXPT_21", "TRXPT_6", "TRXPT_7", "TRXPT_28", "TRXPT_5"),
+                     forwardP = c(# E1
+                                  "CCCggtaccGTCCGAAGTCTCAGCAACAGATTC",
                                   "CCCggtaccGAGGCCTGTTGGAATTGTTGC",
                                   "CCCggtacCATTTCCCGTACACGGTGTTG",
                                   "CCCggtaccGTCATCACAACTGACCTTGTCGTC",
+                                  # E2A
+                                  "CCCtctagaGAACCCAGATATTGGCTCCAAGG",
+                                  # E2B
+                                  rep("CCCtctagaCATTGAATAGATAAGCGTAGCCAATCAGC", 2),
+                                  # E4
                                   "CCCtctagaCAGTGCAATCCGACGCTCTG",
+                                  # IM
                                   "CCCtctagaCGCAACCTGTAGGTCCGATTAC"),
                      reverseP = c(rep("CCCggtacCTGAGGAGGTCGTAGACTCTGC", 4),
+                                  rep("CCCggtacCTGTTGCTGAGACTTCGGACC", 3),
                                   "CCCggtaccGGACACGTGTTCGTTAGAGAACC",
                                   "CCCggtaccTCTGGTGAGATCTTCCAAACAGAAAG"),
                      valid_status = c(rep("Validated", 3), "Not Validated",
-                                      rep("Validated", 2)),
+                                      rep("Validated", 5)),
                      gel_image = c("wet_lab_validation/validation_gels/trxpt_1_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_2_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_3_gel.png",
                                    NA,
+                                   "wet_lab_validation/validation_gels/trxpt_21_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_28_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_5_gel.png"))
 
-supp_pcr_meth_tab <- left_join(trxpt_exons[trxpt_exons$region %in% c("E1", "E4", "IM"),],
+supp_pcr_meth_tab <- left_join(trxpt_exons[trxpt_exons$region %in% c("E1", "E2", "E4", "IM"),],
                                wetlab_val, by = "trxpt_id")
 

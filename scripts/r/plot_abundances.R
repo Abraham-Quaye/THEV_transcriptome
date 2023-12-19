@@ -154,7 +154,7 @@ all_ss_seq <- bulk_junc_stats %>%
 # PLOT TRANSCRIPT ABUNDANCES FROM BALLGOWN
 # ====================================================================
 
-# plot
+# plot transcript expression levels per individual
 trxpt_fpkms <- t_expr_each %>%
   filter(timepoint != "4h.p.i") %>%
   ggplot(aes(trxpt_id, fpkm_trxpt_percent, group = timepoint, fill = timepoint)) +
@@ -184,7 +184,7 @@ trxpt_fpkms <- t_expr_each %>%
 #        width = 18, height = 12, dpi = 500)
 
 
-# plot transcript expression levels
+# plot transcript expression levels per region
 reg_fpkms <- t_exp_lev_byregion %>%
   filter(timepoint != "4h.p.i") %>%
   ggplot(aes(timepoint, fpkm_reg_percent, group = region, color = region)) +

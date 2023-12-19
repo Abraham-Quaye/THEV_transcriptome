@@ -421,7 +421,7 @@ rule write_supplementary:
         "scripts/r/bam_file_analysis.R",
         "scripts/r/reg_by_reg_plots.R",
         expand("wet_lab_validation/validation_gels/trxpt_{trx_n}_gel.png", \
-        trx_n = [1, 2, 3, 5, 28])
+        trx_n = [1, 2, 3, 5, "6or7", 21, 28])
     output:
         "supplementary_thev_trxptome.pdf"
     shell:

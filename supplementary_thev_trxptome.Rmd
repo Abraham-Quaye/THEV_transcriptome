@@ -67,21 +67,21 @@ flextable(tp_reg_expr_72) %>% theme_zebra()
 \newpage
 ## Supplementary PCR Methods
 ```{r Supplementary PCR Methods}
-set_flextable_defaults(font.size = 4)
+set_flextable_defaults(font.size = 3.5)
 
 flextable(supp_pcr_meth_tab) %>%
   theme_zebra() %>%
   flextable::fontsize(j = c("forwardP", "reverseP"), size = 3) %>%
   flextable::align(align = "center", part = "all") %>%
-  flextable::width(., width = 0.3) %>% 
-  colformat_image(j = "gel_image", i = c(1, 3:6), na_str = "-",
+  flextable::width(., width = 0.35) %>% 
+  colformat_image(j = "gel_image", i = c(1, 3:7, 9, 10), na_str = "-",
                   width = 1, height = 1) %>%
   flextable::width(j = ~forwardP, width = 1) %>%
   flextable::width(j = ~reverseP, width = 1) %>%
-  flextable::width(j = ~valid_status, width = 0.4) %>%
+  # flextable::width(j = ~valid_status, width = 0.35) %>%
   flextable::width(j = ~gel_image, width = 1) %>% 
-  footnote(., i = c(1:6), j = 12, value = as_paragraph(c("Primer binds exon 1")),
+  footnote(., i = c(1:6, 7, 9, 10), j = 12, value = as_paragraph(c("Primer binds exon 1")),
            ref_symbols = c("a"), part = "body") %>%
-  footnote(., i = c(1:6), j = 13, value = as_paragraph(c("Primer binds terminal exon")),
+  footnote(., i = c(1:6, 7, 9, 10), j = 13, value = as_paragraph(c("Primer binds terminal exon")),
            ref_symbols = c("b"), part = "body")
 ```
