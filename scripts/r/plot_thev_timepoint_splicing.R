@@ -7,20 +7,20 @@ library(rtracklayer)
 library(patchwork)
 library(ggtext)
 
+# load full transcriptome plot
+source("scripts/r/thev_splicing_fullMap.R")
 # table of transcript ids for different genome regions here for transcription unit assignment
 
 trxpt_ids_repo <- tribble(~region, ~`4hpi`, ~`12hpi`, ~`24hpi`, ~`72hpi`,
-                     "e1", NA, c("12S1.1.2", "12S1.1.1"), c("24S1.1.1", "24S2.1.1",
-                                                            "24S2.1.2", "24S3.1.2",
-                                                            "24S3.1.1", "24S1.1.2"), c("72S1.1.1", "72S2.1.1", "72S2.1.2", "72S3.1.1"),
-                     "e2", c("4S1.4.1",
-                             "4S2.3.1"), NA, c("24S2.2.2", "24S3.2.2", "24S3.2.1",
-                                               "24S1.2.1", "24S1.2.2", "24S2.2.1",
-                                               "24S1.2.4", "24S3.2.5", "24S2.2.4"), c("72S1.12.1", "72S2.8.1", "72S3.10.1", "72S3.3.2"),
-                     "e3", c("4S1.5.1"), c("12S3.6.2",
-                                           "12S1.4.7",
-                                           "12S1.4.8"), c("24S3.11.1", "24S1.11.1", "24S2.11.1",
-                                                          "24S1.11.2", "24S3.11.2", "24S2.11.2"), c("72S1.13.4", "72S3.11.3", "72S1.13.1", "72S3.11.2", "72S1.13.2"),
+                     "e1", NA, c("12S1.1.2", "12S1.1.1"),
+                     c("24S1.1.1", "24S2.1.1","24S2.1.2", "24S3.1.2", "24S3.1.1", "24S1.1.2"),
+                     c("72S1.1.1", "72S2.1.1", "72S2.1.2", "72S3.1.1"),
+                     "e2", c("4S1.4.1","4S2.3.1"), NA,
+                     c("24S2.2.2", "24S3.2.2", "24S3.2.1","24S1.2.1", "24S1.2.2", "24S2.2.1",
+                      "24S1.2.4", "24S3.2.5", "24S2.2.4"), c("72S1.12.1", "72S2.8.1", "72S3.10.1", "72S3.3.2"),
+                     "e3", c("4S1.5.1"), c("12S3.6.2","12S1.4.7", "12S1.4.8"), 
+                     c("24S3.11.1", "24S1.11.1", "24S2.11.1", "24S1.11.2", "24S3.11.2", "24S2.11.2"),
+                     c("72S1.13.4", "72S3.11.3", "72S1.13.1", "72S3.11.2", "72S1.13.2"),
                      "e4", NA, c("12S3.8.1"), NA, NA,
                      "im", NA, c("12S1.2.2"), NA, c("72S3.2.1")
                      ) %>% 
@@ -153,7 +153,7 @@ graph_trxpts <- function(gtf){
         scale_y_continuous(expand = c(0.01,0.01),
                            limits = ylimits) +
         theme(plot.margin = margin(rep(5, 4)),
-              plot.background = element_rect(fill = "#ffffff", color = "grey"),
+              plot.background = element_rect(fill = "#ffffff"),
               panel.background = element_rect(fill = "#ffffff"),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(),
@@ -195,19 +195,30 @@ tp_trxptome <- list.files("results/stringtie",
 #          dpi = 500, width = 12, height = 8)
 # }
 
+full_trxptome <- plot_full_trxptome(combined_gtf, "all")
+
+# trxpts per timepoint
 p12 <- graph_trxpts(tp_trxptome[1])
 p24 <- graph_trxpts(tp_trxptome[2])
 p4 <- graph_trxpts(tp_trxptome[3])
 p72 <- graph_trxpts(tp_trxptome[4])
 
-all_plots <- (p4/ p12 / p24 / p72) +
+all_tp_plots <- (p4/ p12 / p24 / p72) +
   plot_layout(tag_level = "new",
               heights = c(2, 3, 3, 4)) +
   plot_annotation(tag_levels = "1", tag_prefix = "B") &
   theme(plot.tag = element_text(size = 22, face = "bold"))
 
-ggsave(plot = all_plots,
-       filename = "results/r/figures/thev_patched_timepoints_spliced_map.png",
-       dpi = 500, width = 12, height = 10.5)
+total_plots <- ((full_trxptome / plot_spacer()) / all_tp_plots) +
+  plot_layout(heights = c(2.5, 0.05, 3))
 
+total_plots[[2]] <- total_plots[[2]] + plot_layout(tag_level = "new")
+total_plots <- total_plots + plot_annotation(tag_levels = list(c("A", "", "B"), 1))
 
+ggsave(plot = total_plots,
+       filename = "results/r/figures/figure3.png",
+       dpi = 500, width = 12, height = 20)
+
+# ggsave(plot = all_tp_plots,
+#        filename = "results/r/figures/thev_patched_timepoints_spliced_map.png",
+#        dpi = 500, width = 12, height = 10.5)

@@ -270,7 +270,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
     scale_y_continuous(expand = c(0.01,0.01),
                        limits = y_lims) +
     theme(plot.margin = margin(rep(15, 4)),
-          plot.background = element_rect(fill = "#ffffff", color = c("grey")),
+          plot.background = element_rect(fill = "#ffffff"),
           panel.background = element_rect(fill = "#ffffff"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
@@ -339,9 +339,9 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
 }  
 
 ## Save final figure of full transcriptome
-ggsave(plot = plot_full_trxptome(combined_gtf, "all"),
-       filename = "results/r/figures/thev_spliced_map.png",
-       dpi = 500, width = 12, height = 8)
+# ggsave(plot = plot_full_trxptome(combined_gtf, "all"),
+#        filename = "results/r/figures/thev_spliced_map.png",
+#        dpi = 500, width = 12, height = 8)
 
 
 

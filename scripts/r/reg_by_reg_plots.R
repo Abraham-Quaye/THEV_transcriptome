@@ -71,8 +71,8 @@ t_exp_levels <- texpr(raw_data, meas = "all") %>%
 
 comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
                               by = "trxpt_id") %>%
-  mutate(sstcodon = c(rep(211, 3), 1965, rep(NA, 18), 18186, rep(NA, 3), 26246, 3616),
-         stpcodon = c(2312, 1953, rep(2312, 2), rep(NA, 18), 16973, rep(NA, 3), 25204, 2334))
+  mutate(sstcodon = c(rep(211, 3), 1965, rep(NA, 18), 18186, NA, 10995, NA, 26246, 3616),
+         stpcodon = c(2312, 1953, rep(2312, 2), rep(NA, 18), 16973, NA, 6765, NA, 25204, 2334))
 
 
 # load in data and prepare predicted ORFs only
@@ -302,9 +302,11 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
   # Loop through the remaining exons (start and end columns) and 
   # add a geom_segment layer for each pair
   for (i in seq_along(start_cols)[-1]) {
-    splice_map <- splice_map +
-      geom_segment(aes_string(x = start_cols[i], xend = end_cols[i], y = "ypos", yend = "ypos"),
-                   color = combined_gtf$color, linewidth = 7)
+    if(!base::is.na(start_cols[i])){
+      splice_map <- splice_map +
+        geom_segment(aes_string(x = start_cols[i], xend = end_cols[i], y = "ypos", yend = "ypos"),
+                     color = combined_gtf$color, linewidth = 7)
+    }
   }
   
   # Add labels for full plot -----------------

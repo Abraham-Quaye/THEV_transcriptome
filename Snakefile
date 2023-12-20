@@ -195,26 +195,40 @@ rule mod_final_trxptome:
         "{input.rscript}"
 
 ################### MAKE FULL TRANSCRIPTOME WITH UNREDUNDANT GTF FILE FROM GFFCOMPARE ############
-rule make_full_splice_map:
-    input:
-        spliced_gtf = "results/gffcompare/gffcomp_alltimes.combined.gtf",
-        orf_gtf = rules.merge_gtfs.output,
-        rscript = "scripts/r/thev_splicing_fullMap.R"
-    output:
-        "results/r/figures/thev_spliced_map.png"
-    shell:
-        "{input.rscript}"
+# rule make_full_splice_map:
+#     input:
+#         spliced_gtf = "results/gffcompare/gffcomp_alltimes.combined.gtf",
+#         orf_gtf = rules.merge_gtfs.output,
+#         rscript = "scripts/r/thev_splicing_fullMap.R"
+#     output:
+#         "results/r/figures/thev_spliced_map.png"
+#     shell:
+#         "{input.rscript}"
 
 ################### MAKE TRANSCRIPTOME MAP PER TIMEPOINT OF INFECTION #####################
-rule make_timepoint_splice_map:
+# rule make_timepoint_splice_map:
+#     input:
+#         rscript = "scripts/r/plot_thev_timepoint_splicing.R",
+#         gtfs = expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
+#         tp = [4, 12, 24, 72])
+#     output:
+#         "results/r/figures/thev_patched_timepoints_spliced_map.png"
+#     shell:
+#         "{input.rscript}"
+
+################### MAKE FIGURE 3 (TRANSCRIPTOME MAP) #######################################
+rule make_figure3:
     input:
-        rscript = "scripts/r/plot_thev_timepoint_splicing.R",
+        rscript1 = "scripts/r/plot_thev_timepoint_splicing.R",
         gtfs = expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
-        tp = [4, 12, 24, 72])
+        tp = [4, 12, 24, 72]),
+        spliced_gtf = "results/gffcompare/gffcomp_alltimes.combined.gtf",
+        orf_gtf = rules.merge_gtfs.output,
+        rscript2 = "scripts/r/thev_splicing_fullMap.R"
     output:
-        "results/r/figures/thev_patched_timepoints_spliced_map.png"
+        "results/r/figures/figure3.png"
     shell:
-        "{input.rscript}"
+        "{input.rscript1}"
 
 ############## ESTIMATE TRANSCRIPT ABUNDANCES##############
 rule est_abundances:
@@ -402,8 +416,7 @@ rule write_manuscript:
         rules.count_total_reads.output,
         rules.make_fig2.output,
         rules.make_orf_map.output,
-        rules.make_full_splice_map.output,
-        rules.make_timepoint_splice_map.output,
+        rules.make_figure3.output,
         rules.make_fig4.output,
         "scripts/r/abundance_analyses.R",
         "scripts/r/reg_by_reg_plots.R"

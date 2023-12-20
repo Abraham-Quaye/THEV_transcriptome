@@ -2,6 +2,7 @@
 raw_files/annotations/turkey*
 raw_files/genome_file/*
 raw_files/host_virus_genome_index/*
+wet_lab_validation/validation_gels/*.tif
 
 # R coding
 .Rhistory
