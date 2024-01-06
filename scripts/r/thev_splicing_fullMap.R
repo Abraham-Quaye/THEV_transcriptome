@@ -210,7 +210,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
                     )
   
   mlp_lab <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
-                     filter(combined_gtf, transcript_id == "TCONS_00000006") %>% pull(start_1), filter(combined_gtf, transcript_id == "TCONS_00000022") %>% pull(end_1), 44.5, "MLP", 46.5)
+                     filter(combined_gtf, transcript_id == "TCONS_00000006") %>% pull(start_1), filter(combined_gtf, transcript_id == "TCONS_00000022") %>% pull(end_1), 44.5, "MLTU", 46.5)
   
   
   # ========================================================

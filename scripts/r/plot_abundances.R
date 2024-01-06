@@ -233,29 +233,29 @@ ggsave(plot = patch_fig4, "results/r/figures/figure_4a_d.png",
 # ------------------------------
 # distribution of fpkm levels in samples
 
-fpkm_dist <- t_exp_levels %>%
-  mutate(fpkm = log2(fpkm + 1),
-         timepoint = factor(timepoint,
-                            levels = c("4h.p.i", "12h.p.i", "24h.p.i", "72h.p.i"))) %>%
-  ggplot(aes(timepoint, fpkm, fill = timepoint)) +
-  geom_boxplot() +
-  geom_jitter(show.legend = F, width = 0.25, size = 3, alpha = 0.6) +
-  scale_y_continuous(expand = c(0.01, 0.01)) +
-  scale_fill_igv() +
-  labs(title = "Distribution of Transcript FPKM Values Across Four Timepoints",
-       x = "Time-Point",
-       y = "log2(FPKM + 1)",
-       fill = element_blank()) +
-  theme_classic() +
-  theme(plot.margin = margin(rep(20, 4)),
-        plot.title = element_text(size = 18, colour = "#000000", face = "bold",
-                                  hjust = 0.5),
-        axis.title = element_text(size = 16, face = "bold"),
-        axis.text = element_text(size = 14, color = "#000000"),
-        legend.justification = c(0, 0),
-        legend.position = c(0.92, 0.85),
-        legend.key.size = unit(1, "cm"),
-        legend.text = element_text(size = 14, face = "bold"))
-
-ggsave(plot = fpkm_dist, "results/r/figures/fpkm_dist_by_time.png",
-       width = 14, height = 10, dpi = 500)
+# fpkm_dist <- t_exp_levels %>%
+#   mutate(fpkm = log2(fpkm + 1),
+#          timepoint = factor(timepoint,
+#                             levels = c("4h.p.i", "12h.p.i", "24h.p.i", "72h.p.i"))) %>%
+#   ggplot(aes(timepoint, fpkm, fill = timepoint)) +
+#   geom_boxplot() +
+#   geom_jitter(show.legend = F, width = 0.25, size = 3, alpha = 0.6) +
+#   scale_y_continuous(expand = c(0.01, 0.01)) +
+#   scale_fill_igv() +
+#   labs(title = "Distribution of Transcript FPKM Values Across Four Timepoints",
+#        x = "Time-Point",
+#        y = "log2(FPKM + 1)",
+#        fill = element_blank()) +
+#   theme_classic() +
+#   theme(plot.margin = margin(rep(20, 4)),
+#         plot.title = element_text(size = 18, colour = "#000000", face = "bold",
+#                                   hjust = 0.5),
+#         axis.title = element_text(size = 16, face = "bold"),
+#         axis.text = element_text(size = 14, color = "#000000"),
+#         legend.justification = c(0, 0),
+#         legend.position = c(0.92, 0.85),
+#         legend.key.size = unit(1, "cm"),
+#         legend.text = element_text(size = 14, face = "bold"))
+# 
+# ggsave(plot = fpkm_dist, "results/r/figures/fpkm_dist_by_time.png",
+#        width = 14, height = 10, dpi = 500)

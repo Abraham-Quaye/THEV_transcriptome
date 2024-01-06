@@ -38,6 +38,7 @@ spliced_gtf <- spliced_gtf %>%
   mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1)),
          transcript_id = factor(transcript_id, levels = trxpt_order)) %>%
   arrange(transcript_id)
+
 # trxpt id and names info
 
 exp_info <- tribble(~sample_name, ~timepoint, ~ replicate,
@@ -71,8 +72,14 @@ t_exp_levels <- texpr(raw_data, meas = "all") %>%
 
 comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
                               by = "trxpt_id") %>%
-  mutate(sstcodon = c(rep(211, 3), 1965, rep(NA, 18), 18186, NA, 10995, NA, 26246, 3616),
-         stpcodon = c(2312, 1953, rep(2312, 2), rep(NA, 18), 16973, NA, 6765, NA, 25204, 2334))
+  mutate(sstcodon = c(rep(211, 3), 1965, 
+                      rep(18230, 4), 20769, 22519,
+                      rep(NA, 12), 18186, NA, 10995, NA, 26246, 3616),
+         stpcodon = c(2312, 1953, rep(2312, 2), 
+                      20262, 20699, 20457, 20227, 21371, 23883,
+                      rep(NA, 12), 16973, NA, 6765, NA, 25204, 2334),
+         secSSC = c(rep(NA, 4), rep(20769, 3), 20142, 21247, 24512, rep(NA, 18)),
+         secSTC = c(rep(NA, 4), rep(21371, 3), 20411, 22116, 25168, rep(NA, 18)))
 
 
 # load in data and prepare predicted ORFs only
@@ -119,7 +126,11 @@ predicted_orfs <- predicted_orfs %>%
   #TRXPT_21B (DBP isoform2)
   rbind(tibble( gene_name = "TRXPT_21B", transcript_id = "DBP_iso2", strand = "-",
                 start_1 = 16934, start_2 = 16934, start_3 = 18684, end_1 = 18751,
-                end_2 = 18189, end_3 = 18751, region = "E2"))
+                end_2 = 18189, end_3 = 18751, region = "E2")) %>%
+  #TRXPT_21B (DBP isoform2)
+  rbind(tibble( gene_name = "TRXPT_25B", transcript_id = "100K", strand = "+",
+                start_1 = 18230, start_2 = NA, start_3 = NA, end_1 = 23702,
+                end_2 = NA, end_3 = NA, region = "E3"))
 
 combined_gtf <- plyr::rbind.fill(comp_spliced_gtf, predicted_orfs) %>% 
   arrange(strand, region) %>% as_tibble() %>%
@@ -127,10 +138,12 @@ combined_gtf <- plyr::rbind.fill(comp_spliced_gtf, predicted_orfs) %>%
          sstcodon = dplyr::case_match(transcript_id,
                                       "fORF1" ~ 211,
                                       "DBP_iso2" ~ 18013,
+                                      "100K" ~ 18230,
                                       .default = sstcodon),
          stpcodon = dplyr::case_match(transcript_id,
                                       "fORF1" ~ 1953,
                                       "DBP_iso2" ~ 16973,
+                                      "100K" ~ 20227,
                                       .default = stpcodon))
 
 
@@ -190,8 +203,12 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
                             gene_name == "TRXPT_21B" ~ 23.5,
                             gene_name == "pTP" ~ 23.5,
                             gene_name == "DBP" ~ 22.5,
+                            gene_name == "TRXPT_25B" ~ 28.5,
+                            trxpt_id == "TRXPT_25" ~ 29.5,
+                            trxpt_id == "TRXPT_26" ~ 30.5,
                             TRUE ~ ypos)) %>% 
-    mutate(color = ifelse(trxpt_id %in% c("ORF4", "Full ORF1", "TRXPT_21B"), "#000000", color)) %>%
+    mutate(color = ifelse(trxpt_id %in% c("ORF4", "Full ORF1", "TRXPT_21B", "TRXPT_25B"),
+                          "#000000", color)) %>%
     as_tibble() %>%
     filter(region %in% regs)
   
@@ -233,6 +250,8 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
   if(!str_detect(trxptome_part, "all|E1")){
     if(trxptome_part == "E4"){
       x_axis_start <- x_axis_start - (x_axis_start * 0.01)
+    }else if(trxptome_part == "E2"){
+      x_axis_start <- x_axis_start - (x_axis_start * 0.2)
     }else{x_axis_start <- x_axis_start - (x_axis_start * 0.03)}
     x_axis_start <- plyr::round_any(x_axis_start, 100)
   } else{x_axis_start <- 0}
@@ -326,7 +345,6 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
 # REGION-BY-REGION BREAKDOWN PLOTS
 # ===============================================================
 
-# PLOT FOR E1 REGION ==============================================
 brkdown_reg_plots <- function(reg, reg2=NULL){
   
   # genome ruler for region-by-region breakdown
@@ -362,7 +380,8 @@ brkdown_reg_plots <- function(reg, reg2=NULL){
     offset_y <- 0.15
   }else{offset_y <- 0.25}
  
-  
+  ljust <- ifelse(reg %in% c("E2", "E4"), 0, 1)
+  rjust <- ifelse(reg %in% c("E2", "E4"), 1, 0)
   plot_full_trxptome(combined_gtf, reg, reg2) +
   # genome size marker
   geom_segment(data = genome_ruler, aes(x = x, xend = x, y = y, yend = yend),
@@ -376,14 +395,28 @@ brkdown_reg_plots <- function(reg, reg2=NULL){
                 fill = NA, nudge_y = offset_y/2) +
   geom_richtext(aes(x = sstcodon, y = ypos, label = glue("<sup>SSC ({sstcodon})</sup>")),
                 size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
-                fill = NA, nudge_y = offset_y, hjust = 0) +
+                fill = NA, nudge_y = offset_y, hjust = ljust) +
   # stop codon positions
   geom_richtext(aes(x = stpcodon, y = ypos, label = glue("|")),
                 size = 5, label.size = NA, label.padding = unit(0, "pt"),
                 fill = NA, nudge_y = offset_y/2) +
     geom_richtext(aes(x = stpcodon, y = ypos, label = glue("<sup>STC ({stpcodon})</sup>")),
                   size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
-                  fill = NA, nudge_y = offset_y, hjust = 0)
+                  fill = NA, nudge_y = offset_y, hjust = rjust) +
+    # secondary start codon positions
+    geom_richtext(aes(x = secSSC, y = ypos, label = glue("|")),
+                  size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                  fill = NA, nudge_y = -offset_y/2) +
+    geom_richtext(aes(x = secSSC, y = ypos, label = glue("<sup>secSSC ({secSSC})</sup>")),
+                  size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                  fill = NA, nudge_y = -offset_y, hjust = ljust) +
+    # secondary stop codon positions
+    geom_richtext(aes(x = secSTC, y = ypos, label = glue("|")),
+                  size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                  fill = NA, nudge_y = -offset_y/2) +
+    geom_richtext(aes(x = secSTC, y = ypos, label = glue("<sup>secSTC ({secSTC})</sup>")),
+                  size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                  fill = NA, nudge_y = -offset_y, hjust = rjust)
 
 }
 
@@ -420,11 +453,20 @@ trxpt_exons <- comp_spliced_gtf %>%
          exon7 = str_replace(exon7, "NA-NA", "-")
          # dplyr::across(c(base::paste0("exon", 3:7)), ~ str_replace(.x, "NA-NA", "-")),
          ) %>%
-  arrange(region)
+  arrange(region, trxpt_id)
 
-wetlab_val <- tibble(trxpt_id = c(paste0("TRXPT_", 1:4), "TRXPT_21", "TRXPT_6", "TRXPT_7", "TRXPT_28", "TRXPT_5"),
+wetlab_val <- tibble(trxpt_id = c(# E1
+                                  paste0("TRXPT_", 1:4),
+                                  # E2
+                                  "TRXPT_21", "TRXPT_6", "TRXPT_7",
+                                  # E3
+                                  paste0("TRXPT_", 22:27),
+                                  # E4
+                                  "TRXPT_28",
+                                  # IM
+                                  "TRXPT_5"),
                      forwardP = c(# E1
-                                  "CCCggtaccGTCCGAAGTCTCAGCAACAGATTC",
+                                  "CCCggtaccTTCTGTTTGAATTGTGGGCGG",
                                   "CCCggtaccGAGGCCTGTTGGAATTGTTGC",
                                   "CCCggtacCATTTCCCGTACACGGTGTTG",
                                   "CCCggtaccGTCATCACAACTGACCTTGTCGTC",
@@ -432,26 +474,49 @@ wetlab_val <- tibble(trxpt_id = c(paste0("TRXPT_", 1:4), "TRXPT_21", "TRXPT_6", 
                                   "CCCtctagaGAACCCAGATATTGGCTCCAAGG",
                                   # E2B
                                   rep("CCCtctagaCATTGAATAGATAAGCGTAGCCAATCAGC", 2),
+                                  #E3
+                                  rep("CCCggtacCTGAGGAGGTCGTAGACTCTGC", 4), #E3_univiersal F
+                                  rep("CCCggtaccGTCCGAAGTCTCAGCAACAGATTC", 2),
                                   # E4
                                   "CCCtctagaCAGTGCAATCCGACGCTCTG",
                                   # IM
                                   "CCCtctagaCGCAACCTGTAGGTCCGATTAC"),
-                     reverseP = c(rep("CCCggtacCTGAGGAGGTCGTAGACTCTGC", 4),
-                                  rep("CCCggtacCTGTTGCTGAGACTTCGGACC", 3),
+                     reverseP = c(# E1
+                                  rep("CCCtctagaCGTCCAGTAGTCAGGAATTCTAGTG", 4),
+                                  # E2
+                                  rep("CCCggtacCTGTTGCTGAGACTTCGGACC", 3), # E2 universal R
+                                  # E3
+                                  rep("CCCtctagaGCCAAGCTTGGTCAGGTGAC", 3), # E3 trxpt_B R
+                                  "CCCtctagaGGTAGCACATACTGTATTGCCTGAAGC",
+                                  "CCCtctagaGCCAAGCTTGGTCAGGTGAC",
+                                  "CCCtctagaTGCAATGCTAATCCTCCTGCTG",
+                                  # E4
                                   "CCCggtaccGGACACGTGTTCGTTAGAGAACC",
+                                  # IM
                                   "CCCggtaccTCTGGTGAGATCTTCCAAACAGAAAG"),
                      valid_status = c(rep("Validated", 3), "Not Validated",
-                                      rep("Validated", 5)),
-                     gel_image = c("wet_lab_validation/validation_gels/trxpt_1_gel.png",
+                                      rep("Validated", 11)),
+                     gel_image = c(# E1
+                                   "wet_lab_validation/validation_gels/trxpt_1_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_2_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_3_gel.png",
                                    NA,
+                                   # E2
                                    "wet_lab_validation/validation_gels/trxpt_21_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
+                                   # E3
+                                   "wet_lab_validation/validation_gels/trxpt_22or10j2_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_23_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_24or11j2_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_25_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_26_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_27_gel.png",
+                                   # E4
                                    "wet_lab_validation/validation_gels/trxpt_28_gel.png",
+                                   # IM
                                    "wet_lab_validation/validation_gels/trxpt_5_gel.png"))
 
-supp_pcr_meth_tab <- left_join(trxpt_exons[trxpt_exons$region %in% c("E1", "E2", "E4", "IM"),],
+supp_pcr_meth_tab <- left_join(trxpt_exons[trxpt_exons$region != "MLP",],
                                wetlab_val, by = "trxpt_id")
 
