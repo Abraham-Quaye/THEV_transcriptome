@@ -384,7 +384,6 @@ rule make_fig4:
         rscript1 = "scripts/r/plot_abundances.R",
         rscript2 = "scripts/r/abundance_analyses.R"
     output:
-        "results/r/figures/fpkm_dist_by_time.png",
         "results/r/figures/figure_4a_d.png"
     shell:
         "{input.rscript1}"
@@ -434,7 +433,8 @@ rule write_supplementary:
         "scripts/r/bam_file_analysis.R",
         "scripts/r/reg_by_reg_plots.R",
         expand("wet_lab_validation/validation_gels/trxpt_{trx_n}_gel.png", \
-        trx_n = [1, 2, 3, 5, "6or7", 21, 28])
+        trx_n = [1, 2, 3, 5, "6or7", 8, "10or9_j1", 12, 13, "14or11j1", 16, \
+        17,18, 20, 21, "22or10j2", 23, "24or11j2", 25, 26, 27, 28])
     output:
         "supplementary_thev_trxptome.pdf"
     shell:
