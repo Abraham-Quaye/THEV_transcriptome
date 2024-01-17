@@ -35,7 +35,12 @@ spliced_gtf <- spliced_gtf %>%
   arrange(start_1, end_1) %>%
   mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1)),
          transcript_id = factor(transcript_id, levels = trxpt_order)) %>%
-  arrange(transcript_id)
+  arrange(transcript_id) %>%
+  rbind(tibble(transcript_id = "TCONS_00000029", strand = "+", start_1 = 18230, start_2 = 18230,
+               start_3 = 20162, start_4 = NA, start_5 = NA, start_6 = NA, start_7 = NA, start_8 = NA,
+               end_1 = 20732, end_2 = 18350, end_3 = 20732, end_4 = NA, end_5 = NA, end_6 = NA,
+               end_7 = NA, end_8 = NA, region = "E3", trxpt_id = "TRXPT_29"))
+
 # trxpt id and names info
 
 exp_info <- tribble(~sample_name, ~timepoint, ~ replicate,
@@ -65,7 +70,8 @@ raw_data <- ballgown(dataDir = "results/ballgown",
 t_exp_levels <- texpr(raw_data, meas = "all") %>%
   as_tibble() %>%
   mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1))) %>%
-  select(trxpt_id, t_name, num_exons)
+  select(trxpt_id, t_name, num_exons) %>%
+  rbind(tibble(trxpt_id = "TRXPT_29", t_name = "22K", num_exons = 2)) 
 
 comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
                               by = "trxpt_id")
@@ -152,7 +158,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
   
   # recreate full dataframe with y-axis positions
   combined_gtf <- rbind(ypos_pos_e1, ypos_pos_mlp, ypos_pos_e3,
-                        ypos_e4, ypos_e2, ypos_im, ypos_uxp) %>% 
+                        ypos_e4, ypos_e2, ypos_im, ypos_uxp) %>%
     mutate(color = case_when(region == "E1" ~ "#ff0000",
                              region == "E2" ~ "#000000",
                              region == "E3" ~ "grey50",
@@ -206,7 +212,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
                          16972, 18186, 17.5, "E2A", 17
                          )
   e3_lab <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
-                     18186, filter(combined_gtf, transcript_id == "TCONS_00000027") %>% pull(end_1), 43, "E3", 43.5
+                     18186, filter(combined_gtf, transcript_id == "TCONS_00000027") %>% pull(end_1), 44, "E3", 44.5
                     )
   
   mlp_lab <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,

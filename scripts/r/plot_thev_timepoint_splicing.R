@@ -80,10 +80,14 @@ graph_trxpts <- function(gtf){
   
   # add y-axis positions to postive strand E3 transcripts
   ypos_pos_e3 <- merged_gtf %>% filter(strand == "+" & region == "E3")
-  ypos_pos_e3$ypos <- case_when(catch_timepoint == "4hpi" ~ rep(ypos_vals, length.out = nrow(ypos_pos_e3)),
-                                catch_timepoint == "12hpi" ~ rep(c(27:32), length.out = nrow(ypos_pos_e3)),
-                                catch_timepoint == "24hpi" ~ rep(ypos_vals, length.out = nrow(ypos_pos_e3)),
-                                catch_timepoint == "72hpi" ~ rep(c(31:40), length.out = nrow(ypos_pos_e3))
+  ypos_pos_e3$ypos <- case_when(catch_timepoint == "4hpi" ~ rep(ypos_vals,
+                                                                length.out = nrow(ypos_pos_e3)),
+                                catch_timepoint == "12hpi" ~ rep(c(27:32),
+                                                                 length.out = nrow(ypos_pos_e3)),
+                                catch_timepoint == "24hpi" ~ rep(ypos_vals,
+                                                                 length.out = nrow(ypos_pos_e3)),
+                                catch_timepoint == "72hpi" ~ rep(c(31:40),
+                                                                 length.out = nrow(ypos_pos_e3))
                                 )
   
   # add y-axis positions to negative strand transcripts

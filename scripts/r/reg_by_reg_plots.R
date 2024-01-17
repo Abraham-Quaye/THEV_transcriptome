@@ -37,7 +37,12 @@ spliced_gtf <- spliced_gtf %>%
   arrange(start_1, end_1) %>%
   mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1)),
          transcript_id = factor(transcript_id, levels = trxpt_order)) %>%
-  arrange(transcript_id)
+  arrange(transcript_id) %>%
+  rbind(tibble(transcript_id = "TCONS_00000029", strand = "+", start_1 = 18230, start_2 = 18230,
+               start_3 = 20162, start_4 = NA, start_5 = NA, start_6 = NA, start_7 = NA, start_8 = NA,
+               end_1 = 20732, end_2 = 18350, end_3 = 20732, end_4 = NA, end_5 = NA, end_6 = NA,
+               end_7 = NA, end_8 = NA, region = "E3", trxpt_id = "TRXPT_29"))
+
 
 # trxpt id and names info
 
@@ -68,18 +73,55 @@ raw_data <- ballgown(dataDir = "results/ballgown",
 t_exp_levels <- texpr(raw_data, meas = "all") %>%
   as_tibble() %>%
   mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1))) %>%
-  select(trxpt_id, t_name, num_exons)
+  select(trxpt_id, t_name, num_exons) %>%
+  rbind(tibble(trxpt_id = "TRXPT_29", t_name = "22K", num_exons = 2)) 
+
 
 comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
                               by = "trxpt_id") %>%
-  mutate(sstcodon = c(rep(211, 3), 1965, 
+  mutate(sstcodon = c(# E1
+                      rep(211, 3), 1965, 
+                      # E3
                       rep(18230, 4), 20769, 22519,
-                      rep(NA, 12), 18186, NA, 10995, NA, 26246, 3616),
-         stpcodon = c(2312, 1953, rep(2312, 2), 
+                      # MLP
+                      NA, 8570, 20769, 13610, 12712, 12347, 12347, 13610, 22519,
+                      9462, 11001, 12347,
+                      # E2
+                      18186, 10995, 10995, NA, 
+                      # E4
+                      26246, 
+                      # IM
+                      3616, 
+                      # trxpt_29
+                      18230),
+         stpcodon = c(# E1 
+                      2312, 1953, rep(2312, 2), 
+                      # E3
                       20262, 20699, 20457, 20227, 21371, 23883,
-                      rep(NA, 12), 16973, NA, 6765, NA, 25204, 2334),
-         secSSC = c(rep(NA, 4), rep(20769, 3), 20142, 21247, 24512, rep(NA, 18)),
-         secSTC = c(rep(NA, 4), rep(21371, 3), 20411, 22116, 25168, rep(NA, 18)))
+                      # MLP
+                      NA, 9472, 21371, 16330, 12888, 12709, 12709, 16330, 23883,
+                      10979, 12347, 12709,
+                      # E2
+                      16973, 6765, 6765, NA, 
+                      # E4
+                      25204, 
+                      # IM
+                      2334,
+                      # trxpt_29
+                      20262
+                      ),
+         secSSC = c(rep(NA, 4), 
+                    # E3
+                    rep(20769, 3), 20142, 21214, 24512, 
+                    #MLP
+                    NA, NA, 21214, NA, 12906, NA, NA, 16188, 24512, rep(NA, 3),
+                    rep(NA, 7)),
+         secSTC = c(rep(NA, 4), 
+                    # E3
+                    rep(21371, 3), 20411, 22116, 25168, 
+                    # MLP
+                    NA, NA, 22116, NA, 13601, NA, NA, 16976, 25168, rep(NA, 3),
+                    rep(NA, 7)))
 
 
 # load in data and prepare predicted ORFs only
@@ -115,22 +157,32 @@ predicted_orfs <- predicted_orfs %>%
                             gene_name == "UXP" ~ "LONE",
                             TRUE ~ "MLP")) %>%
   arrange(strand, region) %>%
+  mutate(start_4 = NA,
+         end_4 = NA) %>% 
   # manually added transcripts not from StringTie
   rbind(tibble( gene_name = "ORF4", transcript_id = "gp04", strand = "+",
-                start_1 = 1965, start_2 = NA, start_3 = NA, end_1 = 2312,
-                end_2 = NA, end_3 = NA, region = "E1")) %>%
+                start_1 = 1965, start_2 = NA, start_3 = NA, start_4 = NA,
+                end_1 = 2312, end_2 = NA, end_3 = NA, end_4 = NA,
+                region = "E1")) %>%
   # Full ORF1 transcript
-  rbind(tibble( gene_name = "Full ORF1", transcript_id = "fORF1", strand = "+",
-                start_1 = 54, start_2 = 54, start_3 = 54, end_1 = 2325,
-                end_2 = 2325, end_3 = 2325, region = "E1")) %>%
+  rbind(tibble( gene_name = "TRXPT_2B", transcript_id = "fORF1", strand = "+",
+                start_1 = 54, start_2 = 54, start_3 = 54, start_4 = NA,
+                end_1 = 2325, end_2 = 2325, end_3 = 2325, end_4 = NA,
+                region = "E1")) %>%
   #TRXPT_21B (DBP isoform2)
   rbind(tibble( gene_name = "TRXPT_21B", transcript_id = "DBP_iso2", strand = "-",
-                start_1 = 16934, start_2 = 16934, start_3 = 18684, end_1 = 18751,
-                end_2 = 18189, end_3 = 18751, region = "E2")) %>%
-  #TRXPT_21B (DBP isoform2)
+                start_1 = 16934, start_2 = 16934, start_3 = 18684, start_4 = NA,
+                end_1 = 18751, end_2 = 18189, end_3 = 18751, end_4 = NA,
+                region = "E2")) %>%
+  #TRXPT_25B (100K isoform2)
   rbind(tibble( gene_name = "TRXPT_25B", transcript_id = "100K", strand = "+",
-                start_1 = 18230, start_2 = NA, start_3 = NA, end_1 = 23702,
-                end_2 = NA, end_3 = NA, region = "E3"))
+                start_1 = 18230, start_2 = NA, start_3 = NA, start_4 = NA,
+                end_1 = 23702, end_2 = NA, end_3 = NA, end_4 = NA,
+                region = "E3")) %>% 
+  #TRXPT_30 (22K long isoform)
+  rbind(tibble( gene_name = "TRXPT_30", transcript_id = "l22K", strand = "+",
+                start_1 = 18230, start_2 = 18230, start_3 = 18717, start_4 = 20162,
+                end_1 = 23884, end_2 = 18350, end_3 = 18768, end_4 = 23884, region = "E3"))
 
 combined_gtf <- plyr::rbind.fill(comp_spliced_gtf, predicted_orfs) %>% 
   arrange(strand, region) %>% as_tibble() %>%
@@ -139,11 +191,13 @@ combined_gtf <- plyr::rbind.fill(comp_spliced_gtf, predicted_orfs) %>%
                                       "fORF1" ~ 211,
                                       "DBP_iso2" ~ 18013,
                                       "100K" ~ 18230,
+                                      "l22K" ~ 18230,
                                       .default = sstcodon),
          stpcodon = dplyr::case_match(transcript_id,
                                       "fORF1" ~ 1953,
                                       "DBP_iso2" ~ 16973,
                                       "100K" ~ 20227,
+                                      "l22K" ~ 20411,
                                       .default = stpcodon))
 
 
@@ -192,22 +246,26 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
                         ypos_e4, ypos_e2, ypos_im, ypos_uxp) %>% 
     mutate(color = ifelse(!is.na(gene_name), "grey80", "#ff0000"),
            ypos = case_when(gene_name == "Hyd" ~ 30,
-                            gene_name == "pVIII" ~ 32,
+                            gene_name == "100K" ~ 25.5,
                             gene_name == "52K" ~ 39,
                             gene_name == "pVII" ~ 36.5,
                             gene_name == "Hexon" ~ 34.5,
-                            gene_name == "E3" ~ 33,
-                            gene_name == "22K" ~ 32.5,
+                            gene_name == "E3" ~ 26.25,
+                            gene_name == "22K" ~ 31.5,
+                            gene_name == "pVIII" ~ 31.5,
                             gene_name == "ORF4" ~ 28.5,
-                            gene_name == "Full ORF1" ~ 29.5,
+                            gene_name == "TRXPT_2B" ~ 29.5,
                             gene_name == "TRXPT_21B" ~ 23.5,
                             gene_name == "pTP" ~ 23.5,
                             gene_name == "DBP" ~ 22.5,
                             gene_name == "TRXPT_25B" ~ 28.5,
                             trxpt_id == "TRXPT_25" ~ 29.5,
                             trxpt_id == "TRXPT_26" ~ 30.5,
+                            trxpt_id == "TRXPT_29" ~ 32,
+                            trxpt_id == "TRXPT_30" ~ 33,
                             TRUE ~ ypos)) %>% 
-    mutate(color = ifelse(trxpt_id %in% c("ORF4", "Full ORF1", "TRXPT_21B", "TRXPT_25B"),
+    mutate(color = ifelse(trxpt_id %in% c("ORF4", "TRXPT_2B",
+                                          "TRXPT_21B", "TRXPT_25B", "TRXPT_30"),
                           "#000000", color)) %>%
     as_tibble() %>%
     filter(region %in% regs)
@@ -406,17 +464,17 @@ brkdown_reg_plots <- function(reg, reg2=NULL){
     # secondary start codon positions
     geom_richtext(aes(x = secSSC, y = ypos, label = glue("|")),
                   size = 5, label.size = NA, label.padding = unit(0, "pt"),
-                  fill = NA, nudge_y = -offset_y/2) +
+                  fill = NA, nudge_y = -offset_y) +
     geom_richtext(aes(x = secSSC, y = ypos, label = glue("<sup>secSSC ({secSSC})</sup>")),
                   size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
-                  fill = NA, nudge_y = -offset_y, hjust = ljust) +
+                  fill = NA, nudge_y = -offset_y*1.5, hjust = ljust) +
     # secondary stop codon positions
     geom_richtext(aes(x = secSTC, y = ypos, label = glue("|")),
                   size = 5, label.size = NA, label.padding = unit(0, "pt"),
-                  fill = NA, nudge_y = -offset_y/2) +
+                  fill = NA, nudge_y = -offset_y) +
     geom_richtext(aes(x = secSTC, y = ypos, label = glue("<sup>secSTC ({secSTC})</sup>")),
                   size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
-                  fill = NA, nudge_y = -offset_y, hjust = rjust)
+                  fill = NA, nudge_y = -offset_y*1.5, hjust = rjust)
 
 }
 
@@ -458,65 +516,109 @@ trxpt_exons <- comp_spliced_gtf %>%
 wetlab_val <- tibble(trxpt_id = c(# E1
                                   paste0("TRXPT_", 1:4),
                                   # E2
-                                  "TRXPT_21", "TRXPT_6", "TRXPT_7",
+                                  "TRXPT_21", "TRXPT_6", "TRXPT_7", "TRXPT_15",
                                   # E3
-                                  paste0("TRXPT_", 22:27),
+                                  paste0("TRXPT_", c(22:27, 29)),
                                   # E4
                                   "TRXPT_28",
                                   # IM
-                                  "TRXPT_5"),
+                                  "TRXPT_5",
+                                  paste0("TRXPT_", c(10:14, 16:20, 8:9))
+                                  ),
                      forwardP = c(# E1
                                   "CCCggtaccTTCTGTTTGAATTGTGGGCGG",
                                   "CCCggtaccGAGGCCTGTTGGAATTGTTGC",
                                   "CCCggtacCATTTCCCGTACACGGTGTTG",
                                   "CCCggtaccGTCATCACAACTGACCTTGTCGTC",
-                                  # E2A
-                                  "CCCtctagaGAACCCAGATATTGGCTCCAAGG",
-                                  # E2B
-                                  rep("CCCtctagaCATTGAATAGATAAGCGTAGCCAATCAGC", 2),
+                                  # E2
+                                  rep("CCCggtacCTGTTGCTGAGACTTCGGACC", 3), # E2 universal R,
+                                  "CCCggtacCCTTTAAAATCAAGCCTATTGGTCTTGTAAC",
                                   #E3
                                   rep("CCCggtacCTGAGGAGGTCGTAGACTCTGC", 4), #E3_univiersal F
                                   rep("CCCggtaccGTCCGAAGTCTCAGCAACAGATTC", 2),
+                                  "CCCggtacCTGAGGAGGTCGTAGACTCTGC",
                                   # E4
-                                  "CCCtctagaCAGTGCAATCCGACGCTCTG",
+                                  "CCCggtaccGGACACGTGTTCGTTAGAGAACC",
                                   # IM
-                                  "CCCtctagaCGCAACCTGTAGGTCCGATTAC"),
+                                  "CCCggtaccTCTGGTGAGATCTTCCAAACAGAAAG",
+                                  # MLP
+                                  rep("CCCggtaccGCTCATCATCCAGTTCTAAATTTCTCTCTGC", 5), #mlp_long_uni
+                                  rep("CCCggtaccGGATCTCCAGATTCTGGTCTGTG", 3), #mlp_short_universal
+                                  NA,
+                                  "CCCggtaccGAGGATTTGAAGCCAATTATCCTTCAACG",
+                                  rep("CCCggtaccGCTCATCATCCAGTTCTAAATTTCTCTCTGC", 2)#mlp_long_uni
+                                  ),
                      reverseP = c(# E1
                                   rep("CCCtctagaCGTCCAGTAGTCAGGAATTCTAGTG", 4),
+                                  # E2A
+                                  "CCCtctagaGAACCCAGATATTGGCTCCAAGG",
                                   # E2
-                                  rep("CCCggtacCTGTTGCTGAGACTTCGGACC", 3), # E2 universal R
+                                  rep("CCCtctagaCATTGAATAGATAAGCGTAGCCAATCAGC", 2),
+                                  
+                                  "CCCtctagaGTGTCATTGTCTACGCTGTTGTAGTAG",
                                   # E3
                                   rep("CCCtctagaGCCAAGCTTGGTCAGGTGAC", 3), # E3 trxpt_B R
                                   "CCCtctagaGGTAGCACATACTGTATTGCCTGAAGC",
                                   "CCCtctagaGCCAAGCTTGGTCAGGTGAC",
                                   "CCCtctagaTGCAATGCTAATCCTCCTGCTG",
+                                  "CCCtctagaGCCAAGCTTGGTCAGGTGAC",
                                   # E4
-                                  "CCCggtaccGGACACGTGTTCGTTAGAGAACC",
+                                  "CCCtctagaCAGTGCAATCCGACGCTCTG",
                                   # IM
-                                  "CCCggtaccTCTGGTGAGATCTTCCAAACAGAAAG"),
+                                  "CCCtctagaCGCAACCTGTAGGTCCGATTAC",
+                                  #MLP
+                                  "CCCtctagaCCTACTCTACGTCTCTTAGCAGC",
+                                  "CCCtctagaGCTTCAGTATTAGCAGCTGCACAACC",
+                                  "CCCtctagaTTTCCAGCTGAAGCCTGGAG",
+                                  "CCCtctagaGCCAAGCTTGGTCAGGTGAC",
+                                  "CCCtctagaGCTTCAGTATTAGCAGCTGCACAACC",
+                                  "CCCtctagaGCCTGTCCAACAACCTGC",
+                                  "CTCCCCATCTAGACCTTTCATCTAACTG",
+                                  "CCCtctagaGTTCTCCGTCTTCTACGTCGTG",
+                                  NA,
+                                  "CCCtctagaCTGCAGGCACAACAGGTG",
+                                  "CCCtctagaCCTATCATCTGGCAATTCCGGTATG",
+                                  "CCCtctagaCCTACTCTACGTCTCTTAGCAGC"
+                                  ),
                      valid_status = c(rep("Validated", 3), "Not Validated",
-                                      rep("Validated", 11)),
+                                      rep("Validated", 13+12)),
                      gel_image = c(# E1
                                    "wet_lab_validation/validation_gels/trxpt_1_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_2_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_3_gel.png",
-                                   NA,
+                                   "Not Validated",
                                    # E2
                                    "wet_lab_validation/validation_gels/trxpt_21_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_15_gel.png",
                                    # E3
                                    "wet_lab_validation/validation_gels/trxpt_22or10j2_gel.png",
-                                   "wet_lab_validation/validation_gels/trxpt_23_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_23or29_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_24or11j2_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_25_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_26_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_27_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_23or29_gel.png",
                                    # E4
                                    "wet_lab_validation/validation_gels/trxpt_28_gel.png",
                                    # IM
-                                   "wet_lab_validation/validation_gels/trxpt_5_gel.png"))
+                                   "wet_lab_validation/validation_gels/trxpt_5_gel.png",
+                                   #MLP
+                                   "wet_lab_validation/validation_gels/trxpt_10or9_j1_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_14or11j1_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_12_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_13_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_14or11j1_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_16_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_17_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_18_gel.png",
+                                   "N/A",
+                                   "wet_lab_validation/validation_gels/trxpt_20_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_8_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_10or9_j1_gel.png"
+                                   )
+                     )
 
-supp_pcr_meth_tab <- left_join(trxpt_exons[trxpt_exons$region != "MLP",],
-                               wetlab_val, by = "trxpt_id")
+supp_pcr_meth_tab <- left_join(trxpt_exons, wetlab_val, by = "trxpt_id")
 

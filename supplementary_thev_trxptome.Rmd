@@ -1,6 +1,8 @@
 ---
 title: "Supplementary Materials: Elucidating the Transcriptome of Turkey Hemorrhagic Enteritis Virus"
-output: pdf_document
+output:
+  word_document: default
+  pdf_document: default
 geometry: margin=1in
 font-size: 11pt
 header-includes:
@@ -10,6 +12,7 @@ header-includes:
   - \doublespacing
   - \usepackage[left]{lineno}
   - \linenumbers
+  - \usepackage{textcomp}
 editor_options:
   chunck_output_type: console
 ---
@@ -35,7 +38,6 @@ Brigham Young University,
 Provo, Utah  
 \newpage
 
-
 ```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 library(knitr)
@@ -49,19 +51,40 @@ source("scripts/r/reg_by_reg_plots.R")
 ## Supplementary Table 1A
 
 ```{r Sup Table 1A}
-flextable(tp_reg_expr_12) %>% theme_zebra()
+set_flextable_defaults(font.size = 8)
+make_reg_stats_table <- function(tp_table){
+  return(tp_table %>%
+    select(-junc_freq) %>% 
+    flextable() %>% 
+    theme_zebra() %>% 
+    set_header_labels(timepoint = "Time", region = "Region", strand = "Strand",
+                      sum_reads_reg = "Total Reads", perc_reg = "Percentage") %>% 
+    flextable::width(width = 0.8) %>% 
+    flextable::align(align = "center", part = "all") %>%
+    flextable::set_table_properties(layout = "fixed", align = "left",
+                       opts_pdf = list(caption_repeat = FALSE),
+                       opts_word = list(split = F))
+  )
+}
+make_reg_stats_table(tp_reg_expr_12) %>%
+  set_caption("Table 1a: Most Transcriptionally Active Regions of THEV at 12h.p.i")
+
 ```
 
 ## Supplementary Table 1B
 
 ```{r Sup Table 1B}
-flextable(tp_reg_expr_24) %>% theme_zebra()
+set_flextable_defaults(font.size = 8)
+make_reg_stats_table(tp_reg_expr_24) %>%
+  set_caption("Table 1b: Most Transcriptionally Active Regions of THEV at 24h.p.i")
 ```
 
 ## Supplementary Table 1C
 
 ```{r Sup Table 1C}
-flextable(tp_reg_expr_72) %>% theme_zebra()
+set_flextable_defaults(font.size = 8)
+make_reg_stats_table(tp_reg_expr_72) %>%
+  set_caption("Table 1c: Most Transcriptionally Active Regions of THEV at 72h.p.i")
 ```
 
 \newpage
@@ -69,19 +92,48 @@ flextable(tp_reg_expr_72) %>% theme_zebra()
 ```{r Supplementary PCR Methods}
 set_flextable_defaults(font.size = 3.5)
 
-flextable(supp_pcr_meth_tab) %>%
+supp_pcr_meth_tab %>% 
+  select(-valid_status) %>% 
+flextable() %>%
   theme_zebra() %>%
-  flextable::fontsize(j = c("forwardP", "reverseP"), size = 3) %>%
+  set_header_labels(trxpt_id = "Transcript ID", region = "Region", num_exons = "Number of Exons",
+                    full_trxpt = "Full Transcript", exon1 = "Exon 1", exon2 = "Exon 2",
+                    exon3 = "Exon 3", exon4 = "Exon 4", exon5 = "Exon 5", exon6 = "Exon 6",
+                    exon7 = "Exon 7", forwardP = "Forward Primer", reverseP = "Reverse Primer",
+                    gel_image = "Agarose Gel") %>% 
+  flextable::fontsize(j = c("full_trxpt", "exon1", "exon2", "exon3",
+                            "exon4", "exon5", "exon6", "exon7",
+                            "forwardP", "reverseP"), size = 3) %>%
   flextable::align(align = "center", part = "all") %>%
   flextable::width(., width = 0.35) %>% 
-  colformat_image(j = "gel_image", i = c(1:3, 6:16), na_str = "-",
-                  width = 1, height = 1) %>%
-  flextable::width(j = ~forwardP, width = 1) %>%
-  flextable::width(j = ~reverseP, width = 1) %>%
-  # flextable::width(j = ~valid_status, width = 0.35) %>%
-  flextable::width(j = ~gel_image, width = 1) %>% 
-  footnote(., i = c(1:4, 6:16), j = 12, value = as_paragraph(c("Primer binds exon 1")),
-           ref_symbols = c("a"), part = "body") %>%
-  footnote(., i = c(1:4, 6:16), j = 13, value = as_paragraph(c("Primer binds terminal exon")),
-           ref_symbols = c("b"), part = "body")
+  colformat_image(j = "gel_image", i = c(1:3, 5:25, 27:29),
+                  width = 1.1, height = 1) %>%
+  flextable::width(j = ~forwardP, width = 1.1) %>%
+  flextable::width(j = ~reverseP, width = 1.1) %>%
+  flextable::width(j = ~gel_image, width = 1.15) %>%
+  # flextable::height(height = 0, part = "header") %>% 
+  footnote(., i = c(1:17, 18:29), j = 12, value = as_paragraph(c("Primer binds inside first exon")),
+           ref_symbols = c("a"), part = "body", inline = T) %>%
+  footnote(., i = c(1:7, 9:17, 20:28), j = 13, value = as_paragraph(c("Primer binds inside terminal exon")), ref_symbols = c("b"), part = "body", inline  = T) %>% 
+  # transcripts too long to validate with one primer pair
+  footnote(., i = c(8,18,19,29), j = 13, value = as_paragraph(c("Primer binds inside fourth exon")),
+           ref_symbols = c("c"), part = "body", inline = T) %>% 
+  footnote(., i = c(8), j = 14, value = as_paragraph(c("Agarose gel identical to TRXPT_6 due to identical splicing")), ref_symbols = c("I"), part = "body", inline = T) %>%
+  footnote(., i = c(9), j = 14, value = as_paragraph(c("Agarose gel identical to last 3 exons of TRXPT_10 due to identical splicing")), ref_symbols = c("II"), part = "body", inline = T) %>%
+  footnote(., i = c(11), j = 14, value = as_paragraph(c("Agarose gel identical to last 4 exons of TRXPT_11 due to identical splicing")), ref_symbols = c("III"), part = "body", inline = T) %>% 
+  footnote(., i = c(15), j = 14, value = as_paragraph(c("Agarose gel dentical to TRXPT_23 due to identical splicing")), ref_symbols = c("IV"), part = "body", inline = T) %>% 
+  footnote(., i = c(18), j = 14, value = as_paragraph(c("Agarose gel identical to TRXPT_9 due to identical splicing")), ref_symbols = c("V"), part = "body", inline = T) %>% 
+  footnote(., i = c(19), j = 14, value = as_paragraph(c("Agarose gel identical to TRXPT_14 due to identical splicing")), ref_symbols = c("VI"), part = "body", inline = T) %>%
+  flextable::set_table_properties(layout = "fixed", align = "left",
+                       opts_pdf = list(caption_repeat = F),
+                       opts_word = list(split = F)) %>%
+  set_caption("Table 1: Agarose Gels Showing PCR Amplification of THEV cDNA With Gene-Specific Primers")
 ```
+
+In the table above, the restriction sites in the primer tails are shown in lowercase letters. All the primer melting temperatures (TMs) are 58-60\textdegree C using a hot start Taq DNA polymerase. The PCR reaction mix was done per manufacturer's instructions. The PCR cycling conditions were as follows: Initial denaturation -- 95$^{\circ}$C for 1 minute; cyclical denaturation -- 95$^{\circ}$C for 30 seconds, annealing -- variable temperature (at least 53$^{\circ}$C) for 30 seconds, primer extension -- 68$^{\circ}$C for variable time, and final elongation -- 68$^{\circ}$C for 5 minutes. We used 35 cycles of amplification.
+
+## Supplementary Computational Analysis   
+Our trimmed RNA-seq reads were mapped to the genome of _M. gallopavo_ (with THEV's genome as one of its chromosomes) using `Hisat2` to generate the alignment (BAM) files and `StringTie` used to assemble the transcriptome with a `GTF` file containing the predicted THEV ORFs as a guide. `StringTie` was also used to estimate the normalized expression levels (FPKM) of all the transcripts and `Ballgown` was used to perform statistical analysis and comparisons of the transcript expression levels, which instructive in understanding the temporal regulation THEV genes. We used `RegTools` to extract and analyze the splice junctions in the BAM files. The command `regtools junctions extract` provides a wealth of information about all the splice sites in the BAM file provided such as: the start and end positions, the strand, and number of reads supporting the splice junctions. The command `regtools junctions annotate` gives even more information such as: the splice site donor-acceptor sequences and transcripts/genes that overlap the junction. These information was the basis for estimating and comparing the splicing activity of different regions (TUs) of THEV over time.
+
+The entire analysis pipeline was managed with `Snakemake`, from which we generate the below diagram of the major steps of the analysis pipeline.  
+![](project_map.png)

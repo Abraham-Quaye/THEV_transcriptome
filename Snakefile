@@ -194,28 +194,6 @@ rule mod_final_trxptome:
     shell:
         "{input.rscript}"
 
-################### MAKE FULL TRANSCRIPTOME WITH UNREDUNDANT GTF FILE FROM GFFCOMPARE ############
-# rule make_full_splice_map:
-#     input:
-#         spliced_gtf = "results/gffcompare/gffcomp_alltimes.combined.gtf",
-#         orf_gtf = rules.merge_gtfs.output,
-#         rscript = "scripts/r/thev_splicing_fullMap.R"
-#     output:
-#         "results/r/figures/thev_spliced_map.png"
-#     shell:
-#         "{input.rscript}"
-
-################### MAKE TRANSCRIPTOME MAP PER TIMEPOINT OF INFECTION #####################
-# rule make_timepoint_splice_map:
-#     input:
-#         rscript = "scripts/r/plot_thev_timepoint_splicing.R",
-#         gtfs = expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
-#         tp = [4, 12, 24, 72])
-#     output:
-#         "results/r/figures/thev_patched_timepoints_spliced_map.png"
-#     shell:
-#         "{input.rscript}"
-
 ################### MAKE FIGURE 3 (TRANSCRIPTOME MAP) #######################################
 rule make_figure3:
     input:
@@ -433,13 +411,14 @@ rule write_supplementary:
         "scripts/r/bam_file_analysis.R",
         "scripts/r/reg_by_reg_plots.R",
         expand("wet_lab_validation/validation_gels/trxpt_{trx_n}_gel.png", \
-        trx_n = [1, 2, 3, 5, "6or7", 8, "10or9_j1", 12, 13, "14or11j1", 16, \
-        17,18, 20, 21, "22or10j2", 23, "24or11j2", 25, 26, 27, 28])
+        trx_n = [1, 2, 3, 5, "6or7", 8, "10or9_j1", 12, 13, "14or11j1", 15, \
+        16, 17,18, 20, 21, "22or10j2", "23or29", "24or11j2", 25, 26, 27, 28])
     output:
-        "supplementary_thev_trxptome.pdf"
+        "supplementary_thev_trxptome.pdf",
+        "supplementary_thev_trxptome.docx"
     shell:
         """
-        R -e "library(rmarkdown);render('supplementary_thev_trxptome.Rmd')"
+        R -e "library(rmarkdown);render('supplementary_thev_trxptome.Rmd', output_format = 'all')"
         """
 ############# RUN ENTIRE SCRIPT RULE ##############
 rule run_pipeline:

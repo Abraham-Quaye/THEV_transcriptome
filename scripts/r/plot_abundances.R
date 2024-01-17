@@ -107,48 +107,48 @@ ss <- bulk_trxptome_ss_seq %>%
         )
 
 # All acceptors and donors
-all_ss_seq <- bulk_junc_stats %>%
-  distinct(timepoint, start, end, .keep_all = T) %>%
-  mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
-  group_by(timepoint, splice_site) %>%
-  reframe(tally = n(),
-          total_reads = sum(read_count)) %>%
-  split(.$timepoint) %>%
-  map(mutate, tot_tally_tp = sum(tally)) %>% 
-  do.call("rbind", .) %>%
-  mutate(percent_abund = (tally / tot_tally_tp) * 100) %>% 
-  ggplot(aes(splice_site, percent_abund, group = timepoint, color = timepoint)) +
-  geom_point(show.legend = F, size = 10) +
-  geom_segment(aes(x = splice_site, xend = splice_site,
-                   y = 0, yend = percent_abund),
-               linewidth = 2,
-               show.legend = F) +
-  geom_text(aes(label = glue("{round(percent_abund, 1)}%")),
-            nudge_y = 4.5,
-            size = 5, fontface = "bold", color = "#000000") +
-  facet_wrap(~ timepoint, scales = "free") +
-  labs(x = "Splice Site Donor-Acceptor",
-       y = "Frequency") +
-  scale_color_lancet() +
-  scale_y_continuous(expand = c(0.01,0.01),
-                     limits = c(0, 105),
-                     labels = scales::label_percent(scale = 1)) +
-  scale_x_discrete(expand = c(0.05, 0.05)) +
-  coord_cartesian(clip = "off") +
-  theme_classic() +
-  theme(plot.margin = margin(rep(30, 4)),
-        panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
-                                          linetype = "dashed"),
-        axis.title = element_text(size = 16, face = "bold", margin = margin(r = 15, t = 15)),
-        axis.text.x = element_text(size = 16, face = "bold"),
-        axis.text.y = element_text(size = 14, face = "bold"),
-        axis.line = element_line(color = "grey40"),
-        axis.ticks.length = unit(0, "pt"),
-        strip.background = element_rect(linewidth = 0.1, fill = "grey"),
-        strip.text.x = element_text(size = 12, face = "bold", margin = margin(0.2,0,0.2,0, "cm")),
-        strip.placement = "outside",
-        panel.spacing = unit(1, "cm")
-  )
+# all_ss_seq <- bulk_junc_stats %>%
+#   distinct(timepoint, start, end, .keep_all = T) %>%
+#   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
+#   group_by(timepoint, splice_site) %>%
+#   reframe(tally = n(),
+#           total_reads = sum(read_count)) %>%
+#   split(.$timepoint) %>%
+#   map(mutate, tot_tally_tp = sum(tally)) %>% 
+#   do.call("rbind", .) %>%
+#   mutate(percent_abund = (tally / tot_tally_tp) * 100) %>% 
+#   ggplot(aes(splice_site, percent_abund, group = timepoint, color = timepoint)) +
+#   geom_point(show.legend = F, size = 10) +
+#   geom_segment(aes(x = splice_site, xend = splice_site,
+#                    y = 0, yend = percent_abund),
+#                linewidth = 2,
+#                show.legend = F) +
+#   geom_text(aes(label = glue("{round(percent_abund, 1)}%")),
+#             nudge_y = 4.5,
+#             size = 5, fontface = "bold", color = "#000000") +
+#   facet_wrap(~ timepoint, scales = "free") +
+#   labs(x = "Splice Site Donor-Acceptor",
+#        y = "Frequency") +
+#   scale_color_lancet() +
+#   scale_y_continuous(expand = c(0.01,0.01),
+#                      limits = c(0, 105),
+#                      labels = scales::label_percent(scale = 1)) +
+#   scale_x_discrete(expand = c(0.05, 0.05)) +
+#   coord_cartesian(clip = "off") +
+#   theme_classic() +
+#   theme(plot.margin = margin(rep(30, 4)),
+#         panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
+#                                           linetype = "dashed"),
+#         axis.title = element_text(size = 16, face = "bold", margin = margin(r = 15, t = 15)),
+#         axis.text.x = element_text(size = 16, face = "bold"),
+#         axis.text.y = element_text(size = 14, face = "bold"),
+#         axis.line = element_line(color = "grey40"),
+#         axis.ticks.length = unit(0, "pt"),
+#         strip.background = element_rect(linewidth = 0.1, fill = "grey"),
+#         strip.text.x = element_text(size = 12, face = "bold", margin = margin(0.2,0,0.2,0, "cm")),
+#         strip.placement = "outside",
+#         panel.spacing = unit(1, "cm")
+#   )
 
 # ====================================================================
 # PLOT TRANSCRIPT ABUNDANCES FROM BALLGOWN
