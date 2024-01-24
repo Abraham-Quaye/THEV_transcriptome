@@ -412,7 +412,8 @@ rule write_supplementary:
         "scripts/r/reg_by_reg_plots.R",
         expand("wet_lab_validation/validation_gels/trxpt_{trx_n}_gel.png", \
         trx_n = [1, 2, 3, 5, "6or7", 8, "10or9_j1", 12, 13, "14or11j1", 15, \
-        16, 17,18, 20, 21, "22or10j2", "23or29", "24or11j2", 25, 26, 27, 28])
+        16, 17,18, 20, 21, "22or10j2", "23or29", "24or11j2", 25, 26, 27, 28]),
+        "project_map.png"
     output:
         "supplementary_thev_trxptome.pdf",
         "supplementary_thev_trxptome.docx"

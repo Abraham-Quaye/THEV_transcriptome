@@ -38,10 +38,16 @@ spliced_gtf <- spliced_gtf %>%
   mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1)),
          transcript_id = factor(transcript_id, levels = trxpt_order)) %>%
   arrange(transcript_id) %>%
+  # Manually add transcript 29 from initial stringtie results before gffcompare merge
   rbind(tibble(transcript_id = "TCONS_00000029", strand = "+", start_1 = 18230, start_2 = 18230,
                start_3 = 20162, start_4 = NA, start_5 = NA, start_6 = NA, start_7 = NA, start_8 = NA,
                end_1 = 20732, end_2 = 18350, end_3 = 20732, end_4 = NA, end_5 = NA, end_6 = NA,
-               end_7 = NA, end_8 = NA, region = "E3", trxpt_id = "TRXPT_29"))
+               end_7 = NA, end_8 = NA, region = "E3", trxpt_id = "TRXPT_29")) %>%
+  # Manually add transcript 31 from junction validation discovery
+  rbind(tibble(transcript_id = "TCONS_00000031", strand = "-", start_1 = 2334, start_2 = 2334,
+               start_3 = 10981, start_4 = 18159, start_5 = 18684, start_6 = NA, start_7 = NA, start_8 = NA,
+               end_1 = 18751, end_2 = 7062, end_3 = 11079, end_4 = 18189, end_5 = 18751, end_6 = NA,
+               end_7 = NA, end_8 = NA, region = "E2", trxpt_id = "TRXPT_31"))
 
 
 # trxpt id and names info
@@ -56,7 +62,8 @@ exp_info <- tribble(~sample_name, ~timepoint, ~ replicate,
                     "abund_4hrsS2", "4h.p.i", "Rep2",
                     "abund_72hrsS1", "72h.p.i", "Rep1",
                     "abund_72hrsS2", "72h.p.i", "Rep2",
-                    "abund_72hrsS3", "72h.p.i", "Rep3") %>% data.frame()
+                    "abund_72hrsS3", "72h.p.i", "Rep3") %>%
+  data.frame()
 
 # load in expression level files for making ballgown object
 bam_files <- list.files("results/hisat2",
@@ -74,7 +81,10 @@ t_exp_levels <- texpr(raw_data, meas = "all") %>%
   as_tibble() %>%
   mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1))) %>%
   select(trxpt_id, t_name, num_exons) %>%
-  rbind(tibble(trxpt_id = "TRXPT_29", t_name = "22K", num_exons = 2)) 
+  # add trxpt_29
+  rbind(tibble(trxpt_id = "TRXPT_29", t_name = "22K", num_exons = 2)) %>%
+  # add trxpt_31
+  rbind(tibble(trxpt_id = "TRXPT_31", t_name = "Adpol", num_exons = 4))
 
 
 comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
@@ -93,7 +103,9 @@ comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
                       # IM
                       3616, 
                       # trxpt_29
-                      18230),
+                      18230,
+                      # trxpt_31
+                      6768),
          stpcodon = c(# E1 
                       2312, 1953, rep(2312, 2), 
                       # E3
@@ -108,20 +120,22 @@ comp_spliced_gtf <- left_join(spliced_gtf, t_exp_levels,
                       # IM
                       2334,
                       # trxpt_29
-                      20262
+                      20262,
+                      # trxpt_31
+                      3430
                       ),
          secSSC = c(rep(NA, 4), 
                     # E3
                     rep(20769, 3), 20142, 21214, 24512, 
                     #MLP
                     NA, NA, 21214, NA, 12906, NA, NA, 16188, 24512, rep(NA, 3),
-                    rep(NA, 7)),
+                    rep(NA, 8)),
          secSTC = c(rep(NA, 4), 
                     # E3
                     rep(21371, 3), 20411, 22116, 25168, 
                     # MLP
                     NA, NA, 22116, NA, 13601, NA, NA, 16976, 25168, rep(NA, 3),
-                    rep(NA, 7)))
+                    rep(NA, 8)))
 
 
 # load in data and prepare predicted ORFs only
@@ -258,14 +272,17 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
                             gene_name == "TRXPT_21B" ~ 23.5,
                             gene_name == "pTP" ~ 23.5,
                             gene_name == "DBP" ~ 22.5,
+                            gene_name == "AdPOL" ~ 22.5,
                             gene_name == "TRXPT_25B" ~ 28.5,
                             trxpt_id == "TRXPT_25" ~ 29.5,
                             trxpt_id == "TRXPT_26" ~ 30.5,
                             trxpt_id == "TRXPT_29" ~ 32,
                             trxpt_id == "TRXPT_30" ~ 33,
+                            trxpt_id == "TRXPT_31" ~ 20.5,
                             TRUE ~ ypos)) %>% 
     mutate(color = ifelse(trxpt_id %in% c("ORF4", "TRXPT_2B",
-                                          "TRXPT_21B", "TRXPT_25B", "TRXPT_30"),
+                                          "TRXPT_21B", "TRXPT_25B",
+                                          "TRXPT_30", "TRXPT_31"),
                           "#000000", color)) %>%
     as_tibble() %>%
     filter(region %in% regs)
@@ -337,7 +354,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
   } else if(trxptome_part == "E4"){
     y_lims <- c(22.5, NA)
   }else if(trxptome_part == "E2"){
-    y_lims <- c(20.5, NA)
+    y_lims <- c(20, NA)
   }else if(trxptome_part == "IM"){
     y_lims <- c(20.5, NA)
   }else{y_lims <- c(NA, NA)}
@@ -516,7 +533,7 @@ trxpt_exons <- comp_spliced_gtf %>%
 wetlab_val <- tibble(trxpt_id = c(# E1
                                   paste0("TRXPT_", 1:4),
                                   # E2
-                                  "TRXPT_21", "TRXPT_6", "TRXPT_7", "TRXPT_15",
+                                  "TRXPT_21", "TRXPT_6", "TRXPT_7", "TRXPT_15", "TRXPT_31",
                                   # E3
                                   paste0("TRXPT_", c(22:27, 29)),
                                   # E4
@@ -533,6 +550,7 @@ wetlab_val <- tibble(trxpt_id = c(# E1
                                   # E2
                                   rep("CCCggtacCTGTTGCTGAGACTTCGGACC", 3), # E2 universal R,
                                   "CCCggtacCCTTTAAAATCAAGCCTATTGGTCTTGTAAC",
+                                  "CCCggtacCTAGTGGCAGTGTTCGAAGATTCC",
                                   #E3
                                   rep("CCCggtacCTGAGGAGGTCGTAGACTCTGC", 4), #E3_univiersal F
                                   rep("CCCggtaccGTCCGAAGTCTCAGCAACAGATTC", 2),
@@ -554,8 +572,8 @@ wetlab_val <- tibble(trxpt_id = c(# E1
                                   "CCCtctagaGAACCCAGATATTGGCTCCAAGG",
                                   # E2
                                   rep("CCCtctagaCATTGAATAGATAAGCGTAGCCAATCAGC", 2),
-                                  
                                   "CCCtctagaGTGTCATTGTCTACGCTGTTGTAGTAG",
+                                  "CCCtctagaCATTGCAGGTATGAATTGCGGAGTAG",
                                   # E3
                                   rep("CCCtctagaGCCAAGCTTGGTCAGGTGAC", 3), # E3 trxpt_B R
                                   "CCCtctagaGGTAGCACATACTGTATTGCCTGAAGC",
@@ -581,7 +599,7 @@ wetlab_val <- tibble(trxpt_id = c(# E1
                                   "CCCtctagaCCTACTCTACGTCTCTTAGCAGC"
                                   ),
                      valid_status = c(rep("Validated", 3), "Not Validated",
-                                      rep("Validated", 13+12)),
+                                      rep("Validated", 13+13)),
                      gel_image = c(# E1
                                    "wet_lab_validation/validation_gels/trxpt_1_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_2_gel.png",
@@ -592,6 +610,7 @@ wetlab_val <- tibble(trxpt_id = c(# E1
                                    "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_6or7_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_15_gel.png",
+                                   "wet_lab_validation/validation_gels/trxpt_31_gel.png",
                                    # E3
                                    "wet_lab_validation/validation_gels/trxpt_22or10j2_gel.png",
                                    "wet_lab_validation/validation_gels/trxpt_23or29_gel.png",

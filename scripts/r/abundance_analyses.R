@@ -26,7 +26,8 @@ exp_info <- tribble(~sample_name, ~timepoint, ~ replicate,
                     "abund_4hrsS2", "4h.p.i", "Rep2",
                     "abund_72hrsS1", "72h.p.i", "Rep1",
                     "abund_72hrsS2", "72h.p.i", "Rep2",
-                    "abund_72hrsS3", "72h.p.i", "Rep3") %>% data.frame()
+                    "abund_72hrsS3", "72h.p.i", "Rep3") %>%
+  data.frame()
 
 # load in expression level files for making ballgown object
 bam_files <- list.files("results/hisat2",
@@ -41,9 +42,18 @@ raw_data <- ballgown(dataDir = "results/ballgown",
 
 
 # extract transcript expression level data
-t_exp_levels <- texpr(raw_data, meas = "all") %>%
+t_exp_raw <- texpr(raw_data, meas = "all") %>%
   as_tibble() %>%
-  mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1))) %>% 
+  mutate(trxpt_id = paste0("TRXPT_", seq(1, 28, 1)))
+
+# geo_submit_exp <- t_exp_raw %>%
+#   select(chr, trxpt_id, region = "gene_name", strand, start, end, num_exons, length,
+#          starts_with("FPKM"))
+
+# write.table(geo_submit_exp, "thev_trxpt_fpkm.txt", sep = "\t",
+#             quote = F, col.names = T)
+
+t_exp_levels <- t_exp_raw %>%
   pivot_longer(cols = starts_with("FPKM"),
                names_to = "samples",
                values_to = "fpkm") %>%
@@ -53,7 +63,7 @@ t_exp_levels <- texpr(raw_data, meas = "all") %>%
                                str_detect(samples, "_72hrs") ~ "72h.p.i",
                                TRUE ~ NA_character_),
          timepoint = factor(timepoint,
-                            levels = c("4h.p.i", "12h.p.i", "24h.p.i", "72h.p.i"))) %>%
+                            levels = c("4h.p.i", "12h.p.i", "24h.p.i", "72h.p.i"))) %>% 
   select(c("timepoint", "t_name", trxpt_id, region = "gene_name", "strand", "start", "end", "fpkm")) %>%
   split(.$timepoint) %>%
   map(mutate, tot_fpkm_tp = sum(fpkm)) %>% 

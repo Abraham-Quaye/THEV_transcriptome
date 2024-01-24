@@ -72,11 +72,18 @@ bulk_junc_stats <- map_dfr(bulk_jun_files, read_tsv,
 extract_unq_juncs <- function(df){
   unqs <- df %>%
   group_by(start, end) %>%
-  reframe(Frequency = n(),
+  reframe(Timepoint = list(timepoint),
+          Frequency = n(),
           Total_Reads = sum(read_count),
           region = list(region),
           strand = list(strand))
 
+  # cleanup timepoint column of duplicated and NA values
+  unqs$Timepoint <- map(unqs$Timepoint, ~unique(na.omit(.x)))
+  
+  # convert timepoint column back to string vector
+  unqs$Timepoint <- map_chr(unqs$Timepoint, ~paste(.x, collapse = ","))
+  
   # cleanup region column of duplicated and NA values
   unqs$region <- map(unqs$region, ~unique(na.omit(.x)))
 
@@ -96,7 +103,12 @@ extract_unq_juncs <- function(df){
   return(unqs)
 }
 
-total_unq_jncs_submit <- extract_unq_juncs(bulk_junc_stats)
+total_unq_jncs_submit <- extract_unq_juncs(bulk_junc_stats) %>%
+  mutate(Name = paste0("JUNC_", 1:nrow(.))) %>%
+  select(Name, Timepoint, start, end, Strand, Frequency, Total_Reads)
+
+# write.table(total_unq_jncs_submit, "thev_unq_juncs_geo.txt", sep = "\t",
+#             quote = F, col.names = T)
   
 # --------------------
 # function to extract unique junctions for each timepoint
