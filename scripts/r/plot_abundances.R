@@ -77,78 +77,136 @@ bulk_trxptome_ss_seq <- count_trxptome_ss(unq_bulk_juncs) %>%
   mutate(sum_junc_count = sum(freq),
          percent_abund = (freq / sum_junc_count) * 100)
 
-# plot trxptome acceptors and donor frequencies
-ss <- bulk_trxptome_ss_seq %>%
-  ggplot(aes(splice_site, percent_abund, color = splice_site)) +
-  geom_point(show.legend = F, size = 10) +
-  geom_segment(aes(x = splice_site, xend = splice_site,
-                   y = 0, yend = percent_abund),
-               linewidth = 2,
-               show.legend = F) +
-  geom_text(aes(label = glue("{round(percent_abund, 1)}%")),
-             nudge_y = 3.5,
-            size = 10, fontface = "bold", color = "#000000") +
-  labs(x = "Splice Site Donor-Acceptor",
-       y = "Frequency") +
-  scale_color_lancet() +
-  scale_y_continuous(expand = c(0.01,0.01),
-                     labels = scales::label_percent(scale = 1)) +
-  scale_x_discrete(expand = c(0.13, 0.13)) +
-  coord_cartesian(clip = "off") +
-  theme_classic() +
-  theme(plot.margin = margin(rep(30, 4)),
-        panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
-                                          linetype = "dashed"),
-        axis.title = element_text(size = 16, face = "bold", margin = margin(r = 15, t = 25)),
-        axis.text.x = element_text(size = 16, face = "bold"),
-        axis.text.y = element_text(size = 14, face = "bold"),
-        axis.line = element_line(color = "grey40"),
-        axis.ticks.length = unit(0, "pt")
-        )
-
-# All acceptors and donors
-# all_ss_seq <- bulk_junc_stats %>%
-#   distinct(timepoint, start, end, .keep_all = T) %>%
-#   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
-#   group_by(timepoint, splice_site) %>%
-#   reframe(tally = n(),
-#           total_reads = sum(read_count)) %>%
-#   split(.$timepoint) %>%
-#   map(mutate, tot_tally_tp = sum(tally)) %>% 
-#   do.call("rbind", .) %>%
-#   mutate(percent_abund = (tally / tot_tally_tp) * 100) %>% 
-#   ggplot(aes(splice_site, percent_abund, group = timepoint, color = timepoint)) +
+## plot trxptome acceptors and donor frequencies
+# ss <- bulk_trxptome_ss_seq %>%
+#   ggplot(aes(splice_site, percent_abund, color = splice_site)) +
 #   geom_point(show.legend = F, size = 10) +
 #   geom_segment(aes(x = splice_site, xend = splice_site,
 #                    y = 0, yend = percent_abund),
 #                linewidth = 2,
 #                show.legend = F) +
 #   geom_text(aes(label = glue("{round(percent_abund, 1)}%")),
-#             nudge_y = 4.5,
-#             size = 5, fontface = "bold", color = "#000000") +
-#   facet_wrap(~ timepoint, scales = "free") +
+#              nudge_y = 3.5,
+#             size = 10, fontface = "bold", color = "#000000") +
 #   labs(x = "Splice Site Donor-Acceptor",
 #        y = "Frequency") +
 #   scale_color_lancet() +
 #   scale_y_continuous(expand = c(0.01,0.01),
-#                      limits = c(0, 105),
 #                      labels = scales::label_percent(scale = 1)) +
-#   scale_x_discrete(expand = c(0.05, 0.05)) +
+#   scale_x_discrete(expand = c(0.13, 0.13)) +
 #   coord_cartesian(clip = "off") +
 #   theme_classic() +
 #   theme(plot.margin = margin(rep(30, 4)),
 #         panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
 #                                           linetype = "dashed"),
-#         axis.title = element_text(size = 16, face = "bold", margin = margin(r = 15, t = 15)),
+#         axis.title = element_text(size = 16, face = "bold", margin = margin(r = 15, t = 25)),
 #         axis.text.x = element_text(size = 16, face = "bold"),
 #         axis.text.y = element_text(size = 14, face = "bold"),
 #         axis.line = element_line(color = "grey40"),
-#         axis.ticks.length = unit(0, "pt"),
-#         strip.background = element_rect(linewidth = 0.1, fill = "grey"),
-#         strip.text.x = element_text(size = 12, face = "bold", margin = margin(0.2,0,0.2,0, "cm")),
-#         strip.placement = "outside",
-#         panel.spacing = unit(1, "cm")
-#   )
+#         axis.ticks.length = unit(0, "pt")
+#         )
+
+# All acceptors and donors
+all_ss_seq_ready <- bulk_junc_stats %>%
+  distinct(timepoint, start, end, .keep_all = T) %>%
+  mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
+  group_by(timepoint, splice_site) %>%
+  reframe(tally = n(),
+          total_reads = sum(read_count)) %>%
+  split(.$timepoint) %>%
+  map(mutate, tot_tally_tp = sum(tally)) %>%
+  do.call("rbind", .) %>%
+  mutate(percent_abund = (tally / tot_tally_tp) * 100)
+
+# function to make splice site plots
+plot_tp_ss <- function(ss_data_tp = all_ss_seq_ready, tp){
+  # filter out needed tp
+  tp_only <- ss_data_tp %>% 
+    filter(timepoint == tp)
+  
+  # get timepoint
+  timpnt <- tp_only %>% pull(timepoint) %>% unique(.)
+  
+  # set plot parameters
+  if(timpnt == "72hpi"){
+    pnt_size <- 3
+    fnt_size <- 3
+    x_ax_size <- 6
+    p_col <- "red"
+    ylimm <- 40
+    xpand <- 0.01
+    push_y <- 0.1 * ylimm
+  }else if(timpnt %in% c("24hpi")){
+    pnt_size <- 5
+    fnt_size <- 3.5
+    x_ax_size <- 9
+    p_col <- "blue"
+    ylimm <- 80
+    xpand <- 0.025
+    push_y <- 0.1 * ylimm
+  }else{
+    pnt_size <- 7
+    fnt_size <- 3
+    x_ax_size <- 12
+    p_col <- base::sample(c("grey30", "orange"), 1)
+    ylimm <- 105
+    xpand <- 0.05
+    push_y <- 0.075 * ylimm
+  }
+  
+  # make plot
+  tp_only %>%
+  ggplot(aes(splice_site, percent_abund,
+                  group = timepoint, color = timepoint)) +
+  geom_point(show.legend = F, size = pnt_size) +
+  geom_segment(aes(x = splice_site, xend = splice_site,
+                   y = 0, yend = percent_abund),
+               linewidth = 2,
+               show.legend = F) +
+  geom_text(aes(label = glue("{round(percent_abund, 1)}%")),
+            nudge_y = push_y, size = fnt_size, angle = 90,
+            fontface = "bold", color = "#000000") +
+  labs(title = base::paste("Unique Splice Sites Detected at", tp),
+       x = "Splice Site Donor-Acceptor",
+       y = "Percentage Frequency") +
+  scale_color_manual(values = p_col) +
+  scale_y_continuous(expand = c(0.01,0.01),
+                     limits = c(0, ylimm),
+                     labels = scales::label_percent(scale = 1)) +
+  scale_x_discrete(expand = c(xpand, xpand)) +
+  coord_cartesian(clip = "off") +
+  theme_classic() +
+  theme(plot.margin = margin(rep(30, 4)),
+        panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
+                                          linetype = "dashed"),
+        plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+        axis.title = element_text(size = 16, face = "bold",
+                                  margin = margin(r = 15, t = 15)),
+        axis.text.x = element_text(size = x_ax_size, face = "bold",
+                                   angle = 90, hjust = 0.5, vjust = 0.5),
+        axis.text.y = element_text(size = 14, face = "bold"),
+        axis.line = element_line(color = "grey40"),
+        axis.ticks.length = unit(0, "pt"),
+        panel.spacing = unit(1, "cm")
+  )
+}
+
+timpoints <- paste0(c(4, 12, 24, 72), "hpi")
+ss_all_ploted <- list()
+for(p in seq_along(timpoints)){
+  tpp <- timpoints[p]
+  ss_all_ploted[[tpp]] <- plot_tp_ss(tp = tpp)
+}
+
+temp_ss_all <- (ss_all_ploted$`4hpi` | ss_all_ploted$`12hpi` | ss_all_ploted$`24hpi`) +
+  plot_layout(widths = c(1,1,2))
+
+save_ss_all <- temp_ss_all/ss_all_ploted$`72hpi` +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(size = 22, face = "bold"))
+
+ggsave(plot = save_ss_all, filename = "results/r/figures/figure_5a_d.png",
+       width = 25, height = 15, dpi = 350)
 
 # ====================================================================
 # PLOT TRANSCRIPT ABUNDANCES FROM BALLGOWN

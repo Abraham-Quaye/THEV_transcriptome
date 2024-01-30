@@ -22,24 +22,6 @@ library(scales)
 #   distinct(start, end, .keep_all = T) %>%
 #   # convert from 0-base indexing of .bed format to 1-base indexing
 #   mutate(start = start + 1)
-# 
-# 
-# single_sum_stats <- single_junc_stats %>%
-#   mutate(timepoint = case_when(timepoint %in% c("t72s1", "t72s2", "t72s3") ~ "72hpi",
-#                                timepoint %in% c("t24s1", "t24s2", "t24s3") ~ "24hpi",
-#                                timepoint %in% c("t12s1", "t12s3") ~ "12hpi",
-#                                timepoint %in% c("t4s1", "t4s2", "t4s3") ~ "4hpi",
-#                                .default = timepoint)) %>%
-#   group_by(timepoint) %>%
-#   summarize(total_junctions = n(),
-#             reads10  = sum(read_count > 10),
-#             reads100  = sum(read_count > 100),
-#             reads1000  = sum(read_count > 1000),
-#             total_reads_supporting = sum(read_count),
-#             mean_read_supporting = total_reads_supporting/total_junctions,
-#             organism = "thev") %>%
-#   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
-#   arrange(total_junctions)
 
 # ============================BULK=============================================
 # =============================================================================

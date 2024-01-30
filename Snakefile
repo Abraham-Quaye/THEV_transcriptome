@@ -353,7 +353,7 @@ rule make_orf_map:
        "{input.r_script}"
 
 #################### PLOT TRANSCRIPT  AND JUNCTION ABUNDANCES OVER TIME ############
-rule make_fig4:
+rule make_fig4_and_5:
     input:
         trxptome = rules.mod_final_trxptome.output,
         annot_juncs = rules.bulk_annotate_junctions.output,
@@ -362,7 +362,8 @@ rule make_fig4:
         rscript1 = "scripts/r/plot_abundances.R",
         rscript2 = "scripts/r/abundance_analyses.R"
     output:
-        "results/r/figures/figure_4a_d.png"
+        expand("results/r/figures/figure_{num}a_d.png", \
+        num = [4, 5]),
     shell:
         "{input.rscript1}"
 
@@ -394,7 +395,7 @@ rule write_manuscript:
         rules.make_fig2.output,
         rules.make_orf_map.output,
         rules.make_figure3.output,
-        rules.make_fig4.output,
+        rules.make_fig4_and_5.output,
         "scripts/r/abundance_analyses.R",
         "scripts/r/reg_by_reg_plots.R"
     output:
