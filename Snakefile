@@ -397,7 +397,8 @@ rule write_manuscript:
         rules.make_figure3.output,
         rules.make_fig4_and_5.output,
         "scripts/r/abundance_analyses.R",
-        "scripts/r/reg_by_reg_plots.R"
+        "scripts/r/reg_by_reg_plots.R",
+        "style_word_output.docx"
     output:
         "manuscript_thev_transcriptome.pdf",
         "manuscript_thev_transcriptome.docx"
