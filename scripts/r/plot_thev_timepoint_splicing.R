@@ -221,7 +221,7 @@ total_plots <- total_plots + plot_annotation(tag_levels = list(c("A", "", "B"), 
 
 ggsave(plot = total_plots,
        filename = "results/r/figures/figure3.png",
-       dpi = 500, width = 12, height = 20)
+       dpi = 500, width = 14, height = 20)
 
 # ggsave(plot = all_tp_plots,
 #        filename = "results/r/figures/thev_patched_timepoints_spliced_map.png",

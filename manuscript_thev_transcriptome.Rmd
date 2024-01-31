@@ -1,7 +1,7 @@
 ---
 title: Characterizing the Transcriptome of Turkey Hemorrhagic Enteritis Virus
 output:
-  word_document:
+  officedown::rdocx_document:
     reference_docx: style_word_output.docx
   pdf_document: default
 geometry: margin=1in
@@ -156,7 +156,7 @@ AdV gene expression occurs under exquisite temporal control with each promoter t
 abn_each_12 <- t_expr_each %>% filter(trxpt_id == "E2: TRXPT_21", timepoint == "12h.p.i") %>% pull(fpkm_trxpt_percent)
 ```
 
-Considering individual mRNAs, TRXPT_21 -- from the E2 region -- was the most significantly expressed at 12 h.p.i, constituting about `r abn_each_12`% of the total expression of all transcripts. Transcripts in the E3 and E4 regions also contributed significant proportions, and noticeably, some MLP region transcripts. The later time points were dominated by the MLP region transcripts -- TRXPT_10 and TRXPT_14 were the most abundantly expressed at 24 and 72 h.p.i, respectively, as expected (**Figure 4a**). When we performed analysis of the FPKM values of transcripts per region we found a similar pattern: the E2 region was the most abundantly expressed at 12 h.p.i, after which the MLP region assumes predominance (**Figure 4b**). Secondly, we estimated relative abundances of all splice junctions at each time point using the raw reads. For individual junctions, we counted as significantly expressed only junctions with coverage of at least 1% of the total splice junction reads at the given time point. At 12 h.p.i, `r nrow(sig_12_juncs)` junctions meet the 1% threshold, and were comprised of predominantly early region (E1, E2, E3, and E4) junctions, albeit the MLTU was the single most preponderant region overall, constituting `r round(most_sig_12, 1)`% of all the junction reads (**Table 2a** and **Supplementary Table 1a**). The topmost abundant junctions at 12 h.p.i remained the most significantly expressed at 24 h.p.i also. However, here, the MLP-derived junctions were unsurprisingly even more preponderant overall, accounting for `r round(most_sig_24, 1)`% of all the junction reads counted (**Table 2b** and **Supplementary Table 1b**). At 72 h.p.i, the trend of increased activity of the MLP continued as expected; at this time, the MLP region junctions were not only the most abundant overall -- accounting for `r round(most_sig_72, 1)`% of all junction reads, -- but also contained the most significantly expressed individual junctions (**Table 2c**, **Supplementary Table 1c** and **Figure 4c**). When we limited this analysis to only junctions in the final transcriptome, the relative abundances of the junctions for each region over time was generally similar to the pattern seen with all the junctions included (**Figure 4d**).   
+Considering individual mRNAs, TRXPT_21 -- from the E2 region -- was the most significantly expressed at 12 h.p.i, constituting about `r abn_each_12`% of the total expression of all transcripts. Transcripts in the E3 and E4 regions also contributed significant proportions, and noticeably, some MLP region transcripts. The later time points were dominated by the MLP region transcripts -- TRXPT_10 and TRXPT_14 were the most abundantly expressed at 24 and 72 h.p.i, respectively, as expected (**Figure 4a**). When we performed analysis of the FPKM values of transcripts per region we found a similar pattern: the E2 region was the most abundantly expressed at 12 h.p.i, after which the MLP region assumes predominance (**Figure 4b**). Secondly, we estimated relative abundances of all splice junctions at each time point using the raw reads. For individual junctions, we counted as significantly expressed only junctions with coverage of at least 1% of the total splice junction reads at the given time point. At 12 h.p.i, `r nrow(sig_12_juncs)` junctions meet the 1% threshold, and were comprised of predominantly early region (E1, E2, E3, and E4) junctions, albeit the MLTU was the single most preponderant region overall, constituting `r round(most_sig_12, 1)`% of all the junction reads (**Table 2a** and **Supplementary Table S1a**). The topmost abundant junctions at 12 h.p.i remained the most significantly expressed at 24 h.p.i also. However, here, the MLP-derived junctions were unsurprisingly even more preponderant overall, accounting for `r round(most_sig_24, 1)`% of all the junction reads counted (**Table 2b** and **Supplementary Table S1b**). At 72 h.p.i, the trend of increased activity of the MLP continued as expected; at this time, the MLP region junctions were not only the most abundant overall -- accounting for `r round(most_sig_72, 1)`% of all junction reads, -- but also contained the most significantly expressed individual junctions (**Table 2c**, **Supplementary Table S1c** and **Figure 4c**). When we limited this analysis to only junctions in the final transcriptome, the relative abundances of the junctions for each region over time was generally similar to the pattern seen with all the junctions included (**Figure 4d**).   
 
 We also analyzed splice donor and acceptor site nucleotide usage over time to investigate any peculiarities that THEV may show, generally or over the course of the infection. We found that most splice donor-acceptor sequences were unsurprisingly the canonical GT-AG nucleotides. However, the splice acceptor-donor pairing became less specific over time, such that all combinations of nucleotide pairs were eventually detected (**Figure 5**)
 
@@ -239,13 +239,9 @@ We performed a rapid amplification of sequences from the 3' ends of mRNAs (3'-RA
 
 Our sequence reads were analyzed following a well-established protocol described by Pertea *et al* [@Pertea2016], using `Snakemake - version 7.24.0` [@Snakemake2021], a popular workflow management system to drive the pipeline. Briefly, sequencing reads were trimmed with the `Trim-galore - version 0.6.6` [@TrimGalore] program to achieve an overall `Mean Sequence Quality (Phred Score)` of 36. Trimmed reads were mapped simultaneously to the complete genomic sequence of avirulent turkey hemorrhagic enteritis virus (<https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/>) and *Meleagris gallopavo* (<https://www.ncbi.nlm.nih.gov/genome/?term=Meleagris+gallopavo>) using `Hisat2 - version 2.2.1` [@Pertea2016] with default settings. The generated alignment (`BAM`) files from each infection time point were filtered for reads mapping to the THEV genome using `Samtools - version 1.16.1` and fed into `StringTie - version 2.2.1` [@Pertea2016] to assemble the transcripts, using a `GTF` annotation file derived from a `GFF3` annotation file obtained from NCBI, which contains the predicted ORFs of THEV as a guide. `GFFCOMPARE - version 0.12.6` was used to merge all transcripts from all time points without redundancy and using a custom `R` script, adenovirus transcripts units (regions) were assigned to each transcript, generating the transcriptome of THEV. `StringTie` set to expression estimation mode was used to calculate FPKM scores for all transcripts after which `Ballgown - version 2.33.0` in `R` was used to perform the statistical analysis on the transcript expression levels. `Samtools` was also used to count the total sequencing reads for all replicates at each time point and `Regtools - version 1.0.0` was used to count all junctions, the reads supporting them, and extract all other information related to the junction.
 See **Supplementary Computational Analysis** for the details of transcript expression level estimations and splice junction read counts.
-\newpage
-
-## SUPPLEMENTARY MATERIALS    
-File attached separately
-
 
 ### DATA AVAILABILITY
+
 The raw sequence data (FastQ), transcript expression counts, and total unique junctions have been deposited at the National Center for Biotechnology Information Gene Expression Omnibus (<http://www.ncbi.nlm.nih.gov/geo>) under accession number GSE254416.
 
 Data is also available on request by contacting the designated corresponding author
@@ -278,6 +274,7 @@ All the code/scripts in the entire analysis pipeline are available on github (<h
 \setlength{\leftskip}{0in}
 \newpage
 ```
+\newpage
 ## TABLES AND FIGURES
 ![](results/r/figures/thev_orf_map.png)   
 **Figure 1. *Predicted ORF map of THEV avirulent strain***. The central horizontal line represents the double-stranded DNA marked at 5kb intervals as white line breaks. Blocks represent viral genes. Blocks above the DNA line are transcribed rightward, those below are transcribed leftward. pTP, DBP and 33K predicted to be spliced are shown as having tails. Shaded regions indicate regions containing "genus-specific" genes (colored red). Genes colored in blue are "genus-common". Gene colored in light green is conserved in all but Atadenoviruses. The UXP (light blue) is an incomplete gene present in almost all AdVs. Regions comprising the different transcription units are labelled at the bottom (E1, E2A, E2B, E3, E4, and IM); the unlabeled regions comprise the MLTU.
@@ -294,157 +291,19 @@ All the code/scripts in the entire analysis pipeline are available on github (<h
 ![](results/r/figures/figure_5a_d.png)
 **Figure 5: Changes in splice donor-acceptor nucleotides over time.** The splice donor-acceptor nucleotides of THEV just like other AdVs is mostly the canonical GT-AG. At early time points (4h.p.i and 12h.p.i [**(a)** and **(b)**]) the junction nucleotides used appear to be well scrutinized or restricted, utilizing mostly the canonical splice nucleotides. However, as the infection progresses to the late stages (24h.p.i and 72h.p.i [**(c)** and **(d)**]), the selectivity of specific splice acceptor-donor pairs seems to degenerate significantly, such that all combinations of nucleotides are utilized.
 
-```{r region-by-region_e1_figure, fig.height=16, fig.width=18, warning=FALSE}
-set_flextable_defaults(font.size = 7)
-ft <- flextable(reg_e1_brkdown,
-                col_keys = c("trxpt_id", "start", "end", "intron_len", "splice_site",
-                             "strand", "4hpi", "12hpi", "24hpi", "72hpi",
-                             "status")) %>%
-  theme_zebra() %>%
-  flextable::set_table_properties(layout = "fixed",
-                       opts_pdf = list(caption_repeat = F)) %>%
-  flextable::set_header_labels(start = "Start", end = "End",
-                               strand = "Strand", trxpt_id = "Transcript ID",
-                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
-                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
-                               splice_site = "Splice Donor-Acceptor",
-                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
-  flextable::align(align = "center", part = "all") %>%
-  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
-                 colwidths = c(1, 4, 1, 4, 1)) %>%
-  flextable::vline(j = c(1, 5, 6, 10), border = fp_border_default(color = "grey",
-                                                                  width = 1.5)) %>%
-  footnote(., i = 1, j = 11, value = as_paragraph(c("Not validated for TRXPT_4")),
-           ref_symbols = c("*"), part = "body")
-
-brkdwn_e1_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
-  plot_layout(heights = c(2, 0.05, 2)) 
-#+
-  # plot_annotation(tag_levels = "A") &
-  # theme(plot.tag = element_text(size = 22, face = "bold"))
-```
+![](results/r/figures/figure_6.png)
 **Figure 6: The splice map of the E1 transcription unit (TU).** Exons are depicted as boxes connected by introns (dotted lines). Transcripts from RNA-seq data are colored red, predicted ORFs are colored grey, and transcripts or ORFs discovered by other means are colored black. Each transcript or ORF is labelled with its name to the right. The start codon (SSC) and stop codon (STC) of the 5'-most CDS of each transcript is indicated with the nucleotide position in brackets. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference. The table shows sequence reads covering the splice junctions with information about their validation status using cloning and Sanger sequencing.
-```{r region-by-region_e2andim_figure, fig.height=16, fig.width=18, warning=FALSE}
-set_flextable_defaults(font.size = 7)
-ft <- reg_e2_brkdown %>%
-  mutate(splice_site = ifelse(splice_site == "CT-AC, GT-AG",
-                              "GT-AG", splice_site)) %>% 
-  flextable(.,
-            col_keys = c("trxpt_id", "start", "end", "splice_site", "intron_len",
-                             "strand", "region", "4hpi", "12hpi", "24hpi", "72hpi",
-                             "status")) %>%
-  theme_zebra() %>%
-  flextable::set_table_properties(layout = "fixed",
-                       opts_pdf = list(caption_repeat = F)) %>%
-  flextable::set_header_labels(start = "Start", end = "End",
-                               splice_site = "Splice Donor-Acceptor",
-                               strand = "Strand", trxpt_id = "Transcript ID",
-                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
-                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
-                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
-  flextable::align(align = "center", part = "all") %>%
-  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
-                 colwidths = c(1, 4, 2, 4, 1)) %>%
-  flextable::vline(j = c(1, 5, 7, 11), border = fp_border_default(color = "grey",
-                                                                  width = 1.5))
 
-brkdwn_e2_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
-  plot_layout(heights = c(1.2, 0.05, 1.5))
-```
+![](results/r/figures/figure_7.png)
 **Figure 7: The splice map of the E2 and IM TUs**. Exons are depicted as boxes connected by introns (dotted lines). Red transcripts are generated from RNA-seq data and predicted ORFs are colored grey. TRXPT_21B discovered by 3'RACE is colored black. Each transcript or ORF is labelled with its name to the right. The SSC and STC of the 5'-most CDS of each transcript is indicated with the nucleotide position in brackets. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference. The table shows sequence reads covering the splice junctions with information about their validation status using cloning and Sanger sequencing.
 
-```{r region-by-region_e3, fig.height=16, fig.width=18, warning=FALSE}
-set_flextable_defaults(font.size = 7)
-ft <- flextable(reg_e3_brkdown,
-                col_keys = c("trxpt_id", "start", "end", "splice_site", "intron_len",
-                             "strand", "region", "4hpi", "12hpi", "24hpi", "72hpi",
-                             "status")) %>%
-  theme_zebra() %>%
-  flextable::set_table_properties(layout = "fixed",
-                       opts_pdf = list(caption_repeat = F)) %>%
-  flextable::set_header_labels(start = "Start", end = "End",
-                               splice_site = "Splice Donor-Acceptor",
-                               strand = "Strand", trxpt_id = "Transcript ID",
-                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
-                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
-                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
-  flextable::align(align = "center", part = "all") %>%
-  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
-                 colwidths = c(1, 4, 2, 4, 1)) %>%
-  flextable::vline(j = c(1, 5, 7, 11), border = fp_border_default(color = "grey",
-                                                                  width = 1.5)) 
-
-brkdwn_e3_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
-  plot_layout(heights = c(1.5, 0.05, 1))
-```
+![](results/r/figures/figure_8.png)
 **Figure 8: The splice map of the E3 TU.** Exons are depicted as boxes connected by introns (dotted lines). Red transcripts are generated from RNA-seq data and predicted ORFs are colored grey. Transcripts discovered by other means are colored black. Each transcript or ORF is labelled with its name to the right. The start codon (SSC) and stop codon (STC) of the 5'-most CDS of each transcript is indicated with the nucleotide position in brackets. Similarly, the secondary SSC (secSSC) and secondary STC (secSTC) are shown. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference. The table shows sequence reads covering the splice junctions with information about their validation status using cloning and Sanger sequencing.
 
-```{r region-by-region_e4_figure, fig.height=5, fig.width=8, warning=FALSE}
-reg_e4_brkdown <- reg_e4_brkdown %>%
-  mutate(splice_site = "GT-AG",
-         `4hpi` = as.numeric(`4hpi`), `12hpi` = as.numeric(`12hpi`),
-         `24hpi` = as.numeric(`24hpi`), `72hpi` = as.numeric(`72hpi`)) %>%
-  # select(-c(coding_potential, region)) %>%
-  group_by(trxpt_id, start, end, splice_site, intron_len, strand, status) %>%
-  reframe("4hpi" = sum(`4hpi`),
-          "12hpi" = sum(`12hpi`),
-          "24hpi" = sum(`24hpi`),
-          "72hpi" = sum(`72hpi`)) %>%
-  select(trxpt_id, start, end, splice_site, intron_len, strand, "4hpi", "12hpi",
-         "24hpi", "72hpi", status)
-
-set_flextable_defaults(font.size = 7)
-ft <- flextable(reg_e4_brkdown,
-                col_keys = c("trxpt_id", "start", "end", "splice_site", "intron_len",
-                             "strand", "4hpi", "12hpi", "24hpi", "72hpi", "status")) %>%
-  theme_zebra() %>%
-  flextable::set_table_properties(layout = "fixed",
-                       opts_pdf = list(caption_repeat = F)) %>%
-  flextable::set_header_labels(start = "Start", end = "End",
-                               splice_site = "Splice Donor-Acceptor",
-                               strand = "Strand", trxpt_id = "Transcript ID",
-                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
-                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
-                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
-  flextable::align(align = "center", part = "all") %>%
-  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
-                 colwidths = c(1, 4, 1, 4, 1)) %>%
-  flextable::vline(j = c(1, 5, 6, 10), border = fp_border_default(color = "grey",
-                                                                  width = 1.5))
-
-brkdwn_e4_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
-  plot_layout(heights = c(1, 0.01, 1)) +
-  plot_annotation(tag_levels = "A") &
-  theme(plot.tag = element_text(size = 18, face = "bold"))
-```
+![](results/r/figures/figure_9.png)
 **Figure 9: The splice map of the E4 TU.** Exons are depicted as boxes connected by introns (dotted lines). The transcript from RNA-seq data is colored red and the predicted ORF, grey. The transcript and ORF are labelled with their names to the right. The start codon (SSC) and stop codon (STC) of the 5'-most CDS is indicated with the nucleotide position in brackets. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference. The table shows sequence reads covering the splice junction with its validation status using cloning and Sanger sequencing.
 
-```{r region-by-region_mlp_figure, fig.height=16, fig.width=18, warning=FALSE}
-set_flextable_defaults(font.size = 7)
-ft <- flextable(reg_mlp_brkdown,
-                col_keys = c("trxpt_id", "start", "end", "splice_site",
-                             "intron_len","strand", "4hpi", "12hpi",
-                             "24hpi", "72hpi", "status")) %>%
-  theme_zebra() %>%
-  flextable::set_table_properties(layout = "fixed",
-                       opts_pdf = list(caption_repeat = F)) %>%
-  flextable::set_header_labels(start = "Start", end = "End",
-                               splice_site = "Splice Donor-Acceptor",
-                               strand = "Strand", trxpt_id = "Transcript ID",
-                               intron_len = "Intron Length", "4hpi" = "4h.p.i",
-                               "12hpi" = "12h.p.i", "24hpi" = "24h.p.i",
-                               "72hpi" = "72h.p.i", "status" = "Junction Status") %>%
-  flextable::align(align = "center", part = "all") %>%
-  add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
-                 colwidths = c(1, 4, 1, 4, 1)) %>%
-  flextable::vline(j = c(1, 5, 6, 10), border = fp_border_default(color = "grey",
-                                                                  width = 1.5)) %>%
-  flextable::width(width = 0.3) %>%
-  flextable::width(j = 1, width = 1.5)
-
-brkdwn_mlp_trxtps / plot_spacer()/ gen_grob(ft, fit = "auto", scaling = "full") +
-  plot_layout(heights = c(2.5, 0.02, 1.2))
-```
+![](results/r/figures/figure_10.png)
 **Figure 10: The splice map of the MLTU.** Exons are depicted as boxes connected by introns (dotted lines). The transcripts from our RNA-seq data are colored red and the predicted ORFs, grey. The transcripts and ORFs are labelled with their names to the right. The start codon (SSC) and stop codon (STC) of the 5'-most CDS of each transcript is indicated with the nucleotide position in brackets. Similarly, the secondary SSC (secSSC) and secondary STC (secSTC) are shown. The region of the virus is depicted at the bottom as a black line with labels of the nucleotide positions for reference. The table shows sequence reads covering the splice junctions with information about their validation status using cloning and Sanger sequencing.
 \newpage
 
@@ -514,3 +373,101 @@ set_flextable_defaults(font.size = 8)
 title72 <- "Table 2c: Most abundant splice junctions at 72h.p.i"
 top_juncs_tp(sig_72_juncs, title72)
 ```
+\newpage
+## SUPPLEMENTARY MATERIALS    
+
+**Supplementary Table S1A**
+
+```{r Sup Table S1A}
+set_flextable_defaults(font.size = 8)
+make_reg_stats_table <- function(tp_table){
+  return(tp_table %>%
+    select(-junc_freq) %>% 
+    mutate(region = ifelse(is.na(region), "Unassigned", region)) %>% 
+    flextable() %>% 
+    theme_zebra() %>% 
+    set_header_labels(timepoint = "Time", region = "Region", strand = "Strand",
+                      sum_reads_reg = "Total Reads", perc_reg = "Percentage") %>% 
+    flextable::width(width = 0.8) %>% 
+    flextable::align(align = "center", part = "all") %>%
+    flextable::set_table_properties(layout = "fixed", align = "left",
+                       opts_pdf = list(caption_repeat = FALSE),
+                       opts_word = list(split = F))
+  )
+}
+make_reg_stats_table(tp_reg_expr_12) %>%
+  set_caption("Table S1a: Most Transcriptionally Active Regions of THEV at 12h.p.i")
+
+```
+
+**Supplementary Table S1B**
+
+```{r Sup Table S1B}
+set_flextable_defaults(font.size = 8)
+make_reg_stats_table(tp_reg_expr_24) %>%
+  set_caption("Table S1b: Most Transcriptionally Active Regions of THEV at 24h.p.i")
+```
+
+**Supplementary Table S1C**
+
+```{r Sup Table S1C}
+set_flextable_defaults(font.size = 8)
+make_reg_stats_table(tp_reg_expr_72) %>%
+  set_caption("Table S1c: Most Transcriptionally Active Regions of THEV at 72h.p.i")
+```
+
+\newpage
+**Supplementary PCR Methods**
+```{r Supplementary PCR Methods}
+set_flextable_defaults(font.size = 3.5)
+
+supp_pcr_meth_tab %>% 
+  select(-valid_status) %>% 
+flextable() %>%
+  theme_zebra() %>%
+  set_header_labels(trxpt_id = "Transcript ID", region = "Region", num_exons = "Number of Exons",
+                    full_trxpt = "Full Transcript", exon1 = "Exon 1", exon2 = "Exon 2",
+                    exon3 = "Exon 3", exon4 = "Exon 4", exon5 = "Exon 5", exon6 = "Exon 6",
+                    exon7 = "Exon 7", forwardP = "Forward Primer", reverseP = "Reverse Primer",
+                    gel_image = "Agarose Gel") %>% 
+  flextable::fontsize(j = c("full_trxpt", "exon1", "exon2", "exon3",
+                            "exon4", "exon5", "exon6", "exon7",
+                            "forwardP", "reverseP"), size = 3) %>%
+  flextable::align(align = "center", part = "all") %>%
+  flextable::width(., width = 0.35) %>% 
+  colformat_image(j = "gel_image", i = c(1:3, 5:26, 28:30),
+                  width = 1.1, height = 1) %>%
+  flextable::width(j = ~forwardP, width = 1.1) %>%
+  flextable::width(j = ~reverseP, width = 1.1) %>%
+  flextable::width(j = ~gel_image, width = 1.15) %>%
+  # flextable::height(height = 0, part = "header") %>% 
+  footnote(., i = c(1:26, 28:30), j = 12, value = as_paragraph(c("Primer binds inside first exon")),
+           ref_symbols = c("a"), part = "body", inline = T) %>%
+  footnote(., i = c(1:7, 9:18, 21:26, 28, 29), j = 13, value = as_paragraph(c("Primer binds inside terminal exon")), ref_symbols = c("b"), part = "body", inline  = T) %>% 
+  # transcripts too long to validate with one primer pair
+  footnote(., i = c(8,19, 20, 30), j = 13, value = as_paragraph(c("Primer binds inside fourth exon")),
+           ref_symbols = c("c"), part = "body", inline = T) %>% 
+  footnote(., i = c(8), j = 14, value = as_paragraph(c("Agarose gel identical to TRXPT_7 due to identical splicing")), ref_symbols = c("I"), part = "body", inline = T) %>%
+  footnote(., i = c(10), j = 14, value = as_paragraph(c("Agarose gel identical to last 3 exons of TRXPT_10 due to identical splicing")), ref_symbols = c("II"), part = "body", inline = T) %>%
+  footnote(., i = c(12), j = 14, value = as_paragraph(c("Agarose gel identical to last 4 exons of TRXPT_11 due to identical splicing")), ref_symbols = c("III"), part = "body", inline = T) %>% 
+  footnote(., i = c(16), j = 14, value = as_paragraph(c("Agarose gel dentical to TRXPT_23 due to identical splicing")), ref_symbols = c("IV"), part = "body", inline = T) %>% 
+  footnote(., i = c(19), j = 14, value = as_paragraph(c("Agarose gel identical to TRXPT_9 due to identical splicing")), ref_symbols = c("V"), part = "body", inline = T) %>% 
+  footnote(., i = c(20), j = 14, value = as_paragraph(c("Agarose gel identical to TRXPT_14 due to identical splicing")), ref_symbols = c("VI"), part = "body", inline = T) %>%
+  flextable::set_table_properties(layout = "fixed", align = "left",
+                       opts_pdf = list(caption_repeat = F),
+                       opts_word = list(split = F)) %>%
+  set_caption("Agarose Gels Showing PCR Amplification of THEV cDNA With Gene-Specific Primers")
+```
+
+In the table above, the restriction sites in the primer tails are shown in lowercase letters. All the primer melting temperatures (TMs) are 58-60^o^C using a hot start Taq DNA polymerase. The PCR reaction mix was done per manufacturer's instructions. The PCR cycling conditions were as follows: Initial denaturation -- 95^o^C for 1 minute; cyclical denaturation -- 95^o^C for 30 seconds, annealing -- variable temperature (53^o^C-56^o^C) for 30 seconds, primer extension -- 68^o^C for variable time, and final elongation -- 68^o^C for 5 minutes. We used 35 cycles of amplification.
+
+**Supplementary Computational Analysis**    
+`Snakemake v7.24.0` was used to manage our entire workflow. A graph of the main steps in our pipeline generated with `Snakemake` is shown below. Our trimmed RNA-seq reads were mapped to the genome of _M. gallopavo_ (with THEV's genome as one of its chromosomes) using `Hisat2`, to generate the alignment (BAM) files and `StringTie` used to assemble the transcriptome with a `GTF` annotation file containing the predicted THEV ORFs as a guide. The `GTF` annotation file was derived from a `GFF3` annotation file obtained from NCBI using `Agat - version 1.0.0`, a program for converting between many different file formats used in bioinformatics. However, the NCBI `GFF3` annotation file itself was first modified to remove all unimportant features, leaving only the ORFs. 
+
+`StringTie` was also used to estimate the normalized expression levels (FPKM) of all the transcripts and `Ballgown` in `R` was used to perform statistical analysis and comparisons of the transcript expression levels, which instructive in understanding the temporal regulation THEV gene expression. 
+
+In these steps above, each sample (replicate of each time point) was processed independently and merged only in the final transcriptome assembly or during analysis with `Ballgown`. In the subsequent steps described below, all samples for each time point were processed together.
+
+We used `RegTools` to extract and analyze the splice junctions in the BAM files. The command `regtools junctions extract` provides a wealth of information about all the splice sites in the BAM file provided such as: the start and end positions, the strand, and number of reads supporting the splice junctions. The command `regtools junctions annotate` gives even more information such as: the splice site donor-acceptor sequences and transcripts/genes that overlap the junction. These information was the basis for estimating and comparing the splicing activity of different regions (TUs) of THEV over time. Also, `Samtools` was also used to count the total sequencing reads for all replicates at each time point.
+
+![](project_map.png)

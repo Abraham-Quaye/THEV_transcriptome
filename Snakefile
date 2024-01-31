@@ -382,6 +382,18 @@ rule make_fig2:
     shell:
        "{input.r_script}"
 
+#################### PLOT REGION-BY-REGION TRANCRIPTS ############
+rule make_fig6_10:
+    input:
+        r_script = "scripts/r/plot_fig6_10.R",
+        r_script1 = "scripts/r/abundance_analyses.R",
+        r_script_2 = "scripts/r/reg_by_reg_plots.R"
+    output:
+        expand("results/r/figures/figure_{num}.png", \
+        num = range(6, 11))
+    shell:
+       "{input.r_script}"
+
 ############### WRITE MANUSCRIPT FOR PUBLICATION ##################
 rule write_manuscript:
     input:
@@ -398,6 +410,7 @@ rule write_manuscript:
         rules.make_fig4_and_5.output,
         "scripts/r/abundance_analyses.R",
         "scripts/r/reg_by_reg_plots.R",
+        rules.make_fig6_10.output,
         "style_word_output.docx"
     output:
         "manuscript_thev_transcriptome.pdf",
@@ -415,7 +428,8 @@ rule write_supplementary:
         expand("wet_lab_validation/validation_gels/trxpt_{trx_n}_gel.png", \
         trx_n = [1, 2, 3, 5, "6or7", 8, "10or9_j1", 12, 13, "14or11j1", 15, \
         16, 17,18, 20, 21, "22or10j2", "23or29", "24or11j2", 25, 26, 27, 28]),
-        "project_map.png"
+        "project_map.png",
+        "style_word_output.docx"
     output:
         "supplementary_thev_trxptome.pdf",
         "supplementary_thev_trxptome.docx"

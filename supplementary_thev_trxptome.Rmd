@@ -1,7 +1,8 @@
 ---
 title: "Supplementary Materials: Elucidating the Transcriptome of Turkey Hemorrhagic Enteritis Virus"
-output:
-  word_document: default
+output: 
+  officedown::rdocx_document:
+    reference_docx: style_word_output.docx
   pdf_document: default
 geometry: margin=1in
 font-size: 11pt
@@ -47,9 +48,9 @@ source("scripts/r/reg_by_reg_plots.R")
 ```
 
 
-## Supplementary Table 1A
+## Supplementary Table S1A
 
-```{r Sup Table 1A}
+```{r Sup Table S1A}
 set_flextable_defaults(font.size = 8)
 make_reg_stats_table <- function(tp_table){
   return(tp_table %>%
@@ -67,24 +68,24 @@ make_reg_stats_table <- function(tp_table){
   )
 }
 make_reg_stats_table(tp_reg_expr_12) %>%
-  set_caption("Table 1a: Most Transcriptionally Active Regions of THEV at 12h.p.i")
+  set_caption("Table S1a: Most Transcriptionally Active Regions of THEV at 12h.p.i")
 
 ```
 
-## Supplementary Table 1B
+## Supplementary Table S1B
 
-```{r Sup Table 1B}
+```{r Sup Table S1B}
 set_flextable_defaults(font.size = 8)
 make_reg_stats_table(tp_reg_expr_24) %>%
-  set_caption("Table 1b: Most Transcriptionally Active Regions of THEV at 24h.p.i")
+  set_caption("Table S1b: Most Transcriptionally Active Regions of THEV at 24h.p.i")
 ```
 
-## Supplementary Table 1C
+## Supplementary Table S1C
 
-```{r Sup Table 1C}
+```{r Sup Table S1C}
 set_flextable_defaults(font.size = 8)
 make_reg_stats_table(tp_reg_expr_72) %>%
-  set_caption("Table 1c: Most Transcriptionally Active Regions of THEV at 72h.p.i")
+  set_caption("Table S1c: Most Transcriptionally Active Regions of THEV at 72h.p.i")
 ```
 
 \newpage
@@ -127,7 +128,7 @@ flextable() %>%
   flextable::set_table_properties(layout = "fixed", align = "left",
                        opts_pdf = list(caption_repeat = F),
                        opts_word = list(split = F)) %>%
-  set_caption("Table 1: Agarose Gels Showing PCR Amplification of THEV cDNA With Gene-Specific Primers")
+  set_caption("Agarose Gels Showing PCR Amplification of THEV cDNA With Gene-Specific Primers")
 ```
 
 In the table above, the restriction sites in the primer tails are shown in lowercase letters. All the primer melting temperatures (TMs) are 58-60^o^C using a hot start Taq DNA polymerase. The PCR reaction mix was done per manufacturer's instructions. The PCR cycling conditions were as follows: Initial denaturation -- 95^o^C for 1 minute; cyclical denaturation -- 95^o^C for 30 seconds, annealing -- variable temperature (53^o^C-56^o^C) for 30 seconds, primer extension -- 68^o^C for variable time, and final elongation -- 68^o^C for 5 minutes. We used 35 cycles of amplification.

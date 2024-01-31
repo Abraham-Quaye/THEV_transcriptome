@@ -466,31 +466,31 @@ brkdown_reg_plots <- function(reg, reg2=NULL){
                 label.size = NA, label.padding = unit(0, "pt"), fill = NA) +
   # start codon positions
   geom_richtext(aes(x = sstcodon, y = ypos, label = glue("|")),
-                size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                size = 6, label.size = NA, label.padding = unit(0, "pt"),
                 fill = NA, nudge_y = offset_y/2) +
   geom_richtext(aes(x = sstcodon, y = ypos, label = glue("<sup>SSC ({sstcodon})</sup>")),
-                size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                size = 4.5, label.size = NA, label.padding = unit(0, "pt"),
                 fill = NA, nudge_y = offset_y, hjust = ljust) +
   # stop codon positions
   geom_richtext(aes(x = stpcodon, y = ypos, label = glue("|")),
-                size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                size = 6, label.size = NA, label.padding = unit(0, "pt"),
                 fill = NA, nudge_y = offset_y/2) +
     geom_richtext(aes(x = stpcodon, y = ypos, label = glue("<sup>STC ({stpcodon})</sup>")),
-                  size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                  size = 4.5, label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, nudge_y = offset_y, hjust = rjust) +
     # secondary start codon positions
     geom_richtext(aes(x = secSSC, y = ypos, label = glue("|")),
-                  size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                  size = 6, label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, nudge_y = -offset_y) +
     geom_richtext(aes(x = secSSC, y = ypos, label = glue("<sup>secSSC ({secSSC})</sup>")),
-                  size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                  size = 4.5, label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, nudge_y = -offset_y*1.5, hjust = ljust) +
     # secondary stop codon positions
     geom_richtext(aes(x = secSTC, y = ypos, label = glue("|")),
-                  size = 5, label.size = NA, label.padding = unit(0, "pt"),
+                  size = 6, label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, nudge_y = -offset_y) +
     geom_richtext(aes(x = secSTC, y = ypos, label = glue("<sup>secSTC ({secSTC})</sup>")),
-                  size = 3.5, label.size = NA, label.padding = unit(0, "pt"),
+                  size = 4.5, label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, nudge_y = -offset_y*1.5, hjust = rjust)
 
 }
