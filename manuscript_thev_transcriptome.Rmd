@@ -253,8 +253,6 @@ All the code/scripts in the entire analysis pipeline are available on github (<h
 
 ## ACKNOWLEDGMENTS
 
-`LC Sciences` - RNA sequencing was done here   
-`Eton Bioscience, Inc, San Diego, CA` - All Sanger sequencing validations was done here 
 `BYU high performance computing systems` - Memory-intensive analysis were run here.
 \newpage
 
