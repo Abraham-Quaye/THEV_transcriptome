@@ -5,24 +5,6 @@ library(glue)
 library(tidyverse)
 library(scales)
 
-# -------------
-# single_jun_files <- list.files("results/hisat2", full.names = T,
-#                                pattern = "\\w+\\.bed") %>%
-#   setNames(c("t12s1","t12s3", "t24s1", "t24s2", "t24s3","t4s1",
-#              "t4s2", "t4s3", "t72s1", "t72s2", "t72s3"))
-# # 
-# single_junc_stats <- map_dfr(single_jun_files, read_tsv,
-#                              col_names = F,
-#                              show_col_types = F,
-#                              .id = "timepoint") %>%
-#   set_colnames(c("timepoint", "chrom", "start", "end", "junc_name",
-#                  "read_count", "strand", "thickStart", "thickEnd",
-#                  "color", "exons", "exon_sizes", "exon_starts")) %>%
-#   arrange(start, end) %>%
-#   distinct(start, end, .keep_all = T) %>%
-#   # convert from 0-base indexing of .bed format to 1-base indexing
-#   mutate(start = start + 1)
-
 # ============================BULK=============================================
 # =============================================================================
 bulk_jun_files <- list.files("results/hisat2/bulk", full.names = T,
@@ -285,7 +267,7 @@ find_sig_juncs <- function(tp, rg){
     # add back the metadata
     left_join(meta_dt, all_ests, by = join_by(region, start, end)) %>%
     filter(perc >= 1) %>%
-    arrange(desc(perc)) %>%
+    arrange(dplyr::desc(perc)) %>%
     mutate(tot_tp_j_rds = comma(tot_tp_j_rds),
            intron_len = comma(intron_len),
            counts_percent = glue("{tot_tp_j_rds} ({perc}%)")) %>%
@@ -337,11 +319,3 @@ tp_reg_expr_12 <- tp_reg_expr_abund("12hpi")
 tp_reg_expr_24 <- tp_reg_expr_abund("24hpi")
 
 tp_reg_expr_72 <- tp_reg_expr_abund("72hpi")
-
-
-
-
-
-
-
-

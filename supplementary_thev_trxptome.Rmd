@@ -54,6 +54,7 @@ set_flextable_defaults(font.size = 8)
 make_reg_stats_table <- function(tp_table){
   return(tp_table %>%
     select(-junc_freq) %>% 
+    mutate(region = ifelse(is.na(region), "Unassigned", region)) %>% 
     flextable() %>% 
     theme_zebra() %>% 
     set_header_labels(timepoint = "Time", region = "Region", strand = "Strand",
@@ -129,7 +130,7 @@ flextable() %>%
   set_caption("Table 1: Agarose Gels Showing PCR Amplification of THEV cDNA With Gene-Specific Primers")
 ```
 
-In the table above, the restriction sites in the primer tails are shown in lowercase letters. All the primer melting temperatures (TMs) are 58-60^o^C using a hot start Taq DNA polymerase. The PCR reaction mix was done per manufacturer's instructions. The PCR cycling conditions were as follows: Initial denaturation -- 95^o^C for 1 minute; cyclical denaturation -- 95^o^C for 30 seconds, annealing -- variable temperature (at least 53^o^C) for 30 seconds, primer extension -- 68^o^C for variable time, and final elongation -- 68^o^C for 5 minutes. We used 35 cycles of amplification.
+In the table above, the restriction sites in the primer tails are shown in lowercase letters. All the primer melting temperatures (TMs) are 58-60^o^C using a hot start Taq DNA polymerase. The PCR reaction mix was done per manufacturer's instructions. The PCR cycling conditions were as follows: Initial denaturation -- 95^o^C for 1 minute; cyclical denaturation -- 95^o^C for 30 seconds, annealing -- variable temperature (53^o^C-56^o^C) for 30 seconds, primer extension -- 68^o^C for variable time, and final elongation -- 68^o^C for 5 minutes. We used 35 cycles of amplification.
 
 ## Supplementary Computational Analysis   
 `Snakemake v7.24.0` was used to manage our entire workflow. A graph of the main steps in our pipeline generated with `Snakemake` is shown below. Our trimmed RNA-seq reads were mapped to the genome of _M. gallopavo_ (with THEV's genome as one of its chromosomes) using `Hisat2`, to generate the alignment (BAM) files and `StringTie` used to assemble the transcriptome with a `GTF` annotation file containing the predicted THEV ORFs as a guide. The `GTF` annotation file was derived from a `GFF3` annotation file obtained from NCBI using `Agat - version 1.0.0`, a program for converting between many different file formats used in bioinformatics. However, the NCBI `GFF3` annotation file itself was first modified to remove all unimportant features, leaving only the ORFs. 
