@@ -19,6 +19,7 @@ for bam_file in bam_files:
     
     # Iterate over the records in the gtf file
     with open(gtf_file, "r") as gtf:
+        print("Extracting features from GTF file")
         for line in gtf:
             # Skip comment lines
             if line.startswith("#"):
@@ -49,12 +50,14 @@ for bam_file in bam_files:
                 # Count the number of reads mapping to the gene
                 for read in bam.fetch(chrom, start, end):
                     gene_counts[gene_name]["count"] += 1
+    print("GTF features extraction complete")
     
     # Calculate the total number of reads in the bam file
     total_reads = sum(data["count"] for data in gene_counts.values())
     
     # Calculate the TPM for each gene
     total_tpm = 0
+    print("Calculating TPMs")
     for data in gene_counts.values():
         count = data["count"]
         size = data["size"]
@@ -63,12 +66,14 @@ for bam_file in bam_files:
         total_tpm += tpm
         
 # Calculate the TPM percentage for each gene
+    print("Calculating the TPM percentage for each ORF")
     for data in gene_counts.values():
         tpm = data["tpm"]
         data["tpm_percentage"] = (tpm / total_tpm) * 100
         
     
     # Set the output file path for the csv file
+    print("saving results")
     output_file = f"{bam_file}_pileup.csv"
     
     # Write the counts and coordinates to a csv file
@@ -84,3 +89,4 @@ for bam_file in bam_files:
             tpm_percentage = data["tpm_percentage"]
             writer.writerow([gene_name, read_count, start, end, gene_size, tpm, tpm_percentage])
             
+print("Script completed successfully!!!")
