@@ -373,12 +373,14 @@ rule make_fig2:
         r_script = "scripts/r/thev_growthcurve.R",
         exp1 = "raw_files/wetlab_data/thev_growthcurve2021.xls",
         exp2 = "raw_files/wetlab_data/thev_growthcurve04_2023.xls",
-         r_script1 = "scripts/r/thev_cov_depth.R",
+        r_script1 = "scripts/r/thev_cov_depth.R",
+        r_script2 = "scripts/r/thev_genomic_map.R",
         bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
         depth = rules.bulk_depth.output,
         coverage = rules.total_bulk_coverage.output
     output:
-        "results/r/figures/fig_2.png"
+        "results/r/figures/fig_2.png",
+        "results/r/figures/patch_alltimes.png"
     shell:
        "{input.r_script}"
 

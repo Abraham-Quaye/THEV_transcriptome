@@ -64,5 +64,3 @@ make_genomic_map <- function(bedfile){
           axis.ticks.y = element_blank()
           )
 }
-
-make_genomic_map("raw_files/annotations/THEVannotated_genesOnly.bed")

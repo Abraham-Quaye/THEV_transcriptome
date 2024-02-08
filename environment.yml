@@ -1,17 +1,16 @@
-name: rnaseq
+name: thev_rnaseq
 channels:
   - conda-forge
-  - base
-  - R
   - bioconda
-  - defaults
+  - r
+  - nodefaults
 dependencies:
   - samtools=1.16.1
   - python=3.9
   - hisat2=2.2.1
   - gffcompare=0.12.6
   - stringtie=2.2.1
-  - agat=1.0.0
+  - agat=1.2.0
   - regtools=1.0.0
   - r-base=4.2.2
   - r-tidyverse=1.3.2
@@ -32,3 +31,4 @@ dependencies:
   - bioconductor-genefilter
   - bioconductor-GenomicAlignments
   - snakemake=7.24.0
+  - graphviz
