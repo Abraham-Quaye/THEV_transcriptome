@@ -32,13 +32,13 @@ plot_time_genexpression <- function(count_ss){
           panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
                                             linetype = "dashed"),
           axis.title.y = element_text(size = 28, face = "bold", margin = margin(r = 15)),
-          axis.text.x = element_text(size = 28, face = "bold"),
+          axis.text.x = element_text(size = 26, face = "bold"),
           axis.text.y = element_text(size = 18, face = "bold"),
           legend.justification = c(0, 0),
           legend.position = c(0.05, 0.9),
           legend.key.width = unit(2, "cm"),
           legend.title = element_blank(),
-          legend.text = element_text(size = 15, face = "bold", colour = "black"),
+          legend.text = element_text(size = 20, face = "bold", colour = "black"),
           legend.text.align = 0) +
     guides(color = guide_legend(label.position = "top",
                                 label.hjust = 0.5,
@@ -179,8 +179,8 @@ plot_tp_ss <- function(ss_data_tp = all_ss_seq_ready, tp){
   theme(plot.margin = margin(rep(30, 4)),
         panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
                                           linetype = "dashed"),
-        plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
-        axis.title = element_text(size = 16, face = "bold",
+        plot.title = element_text(size = 22, face = "bold", hjust = 0.5),
+        axis.title = element_text(size = 22, face = "bold",
                                   margin = margin(r = 15, t = 15)),
         axis.text.x = element_text(size = x_ax_size, face = "bold",
                                    angle = 90, hjust = 0.5, vjust = 0.5),
@@ -199,7 +199,7 @@ for(p in seq_along(timpoints)){
 }
 
 temp_ss_all <- (ss_all_ploted$`4hpi` | ss_all_ploted$`12hpi` | ss_all_ploted$`24hpi`) +
-  plot_layout(widths = c(1,1,2))
+  plot_layout(widths = c(1,1.2,2))
 
 save_ss_all <- temp_ss_all/ss_all_ploted$`72hpi` +
   plot_annotation(tag_levels = "A") &
@@ -229,10 +229,10 @@ trxpt_fpkms <- t_expr_each %>%
         panel.grid.major.y = element_line(linewidth = 0.2, color = "grey",
                                           linetype = "dashed"),
         axis.title.y = element_text(size = 28, face = "bold", margin = margin(r = 15)),
-        axis.text.x = element_text(size = 28, face = "bold", angle = 45, hjust = 1),
-        axis.text.y = element_text(size = 18, face = "bold"),
+        axis.text.x = element_text(size = 16, face = "bold", angle = 45, hjust = 1),
+        axis.text.y = element_text(size = 28, face = "bold", colour = "#000000"),
         legend.justification = c(0, 0),
-        legend.position = c(0.02, 0.8),
+        legend.position = c(0.02, 0.6),
         legend.key.size = unit(1.5, "cm"),
         legend.title = element_blank(),
         legend.text = element_text(size = 18, face = "bold", colour = "black"),
@@ -263,11 +263,11 @@ reg_fpkms <- t_exp_lev_byregion %>%
         axis.text.x = element_text(size = 28, face = "bold"),
         axis.text.y = element_text(size = 18, face = "bold"),
         legend.justification = c(0, 0),
-        legend.position = c(0.05, 0.9),
-        legend.key.width = unit(2, "cm"),
+        legend.position = c(0.05, 0.95),
+        legend.key.width = unit(2.2, "cm"),
         legend.background = element_rect(fill = NA, colour = NA),
         legend.title = element_blank(),
-        legend.text = element_text(size = 15, face = "bold", colour = "black"),
+        legend.text = element_text(size = 20, face = "bold", colour = "black"),
         legend.text.align = 0) +
   guides(color = guide_legend(label.position = "top",
                               label.hjust = 0.5,
@@ -287,33 +287,4 @@ patch_fig4 <- (trxpt_fpkms/(reg_fpkms| all_juncs | trxptome_juncs)) +
   theme(plot.tag = element_text(size = 52, face = "bold"))
 
 ggsave(plot = patch_fig4, "results/r/figures/figure_4a_d.png",
-       width = 45, height = 30, dpi = 350)
-# ------------------------------
-# distribution of fpkm levels in samples
-
-# fpkm_dist <- t_exp_levels %>%
-#   mutate(fpkm = log2(fpkm + 1),
-#          timepoint = factor(timepoint,
-#                             levels = c("4h.p.i", "12h.p.i", "24h.p.i", "72h.p.i"))) %>%
-#   ggplot(aes(timepoint, fpkm, fill = timepoint)) +
-#   geom_boxplot() +
-#   geom_jitter(show.legend = F, width = 0.25, size = 3, alpha = 0.6) +
-#   scale_y_continuous(expand = c(0.01, 0.01)) +
-#   scale_fill_igv() +
-#   labs(title = "Distribution of Transcript FPKM Values Across Four Timepoints",
-#        x = "Time-Point",
-#        y = "log2(FPKM + 1)",
-#        fill = element_blank()) +
-#   theme_classic() +
-#   theme(plot.margin = margin(rep(20, 4)),
-#         plot.title = element_text(size = 18, colour = "#000000", face = "bold",
-#                                   hjust = 0.5),
-#         axis.title = element_text(size = 16, face = "bold"),
-#         axis.text = element_text(size = 14, color = "#000000"),
-#         legend.justification = c(0, 0),
-#         legend.position = c(0.92, 0.85),
-#         legend.key.size = unit(1, "cm"),
-#         legend.text = element_text(size = 14, face = "bold"))
-# 
-# ggsave(plot = fpkm_dist, "results/r/figures/fpkm_dist_by_time.png",
-#        width = 14, height = 10, dpi = 500)
+       width = 40, height = 25, dpi = 350)

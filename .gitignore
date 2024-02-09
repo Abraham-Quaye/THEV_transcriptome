@@ -35,3 +35,4 @@ trimmedReads/*
 *.fai
 
 results/ballgown/*
+results/abundances/*
