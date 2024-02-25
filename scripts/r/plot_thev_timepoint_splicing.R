@@ -167,7 +167,7 @@ graph_trxpts <- function(gtf){
               axis.line.x = element_blank(),
               axis.ticks = element_blank(),
               plot.title = element_text(hjust = 0.1, colour = "#000000",
-                                        size = 10, face = "bold"))
+                                        size = 15, face = "bold"))
       
       # Loop through the remaining start and end columns and 
       # add a geom_segment layer for each pair
@@ -187,42 +187,29 @@ graph_trxpts <- function(gtf){
 
 tp_trxptome <- list.files("results/stringtie",
                           pattern = "transcripts_merged_\\d{1,2}hrs\\.gtf",
-                          full.names = T)
+                          full.names = T) 
 
 # Call function to plot full transcriptome at each time point and save using a for loop
 # ==============================================================================
-
-# for(gtf_file in tp_trxptome){
-#   catch_timepoint <- str_extract(gtf_file, "\\d+") %>% paste0(., "hpi")
-#   graph_trxpts(gtf_file)
-#   ggsave(filename = glue("results/r/figures/thev_spliced_map_{catch_timepoint}.png"),
-#          dpi = 500, width = 12, height = 8)
-# }
-
+gtf_tp_df <- tibble(gtf_files = tp_trxptome,
+                    plots = map(gtf_files, graph_trxpts))
+  
 full_trxptome <- plot_full_trxptome(combined_gtf, "all")
 
-# trxpts per timepoint
-p12 <- graph_trxpts(tp_trxptome[1])
-p24 <- graph_trxpts(tp_trxptome[2])
-p4 <- graph_trxpts(tp_trxptome[3])
-p72 <- graph_trxpts(tp_trxptome[4])
 
-all_tp_plots <- (p4/ p12 / p24 / p72) +
+
+all_tp_plots <- (gtf_tp_df$plots[[3]]/ gtf_tp_df$plots[[1]] /gtf_tp_df$plots[[2]] / gtf_tp_df$plots[[4]]) +
   plot_layout(tag_level = "new",
               heights = c(2, 3, 3, 4)) +
   plot_annotation(tag_levels = "1", tag_prefix = "B") &
   theme(plot.tag = element_text(size = 22, face = "bold"))
 
-total_plots <- ((full_trxptome / plot_spacer()) / all_tp_plots) +
-  plot_layout(heights = c(2.5, 0.05, 3))
+total_plots <- ((full_trxptome) / all_tp_plots) +
+  plot_layout(heights = c(2.5, 3))
 
 total_plots[[2]] <- total_plots[[2]] + plot_layout(tag_level = "new")
 total_plots <- total_plots + plot_annotation(tag_levels = list(c("A", "", "B"), 1))
 
 ggsave(plot = total_plots,
        filename = "results/r/figures/figure3.png",
-       dpi = 500, width = 14, height = 20)
-
-# ggsave(plot = all_tp_plots,
-#        filename = "results/r/figures/thev_patched_timepoints_spliced_map.png",
-#        dpi = 500, width = 12, height = 10.5)
+       dpi = 500, width = 14, height = 18)

@@ -4,11 +4,12 @@ library(magrittr)
 library(ggtext)
 library(glue)
 library(rtracklayer)
-library(ggbrace)
 library(patchwork)
 library(plyr)
 library(tidyverse)
 library(ballgown)
+
+source("scripts/r/geom_brace.R")
 
 # Import GTF and Wrangle for plotting ==========================================
 #===============================================================================
@@ -212,7 +213,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
                          16972, 18186, 17.5, "E2A", 17
                          )
   e3_lab <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
-                     18186, filter(combined_gtf, transcript_id == "TCONS_00000027") %>% pull(end_1), 44, "E3", 44.5
+                     18186, filter(combined_gtf, transcript_id == "TCONS_00000027") %>% pull(end_1), 43.5, "E3", 44.5
                     )
   
   mlp_lab <- tribble(~x, ~xend, ~y, ~labb, ~ylabb,
@@ -315,17 +316,15 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part){
       geom_text(data = e3_lab, aes(x = (x + xend)/2, y = ylabb, label = labb),
                 fontface = "bold", size = 6) +
       
-      geom_brace(aes(x = c(e3_lab$x, e3_lab$xend),
-                     y = c(e3_lab$y, e3_lab$ylabb - 1)),
-                 inherit.data = F) +
+      geom_brace(xstart = e3_lab$x, xend = e3_lab$xend,
+                     ystart = e3_lab$y, yend = e3_lab$ylabb - 0.5) +
       
       # MLP transcription unit labels
       geom_text(data = mlp_lab, aes(x = (x + xend)/2, y = ylabb, label = labb),
                 fontface = "bold", size = 6) +
       
-      geom_brace(aes(x = c(mlp_lab$x, mlp_lab$xend),
-                     y = c(mlp_lab$y, mlp_lab$ylabb - 1)),
-                 inherit.data = F)
+      geom_brace(xstart = mlp_lab$x, xend = mlp_lab$xend,
+                     ystart = mlp_lab$y, yend = mlp_lab$ylabb - 1)
   }else{
     splice_map <- splice_map +
     # label each transcript
