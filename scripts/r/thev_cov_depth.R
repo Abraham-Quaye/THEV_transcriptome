@@ -109,7 +109,6 @@ ggsave("patch_alltimes.png",
 
 comp_all <- all_depths %>%
   select(timepoint, position, depth) %>% 
-  mutate(depth = ifelse(depth < 1, 1, depth)) %>% 
   ggplot(aes(position, sqrt(depth), group = timepoint, fill = timepoint, color = timepoint)) +
   geom_area(key_glyph = "crossbar") +
   scale_fill_igv(guide = guide_legend(keywidth = unit(1, "cm"))) +

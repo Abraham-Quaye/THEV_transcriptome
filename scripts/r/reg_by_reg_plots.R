@@ -6,7 +6,6 @@ library(glue)
 library(rtracklayer)
 library(patchwork)
 library(ggtext)
-library(ggbrace)
 library(plyr)
 library(tidyverse)
 library(ballgown)
@@ -468,7 +467,7 @@ brkdown_reg_plots <- function(reg, reg2=NULL){
   geom_richtext(aes(x = sstcodon, y = ypos, label = glue("|")),
                 size = 6, label.size = NA, label.padding = unit(0, "pt"),
                 fill = NA, nudge_y = offset_y/2) +
-  geom_richtext(aes(x = sstcodon, y = ypos, label = glue("<sup>SSC ({sstcodon})</sup>")),
+  geom_richtext(aes(x = sstcodon, y = ypos, label = glue("<sup>SC ({sstcodon})</sup>")),
                 size = 4.5, label.size = NA, label.padding = unit(0, "pt"),
                 fill = NA, nudge_y = offset_y, hjust = ljust) +
   # stop codon positions
@@ -482,7 +481,7 @@ brkdown_reg_plots <- function(reg, reg2=NULL){
     geom_richtext(aes(x = secSSC, y = ypos, label = glue("|")),
                   size = 6, label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, nudge_y = -offset_y) +
-    geom_richtext(aes(x = secSSC, y = ypos, label = glue("<sup>secSSC ({secSSC})</sup>")),
+    geom_richtext(aes(x = secSSC, y = ypos, label = glue("<sup>secSC ({secSSC})</sup>")),
                   size = 4.5, label.size = NA, label.padding = unit(0, "pt"),
                   fill = NA, nudge_y = -offset_y*1.5, hjust = ljust) +
     # secondary stop codon positions
@@ -503,7 +502,7 @@ brkdwn_e3_trxtps <- brkdown_reg_plots("E3")
 
 brkdwn_e4_trxtps <- brkdown_reg_plots("E4")
 
-brkdwn_im_trxtps <- brkdown_reg_plots("IM")
+# brkdwn_im_trxtps <- brkdown_reg_plots("IM")
 
 brkdwn_mlp_trxtps <- brkdown_reg_plots("MLP")
 

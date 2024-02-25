@@ -13,8 +13,9 @@ plot_figs <- function(trxpt_table, trxpt_plot){
   
   # prepare junction table
   junc_tab <- trxpt_table %>% 
-    mutate(splice_site = ifelse(splice_site == "CT-AC, GT-AG",
-                                "GT-AG", splice_site)) %>% 
+    # change thymines to uracils to match RNA
+    mutate(splice_site = dplyr::case_when(splice_site %in% c("CT-AC, GT-AG", "GT-AG") ~ "GU-AG",
+                                          splice_site == "GT-GC" ~ "GU-GC")) %>% 
     flextable(.,
             col_keys = c("trxpt_id", "start", "end", "intron_len", "splice_site",
                          "strand", "4hpi", "12hpi", "24hpi", "72hpi",
@@ -32,7 +33,8 @@ plot_figs <- function(trxpt_table, trxpt_plot){
     add_header_row(., values = c("", "Splice Junction", "", "Junction Reads", ""),
                    colwidths = c(1, 4, 1, 4, 1)) %>%
     flextable::vline(j = c(1, 5, 6, 10), border = fp_border_default(color = "grey",
-                                                                    width = 1.5)) 
+                                                                    width = 1.5)) %>%
+    flextable::font(part = "all", fontname = "Arial")
   
   if ("TRXPT_1, TRXPT_4" %in% pull(trxpt_table, trxpt_id)){
     junc_tab <- junc_tab %>%
@@ -41,7 +43,7 @@ plot_figs <- function(trxpt_table, trxpt_plot){
   }
   
   # combine with trxpt plot
-  trxpt_plot / plot_spacer()/ gen_grob(junc_tab, fit = "auto", scaling = "full")
+  return(trxpt_plot / plot_spacer()/ gen_grob(junc_tab, fit = "auto", scaling = "full"))
 }
 
 # Figure 6
@@ -80,17 +82,16 @@ fig9 <- plot_figs(reg_e4_brkdown, brkdwn_e4_trxtps) +
 fig10 <- plot_figs(reg_mlp_brkdown, brkdwn_mlp_trxtps) +
   plot_layout(heights = c(2.5, 0.02, 1.2))
 
-figures <- list(fig6, fig7, fig8, fig9, fig10)
+figures <- list(fig6, fig7, fig8, fig10)
+fig_str <- list("fig6", "fig7", "fig8", "fig10")
 
 for(p in seq_along(figures)){
-  if(figures[p] == "fig9"){
-    fig_w <- 9
-    fig_h <- 6
-  } else{
-    fig_w <- 18
-    fig_h <- 16
-  }
-
-  ggsave(plot = figures[[p]], filename = paste0("results/r/figures/figure_", p+5,".png"),
-         dpi = 500, width = fig_w, height = fig_h)
+  num <- parse_number(fig_str[[p]])
+  ggsave(plot = figures[[p]],
+         filename = paste0("results/r/figures/figure_", num,".png"),
+         dpi = 500, width = 18, height = 16)
 }
+
+ggsave(plot = fig9,
+       filename = "results/r/figures/figure_9.png",
+       dpi = 500, width = 8, height = 4)
