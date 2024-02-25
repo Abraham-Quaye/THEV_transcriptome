@@ -444,4 +444,14 @@ rule write_supplementary:
         """
         R -e "library(rmarkdown);render('supplementary_thev_trxptome.Rmd', output_format = 'all')"
         """
-        
+    
+rule study_importance:
+    input:
+        "importance_of_study.Rmd"
+    output:
+        "importance_of_study.pdf",
+        "importance_of_study.docx"
+    shell:
+        """
+        R -e "library(rmarkdown); render('{input}', output_format = 'all')"
+        """

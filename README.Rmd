@@ -33,7 +33,7 @@ After infecting a turkey B-cell line (RP-19) with THEV, samples in triplicates w
 ## Data analysis
 This project is run from the `Snakefile`. Full analysis pipeline shown below in diagram:
 
-![](project_map.svg){width=920px height=680px}
+![](project_map.png){width=920px height=680px}
 
 ## Results
 

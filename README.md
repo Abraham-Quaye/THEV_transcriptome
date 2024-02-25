@@ -37,11 +37,11 @@ duplicated features, generating the final THEV transcriptome map.
 This project is run from the `Snakefile`. Full analysis pipeline shown
 below in diagram:
 
-<img src="project_map.svg" width="920" height="680" />
+<img src="project_map.png" width="920" height="680" />
 
 ## Results
 
-Over NA million reads mapped to THEV genome providing good
+Over 18.1 million reads mapped to THEV genome providing good
 coverage/depth, leaving no regions unmapped. The assembled transcripts
 fully covered almost all predicted genes in the genome except *33K*,
 *22K*, *100K*, and *ORF1*, which were either partially represented or
