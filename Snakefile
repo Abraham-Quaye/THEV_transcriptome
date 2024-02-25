@@ -198,6 +198,8 @@ rule mod_final_trxptome:
 rule make_figure3:
     input:
         rscript1 = "scripts/r/plot_thev_timepoint_splicing.R",
+        r_pack1 = "scripts/r/geom_brace.R",
+        r_pack2 = "scripts/r/seekBrace.R",
         gtfs = expand("results/stringtie/transcripts_merged_{tp}hrs.gtf", \
         tp = [4, 12, 24, 72]),
         spliced_gtf = "results/gffcompare/gffcomp_alltimes.combined.gtf",
@@ -367,7 +369,7 @@ rule make_fig4_and_5:
     shell:
         "{input.rscript1}"
 
-#################### MAKE THEV GROWTH CURVE ############
+#################### MAKE THEV GROWTH CURVE AND MAPPING DEPTH ############
 rule make_fig2:
     input:
         r_script = "scripts/r/thev_growthcurve.R",
@@ -389,7 +391,8 @@ rule make_fig6_10:
     input:
         r_script = "scripts/r/plot_fig6_10.R",
         r_script1 = "scripts/r/abundance_analyses.R",
-        r_script_2 = "scripts/r/reg_by_reg_plots.R"
+        r_script_2 = "scripts/r/reg_by_reg_plots.R",
+        trxpts = rules.mod_final_trxptome.output
     output:
         expand("results/r/figures/figure_{num}.png", \
         num = range(6, 11))
@@ -403,6 +406,8 @@ rule write_manuscript:
         "asm.csl",
         "transcriptome_refs.bib",
         "scripts/r/bam_file_analysis.R",
+        "scripts/r/geom_brace.R",
+        "scripts/r/seekBrace.R",
         rules.bulk_annotate_junctions.output,
         rules.total_bulk_coverage.output,
         rules.count_total_reads.output,
@@ -439,9 +444,4 @@ rule write_supplementary:
         """
         R -e "library(rmarkdown);render('supplementary_thev_trxptome.Rmd', output_format = 'all')"
         """
-############# RUN ENTIRE SCRIPT RULE ##############
-rule run_pipeline:
-    input:
-        rules.write_manuscript.output,
-        rules.write_supplementary.output
         
