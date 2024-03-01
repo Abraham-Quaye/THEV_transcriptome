@@ -217,10 +217,11 @@ rule est_abundances:
         bams = rules.filter_thev.output,
         ref = rules.mod_final_trxptome.output,
     output:
-        expand("results/abundances/abund_{s}/abund_{s}.gtf", \
+        expand("results/ballgown/abund_{s}/abund_{s}.gtf", \
         s = ["72hrsS1", "72hrsS2", "72hrsS3", "24hrsS1", "24hrsS2", "24hrsS3", "12hrsS1", "12hrsS3", "4hrsS1", "4hrsS2"])
     shell:
         "{input.script}"
+
 
 #################### COUNT ALL SPLICE JUNCTIONS ####################
 rule count_junctions:
