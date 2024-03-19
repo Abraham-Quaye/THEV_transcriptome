@@ -41,65 +41,6 @@ plot_prepped <- replicate_data %>%
             stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000) %>% 
   mutate(treatment = str_replace(inf_hrs, "([a-zA-Z]{3})_\\d{1,2}", "\\1"))
 
-#================= visualize data just data from exp 2 ========================
-#=================                                     ========================
-# plot 1 ---------------------
-# plot_prepped %>% 
-#   ggplot(aes(hrs_pi, mean_conc_per_mL, color = treatment)) +
-#   geom_errorbar(aes(ymax = mean_conc_per_mL + stderr_conc_perML,
-#                     ymin = mean_conc_per_mL - stderr_conc_perML),
-#                 width = 0.8, show.legend = F,
-#                 linewidth = 1, color = "#000000") +
-#   geom_point(size = 5) +
-#   geom_line(linewidth  = 1.5) +
-#   scale_color_aaas(breaks = c("Inf", "Neg"),
-#                    labels = c("Infected", "Mock-Infected"),
-#                    guide = guide_legend(title = "Treatment")) +
-#   scale_x_continuous(expand = c(0.01, 0.01),
-#                      breaks = plot_prepped$hrs_pi,
-#                      labels = c(paste(plot_prepped$hrs_pi, "hpi"))) +
-#   scale_y_continuous(expand = c(0.02, 0.02)) +
-#   labs(title = "THEV One-Step Growth Curve in RP-19 Turkey B-Cells",
-#        x = element_blank(),
-#        y = "Virus Titer (GCN/\U00B5L)",
-#        size = element_blank(),
-#        caption = "Data generated in the Poole Lab, BYU MMBIO Dept. by Abraham Quaye"
-#        ) +
-#   theme(plot.background = element_rect(fill = "#ffffff"),
-#         plot.margin = margin(rep(30,4)),
-#         panel.background = element_rect(fill = "#ffffff"),
-#         panel.grid.major.y = element_line(linewidth = 0.2,
-#                                           color = "grey",
-#                                           linetype = "dashed"),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         plot.title = element_text(size = 28, face = "bold", colour = "#000000",
-#                                   hjust = 0.5, margin = margin(b = 10)),
-#         plot.caption = element_text(colour = "#000000", size = 12,
-#                                     hjust = 0, face = "italic"),
-#         plot.caption.position = "plot",
-#         axis.line = element_line(linewidth = 0.4, colour = "#000000"),
-#         axis.text.x = element_text(size = 22, color = "#000000", face = "bold"),
-#         axis.text.y = element_text(size = 14, color = "#000000", face = "bold"),
-#         axis.title.y = element_text(size = 22, face = "bold", colour = "#000000",
-#                                     margin = margin(r = 10)),
-#         axis.ticks.length.y = unit(0, "cm"),
-#         legend.title = element_text(size = 18, face = "bold", colour = "#000000",
-#                                     hjust = 0.5),
-#         legend.text = element_text(size = 14, face = "bold", colour = "#000000",
-#                                    margin = margin(rep(5, 4))),
-#         legend.key = element_rect(fill = "#ffffff",
-#                                   linewidth = 5),
-#         legend.key.width = unit(1.5,"cm"),
-#         legend.key.height = unit(1,"cm"),
-#         legend.background = element_rect(fill = "#ffffff",
-#                                          color = "#000000",
-#                                          linewidth = 0.1),
-#         legend.justification = c(0, 0),
-#         legend.position = c(0.1, 0.7)
-#   )
-# ggsave(filename = "qpcr/plots/thev_growth_curve_2023.png",
-       # width = 14, height = 8, dpi = 500)
 
 # add data from first experiment with more time-points (use only extra time-points)
 # ---------------------
@@ -152,7 +93,7 @@ growth_curve <- full_prepped %>%
                    labels = c("Infected", "Mock-Infected")) +
   scale_x_continuous(expand = c(0.01, 0.01),
                      breaks = full_prepped$hrs_pi,
-                     labels = c(paste(full_prepped$hrs_pi, "hpi"))) +
+                     labels = c(paste0(full_prepped$hrs_pi, "hpi"))) +
   scale_y_continuous(expand = c(0.02, 0.02)) +
   labs(title = "THEV Growth Curve in RP-19 Turkey B-Cells",
        x = element_blank(),
@@ -160,7 +101,7 @@ growth_curve <- full_prepped %>%
        size = element_blank()
   ) +
   theme(plot.background = element_rect(fill = "#ffffff"),
-        plot.margin = margin(rep(30,4)),
+        plot.margin = margin(rep(5,4)),
         panel.background = element_rect(fill = "#ffffff"),
         panel.grid.major.y = element_line(linewidth = 0.2,
                                           color = "grey",
@@ -192,15 +133,13 @@ growth_curve <- full_prepped %>%
         legend.position = c(0.1, 0.7)
   )
 
-# ggsave(plot = growth_curve, filename = "results/r/figures/thev_growth_curve.png",
-#        width = 14, height = 8, dpi = 500)
-
 
 fig_2 <- (comp_all/ growth_curve) +
+  plot_layout(heights = c(1.4, 1)) +
   plot_annotation(tag_levels = "A") &
   theme(plot.tag = element_text(size = 26, face = "bold"))
 
 
-ggsave(plot = fig_2,
-       filename = "results/r/figures/fig_2.png",width = 14, height = 16, dpi = 500)
+ggsave(plot = fig_2,filename = "results/r/figures/fig_2.png",
+       width = 14, height = 16, dpi = 500)
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env Rscript
 
-
 library(magrittr)
 library(glue)
 library(patchwork)
@@ -66,27 +65,7 @@ each_plot <- all_depths %>%
               axis.text.x = element_text(size = 8.5, color = "black", face = "bold")
             ))
 
-# # save plot for each time-point
-# 
-# # ggsave("depth_4hrs.png",
-# #        plot = each_plot$`4hpi`, path = "results/r/figures",
-# #        width = 10, height = 5)
-# # 
-# # ggsave("depth_12hrs.png",
-# #        plot = each_plot$`12hpi`, path = "results/r/figures",
-# #        width = 10, height = 5)
-# # 
-# # ggsave("depth_24hrs.png",
-# #        plot = each_plot$`24hpi`, path = "results/r/figures",
-# #        width = 10, height = 5)
-# # 
-# # ggsave("depth_72hrs.png",
-# #        plot = each_plot$`72hpi`, path = "results/r/figures",
-# #        width = 10, height = 5)
-# 
-# # genomic map plot
-# 
-# 
+
 # 2. patchwork
 p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72hpi`/genome) +
    plot_annotation(title = "RNA-seq Mapping Depth of THEV Genome") +
@@ -106,28 +85,50 @@ ggsave("patch_alltimes.png",
        width = 12, height = 14, dpi = 500)
 
 ## --------------------
+# function to prepare each timepoint for plotting on a log scale
+log_plot_times <- function(tp){
+  tp_data <- all_depths %>%
+  select(timepoint, position, depth) %>%
+  filter(timepoint == tp) %>%
+  mutate(depth = depth + 1) %>%
+  mutate(log_depth = log10(depth))
+  
+  return(tp_data)
+}
+log_data_tps <- map(c("72hpi", "24hpi", "12hpi", "4hpi"), log_plot_times)
 
-comp_all <- all_depths %>%
-  select(timepoint, position, depth) %>% 
-  ggplot(aes(position, sqrt(depth), group = timepoint, fill = timepoint, color = timepoint)) +
-  geom_area(key_glyph = "crossbar") +
-  scale_fill_igv(guide = guide_legend(keywidth = unit(1, "cm"))) +
-  scale_color_igv() +
+
+comp_all <- ggplot() +
+  geom_area(data = log_data_tps[[1]],
+            aes(position, log_depth, group = 1, fill = "72hpi"),
+            key_glyph = "crossbar") +
+  geom_area(data = log_data_tps[[2]],
+            aes(position, log_depth, group = 2, fill = "24hpi"),
+            key_glyph = "crossbar") +
+  geom_area(data = log_data_tps[[3]],
+            aes(position, log_depth, group = 3, fill = "12hpi"),
+            key_glyph = "crossbar") +
+  geom_area(data = log_data_tps[[4]],
+            aes(position, log_depth, group = 4, fill = "4hpi"),
+            key_glyph = "crossbar") +
+  scale_fill_manual(values = c("#5050ff", "#ce3d32", "#749b58", "#f0e685"),
+                    breaks = c("72hpi", "24hpi", "12hpi", "4hpi"),
+                    guide = guide_legend(keywidth = unit(1, "cm"))) +
   scale_x_continuous(expand = c(0, 0),
-                     breaks = seq(1000, 26000, 1000),
-                     labels = glue("{seq(1,26,1)}kb")) +
-  coord_trans(clip = "off", expand = F) +
-  labs(title = "RNA-seq Mapping Depth of THEV Genome",
+                     breaks = seq(0, 26000, 1000),
+                     labels = glue("{seq(0, 26, 1)}kb")) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(title = "Mapping Depth of RNA-seq Reads Over THEV Genome",
        x = element_blank(),
-       y = expression(sqrt("Mapping Depth")),
+       y = "Mapping Depth (Log10)",
        fill = element_blank(),
        color = element_blank()) +
   theme_classic() +
-  theme(axis.text.y = element_text(size = 10,
+  theme(axis.text.y = element_text(size = 16,
                                    face = "bold",
                                    color = "#000000",
                                    margin = margin(l = 10, r = 5)),
-        axis.text.x = element_text(size = 10,
+        axis.text.x = element_text(size = 12,
                                    face = "bold",
                                    color = "#000000",
                                    margin = margin(b = 10, t = 5)),
@@ -138,100 +139,11 @@ comp_all <- all_depths %>%
         axis.title.y = element_text(size = 22, face = "bold",
                                     margin = margin(l = 10)),
         legend.justification = c(0, 0),
-        legend.position = c(0.04, 0.6),
-        legend.margin = margin(rep(10, 4)),
-        legend.background = element_rect(color = "grey", linewidth = 0.2),
-        legend.text = element_text(size = 14, 
-                                   margin = margin(rep(5, 4)),
-                                   face = "bold"))
-
-
-# compare_all <- (comp_all/genome) +
-#   plot_layout(heights = c(11, 1)) 
-
-# ggsave("overlay_alltimes.png",
-#        plot = compare_all, path = "results/r/figures",
-#        width = 15, height = 10, dpi = 500)
-
-
-################# coverage data #########################
-
-### find all the coverage files
-# all_cov_files <- list.files("results/hisat2/coverage",
-#                             pattern = "host_thev_cov\\d+.txt",
-#                             full.names = TRUE) %>% 
-#   setNames(c("12hpi", "24hpi", "4hpi", "72hpi"))
-# 
-# # read depth_files as one master tibble
-# all_covs <- map_dfr(all_cov_files, read_tsv,
-#                     show_col_types = FALSE,
-#                     comment = "Coverage",
-#                     .id = "timepoint") %>%
-#   dplyr::rename(organism = "#rname") %>% 
-#   mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>% 
-#   map_at(c(3:10), as.numeric) %>% 
-#   as_tibble() %>%
-#   mutate(organism = ifelse(organism == "AY849321.1", "thev", "m.gallopavo")) %>% 
-#   group_by(organism, timepoint) %>%
-#   reframe(total_mapped = sum(numreads),
-#           mean_depth = mean(meandepth), mean_cov = mean(coverage))
-# 
-# cov_thev <- all_covs %>% filter(organism == "thev")
-# 
-# 
-# lmod <- lm(mean_depth ~ total_mapped, 
-#            data = cov_thev %>% select(total_mapped, mean_depth))
-# slmod <- summary(lmod)
-# 
-# 
-# corr <- cov_thev %>%
-#   ggplot(aes(total_mapped, mean_depth, color = timepoint)) +
-#   geom_smooth(show.legend = FALSE, se = FALSE,
-#               method = "lm", 
-#               formula = y ~ x,
-#               color = "black",
-#               linewidth = 0.2) +
-#   geom_point(size = 15) +
-#   geom_text(aes(label = glue("Mean Depth \n{round(mean_depth,1)}")),
-#             nudge_y = 0.25,
-#             nudge_x = -0.05,
-#             size = 4,
-#             fontface = "bold",
-#             show.legend = F, color = "black") +
-#   geom_text(aes(label = glue("Reads \n{total_mapped}")),
-#             fontface = "bold",
-#             nudge_y = -0.25,
-#             nudge_x = 0.1,
-#             size = 4,
-#             show.legend = F, color = "black") +
-#   annotate(geom = "text", x = 2.5e5, y = 5e2, 
-#            label = glue("R^2 == {round(slmod$adj.r.squared,4)}"),
-#            parse = T, size = 12) +
-#   scale_y_log10() +
-#   scale_x_log10(limits = c(300, 1e8)) +
-#   labs(title = "Correlation of Mapped Reads to Coverage Depth of THEV genome",
-#        x = "Total Mapped Reads",
-#        y = "Mean Depth/Basepair",
-#        color = element_blank()) +
-#   scale_color_manual(values = rainbow(4)) +
-#   theme(plot.background = element_blank(),
-#         plot.margin = margin(rep(20,4)),
-#         panel.background = element_blank(),
-#         panel.grid.major.y = element_line(linewidth = 0.01, 
-#                                           color = "grey80", 
-#                                           linetype = "dashed"),
-#         plot.title = element_text(size = 28, face = "bold", 
-#                                   hjust = 0.5, margin = margin(b = 10)),
-#         axis.line = element_line(linewidth = 0.4),
-#         axis.text = element_text(size = 14, color = "black"),
-#         axis.title = element_text(size = 22, face = "bold"),
-#         axis.ticks.length.y = unit(0, "cm"),
-#         legend.text = element_text(size = 12, face = "bold"),
-#         legend.key = element_rect(fill = "white"),
-#         legend.background = element_rect(color = "black", linewidth = 0.1),
-#         legend.justification = c(0, 0),
-#         legend.position = c(0.05, 0.6))
-
-# ggsave("correlate_alltimes.png",
-#        plot = corr, path = "results/r/figures",
-#        width = 20, height = 14, dpi = 500)
+        legend.position = c(0, 0.92),
+        legend.direction = "horizontal",
+        legend.background = element_blank(),
+        legend.text = element_text(size = 14,
+                                   margin = margin(r = 10, l = 0, t = 0, b = 0),
+                                   face = "bold"),
+        legend.key.height = unit(1, "cm"),
+        legend.text.align = 0)
