@@ -59,8 +59,9 @@ all_juncs <- plot_time_genexpression(plot_all_junc_abunds) +
   labs(x = element_blank(),
        y = "Relative Abundances of All Junctions")
 
-# -------------------
-## splice donor and acceptor frequencies
+# ==========================================================================
+#               PLOT SPLICE DONOR AND ACCEPTOR USAGE FREQUENCIES
+# ==========================================================================
 
 # acceptors and donors in trxptome
 bulk_trxptome_ss_seq <- count_trxptome_ss(unq_bulk_juncs) %>%
@@ -85,9 +86,9 @@ all_ss_seq_ready <- bulk_junc_stats %>%
   mutate(percent_abund = (tally / tot_tally_tp) * 100)
 
 # function to make splice site plots
-plot_tp_ss <- function(ss_data_tp = all_ss_seq_ready, tp){
+plot_tp_ss <- function(tp){
   # filter out needed tp
-  tp_only <- ss_data_tp %>% 
+  tp_only <- all_ss_seq_ready %>% 
     filter(timepoint == tp)
   
   # get timepoint
@@ -102,7 +103,7 @@ plot_tp_ss <- function(ss_data_tp = all_ss_seq_ready, tp){
     ylimm <- 40
     xpand <- 0.01
     push_y <- 0.1 * ylimm
-  }else if(timpnt %in% c("24hpi")){
+  }else if(timpnt == "24hpi"){
     pnt_size <- 5
     fnt_size <- 3.5
     x_ax_size <- 9
@@ -114,10 +115,10 @@ plot_tp_ss <- function(ss_data_tp = all_ss_seq_ready, tp){
     pnt_size <- 7
     fnt_size <- 3
     x_ax_size <- 12
-    p_col <- base::sample(c("grey30", "orange"), 1)
     ylimm <- 105
     xpand <- 0.05
     push_y <- 0.075 * ylimm
+    p_col <- ifelse(timpnt == "12hpi", "orange", "grey30")
   }
   
   # make plot
@@ -158,14 +159,12 @@ plot_tp_ss <- function(ss_data_tp = all_ss_seq_ready, tp){
 }
 
 timpoints <- paste0(c(4, 12, 24, 72), "hpi")
-ss_all_ploted <- list()
-for(p in seq_along(timpoints)){
-  tpp <- timpoints[p]
-  ss_all_ploted[[tpp]] <- plot_tp_ss(tp = tpp)
-}
+
+ss_all_ploted <- map(timpoints, plot_tp_ss) %>%
+  set_names(timpoints)
 
 temp_ss_all <- (ss_all_ploted$`4hpi` | ss_all_ploted$`12hpi` | ss_all_ploted$`24hpi`) +
-  plot_layout(widths = c(1,1.2,2))
+  plot_layout(widths = c(1, 1.2, 2))
 
 save_ss_all <- temp_ss_all/ss_all_ploted$`72hpi` +
   plot_annotation(tag_levels = "A") &
@@ -175,7 +174,7 @@ ggsave(plot = save_ss_all, filename = "results/r/figures/figure_5a_d.png",
        width = 25, height = 15, dpi = 350)
 
 # ====================================================================
-# PLOT TRANSCRIPT ABUNDANCES FROM BALLGOWN
+#            PLOT TRANSCRIPT ABUNDANCES FROM BALLGOWN
 # ====================================================================
 
 # plot transcript expression levels per individual
