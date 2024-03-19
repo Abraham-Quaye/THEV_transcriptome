@@ -466,4 +466,4 @@ In these steps above, each sample (replicate of each time point) was processed i
 
 We used RegTools to extract and analyze the splice junctions in the BAM files. The command "regtools junctions extract" provides a wealth of information about all the splice sites in the BAM file provided such as: the start and end positions, the strand, and number of reads supporting the splice junctions. The command "regtools junctions annotate" gives even more information such as: the splice site donor-acceptor sequences and transcripts/genes that overlap the junction. This information was the basis for estimating and comparing the splicing activity of different regions (TUs) of THEV over time. Also, Samtools was also used to count the total sequencing reads for all replicates at each time point.
 
-![A flowchart of the major steps in the computationalanalysis pipeline (_generated with Snakemake_)](project_map.png)
+![A flowchart of the major steps in the computational analysis pipeline (_generated with Snakemake_)](project_map.png)
