@@ -424,7 +424,8 @@ rule write_manuscript:
         "manuscript_thev_transcriptome.docx"
     shell:
         """
-        R -e "library(rmarkdown);render('manuscript_thev_transcriptome.Rmd', output_format = 'all')"
+        R -e "library(rmarkdown);render('manuscript_thev_transcriptome.Rmd', output_format = 'all')";
+        rm ./manuscript_thev_transcriptome.log
         """
 
 rule write_supplementary:

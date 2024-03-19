@@ -8,9 +8,7 @@ library(ggtext)
 library(grDevices)
 library(tidyverse)
 
-source("scripts/r/thev_genomic_map.R")
 # load in depth files
-genome <- make_genomic_map("raw_files/annotations/THEVannotated_genesOnly.bed")
 ### find all the depth files
 all_depth_files <- list.files("results/hisat2/coverage",
                               pattern = "thev_\\d+[a-z]+\\.txt",
@@ -71,10 +69,10 @@ comp_all <- ggplot() +
   scale_x_continuous(expand = c(0, 0),
                      breaks = seq(0, 26000, 1000),
                      labels = glue("{seq(0, 26, 1)}kb")) +
-  scale_y_continuous(expand = c(0, 0)) +
+  # scale_y_continuous(expand = c(0, 0)) +
   labs(title = "Mapping Depth of RNA-seq Reads Over THEV Genome",
        x = element_blank(),
-       y = "Mapping Depth (Log10)",
+       y = "Log<sub>10</sub>(Mapping Depth)",
        fill = element_blank(),
        color = element_blank()) +
   theme_classic() +
@@ -90,7 +88,7 @@ comp_all <- ggplot() +
                                   face = "bold", 
                                   hjust = 0.5,
                                   margin = margin(t = 10)),
-        axis.title.y = element_text(size = 22, face = "bold",
+        axis.title.y = element_markdown(size = 22, face = "bold",
                                     margin = margin(l = 10)),
         legend.justification = c(0, 0),
         legend.position = c(0, 0.92),
