@@ -37,52 +37,6 @@ all_depths <- map_dfr(all_depth_files, read_tsv,
                     )) %>% 
   set_colnames(c("timepoint", "genome", "position",
                  "depth", "color", "titles"))
-  
-# -------------------
-## split the table into individual time-points and plot iteratively with map()
-each_plot <- all_depths %>%
-  split(.$timepoint) %>%
-  map(~ggplot(., aes(position, depth)) +
-        geom_col(color = glue("{.$color}")) +
-        labs(title = glue("{.$titles}"),
-             x = element_blank(),
-             y = "Mapping Depth") +
-        scale_y_continuous(expand = c(0, 0)) +
-        scale_x_continuous(expand = c(0, 0),
-                           breaks = seq(1000, 26000, 2000),
-                           labels = glue("{seq(1,26,2)}kb")) +
-        theme_classic() +
-        theme(plot.title = element_text(size = 18,
-                                        face = "bold",
-                                        hjust = 0.5,
-                                        margin = margin(t = 10)),
-              panel.grid.major.y = element_line(linewidth = 0.6,
-                                                linetype = "dashed"),
-              axis.title.y = element_text(size = 14,
-                                          face = "bold",
-                                          margin = margin(r = 10, l = 10)),
-              axis.text.y = element_text(size = 10, color = "black"),
-              axis.text.x = element_text(size = 8.5, color = "black", face = "bold")
-            ))
-
-
-# 2. patchwork
-p_alltime <- (each_plot$`4hpi`/each_plot$`12hpi`/each_plot$`24hpi`/each_plot$`72hpi`/genome) +
-   plot_annotation(title = "RNA-seq Mapping Depth of THEV Genome") +
-   plot_layout(heights = c(rep(6, 4), 2)) &
-   theme(plot.tag = element_text(
-     size = 18,
-     face = "bold",
-     hjust = 0,
-     vjust = 0),
-     plot.title = element_text(face = "bold",
-                               hjust = 0.1,
-                               size = 16),
-     plot.title.position = "panel")
-
-ggsave("patch_alltimes.png",
-       plot = p_alltime, path = "results/r/figures",
-       width = 12, height = 14, dpi = 500)
 
 ## --------------------
 # function to prepare each timepoint for plotting on a log scale

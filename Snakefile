@@ -382,8 +382,7 @@ rule make_fig2:
         depth = rules.bulk_depth.output,
         coverage = rules.total_bulk_coverage.output
     output:
-        "results/r/figures/fig_2.png",
-        "results/r/figures/patch_alltimes.png"
+        "results/r/figures/fig_2.png"
     shell:
        "{input.r_script}"
 
@@ -455,4 +454,5 @@ rule study_importance:
     shell:
         """
         R -e "library(rmarkdown); render('{input}', output_format = 'all')"
+        rm manuscript_thev_transcriptome.log
         """
