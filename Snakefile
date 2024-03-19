@@ -454,5 +454,4 @@ rule study_importance:
     shell:
         """
         R -e "library(rmarkdown); render('{input}', output_format = 'all')"
-        rm manuscript_thev_transcriptome.log
         """
