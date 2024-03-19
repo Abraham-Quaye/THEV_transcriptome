@@ -59,13 +59,6 @@ all_juncs <- plot_time_genexpression(plot_all_junc_abunds) +
   labs(x = element_blank(),
        y = "Relative Abundances of All Junctions")
 
-# patch_expr <- (all_juncs | trxptome_juncs)
-
-# ggsave("junc_abundances.png",
-#        plot = patch_expr, path = "results/r/figures",
-#        width = 20, height = 12, dpi = 500)
-
-
 # -------------------
 ## splice donor and acceptor frequencies
 
@@ -77,39 +70,12 @@ bulk_trxptome_ss_seq <- count_trxptome_ss(unq_bulk_juncs) %>%
   mutate(sum_junc_count = sum(freq),
          percent_abund = (freq / sum_junc_count) * 100)
 
-## plot trxptome acceptors and donor frequencies
-# ss <- bulk_trxptome_ss_seq %>%
-#   ggplot(aes(splice_site, percent_abund, color = splice_site)) +
-#   geom_point(show.legend = F, size = 10) +
-#   geom_segment(aes(x = splice_site, xend = splice_site,
-#                    y = 0, yend = percent_abund),
-#                linewidth = 2,
-#                show.legend = F) +
-#   geom_text(aes(label = glue("{round(percent_abund, 1)}%")),
-#              nudge_y = 3.5,
-#             size = 10, fontface = "bold", color = "#000000") +
-#   labs(x = "Splice Site Donor-Acceptor",
-#        y = "Frequency") +
-#   scale_color_lancet() +
-#   scale_y_continuous(expand = c(0.01,0.01),
-#                      labels = scales::label_percent(scale = 1)) +
-#   scale_x_discrete(expand = c(0.13, 0.13)) +
-#   coord_cartesian(clip = "off") +
-#   theme_classic() +
-#   theme(plot.margin = margin(rep(30, 4)),
-#         panel.grid.major.y = element_line(linewidth = 0.4, color = "grey",
-#                                           linetype = "dashed"),
-#         axis.title = element_text(size = 16, face = "bold", margin = margin(r = 15, t = 25)),
-#         axis.text.x = element_text(size = 16, face = "bold"),
-#         axis.text.y = element_text(size = 14, face = "bold"),
-#         axis.line = element_line(color = "grey40"),
-#         axis.ticks.length = unit(0, "pt")
-#         )
 
 # All acceptors and donors
 all_ss_seq_ready <- bulk_junc_stats %>%
-  distinct(timepoint, start, end, .keep_all = T) %>%
-  mutate(timepoint = factor(timepoint, levels = c("4hpi", "12hpi", "24hpi", "72hpi"))) %>%
+  mutate(timepoint = factor(timepoint,
+                            levels = c("4hpi", "12hpi",
+                                       "24hpi", "72hpi"))) %>%
   group_by(timepoint, splice_site) %>%
   reframe(tally = n(),
           total_reads = sum(read_count)) %>%
@@ -238,10 +204,6 @@ trxpt_fpkms <- t_expr_each %>%
         legend.text = element_text(size = 18, face = "bold", colour = "black"),
         legend.text.align = 0)
 
-# ggsave(plot = trxpt_fpkms, "results/r/figures/trxpt_fpkm_percent_abund.png",
-#        width = 18, height = 12, dpi = 500)
-
-
 # plot transcript expression levels per region
 reg_fpkms <- t_exp_lev_byregion %>%
   filter(timepoint != "4h.p.i") %>%
@@ -275,12 +237,6 @@ reg_fpkms <- t_exp_lev_byregion %>%
                               direction = "horizontal",
                               nrow = 1,
   ))
-
-# ggsave(plot = reg_fpkms, "results/r/figures/region_fpkm_percent_abund.png",
-#        width = 18, height = 12, dpi = 500)
-
-# plot for figure 4A-D
-
 
 patch_fig4 <- (trxpt_fpkms/(reg_fpkms| all_juncs | trxptome_juncs)) +
   plot_annotation(tag_levels = "A") &
