@@ -542,60 +542,60 @@ wetlab_val <- tibble(trxpt_id = c(# E1
                                   paste0("TRXPT_", c(10:14, 16:20, 8:9))
                                   ),
                      forwardP = c(# E1
-                                  "CCCggtaccTTCTGTTTGAATTGTGGGCGG",
-                                  "CCCggtaccGAGGCCTGTTGGAATTGTTGC",
-                                  "CCCggtacCATTTCCCGTACACGGTGTTG",
-                                  "CCCggtaccGTCATCACAACTGACCTTGTCGTC",
+                                  "CCCggtaccTTCTGT\nTTGAATTGTGGGCGG",
+                                  "CCCggtaccGAGGCCT\nGTTGGAATTGTTGC",
+                                  "CCCggtacCATTTCCC\nGTACACGGTGTTG",
+                                  "CCCggtaccGTCATCA\nCAACTGACCTTGTCGTC",
                                   # E2
-                                  rep("CCCggtacCTGTTGCTGAGACTTCGGACC", 3), # E2 universal R,
-                                  "CCCggtacCCTTTAAAATCAAGCCTATTGGTCTTGTAAC",
-                                  "CCCggtacCTAGTGGCAGTGTTCGAAGATTCC",
+                                  rep("CCCggtacCTGT\nTGCTGAGACTTCGGACC", 3), # E2 universal R,
+                                  "CCCggtacCCTTTAAA\nATCAAGCCTATTGGTCTTGTAAC",
+                                  "CCCggtacCTAGTGGC\nAGTGTTCGAAGATTCC",
                                   #E3
-                                  rep("CCCggtacCTGAGGAGGTCGTAGACTCTGC", 4), #E3_univiersal F
-                                  rep("CCCggtaccGTCCGAAGTCTCAGCAACAGATTC", 2),
-                                  "CCCggtacCTGAGGAGGTCGTAGACTCTGC",
+                                  rep("CCCggtacCTGA\nGGAGGTCGTAGACTCTGC", 4), #E3_univiersal F
+                                  rep("CCCggtaccGTC\nCGAAGTCTCAGCAACAGATTC", 2),
+                                  "CCCggtacCTGAGGAG\nGTCGTAGACTCTGC",
                                   # E4
-                                  "CCCggtaccGGACACGTGTTCGTTAGAGAACC",
+                                  "CCCggtaccGGACAC\nGTGTTCGTTAGAGAACC",
                                   # IM
-                                  "CCCggtaccTCTGGTGAGATCTTCCAAACAGAAAG",
+                                  "CCCggtaccTCTGGTGAGA\nTCTTCCAAACAGAAAG",
                                   # MLP
-                                  rep("CCCggtaccGCTCATCATCCAGTTCTAAATTTCTCTCTGC", 5), #mlp_long_uni
-                                  rep("CCCggtaccGGATCTCCAGATTCTGGTCTGTG", 3), #mlp_short_universal
+                                  rep("CCCggtaccGCTCATCATC\nCAGTTCTAAATTTCTCTCTGC", 5), #mlp_long_uni
+                                  rep("CCCggtaccGGATCTC\nCAGATTCTGGTCTGTG", 3), #mlp_short_universal
                                   NA,
-                                  "CCCggtaccGAGGATTTGAAGCCAATTATCCTTCAACG",
-                                  rep("CCCggtaccGCTCATCATCCAGTTCTAAATTTCTCTCTGC", 2)#mlp_long_uni
+                                  "CCCggtaccGAGGATTTGA\nAGCCAATTATCCTTCAACG",
+                                  rep("CCCggtaccGCTCATCAT\nCCAGTTCTAAATTTCTCTCTGC", 2)#mlp_long_uni
                                   ),
                      reverseP = c(# E1
-                                  rep("CCCtctagaCGTCCAGTAGTCAGGAATTCTAGTG", 4),
+                                  rep("CCCtctagaCGTCCA\nGTAGTCAGGAATTCTAGTG", 4),
                                   # E2A
-                                  "CCCtctagaGAACCCAGATATTGGCTCCAAGG",
+                                  "CCCtctagaGAACCC\nAGATATTGGCTCCAAGG",
                                   # E2
-                                  rep("CCCtctagaCATTGAATAGATAAGCGTAGCCAATCAGC", 2),
-                                  "CCCtctagaGTGTCATTGTCTACGCTGTTGTAGTAG",
-                                  "CCCtctagaCATTGCAGGTATGAATTGCGGAGTAG",
+                                  rep("CCCtctagaCATTGAATA\nGATAAGCGTAGCCAATCAGC", 2),
+                                  "CCCtctagaGTGTCATT\nGTCTACGCTGTTGTAGTAG",
+                                  "CCCtctagaCATTGCAGG\nTATGAATTGCGGAGTAG",
                                   # E3
-                                  rep("CCCtctagaGCCAAGCTTGGTCAGGTGAC", 3), # E3 trxpt_B R
-                                  "CCCtctagaGGTAGCACATACTGTATTGCCTGAAGC",
-                                  "CCCtctagaGCCAAGCTTGGTCAGGTGAC",
-                                  "CCCtctagaTGCAATGCTAATCCTCCTGCTG",
-                                  "CCCtctagaGCCAAGCTTGGTCAGGTGAC",
+                                  rep("CCCtctagaGCCA\nAGCTTGGTCAGGTGAC", 3), # E3 trxpt_B R
+                                  "CCCtctagaGGTAGCACA\nTACTGTATTGCCTGAAGC",
+                                  "CCCtctagaGCCAAG\nCTTGGTCAGGTGAC",
+                                  "CCCtctagaTGCAAT\nGCTAATCCTCCTGCTG",
+                                  "CCCtctagaGCCAAG\nCTTGGTCAGGTGAC",
                                   # E4
-                                  "CCCtctagaCAGTGCAATCCGACGCTCTG",
+                                  "CCCtctagaCAGTG\nCAATCCGACGCTCTG",
                                   # IM
-                                  "CCCtctagaCGCAACCTGTAGGTCCGATTAC",
+                                  "CCCtctagaCGCAA\nCCTGTAGGTCCGATTAC",
                                   #MLP
-                                  "CCCtctagaCCTACTCTACGTCTCTTAGCAGC",
-                                  "CCCtctagaGCTTCAGTATTAGCAGCTGCACAACC",
-                                  "CCCtctagaTTTCCAGCTGAAGCCTGGAG",
-                                  "CCCtctagaGCCAAGCTTGGTCAGGTGAC",
-                                  "CCCtctagaGCTTCAGTATTAGCAGCTGCACAACC",
-                                  "CCCtctagaGCCTGTCCAACAACCTGC",
-                                  "CTCCCCATCTAGACCTTTCATCTAACTG",
-                                  "CCCtctagaGTTCTCCGTCTTCTACGTCGTG",
+                                  "CCCtctagaCCTACTC\nTACGTCTCTTAGCAGC",
+                                  "CCCtctagaGCTTCAG\nTATTAGCAGCTGCACAACC",
+                                  "CCCtctagaTTTCC\nAGCTGAAGCCTGGAG",
+                                  "CCCtctagaGCCAAG\nCTTGGTCAGGTGAC",
+                                  "CCCtctagaGCTTCAGT\nATTAGCAGCTGCACAACC",
+                                  "CCCtctagaGCCT\nGTCCAACAACCTGC",
+                                  "CTCCCCATCTAGAC\nCTTTCATCTAACTG",
+                                  "CCCtctagaGTTCTC\nCGTCTTCTACGTCGTG",
                                   NA,
-                                  "CCCtctagaCTGCAGGCACAACAGGTG",
-                                  "CCCtctagaCCTATCATCTGGCAATTCCGGTATG",
-                                  "CCCtctagaCCTACTCTACGTCTCTTAGCAGC"
+                                  "CCCtctagaCTGCA\nGGCACAACAGGTG",
+                                  "CCCtctagaCCTATC\nATCTGGCAATTCCGGTATG",
+                                  "CCCtctagaCCTACT\nCTACGTCTCTTAGCAGC"
                                   ),
                      valid_status = c(rep("Validated", 3), "Not Validated",
                                       rep("Validated", 13+13)),
