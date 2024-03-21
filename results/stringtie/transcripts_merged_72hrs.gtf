@@ -56,10 +56,10 @@ AY849321.1	StringTie	exon	4226	4360	1000	+	.	gene_id "72S2.4"; transcript_id "72
 AY849321.1	StringTie	exon	7454	7531	1000	+	.	gene_id "72S2.4"; transcript_id "72S2.4.4"; exon_number "2"; cov "7382.902344";
 AY849321.1	StringTie	exon	7754	7807	1000	+	.	gene_id "72S2.4"; transcript_id "72S2.4.4"; exon_number "3"; cov "7648.174805";
 AY849321.1	StringTie	exon	22492	25168	1000	+	.	gene_id "72S2.4"; transcript_id "72S2.4.4"; exon_number "4"; cov "8005.624023";
-AY849321.1	StringTie	transcript	16973	18725	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; cov "7425.669922"; FPKM "6691.695312"; TPM "28220.884766";
-AY849321.1	StringTie	exon	16973	18087	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; exon_number "1"; cov "6984.636230";
-AY849321.1	StringTie	exon	18159	18189	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; exon_number "2"; cov "7365.381348";
-AY849321.1	StringTie	exon	18684	18725	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; exon_number "3"; cov "19178.564453";
+AY849321.1	StringTie	transcript	16973	18725	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; cov "7425.669434"; FPKM "6691.694824"; TPM "28220.882812";
+AY849321.1	StringTie	exon	16973	18087	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; exon_number "1"; cov "6984.635254";
+AY849321.1	StringTie	exon	18159	18189	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; exon_number "2"; cov "7365.380859";
+AY849321.1	StringTie	exon	18684	18725	1000	-	.	gene_id "72S2.8"; transcript_id "72S2.8.1"; exon_number "3"; cov "19178.558594";
 AY849321.1	StringTie	transcript	137	2325	1000	+	.	gene_id "72S3.1"; transcript_id "72S3.1.1"; cov "15896.838867"; FPKM "69030.242188"; TPM "69664.445312";
 AY849321.1	StringTie	exon	137	304	1000	+	.	gene_id "72S3.1"; transcript_id "72S3.1.1"; exon_number "1"; cov "542.434021";
 AY849321.1	StringTie	exon	1616	1655	1000	+	.	gene_id "72S3.1"; transcript_id "72S3.1.1"; exon_number "2"; cov "5167.141602";

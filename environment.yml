@@ -5,34 +5,30 @@ channels:
   - r
   - nodefaults
 dependencies:
-  - samtools=1.16.1
-  - python=3.9
-  - hisat2=2.2.1
-  - gffcompare=0.12.6
-  - stringtie=2.2.1
-  - agat=1.2.0
-  - regtools=1.0.0
-  - r-base=4.2.2
-  - r-tidyverse=1.3.2
-  - r-devtools=2.4.5
-  - r-glue=1.6.2
-  - r-patchwork=1.1.2
-  - r-ggsci=2.9
-  - r-ggtext=0.1.2
-  - r-english=1.2.6
-  - r-tinytex=0.44
-  - r-gt=0.9.0
+  - samtools
+  - python
+  - hisat2
+  - gffcompare
+  - stringtie
+  - agat
+  - regtools
+  - r-base
+  - r-tidyverse
+  - r-devtools
+  - r-glue
+  - r-patchwork
+  - r-ggsci
+  - r-ggtext
+  - r-english
+  - r-tinytex
   - r-plyr
-  - r-rticles=0.26
-  - r-flextable=0.9.2
-  - r-officedown=0.3.1
+  - r-rticles
+  - r-flextable
+  - r-officedown
   - bioconductor-ballgown
   - bioconductor-biocinstaller
   - bioconductor-GenomicRanges
   - bioconductor-genefilter
   - bioconductor-GenomicAlignments
-  - snakemake=7.24.0
+  - snakemake
   - graphviz
-
-  # others
-  # ggbrace=> devtools::install_github("nicolash2/ggbrace")

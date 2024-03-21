@@ -1,17 +1,17 @@
 # stringtie -p 10 results/hisat2/thev_subset_4hrsS2.bam -t -G raw_files/annotations/thev_predicted_genes.gtf -l 4S2 -o results/stringtie/thev_4hrsS2.gtf
 # StringTie version 2.2.1
-AY849321.1	StringTie	transcript	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; reference_id "Hexon"; ref_gene_id "nbis-gene-9"; ref_gene_name "Hexon"; cov "2.753032"; FPKM "103024.921875"; TPM "123756.132812";
-AY849321.1	StringTie	exon	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; exon_number "1"; reference_id "Hexon"; ref_gene_id "nbis-gene-9"; ref_gene_name "Hexon"; cov "2.753032";
-AY849321.1	StringTie	transcript	16332	16976	1000	+	.	gene_id "4S2.2"; transcript_id "4S2.2.1"; reference_id "Protease"; ref_gene_id "nbis-gene-17"; ref_gene_name "Protease"; cov "4.227488"; FPKM "158202.531250"; TPM "190036.859375";
-AY849321.1	StringTie	exon	16332	16976	1000	+	.	gene_id "4S2.2"; transcript_id "4S2.2.1"; exon_number "1"; reference_id "Protease"; ref_gene_id "nbis-gene-17"; ref_gene_name "Protease"; cov "4.227488";
+AY849321.1	StringTie	transcript	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; reference_id "Hexon"; ref_gene_id "agat-gene-9"; ref_gene_name "Hexon"; cov "2.753032"; FPKM "103024.921875"; TPM "123756.132812";
+AY849321.1	StringTie	exon	13610	16330	1000	+	.	gene_id "4S2.1"; transcript_id "4S2.1.1"; exon_number "1"; reference_id "Hexon"; ref_gene_id "agat-gene-9"; ref_gene_name "Hexon"; cov "2.753032";
+AY849321.1	StringTie	transcript	16332	16976	1000	+	.	gene_id "4S2.2"; transcript_id "4S2.2.1"; reference_id "Protease"; ref_gene_id "agat-gene-17"; ref_gene_name "Protease"; cov "4.227488"; FPKM "158202.531250"; TPM "190036.859375";
+AY849321.1	StringTie	exon	16332	16976	1000	+	.	gene_id "4S2.2"; transcript_id "4S2.2.1"; exon_number "1"; reference_id "Protease"; ref_gene_id "agat-gene-17"; ref_gene_name "Protease"; cov "4.227488";
 AY849321.1	StringTie	transcript	16959	18722	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; cov "1.801042"; FPKM "67399.218750"; TPM "80961.640625";
 AY849321.1	StringTie	exon	16959	18087	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "1"; cov "1.730146";
 AY849321.1	StringTie	exon	18159	18189	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "2"; cov "3.315849";
 AY849321.1	StringTie	exon	18684	18722	1000	-	.	gene_id "4S2.3"; transcript_id "4S2.3.1"; exon_number "3"; cov "2.649310";
-AY849321.1	StringTie	transcript	20142	20699	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; reference_id "33K"; ref_gene_id "nbis-gene-3"; ref_gene_name "33K"; cov "3.061850"; FPKM "114581.625000"; TPM "137638.328125";
-AY849321.1	StringTie	exon	20142	20223	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; exon_number "1"; reference_id "33K"; ref_gene_id "nbis-gene-3"; ref_gene_name "33K"; cov "0.237214";
-AY849321.1	StringTie	exon	20419	20699	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; exon_number "2"; reference_id "33K"; ref_gene_id "nbis-gene-3"; ref_gene_name "33K"; cov "3.886121";
-AY849321.1	StringTie	transcript	20769	21371	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.1"; reference_id "pVIII"; ref_gene_id "nbis-gene-21"; ref_gene_name "pVIII"; cov "4.240901"; FPKM "158704.484375"; TPM "190639.812500";
-AY849321.1	StringTie	exon	20769	21371	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.1"; exon_number "1"; reference_id "pVIII"; ref_gene_id "nbis-gene-21"; ref_gene_name "pVIII"; cov "4.240901";
-AY849321.1	StringTie	transcript	21247	22116	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.2"; reference_id "E3"; ref_gene_id "nbis-gene-7"; ref_gene_name "E3"; cov "5.473261"; FPKM "204822.281250"; TPM "246037.671875";
-AY849321.1	StringTie	exon	21247	22116	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.2"; exon_number "1"; reference_id "E3"; ref_gene_id "nbis-gene-7"; ref_gene_name "E3"; cov "5.473261";
+AY849321.1	StringTie	transcript	20142	20699	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; reference_id "33K"; ref_gene_id "agat-gene-3"; ref_gene_name "33K"; cov "3.061850"; FPKM "114581.625000"; TPM "137638.328125";
+AY849321.1	StringTie	exon	20142	20223	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; exon_number "1"; reference_id "33K"; ref_gene_id "agat-gene-3"; ref_gene_name "33K"; cov "0.237214";
+AY849321.1	StringTie	exon	20419	20699	1000	+	.	gene_id "4S2.4"; transcript_id "4S2.4.1"; exon_number "2"; reference_id "33K"; ref_gene_id "agat-gene-3"; ref_gene_name "33K"; cov "3.886121";
+AY849321.1	StringTie	transcript	20769	21371	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.1"; reference_id "pVIII"; ref_gene_id "agat-gene-21"; ref_gene_name "pVIII"; cov "4.240901"; FPKM "158704.484375"; TPM "190639.812500";
+AY849321.1	StringTie	exon	20769	21371	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.1"; exon_number "1"; reference_id "pVIII"; ref_gene_id "agat-gene-21"; ref_gene_name "pVIII"; cov "4.240901";
+AY849321.1	StringTie	transcript	21247	22116	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.2"; reference_id "E3"; ref_gene_id "agat-gene-7"; ref_gene_name "E3"; cov "5.473261"; FPKM "204822.281250"; TPM "246037.671875";
+AY849321.1	StringTie	exon	21247	22116	1000	+	.	gene_id "4S2.5"; transcript_id "4S2.5.2"; exon_number "1"; reference_id "E3"; ref_gene_id "agat-gene-7"; ref_gene_name "E3"; cov "5.473261";
