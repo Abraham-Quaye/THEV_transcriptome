@@ -421,7 +421,8 @@ rule write_manuscript:
         "style_word_output.docx"
     output:
         "manuscript_thev_transcriptome.pdf",
-        "manuscript_thev_transcriptome.docx"
+        "manuscript_thev_transcriptome.docx",
+        "manuscript_thev_transcriptome.tex"
     shell:
         """
         R -e "library(rmarkdown);render('manuscript_thev_transcriptome.Rmd', output_format = 'all')";

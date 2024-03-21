@@ -3,7 +3,8 @@ title: Characterizing the Transcriptome of Turkey Hemorrhagic Enteritis Virus in
 output:
   officedown::rdocx_document:
     reference_docx: style_word_output.docx
-  pdf_document: default
+  pdf_document:
+    keep_tex: true
 geometry: margin=1in
 font-size: 11pt
 header-includes:
