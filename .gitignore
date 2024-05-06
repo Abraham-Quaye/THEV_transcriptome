@@ -39,3 +39,5 @@ results/abundances/*
 
 # laTeX files
 manuscript_thev_transcriptome_files/*
+
+reviewer_comments.*

@@ -8,30 +8,32 @@ library(tidyverse)
 ## position the plus strand genes above genome line and minus strand genes below
 make_genomic_map2 <- function(bedfile){
   genus_specific <- c("ORF1", "Hyd", "E3", "ORF7", "ORF8")
+  
   thev_genome2 <- read_tsv(bedfile,
                           col_names = FALSE,
                           col_types = "ciiciciicicc") %>% 
     set_colnames(c("chr", "start", "end", "gene_name", "score", "strand", "thickStart",
                    "thickEnd", "color", "blockCount", "blockSizes", "blockStarts")) %>% 
-    mutate(exon1Size = str_replace(blockSizes, pattern = "(\\d+),\\d+", replacement = "\\1"),
-           exon1Size = as.numeric(exon1Size),
-           exon2Size = str_replace(blockSizes, pattern = "\\d+,(\\d+)", replacement = "\\1"),
-           exon2Size  = as.numeric(exon2Size),
+    mutate(exon1Size = as.numeric(str_replace(blockSizes, pattern = "(\\d+),\\d+", replacement = "\\1")),
+           exon2Size = as.numeric(str_replace(blockSizes, pattern = "\\d+,(\\d+)", replacement = "\\1")),
            exon2Size = ifelse(exon2Size == exon1Size, NA_real_, exon2Size),
            exon1start = thickStart,
            exon1end = ifelse(blockCount > 1, (start + exon1Size), thickEnd),
            exon2start = thickEnd - exon2Size,
            exon2end = thickEnd,
-           color = "#6D58F5",
-           color = ifelse(gene_name %in% genus_specific, "red", color),
-           color = ifelse(gene_name == "U exon", "skyblue", color),
-           color = ifelse(gene_name == "22K", "green", color),
+           color = case_when(gene_name %in% genus_specific ~ "red",
+                             gene_name == "U exon" ~ "skyblue",
+                             gene_name == "22K" ~ "green",
+                             TRUE ~ "#6D58F5"),
            gene_name = case_match(gene_name,
                                   "33K_spliced" ~ "33K",
                                   "pVIII gene" ~ "pVIII",
                                   .default = gene_name),
-           ypos = ifelse(strand == "-", c(24, 24.5), c(25.5, 26)),
-           ypos = ifelse(gene_name == "22K", 26.5, ypos))
+           ypos = ifelse(strand == "-", c(24, 24.5), c(25.5, 26))) %>%
+    mutate(ypos = case_when(gene_name %in% c("22K", "pVI") ~ 26.5, 
+                            gene_name == "pVIII" ~ 27,
+                            TRUE ~ ypos),
+           offpos = ifelse(strand == "-", -0.2, 0.2))
   
   spliced2 <- thev_genome2 %>% filter(blockCount > 1)
   
@@ -60,7 +62,7 @@ make_genomic_map2 <- function(bedfile){
               aes(NULL, NULL, xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
               alpha = 0.15) +
     # line representing whole genome
-    geom_segment(aes(x = 0, xend = 26266, y = 25, yend = 25),
+    annotate(geom = "segment", x = 0, xend = 26266, y = 25, yend = 25,
                  linewidth = 3.5, color = "black") +
     # genome size marker
     geom_segment(data = genome_ruler, aes(x = x, xend = x, y = y, yend = yend),
@@ -75,8 +77,9 @@ make_genomic_map2 <- function(bedfile){
                  color = thev_genome2$color, linewidth = 7) +
     geom_segment(data = spliced2, aes(x = exon2start, xend = exon2end, y = ypos, yend = ypos),
                  color = spliced2$color, linewidth = 7) +
+    # gene names
     geom_text(aes(x = (thickStart + thickEnd)/2, y = ypos, label = gene_name),
-              fontface = "bold", size = 3.5) +
+              fontface = "bold", size = 5, nudge_y = thev_genome2$offpos) +
     # transcription unit labels
     geom_segment(data = trxpt_units, aes(x = x, xend = xend, y = y, yend = y),
                  linewidth = 1, arrow = arrow(ends = "both", type = "closed",
@@ -88,7 +91,7 @@ make_genomic_map2 <- function(bedfile){
                        breaks = seq(0,26000,2000), 
                        labels = paste0(seq(0,26, 2), "kb")) +
     scale_y_continuous(expand = c(0.01,0.01),
-                       limits = c(20, 30)) +
+                       limits = c(22, 27.5)) +
     theme(plot.margin = margin(rep(15, 4)),
           plot.background = element_rect(fill = "#ffffff"),
           panel.background = element_rect(fill = "#ffffff"),

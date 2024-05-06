@@ -69,7 +69,8 @@ comp_all <- ggplot() +
   scale_x_continuous(expand = c(0, 0),
                      breaks = seq(0, 26000, 1000),
                      labels = glue("{seq(0, 26, 1)}kb")) +
-  # scale_y_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0),
+                     limits = c(0, 6)) +
   labs(title = "Mapping Depth of RNA-seq Reads Over THEV Genome",
        x = element_blank(),
        y = "Log<sub>10</sub>(Mapping Depth)",
@@ -87,15 +88,18 @@ comp_all <- ggplot() +
         plot.title = element_text(size = 28, 
                                   face = "bold", 
                                   hjust = 0.5,
-                                  margin = margin(t = 10)),
+                                  margin = margin(t = 10, b = 15)),
         axis.title.y = element_markdown(size = 22, face = "bold",
                                     margin = margin(l = 10)),
         legend.justification = c(0, 0),
-        legend.position = c(0, 0.92),
+        legend.position = "top",
+        legend.text.position = "top",
+        legend.key.width = unit(8, "in"),
+        legend.key.spacing = unit(2, "in"),
         legend.direction = "horizontal",
         legend.background = element_blank(),
-        legend.text = element_text(size = 14,
-                                   margin = margin(r = 10, l = 0, t = 0, b = 0),
+        legend.text = element_text(size = 22,
+                                   hjust = 0.5,
+                                   margin = margin(b = 0, t = 0),
                                    face = "bold"),
-        legend.key.height = unit(1, "cm"),
-        legend.text.align = 0)
+        legend.key.height = unit(1, "cm"))

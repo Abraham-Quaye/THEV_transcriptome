@@ -79,27 +79,29 @@ group_by(condition, hrs_pi) %>%
   reframe(mean_conc = mean(conc), 
             mean_conc_per_mL = (mean_conc * 10 * 1000),
             replicates = n(),
-            stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000)
+            stderr_conc_perML = (sd(conc)/sqrt(replicates)) * 10000) %>%
+  filter(condition == "Inf")
 
 growth_curve <- full_prepped %>% 
-  ggplot(aes(hrs_pi, mean_conc_per_mL, color = condition)) +
+  ggplot(aes(hrs_pi, mean_conc_per_mL)) +
   geom_errorbar(aes(ymax = mean_conc_per_mL + stderr_conc_perML,
                     ymin = mean_conc_per_mL - stderr_conc_perML),
                 width = 0.8, show.legend = F,
                 linewidth = 1, color = "#000000") +
   geom_point(size = 5) +
   geom_line(linewidth  = 1.5) +
-  scale_color_aaas(breaks = c("Inf", "Neg"),
-                   labels = c("Infected", "Mock-Infected")) +
+  # scale_color_aaas(breaks = c("Inf", "Neg"),
+  #                  labels = c("Infected", "Mock-Infected")) +
   scale_x_continuous(expand = c(0.01, 0.01),
                      breaks = full_prepped$hrs_pi,
-                     labels = c(paste0(full_prepped$hrs_pi, "hpi"))) +
-  scale_y_continuous(expand = c(0.02, 0.02)) +
+                     labels = c(full_prepped$hrs_pi)) +
+  scale_y_log10(expand = c(0.02, 0.02),
+                limits = c(5e7, 2e10),
+                breaks = c(5e7, 1e8, 1e9, 1e10),
+                labels = c(5e7, 1e8, 1e9, 1e10)) +
   labs(title = "THEV Growth Curve in RP-19 Turkey B-Cells",
-       x = element_blank(),
-       y = "Virus Titer (GCN/mL)",
-       size = element_blank()
-  ) +
+       x = "Hours post-infection",
+       y = "Virus Concentration (GCN/mL)") +
   theme(plot.background = element_rect(fill = "#ffffff"),
         plot.margin = margin(rep(5,4)),
         panel.background = element_rect(fill = "#ffffff"),
@@ -116,22 +118,9 @@ growth_curve <- full_prepped %>%
         axis.line = element_line(linewidth = 0.4, colour = "#000000"),
         axis.text.x = element_text(size = 18, color = "#000000", face = "bold"),
         axis.text.y = element_text(size = 14, color = "#000000", face = "bold"),
-        axis.title.y = element_text(size = 22, face = "bold", colour = "#000000",
-                                    margin = margin(r = 10)),
-        axis.ticks.length.y = unit(0, "cm"),
-        legend.title = element_blank(),
-        legend.text = element_text(size = 14, face = "bold", colour = "#000000",
-                                   margin = margin(rep(5, 4))),
-        legend.key = element_rect(fill = "#ffffff",
-                                  linewidth = 5),
-        legend.key.width = unit(1.5,"cm"),
-        legend.key.height = unit(1,"cm"),
-        legend.background = element_rect(fill = "#ffffff",
-                                         color = "#000000",
-                                         linewidth = 0.1),
-        legend.justification = c(0, 0),
-        legend.position = c(0.1, 0.7)
-  )
+        axis.title = element_text(size = 22, face = "bold", colour = "#000000",
+                                    margin = margin(r = 10, t = 10)),
+        axis.ticks.length.y = unit(0, "cm"))
 
 
 fig_2 <- (comp_all/ growth_curve) +
