@@ -17,5 +17,44 @@ header-includes:
 ## Key words
 Alternative splicing, Turkey hemorrhagic enteritis virus, Adenovirus, Transcriptome, RNA sequencing.
 
-\vspace{15mm}
+## List of abbreviations  
+```{r echo=F, warning=F, message=F}
+library(tidyverse)
+library(flextable)
+tribble(~Abbreviation, ~Definition,
+               "AdV", "Adenovirus",
+               "MAdV", "Mastadenovirus",
+               "SiAdV", "Siadenovirus",
+               "THEV", "Turkey Hemorrhagic Enteritis Virus",
+              "HE", "Hemorrhagic Enteritis",
+              "UTR", "Untranslated Region",
+              "TU", "Transcription Unit",
+              "L4P", "L4 Promoter",
+              "MLP", "Major Late Promter",
+              "E3P", "E3 Promoter",
+              "hpi", "Hours Post-infection",
+              "qPCR", "Quantitative Polymerase Chain Reaction",
+              "FPKM", "Fragments Per Kilobase of transcript per Million mapped reads",
+              "CP", "Coding Potential",
+              "TSS", "Transcription Start Site",
+              "TTS", "Transcription Termination Site",
+              "SC", "Start Codon", 
+              "STC", "Stop Codon",
+              "secSC", "Secondary Start Codon",
+              "secSTC", "Secondary Stop Codon",
+              "ORF", "Open Reading Frame", 
+              "CDS", "Coding Sequence", 
+              "MLTU", "Major Late Transcription Unit",
+              "TPL", "Tripartite Leader",
+              "sTPL", "Short Tripartite Leader",
+              "TPL3", "Third exon of Tripartite Leader",
+              "GCN", "Genome Copy Number") %>%
+  flextable::flextable() %>%
+  flextable::theme_box() %>%
+  flextable::width(width = 1, j = 1) %>%
+  flextable::width(width = 2, j = 2) %>%
+  flextable::align(align = "center", part = "all")
+```
+
+\newpage
 Hemorrhagic enteritis (HE) is a disease of turkey poults characterized by immunosuppression, bloody diarrhea, and up to 80% mortality. This disease is caused by *Turkey Hemorrhagic Enteritis Virus* (THEV) of which avirulent strains that do not cause HE but retain the immunosuppressive ability have been isolated. The Virginia Avirulent Strain (VAS) is still used as a live vaccine despite its immunosuppressive properties. Thus, vaccinated birds are rendered more susceptible to opportunistic infections and death than unvaccinated cohorts. To establish the genetic basis by which VAS brings about immunosuppression leading to its mitigation, it is imperative that the viral gene(s) mediating the immunosuppression be well-characterized. As the viral splicing and gene expression patterns are unknown, the most pressing need was for a well-characterized transcriptome of THEV. Also, the detailed characterization of a non-human adenovirus splice map, which are scantily studied, provides valuable insights into the differences of various adenovirus splicing patterns.  

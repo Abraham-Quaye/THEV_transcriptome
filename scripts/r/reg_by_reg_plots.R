@@ -325,7 +325,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
     if(trxptome_part == "E4"){
       x_axis_start <- x_axis_start - (x_axis_start * 0.01)
     }else if(trxptome_part == "E2"){
-      x_axis_start <- x_axis_start - (x_axis_start * 0.2)
+      x_axis_start <- x_axis_start - (x_axis_start * 0.25)
     }else{x_axis_start <- x_axis_start - (x_axis_start * 0.03)}
     x_axis_start <- plyr::round_any(x_axis_start, 100)
   } else{x_axis_start <- 0}
@@ -380,6 +380,7 @@ plot_full_trxptome <- function(combined_gtf, trxptome_part, trxpt_part2=NULL){
                        labels = paste0(seq(0,26, 2), "kb")) +
     scale_y_continuous(expand = c(0.01,0.01),
                        limits = y_lims) +
+    coord_cartesian(clip = "off") +
     theme(plot.margin = margin(rep(20, 4)),
           plot.background = element_rect(fill = "#ffffff", color = c("grey")),
           panel.background = element_rect(fill = "#ffffff"),

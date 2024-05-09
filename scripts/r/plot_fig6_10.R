@@ -9,8 +9,13 @@ source("scripts/r/reg_by_reg_plots.R")
 # function to plot figures
 plot_figs <- function(trxpt_table, trxpt_plot){
   
-  set_flextable_defaults(font.size = 7)
+  df_name <- deparse(substitute(trxpt_table))
+  t_fnt <- 12
+  t_width <- ifelse(df_name == "reg_mlp_brkdown", 0.1, 0.6)
+  t_id_width <- ifelse(df_name == "reg_mlp_brkdown", 2, 1.2)
   
+  set_flextable_defaults(font.size = t_fnt)
+
   # prepare junction table
   junc_tab <- trxpt_table %>%
     flextable(.,
@@ -30,8 +35,11 @@ plot_figs <- function(trxpt_table, trxpt_plot){
                    colwidths = c(1, 3, 1, 4, 1)) %>%
     flextable::vline(j = c(1, 4, 5, 9),
                      border = fp_border_default(color = "grey", width = 1.5)) %>%
-    flextable::font(part = "all", fontname = "Arial")
-  
+    flextable::font(part = "all", fontname = "Arial") %>%
+    flextable::width(width = t_width) %>%
+    flextable::width(width = t_id_width, j = "trxpt_id") %>%
+    flextable::fontsize(size = t_fnt, part = "all")
+
   if ("TRXPT_1, TRXPT_4" %in% pull(trxpt_table, trxpt_id)){
     junc_tab <- junc_tab %>%
     footnote(., i = 1, j = 10, value = as_paragraph(c("Not validated for TRXPT_4")),
@@ -39,7 +47,7 @@ plot_figs <- function(trxpt_table, trxpt_plot){
   }
   
   # combine with trxpt plot
-  return(trxpt_plot / plot_spacer()/ gen_grob(junc_tab, fit = "auto", scaling = "full"))
+  return(trxpt_plot / plot_spacer()/ gen_grob(junc_tab, fit = "auto", scaling = F))
 }
 
 # Figure 6
@@ -48,7 +56,7 @@ fig6 <- plot_figs(reg_e1_brkdown, brkdwn_e1_trxtps) +
 
 # Figure 7
 fig7 <- plot_figs(reg_e2_brkdown, brkdwn_e2_trxtps) +
-  plot_layout(heights = c(1.2, 0.05, 1.5))
+  plot_layout(heights = c(1, 0.05, 1))
 
 # Figure 8
 fig8 <- plot_figs(reg_e3_brkdown, brkdwn_e3_trxtps) +
@@ -73,18 +81,23 @@ fig9 <- plot_figs(reg_e4_brkdown, brkdwn_e4_trxtps) +
 
 # Figure 10
 fig10 <- plot_figs(reg_mlp_brkdown, brkdwn_mlp_trxtps) +
-  plot_layout(heights = c(2.5, 0.01, 1.2))
+  plot_layout(heights = c(1, 0.01, 1))
 
-figures <- list(fig6, fig7, fig8, fig10)
+figures <- list(fig6, fig7, fig8)
 fig_str <- list("fig6", "fig7", "fig8", "fig10")
 
 for(p in seq_along(figures)){
   num <- parse_number(fig_str[[p]])
   ggsave(plot = figures[[p]],
          filename = paste0("results/r/figures/figure_", num,".png"),
-         dpi = 500, width = 18, height = 16)
+         dpi = 400, width = 18, height = 16)
 }
 
 ggsave(plot = fig9,
        filename = "results/r/figures/figure_9.png",
-       dpi = 500, width = 8, height = 4)
+       dpi = 400, width = 8, height = 4)
+
+ggsave(plot = fig10,
+       filename = "results/r/figures/figure_10.png",
+       dpi = 400, width = 18, height = 18)
+
