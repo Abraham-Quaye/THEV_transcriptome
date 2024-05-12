@@ -120,12 +120,17 @@ most_sig_24 <- bulk_junc_stats %>% filter(timepoint == "24hpi", region == "MLP")
 most_sig_72 <- bulk_junc_stats %>% filter(timepoint == "72hpi", region == "MLP") %>% pull(read_count) %>% sum()/as.numeric(tab1$`72h.p.i`[6])*100
 ```
 
-## ABSTRACT
+## ABSTRACT   
+**Background:** Hemorrhagic enteritis, caused by _Turkey Hemorrhagic Enteritis Virus (THEV)_, is a disease affecting turkey poults characterized by immunosuppression and bloody diarrhea. An avirulent THEV strain that retains the immunosuppressive ability is used as a live vaccine. Characterizing the splice map of THEV is an essential step that would allow studies of individual genes mediating its immunosuppressive functions. We used RNA sequencing to characterize the splice map of THEV for the first time, providing key insights into the THEV gene expression and mRNA structures.   
+**Methods:** After infecting a turkey B-cell line with the vaccine strain, samples in triplicates were collected at 4-, 12-, 24-, and 72-hours post-infection. Total RNA was extracted and poly-A-tailed mRNA sequenced. Reads were mapped to the THEV genome after trimming and transcripts assembled with StringTie. We performed PCR of THEV cDNA, cloned the PCR products, and used Sanger sequencing to validate all identified splice junctions.   
+**Results:** Researchers previously annotated the THEV genome as encoding 23 open reading frames (ORFs). We identified 29 spliced transcripts from our RNA sequencing data, all containing novel exons although some exons matched some previously annotated ORFs. The three annotated splice junctions were also corroborated by our data. During validation we identified five additional unique transcripts, a subset of which were further validated by 3' rapid amplification of cDNA ends (3' RACE). Thus, we report that the genome of THEV contains 34 transcripts with the coding capacity for all annotated ORFs. However, we found six of the previously annotated ORFs to be truncated ORFs on the basis of the identification of an in-frame upstream start codon or the detection of additional coding exons. We also identified three of the annotated ORFs with longer or shorter isoforms, and seven novel unannotated ORFs that could potentially be translated; although it is beyond the scope of this manuscript to investigate whether they are translated.   
+**Conclusions:** Similar to human adenoviruses, all THEV transcripts are spliced and organized into five transcription units under the control of their cognate promoters. The genes are expressed under temporal regulation and THEV also produces multiple distinctly spliced transcripts that code for the same protein.   
 
-Characterizing the splice map of turkey hemorrhagic enteritis virus (THEV) is an essential step that would allow studies of individual genes mediating its immunosuppressive functions. We used RNA sequencing to characterize the transcriptome of THEV for the first time, providing key insights into the THEV gene expression and mRNA structures. Researchers previously annotated the genome of THEV as encoding 23 open reading frames (ORFs). In this work we identified 29 spliced transcripts all of which contained novel exons although some exons matched some previously annotated ORFs. The three annotated splice junctions were also corroborated by our data. We performed PCR amplification of THEV cDNA, cloned the PCR products, and used Sanger sequencing to validate all identified splice junctions. During validation we identified five additional unique transcripts, a subset of which were further validated by 3' rapid amplification of cDNA ends (3' RACE) experiments. Thus, we report that the genome of THEV contains 34 transcripts with the coding capacity for all annotated ORFs. However, we found six of the previously annotated ORFs (ORF1, E3, 33K, ORF8, IVa2, and protease) to be truncated ORFs on the basis of the identification of an in-frame upstream start codon or the detection of additional coding exons. We also identified three of the annotated ORFs with longer or shorter isoforms, and seven novel unannotated ORFs that could potentially be translated; although it is beyond the scope of this manuscript to investigate whether they are translated. Similar to other adenoviruses (AdVs), THEV also produces multiple distinctly spliced transcripts that code for the same protein. Our data show that all THEV transcripts are spliced and organized into five transcription units under the control of their cognate promoters like other AdVs.
+## KEY WORDS
+Alternative splicing, Turkey hemorrhagic enteritis virus, Adenovirus, Transcriptome, RNA sequencing.
 \newpage
 
-## INTRODUCTION   
+## BACKGROUND
 
 Adenoviruses (AdVs) are non-enveloped icosahedral-shaped DNA viruses, causing infection in virtually all types of vertebrates studied to date. Their double-stranded linear DNA genomes range between 26 and 45kb in size, producing a broad repertoire of transcripts via highly complex alternative splicing patterns [@Davison2003; @Harrach2008]. The AdV genome is one of the most optimally economized; both the forward and reverse DNA strands harbor protein-coding genes, making it highly gene-dense. There are 16 genes termed "genus-common" that are homologous in all AdVs, presumably inherited from a common ancestor. All other genes are termed "genus-specific". The genus-specific genes tend to be located at the termini of the genome while genus-common genes are usually towards the center of the genome [@Davison2003]. This pattern is also observed in *Poxviridae* and *Herpesviridae*, which also have linear DNA genomes [@Davison2003; @Upton2003; @McGeoch1999]. The family *Adenoviridae* consists of five genera: *Mastadenovirus* (MAdV), *Aviadenovirus*, *Atadenovirus*, *Ichtadenovirus*, and *Siadenovirus* (SiAdV) to which turkey adenovirus 3 also called turkey hemorrhagic enteritis virus (THEV) belongs [@Harrach2011; @Kovács2011; @Davison2000; @Kovács2010; @Katoh2009; @Guimet2016]. Members of SiAdV have the smallest genome size (\~26 kb) and gene content of all known AdVs (see **Figure 1**) [@Harrach2008; @Kovács2011; @Davison2003].
 
@@ -204,7 +209,7 @@ We identified five TTSs (10,549, 12,709, 16,870, 22,116, 25,168 bp) in this TU, 
 
 ## DISCUSSION
 
-While the advent of next-generation sequencing has rendered easier the study of large and complex eukaryotic transcriptomes, studying the smaller, compact viral transcriptomes remains unintuitively challenging, as the transcripts typically have significant overlaps due to genome economization. AdV transcriptomes escalate the difficulty due to the wide array of mRNAs produced via very complex alternative splicing and polyadenylation, all initiated from relatively few promoters. Standard RNA-seq analysis programs, not primarily designed for such compact, gene-dense, and complex transcriptomes, further compound this challenge. Furthermore, in our case, no prior transcriptomic studies for THEV exist. Our approach combines standard RNA-seq analysis programs with custom analyses and experimentally validating all splice junctions with independent methods. The transcript map for THEV produced from our analysis is strikingly similar to that of the MAdVs.
+While the advent of next-generation sequencing has rendered easier the study of large and complex eukaryotic transcriptomes, studying the smaller, compact viral transcriptomes is counterintuitively more challenging, as the transcripts typically have significant overlaps due to genome economization. AdV transcriptomes escalate the difficulty due to the wide array of mRNAs produced via very complex alternative splicing and polyadenylation, all initiated from relatively few promoters. Standard RNA-seq analysis programs, not primarily designed for such compact, gene-dense, and complex transcriptomes, further compound this challenge. Furthermore, in our case, no prior transcriptomic studies for THEV exist. Our approach combines standard RNA-seq analysis programs with custom analyses and experimentally validating all splice junctions with independent methods. The transcript map for THEV produced from our analysis is strikingly similar to that of the MAdVs.
 
 Our work provides the first insights into THEV splicing, revealing 34 transcripts grouped into five transcription units (TUs). The general temporal gene expression regulation observed in MAdVs, with early regions peaking at earlier time points followed by MLTU predominance at later time points, seems to also apply to THEV. An unexpected observation is that the pileup of mapped reads to THEV seems consistently skewed over similar regions of the genome at all time points. Given the temporal regulation of AdVs gene expression, we anticipated distinct differences in read pileups over the genome at different time points, indicating the different stages of infection. This may be due to an unsynchronized infection, leading to transcripts overlapping the time points. Further research is required to determine the precise temporal regulation of THEV.
 
@@ -216,7 +221,9 @@ Eukaryotic mRNAs are typically functionally monocistronic, with the 5’-most AU
 
 AdV alternative splicing undergoes a regulated temporal shift in splice site usage, previously thought to be limited to certain TUs. However, recent studies suggest that AdVs routinely produce different combinations of splice acceptor–donor pairs across all TUs [@Westergren2021; @Akusjarvi2008; @Donovan2020; @Guimet2016]. The details of this phenomenon have been best studied for the E1A and L1 units. AdVs modulate the activities of the splicing factor U2AF and the cellular SR family of splicing factors (reviewed here [@Akusjarvi2008]), and encode several proteins that influence the RNA splice site used. This phenomenon appears to occur in the THEV transcriptome, as the stringency of splice acceptor-donor pairs selected decreases from the onset of the late phase (**Figure 5**). Recent studies show that a virtually unlimited number of combinatorial alternative splicing events occur in an AdV lytic infection, resulting in a variety of novel transcripts [@Donovan2020; @Westergren2021]. It is unlikely that the entire repertoire of mRNA produced via this mechanism will actually be translated. However, it has been speculated that the plasticity in alternative RNA splicing enables AdVs to fine-tune protein synthesis by providing different alternatively spliced variants encoding the same protein under changing conditions, conferring an evolutionary advantage [@Donovan2020; @Westergren2021].
 
-In summary, the THEV transcriptome bears remarkable similarity to the better-studied MAdVs. The transcriptome is organized into five TUs, with temporal regulation divided into early and late genes, and a broad repertoire of transcripts are produced via virtually unlimited alternative splicing. However, the THEV transcriptome appears less sophisticated (i.e, it encodes fewer genes) than MAdVs, primarily because the MAdV genomes are close to twice as long as that of THEV. The lack of subdivision of the E1 region into E1a and E1b is one of the most obvious examples. Also, the MAdV E4 region encodes several proteins unlike in THEV where only one transcript encoding one protein was found. The complexity of the MLTU leader sequences is another example. While the majority of the THEV MLTU transcripts begin with the TPL just like MAdVs with a small subset using a variant leader sequence (sTPL), significantly more diverse 5'-UTRs are employed for MAdV MLTU transcripts. Namely, the TPL, the so-called x, y, and z leaders, and the i-leader are 5' leaders utilized by MAdV MLTU mRNAs. The absence of these non-TPL leaders in our data could mean that the 5'-UTR diversity of THEV's MLTU mRNAs is more limited due to its smaller genome size or future studies using long read sequencing technologies could uncover more variety not seen in our results.
+## CONCLUSIONS    
+
+The THEV transcriptome bears remarkable similarity to the better-studied MAdVs. The transcriptome is organized into five TUs, with temporal regulation divided into early and late genes, and a broad repertoire of transcripts are produced via virtually unlimited alternative splicing. However, the THEV transcriptome appears less sophisticated (i.e, it encodes fewer genes) than MAdVs, primarily because the MAdV genomes are close to twice as long as that of THEV. The lack of subdivision of the E1 region into E1a and E1b is one of the most obvious examples. Also, the MAdV E4 region encodes several proteins unlike in THEV where only one transcript encoding one protein was found. The complexity of the MLTU leader sequences is another example. While the majority of the THEV MLTU transcripts begin with the TPL just like MAdVs with a small subset using a variant leader sequence (sTPL), significantly more diverse 5'-UTRs are employed for MAdV MLTU transcripts. Namely, the TPL, the so-called x, y, and z leaders, and the i-leader are 5' leaders utilized by MAdV MLTU mRNAs. The absence of these non-TPL leaders in our data could mean that the 5'-UTR diversity of THEV's MLTU mRNAs is more limited due to its smaller genome size or future studies could uncover more variety not seen in our results. Being the first transcriptomic characterization of THEV, this work should serve as useful resource to future THEV gene expression and transcriptomic studies, especially, mapping the mRNA splice sites.
 \newpage
 
 ## METHODS
@@ -240,8 +247,47 @@ A rapid amplification of sequences from the 3' ends of mRNAs (3' RACE) experimen
 ### Computational Analysis of RNA Sequencing Data: Mapping and Transcript characterization
 
 Sequencing reads were analyzed following a well-established protocol described by Pertea *et al* [@Pertea2016], using Snakemake - version 7.24.0 [@Snakemake2021], a popular workflow management system to drive the pipeline. Briefly, sequencing reads were trimmed with the Trim-galore - version 0.6.6 [@TrimGalore] program to achieve an overall Mean Sequence Quality (Phred Score) of 36. Trimmed reads were mapped simultaneously to the complete genomic sequence of avirulent turkey hemorrhagic enteritis virus (<https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/>) and *Meleagris gallopavo* (<https://www.ncbi.nlm.nih.gov/genome/?term=Meleagris+gallopavo>) using Hisat2 - version 2.2.1 [@Pertea2016] with default settings. The generated binary alignment (BAM) files from each infection time point were filtered for reads mapping to the THEV genome using Samtools - version 1.16.1 and fed into StringTie - version 2.2.1 [@Pertea2016] to assemble the transcripts, using a gene transfer format (GTF) annotation file derived from a gene feature format 3 (GFF3) annotation file obtained from NCBI, which contains the predicted ORFs of THEV as a guide. GFFCOMPARE - version 0.12.6 was used to merge all transcripts from all time points without redundancy and using a custom R script, adenovirus transcripts units (regions) were assigned to each transcript, generating the transcriptome of THEV. StringTie was set to expression estimation mode to calculate FPKM scores for all transcripts after which Ballgown - version 2.33.0 in R was used to perform the statistical analysis on the transcript expression levels. Samtools was also used to count the total sequencing reads for all replicates at each time point and Regtools - version 1.0.0 was used to count all junctions, the reads supporting them, and extract all other information related to the junction. See **Supplementary Computational Analysis** for the details of transcript expression level estimations and splice junction read counts.
+\newpage
 
-### DATA AVAILABILITY
+## LIST OF ABBREVIATIONS  
+```{r list_abbs}
+set_flextable_defaults(font.size = 10)
+tribble(~Abbreviation, ~Definition,
+               "AdV", "Adenovirus",
+               "MAdV", "Mastadenovirus",
+               "SiAdV", "Siadenovirus",
+               "THEV", "Turkey Hemorrhagic Enteritis Virus",
+              "HE", "Hemorrhagic Enteritis",
+              "UTR", "Untranslated Region",
+              "TU", "Transcription Unit",
+              "L4P", "L4 Promoter",
+              "MLP", "Major Late Promter",
+              "E3P", "E3 Promoter",
+              "hpi", "Hours Post-infection",
+              "qPCR", "Quantitative Polymerase Chain Reaction",
+              "FPKM", "Fragments Per Kilobase of transcript per Million mapped reads",
+              "CP", "Coding Potential",
+              "TSS", "Transcription Start Site",
+              "TTS", "Transcription Termination Site",
+              "SC", "Start Codon", 
+              "STC", "Stop Codon",
+              "secSC", "Secondary Start Codon",
+              "secSTC", "Secondary Stop Codon",
+              "ORF", "Open Reading Frame", 
+              "CDS", "Coding Sequence", 
+              "MLTU", "Major Late Transcription Unit",
+              "TPL", "Tripartite Leader",
+              "sTPL", "Short Tripartite Leader",
+              "TPL3", "Third exon of Tripartite Leader",
+              "GCN", "Genome Copy Number") %>%
+  flextable::flextable() %>%
+  flextable::theme_box() %>%
+  flextable::width(width = 1, j = 1) %>%
+  flextable::width(width = 2, j = 2) %>%
+  flextable::align(align = "center", part = "all")
+```
+
+## DATA AVAILABILITY
 
 The raw sequencing read data (FastQ), transcript expression counts, and total unique junctions have been deposited at the National Center for Biotechnology Information Gene Expression Omnibus (<http://www.ncbi.nlm.nih.gov/geo>) under accession number GSE254416.
 
@@ -302,7 +348,7 @@ We thank the Office of Research Computing at Brigham Young University for granti
 
 \FloatBarrier
 
-```{r}
+```{r table1}
 #| tab.id: NULL
 #| tab.cap.pre: ""
 #| tab.cap.sep: ""
@@ -376,7 +422,6 @@ top_juncs_tp(sig_72_juncs, title72)
 ## SUPPLEMENTARY MATERIALS
 
 **Supplementary Table S1A**
-
 ```{r Sup Table S1A}
 set_flextable_defaults(font.size = 8)
 make_reg_stats_table <- function(tp_table){
@@ -399,24 +444,24 @@ make_reg_stats_table(tp_reg_expr_12) %>%
 
 ```
 
-**Supplementary Table S1B**
 
+**Supplementary Table S1B**
 ```{r Sup Table S1B}
 set_flextable_defaults(font.size = 8)
 make_reg_stats_table(tp_reg_expr_24) %>%
   set_caption("Table S1b: Most Transcriptionally Active Regions of THEV at 24h.p.i")
 ```
 
-**Supplementary Table S1C**
 
+**Supplementary Table S1C**
 ```{r Sup Table S1C}
 set_flextable_defaults(font.size = 8)
 make_reg_stats_table(tp_reg_expr_72) %>%
   set_caption("Table S1c: Most Transcriptionally Active Regions of THEV at 72h.p.i")
 ```
 
-**Supplementary Table S2**
 
+**Supplementary Table S2**
 ```{r}
 tibble(region = c("E1", "E2", "E2/IM", rep("E3", 3), "E4", rep("MLTU", 5)),
        sub_region = c("E1", "E2A", "E2B/IM", "E3A", "E3B", "E3C", "E4",
@@ -451,6 +496,7 @@ tibble(region = c("E1", "E2", "E2/IM", rep("E3", 3), "E4", rep("MLTU", 5)),
   set_caption("Table S2: Mapping Transcript TTS with Closest Polyadenylation Signal")
 
 ```
+
 
 **Supplementary Table S3**
 ```{r}

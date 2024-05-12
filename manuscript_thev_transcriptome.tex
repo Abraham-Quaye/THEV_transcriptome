@@ -168,35 +168,49 @@ Provo, Utah\\
 
 \subsection{ABSTRACT}\label{abstract}
 
-Characterizing the splice map of turkey hemorrhagic enteritis virus
-(THEV) is an essential step that would allow studies of individual genes
-mediating its immunosuppressive functions. We used RNA sequencing to
-characterize the transcriptome of THEV for the first time, providing key
-insights into the THEV gene expression and mRNA structures. Researchers
-previously annotated the genome of THEV as encoding 23 open reading
-frames (ORFs). In this work we identified 29 spliced transcripts all of
-which contained novel exons although some exons matched some previously
-annotated ORFs. The three annotated splice junctions were also
-corroborated by our data. We performed PCR amplification of THEV cDNA,
+\textbf{Background:} Hemorrhagic enteritis, caused by \emph{Turkey
+Hemorrhagic Enteritis Virus (THEV)}, is a disease affecting turkey
+poults characterized by immunosuppression and bloody diarrhea. An
+avirulent THEV strain that retains the immunosuppressive ability is used
+as a live vaccine. Characterizing the splice map of THEV is an essential
+step that would allow studies of individual genes mediating its
+immunosuppressive functions. We used RNA sequencing to characterize the
+splice map of THEV for the first time, providing key insights into the
+THEV gene expression and mRNA structures.\\
+\textbf{Methods:} After infecting a turkey B-cell line with the vaccine
+strain, samples in triplicates were collected at 4-, 12-, 24-, and
+72-hours post-infection. Total RNA was extracted and poly-A-tailed mRNA
+sequenced. Reads were mapped to the THEV genome after trimming and
+transcripts assembled with StringTie. We performed PCR of THEV cDNA,
 cloned the PCR products, and used Sanger sequencing to validate all
-identified splice junctions. During validation we identified five
-additional unique transcripts, a subset of which were further validated
-by 3' rapid amplification of cDNA ends (3' RACE) experiments. Thus, we
-report that the genome of THEV contains 34 transcripts with the coding
-capacity for all annotated ORFs. However, we found six of the previously
-annotated ORFs (ORF1, E3, 33K, ORF8, IVa2, and protease) to be truncated
-ORFs on the basis of the identification of an in-frame upstream start
-codon or the detection of additional coding exons. We also identified
-three of the annotated ORFs with longer or shorter isoforms, and seven
-novel unannotated ORFs that could potentially be translated; although it
-is beyond the scope of this manuscript to investigate whether they are
-translated. Similar to other adenoviruses (AdVs), THEV also produces
-multiple distinctly spliced transcripts that code for the same protein.
-Our data show that all THEV transcripts are spliced and organized into
-five transcription units under the control of their cognate promoters
-like other AdVs. \newpage
+identified splice junctions.\\
+\textbf{Results:} Researchers previously annotated the THEV genome as
+encoding 23 open reading frames (ORFs). We identified 29 spliced
+transcripts from our RNA sequencing data, all containing novel exons
+although some exons matched some previously annotated ORFs. The three
+annotated splice junctions were also corroborated by our data. During
+validation we identified five additional unique transcripts, a subset of
+which were further validated by 3' rapid amplification of cDNA ends (3'
+RACE). Thus, we report that the genome of THEV contains 34 transcripts
+with the coding capacity for all annotated ORFs. However, we found six
+of the previously annotated ORFs to be truncated ORFs on the basis of
+the identification of an in-frame upstream start codon or the detection
+of additional coding exons. We also identified three of the annotated
+ORFs with longer or shorter isoforms, and seven novel unannotated ORFs
+that could potentially be translated; although it is beyond the scope of
+this manuscript to investigate whether they are translated.\\
+\textbf{Conclusions:} Similar to human adenoviruses, all THEV
+transcripts are spliced and organized into five transcription units
+under the control of their cognate promoters. The genes are expressed
+under temporal regulation and THEV also produces multiple distinctly
+spliced transcripts that code for the same protein.
 
-\subsection{INTRODUCTION}\label{introduction}
+\subsection{KEY WORDS}\label{key-words}
+
+Alternative splicing, Turkey hemorrhagic enteritis virus, Adenovirus,
+Transcriptome, RNA sequencing. \newpage
+
+\subsection{BACKGROUND}\label{background}
 
 Adenoviruses (AdVs) are non-enveloped icosahedral-shaped DNA viruses,
 causing infection in virtually all types of vertebrates studied to date.
@@ -666,18 +680,19 @@ the E3 TU are identical but are initiated from different TSSs. \newpage
 
 While the advent of next-generation sequencing has rendered easier the
 study of large and complex eukaryotic transcriptomes, studying the
-smaller, compact viral transcriptomes remains unintuitively challenging,
-as the transcripts typically have significant overlaps due to genome
-economization. AdV transcriptomes escalate the difficulty due to the
-wide array of mRNAs produced via very complex alternative splicing and
-polyadenylation, all initiated from relatively few promoters. Standard
-RNA-seq analysis programs, not primarily designed for such compact,
-gene-dense, and complex transcriptomes, further compound this challenge.
-Furthermore, in our case, no prior transcriptomic studies for THEV
-exist. Our approach combines standard RNA-seq analysis programs with
-custom analyses and experimentally validating all splice junctions with
-independent methods. The transcript map for THEV produced from our
-analysis is strikingly similar to that of the MAdVs.
+smaller, compact viral transcriptomes is counterintuitively more
+challenging, as the transcripts typically have significant overlaps due
+to genome economization. AdV transcriptomes escalate the difficulty due
+to the wide array of mRNAs produced via very complex alternative
+splicing and polyadenylation, all initiated from relatively few
+promoters. Standard RNA-seq analysis programs, not primarily designed
+for such compact, gene-dense, and complex transcriptomes, further
+compound this challenge. Furthermore, in our case, no prior
+transcriptomic studies for THEV exist. Our approach combines standard
+RNA-seq analysis programs with custom analyses and experimentally
+validating all splice junctions with independent methods. The transcript
+map for THEV produced from our analysis is strikingly similar to that of
+the MAdVs.
 
 Our work provides the first insights into THEV splicing, revealing 34
 transcripts grouped into five transcription units (TUs). The general
@@ -772,26 +787,30 @@ fine-tune protein synthesis by providing different alternatively spliced
 variants encoding the same protein under changing conditions, conferring
 an evolutionary advantage (17, 22).
 
-In summary, the THEV transcriptome bears remarkable similarity to the
-better-studied MAdVs. The transcriptome is organized into five TUs, with
-temporal regulation divided into early and late genes, and a broad
-repertoire of transcripts are produced via virtually unlimited
-alternative splicing. However, the THEV transcriptome appears less
-sophisticated (i.e, it encodes fewer genes) than MAdVs, primarily
-because the MAdV genomes are close to twice as long as that of THEV. The
-lack of subdivision of the E1 region into E1a and E1b is one of the most
-obvious examples. Also, the MAdV E4 region encodes several proteins
-unlike in THEV where only one transcript encoding one protein was found.
-The complexity of the MLTU leader sequences is another example. While
-the majority of the THEV MLTU transcripts begin with the TPL just like
-MAdVs with a small subset using a variant leader sequence (sTPL),
-significantly more diverse 5'-UTRs are employed for MAdV MLTU
-transcripts. Namely, the TPL, the so-called x, y, and z leaders, and the
-i-leader are 5' leaders utilized by MAdV MLTU mRNAs. The absence of
-these non-TPL leaders in our data could mean that the 5'-UTR diversity
-of THEV's MLTU mRNAs is more limited due to its smaller genome size or
-future studies using long read sequencing technologies could uncover
-more variety not seen in our results. \newpage
+\subsection{CONCLUSIONS}\label{conclusions}
+
+The THEV transcriptome bears remarkable similarity to the better-studied
+MAdVs. The transcriptome is organized into five TUs, with temporal
+regulation divided into early and late genes, and a broad repertoire of
+transcripts are produced via virtually unlimited alternative splicing.
+However, the THEV transcriptome appears less sophisticated (i.e, it
+encodes fewer genes) than MAdVs, primarily because the MAdV genomes are
+close to twice as long as that of THEV. The lack of subdivision of the
+E1 region into E1a and E1b is one of the most obvious examples. Also,
+the MAdV E4 region encodes several proteins unlike in THEV where only
+one transcript encoding one protein was found. The complexity of the
+MLTU leader sequences is another example. While the majority of the THEV
+MLTU transcripts begin with the TPL just like MAdVs with a small subset
+using a variant leader sequence (sTPL), significantly more diverse
+5'-UTRs are employed for MAdV MLTU transcripts. Namely, the TPL, the
+so-called x, y, and z leaders, and the i-leader are 5' leaders utilized
+by MAdV MLTU mRNAs. The absence of these non-TPL leaders in our data
+could mean that the 5'-UTR diversity of THEV's MLTU mRNAs is more
+limited due to its smaller genome size or future studies could uncover
+more variety not seen in our results. Being the first transcriptomic
+characterization of THEV, this work should serve as useful resource to
+future THEV gene expression and transcriptomic studies, especially,
+mapping the mRNA splice sites. \newpage
 
 \subsection{METHODS}\label{methods}
 
@@ -919,8 +938,215 @@ version 1.0.0 was used to count all junctions, the reads supporting
 them, and extract all other information related to the junction. See
 \textbf{Supplementary Computational Analysis} for the details of
 transcript expression level estimations and splice junction read counts.
+\newpage
 
-\subsubsection{DATA AVAILABILITY}\label{data-availability}
+\subsection{LIST OF ABBREVIATIONS}\label{list-of-abbreviations}
+
+\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
+
+\global\setlength{\Oldtabcolsep}{\tabcolsep}
+
+\setlength{\tabcolsep}{2pt}
+
+\renewcommand*{\arraystretch}{1.5}
+
+
+
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\begin{longtable}[c]{|p{1.00in}|p{2.00in}}
+
+
+
+\ascline{0.75pt}{666666}{1-2}
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{\textbf{Abbreviation}}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{\textbf{Definition}}}} \\
+
+\ascline{0.75pt}{666666}{1-2}\endfirsthead 
+
+\ascline{0.75pt}{666666}{1-2}
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{\textbf{Abbreviation}}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{\textbf{Definition}}}} \\
+
+\ascline{0.75pt}{666666}{1-2}\endhead
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{AdV}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Adenovirus}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{MAdV}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Mastadenovirus}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{SiAdV}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Siadenovirus}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{THEV}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Turkey\ Hemorrhagic\ Enteritis\ Virus}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{HE}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Hemorrhagic\ Enteritis}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{UTR}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Untranslated\ Region}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{TU}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Transcription\ Unit}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{L4P}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{L4\ Promoter}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{MLP}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Major\ Late\ Promter}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{E3P}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{E3\ Promoter}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{hpi}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Hours\ Post-infection}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{qPCR}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Quantitative\ Polymerase\ Chain\ Reaction}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{FPKM}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Fragments\ Per\ Kilobase\ of\ transcript\ per\ Million\ mapped\ reads}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{CP}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Coding\ Potential}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{TSS}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Transcription\ Start\ Site}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{TTS}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Transcription\ Termination\ Site}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{SC}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Start\ Codon}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{STC}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Stop\ Codon}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{secSC}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Secondary\ Start\ Codon}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{secSTC}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Secondary\ Stop\ Codon}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{ORF}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Open\ Reading\ Frame}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{CDS}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Coding\ Sequence}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{MLTU}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Major\ Late\ Transcription\ Unit}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{TPL}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Tripartite\ Leader}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{sTPL}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Short\ Tripartite\ Leader}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{TPL3}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Third\ exon\ of\ Tripartite\ Leader}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 1in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{GCN}}} & \multicolumn{1}{!{\color[HTML]{666666}\vrule width 0.75pt}>{\centering}m{\dimexpr 2in+0\tabcolsep}!{\color[HTML]{666666}\vrule width 0.75pt}}{\textcolor[HTML]{000000}{\fontsize{10}{10}\selectfont{Genome\ Copy\ Number}}} \\
+
+\ascline{0.75pt}{666666}{1-2}
+
+
+
+\end{longtable}
+
+
+
+\arrayrulecolor[HTML]{000000}
+
+\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
+
+\global\setlength{\tabcolsep}{\Oldtabcolsep}
+
+\renewcommand*{\arraystretch}{1}
+
+\subsection{DATA AVAILABILITY}\label{data-availability}
 
 The raw sequencing read data (FastQ), transcript expression counts, and
 total unique junctions have been deposited at the National Center for
