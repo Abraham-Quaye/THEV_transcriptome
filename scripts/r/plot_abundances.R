@@ -169,8 +169,8 @@ save_ss_all <- temp_ss_all/ss_all_ploted$`72hpi` +
   plot_annotation(tag_levels = "A") &
   theme(plot.tag = element_text(size = 22, face = "bold"))
 
-ggsave(plot = save_ss_all, filename = "results/r/figures/figure_5a_d.png",
-       width = 25, height = 15, dpi = 350)
+ggsave(plot = save_ss_all, filename = "results/r/figures/figure5.png",
+       width = 25, height = 15, dpi = 300)
 
 # ====================================================================
 #            PLOT TRANSCRIPT ABUNDANCES FROM BALLGOWN
@@ -246,5 +246,5 @@ patch_fig4 <- (trxpt_fpkms/(reg_fpkms| all_juncs | trxptome_juncs)) +
   plot_annotation(tag_levels = "A") &
   theme(plot.tag = element_text(size = 52, face = "bold"))
 
-ggsave(plot = patch_fig4, "results/r/figures/figure_4a_d.png",
-       width = 40, height = 25, dpi = 350)
+ggsave(plot = patch_fig4, "results/r/figures/figure4.png",
+       width = 40, height = 25, dpi = 300)

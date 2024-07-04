@@ -89,15 +89,15 @@ fig_str <- list("fig6", "fig7", "fig8", "fig10")
 for(p in seq_along(figures)){
   num <- parse_number(fig_str[[p]])
   ggsave(plot = figures[[p]],
-         filename = paste0("results/r/figures/figure_", num,".png"),
-         dpi = 400, width = 18, height = 16)
+         filename = paste0("results/r/figures/figure", num,".png"),
+         dpi = 300, width = 18, height = 16)
 }
 
 ggsave(plot = fig9,
-       filename = "results/r/figures/figure_9.png",
-       dpi = 400, width = 8, height = 4)
+       filename = "results/r/figures/figure9.png",
+       dpi = 300, width = 8, height = 4)
 
 ggsave(plot = fig10,
-       filename = "results/r/figures/figure_10.png",
-       dpi = 400, width = 18, height = 18)
+       filename = "results/r/figures/figure10.png",
+       dpi = 300, width = 18, height = 18)
 

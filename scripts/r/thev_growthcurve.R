@@ -129,6 +129,6 @@ fig_2 <- (comp_all/ growth_curve) +
   theme(plot.tag = element_text(size = 26, face = "bold"))
 
 
-ggsave(plot = fig_2,filename = "results/r/figures/fig_2.png",
-       width = 14, height = 16, dpi = 500)
+ggsave(plot = fig_2,filename = "results/r/figures/figure2.png",
+       width = 14, height = 16, dpi = 300)
 
