@@ -179,7 +179,7 @@ splice map of THEV for the first time, providing key insights into the
 THEV gene expression and mRNA structures.\\
 \textbf{Methods:} After infecting a turkey B-cell line with the vaccine
 strain, samples in triplicates were collected at 4-, 12-, 24-, and
-72-hours post-infection. Total RNA was extracted and poly-A-tailed mRNA
+72-hours post-infection. Total RNA was extracted, and poly-A-tailed mRNA
 sequenced. Reads were mapped to the THEV genome after trimming and
 transcripts assembled with StringTie. We performed PCR of THEV cDNA,
 cloned the PCR products, and used Sanger sequencing to validate all
@@ -203,7 +203,12 @@ this manuscript to investigate whether they are translated.\\
 transcripts are spliced and organized into five transcription units
 under the control of their cognate promoters. The genes are expressed
 under temporal regulation and THEV also produces multiple distinctly
-spliced transcripts that code for the same protein.
+spliced transcripts that code for the same protein. Studies of the newly
+identified potential proteins should be urgently performed as these
+proteins may have roles in THEV-induced immunosuppression. Also, knowing
+the splicing of THEV genes should be invaluable to future research
+focusing of studying THEV genes, as this will allow accurate cloning of
+the mRNAs.
 
 \subsection{KEY WORDS}\label{key-words}
 
@@ -231,7 +236,8 @@ genera: \emph{Mastadenovirus} (MAdV), \emph{Aviadenovirus},
 (SiAdV) to which turkey adenovirus 3 also called turkey hemorrhagic
 enteritis virus (THEV) belongs (5--10). Members of SiAdV have the
 smallest genome size (\textasciitilde26 kb) and gene content of all
-known AdVs (see \textbf{Figure 1}) (1, 2, 6).
+known AdVs, with five genus-specific genes of undefined functions (see
+\textbf{Figure 1}) (1, 2, 6).
 
 Virulent THEV strains (THEV-V) and avirulent strains (THEV-A) of THEV
 both infect turkeys, with THEV-V causing hemorrhagic enteritis (HE), a
@@ -243,7 +249,7 @@ proven effective at preventing HE in turkey poults, it still retains its
 immunosuppressive ability. Thus, vaccinated birds are rendered more
 susceptible to opportunistic infections and death than unvaccinated
 birds leading to substantial economic losses (11, 14--16). To eliminate
-the immunosupressive effect of the vaccine strain, a thorough
+the immunosuppressive effect of the vaccine strain, a thorough
 investigation of the culprit viral genes mediating this phenomenon is
 essential. However, the transcriptome (splicing and gene expression
 patterns) of THEV has not been characterized, making an investigation of
@@ -272,31 +278,32 @@ during early infection (before DNA replication), with a comparable
 efficiency to other early viral promoters, but it reaches its maximal
 activity during late infection (after DNA replication). However, during
 early infection only a subset of the MLP-derived transcripts are
-expressed (10). MAdV makes an extensive use of alternative RNA splicing
-to produce a very complex array of mRNAs. All but the pIX mRNA undergo
-at least one splicing event. For instance, the MLTU produces over 20
-distinct splice variants all containing three non-coding exons at the
-5'-end (collectively known as the tripartite leader; TPL) (17, 18).
-There is also an alternate three-exon 5' non-coding leader sequence
-present in varying amounts on a subset of MLTU mRNAs (known as the x-,
-y-, and z-leaders). Lastly, there is the i-leader exon, which is
-infrequently included between the second and third TPL exons, and codes
-for the i-leader protein (20). Thus, the MLTU produces a complex
-repertoire of mRNA with diverse 5' untranslated regions (UTRs) spliced
-onto different 3' coding exons which are grouped into five different
-3'-end classes (L1-L5) based on polyadenylation site. Each transcription
-unit (TU) contains its own promoter driving the expression of the array
-of mRNA transcripts produced via alternative splicing in the unit (10,
-17, 18). The promoters are activated at different phases of infection by
-proteins from previously activated TUs. Paradoxically, the early-to-late
-phase transition during infection requires the L4 gene products, 22K and
-33K, which should only be available after the transition. However, a
-promoter in the L4 region (L4P) that directs the expression of these two
-proteins independent of the MLP was found, resolving the paradox (10,
-17, 21). During translation of AdV mRNA, recent studies using long-read
-direct RNA sequencing strongly suggest the potential usage of secondary
-start codons; adding to what was already a highly complex system for
-gene expression (17, 22).
+expressed (10). MAdVs make extensive use of alternative RNA splicing and
+polyadenylation to produce a very complex array of mRNAs. All but the
+pIX mRNA undergo at least one splicing event. For instance, the MLTU
+produces over 20 distinct splice variants all containing three
+non-coding exons at the 5'-end (collectively known as the tripartite
+leader; TPL) (17, 18). There is also an alternate three-exon 5'
+non-coding leader sequence present in varying amounts on a subset of
+MLTU mRNAs (known as the x-, y-, and z-leaders). Lastly, there is the
+i-leader exon, which is infrequently included between the second and
+third TPL exons, and codes for the i-leader protein (20). Thus, the MLTU
+produces a complex repertoire of mRNA with diverse 5' untranslated
+regions (UTRs) spliced onto different 3' coding exons which are grouped
+into five different 3'-end classes (L1-L5) based on polyadenylation
+site. Each transcription unit (TU) contains its own promoter driving the
+expression of the array of mRNA transcripts produced via alternative
+splicing in the unit (10, 17, 18). The promoters are activated at
+different phases of infection by proteins from previously activated TUs.
+Paradoxically, the early-to-late phase transition during infection
+requires the L4 gene products, 22K and 33K, which should only be
+available after the transition. However, a promoter in the L4 region
+(L4P) that directs the expression of these two proteins independent of
+the MLP was found, resolving the paradox (10, 17, 21). During
+translation of AdV mRNA, recent studies using long-read direct RNA
+sequencing strongly suggest the potential usage of secondary start
+codons; adding to what was already a highly complex system for gene
+expression (17, 22).
 
 High throughput sequencing methods have facilitated the discovery of
 many novel transcribed regions and splicing isoforms. It is also a very
@@ -315,29 +322,29 @@ each end of cDNA fragments, which were mapped to the genome of THEV.
 A prior study by Aboezz \emph{et al}. demonstrated that nearly all THEV
 transcripts became detectable starting at 4 hours post-infection (hpi),
 with one replication cycle concluding around 18 hpi (24). Consequently,
-we harvested infected MDTC-RP19 cells (MOI of 100 genome copy
-numbers/cell) at 4-, 12-, 24-, and 72-hpi to capture all transcripts
-within a broad time window. Our paired-end RNA sequencing (RNA-seq)
-experiment generated an average of 107.1 million total reads of 149 bp
-length per time-point. These reads were concurrently mapped to both the
-virus (THEV) and host (\emph{Meleagris gallopavo}) genomes using the
-Hisat2 (25) reference-based aligner. A total of 18.1 million reads from
-all time-points mapped to the virus genome, providing comprehensive
-coverage and leaving no regions unmapped. The mapped reads to the virus
-genome increased significantly from a scant 432 reads at 4 hpi to 16.9
-million reads at 72 hpi (\textbf{Table 1}, \textbf{Figure 2A}). From
-these mapped reads, we identified 2,457 unique THEV splice junctions
-across all time-points, with later time-points exhibiting significantly
-more sequence reads supporting the splice junctions than earlier
-time-points. For instance, all 13 unique junctions at 4 hpi had fewer
-than 10 supporting reads each, averaging only 2.8 reads per junction. In
-contrast, the 2374 unique junctions at 72 hpi averaged 898.4 reads per
-junction, with some junctions reaching as high as 322,677 reads. The
-marked increase in splice junction and mapping reads to the THEV genome
-over time indicates an active infection and successful viral
-replication, which is corroborated by our quantitative PCR (qPCR) assay
-that quantified the total number of viral genome copies over time
-(\textbf{Figure 2B}).
+we harvested infected MDTC-RP19 cells (multiplicity of infection (MOI)
+of 100 genome copy numbers/cell) at 4-, 12-, 24-, and 72-hpi to capture
+all transcripts within a broad time window. Our paired-end RNA
+sequencing (RNA-seq) experiment generated an average of 107.1 million
+total reads of 149 bp length per time-point. These reads were
+concurrently mapped to both the virus (THEV) and host (\emph{Meleagris
+gallopavo}) genomes using the Hisat2 (25) reference-based aligner. A
+total of 18.1 million reads from all time-points mapped to the virus
+genome, providing comprehensive coverage and leaving no regions
+unmapped. The mapped reads to the virus genome increased significantly
+from a scant 432 reads at 4 hpi to 16.9 million reads at 72 hpi
+(\textbf{Table 1}, \textbf{Figure 2A}). From these mapped reads, we
+identified 2,457 unique THEV splice junctions across all time-points,
+with later time-points exhibiting significantly more sequence reads
+supporting the splice junctions than earlier time-points. For instance,
+all 13 unique junctions at 4 hpi had fewer than 10 supporting reads
+each, averaging only 2.8 reads per junction. In contrast, the 2374
+unique junctions at 72 hpi averaged 898.4 reads per junction, with some
+junctions reaching as high as 322,677 reads. The marked increase in
+splice junction and mapping reads to the THEV genome over time indicates
+an active infection and successful viral replication, which is
+corroborated by our quantitative PCR (qPCR) assay that quantified the
+total number of viral genome copies over time (\textbf{Figure 2B}).
 
 Using StringTie (25), we assembled the data into potential transcripts,
 guided by the genomic locations of the previously predicted THEV ORFs.
@@ -500,10 +507,9 @@ ORF predicted to be spliced from two exons. The predicted splice
 junction of pTP is corroborated by our data but the full transcript is
 markedly longer than the predicted ORF, although the encoded product
 (pTP) remains unchanged. Ad-pol (polymerase) is encoded downstream of
-pTP with secondary start codon (secSC) usage. The CP of TRXPT\_6
-slightly differs from TRXPT\_7 because a new STC resulting from the
-extra splice site forms a minimal truncation of the Ad-pol encoded from
-its secSC.
+pTP with secondary SC (secSC) usage. The CP of TRXPT\_6 slightly differs
+from TRXPT\_7 because a new STC resulting from the extra splice site
+forms a minimal truncation of the Ad-pol encoded from its secSC.
 
 While both TRXPT\_6 and TRXPT\_7 have the CP for Ad-pol with secSC
 usage, in all AdVs studied, the two proteins (pTP and Ad-pol) are
@@ -631,8 +637,7 @@ isoform (eORF8 -- 26.4 kDa, 229 residues) as the genuinely expressed
 ORF. We also identified a canonical PAS 11 bp upstream of TTS
 (\textbf{Supplementary Table S2}).
 
-\textbf{Major Late Transcription Unit (MLTU) or MLP Region
-transcripts}\\
+\textbf{MLTU or MLP Region transcripts}\\
 The MLTU transcripts, dominant in the late phase of the AdV infectious
 cycle, are produced by alternative polyadenylation and splicing of a
 primary transcript and grouped into five transcript classes (L1-L5).
@@ -688,34 +693,54 @@ splicing and polyadenylation, all initiated from relatively few
 promoters. Standard RNA-seq analysis programs, not primarily designed
 for such compact, gene-dense, and complex transcriptomes, further
 compound this challenge. Furthermore, in our case, no prior
-transcriptomic studies for THEV exist. Our approach combines standard
-RNA-seq analysis programs with custom analyses and experimentally
-validating all splice junctions with independent methods. The transcript
-map for THEV produced from our analysis is strikingly similar to that of
-the MAdVs.
+transcriptomic studies for THEV exist; hence, assembling the transcripts
+without any prior experimentally-derived annotation of THEV splicing
+using only short illumina reads proved difficult. Lastly, we had
+initially planned to sequence RNA from another time point (8 hpi);
+however, all the RNA samples from 8 hpi and one replicate sample from 12
+hpi got too degraded during the library preparation steps to be yield
+any useful data. We believe that these would have contributed to better
+insights into the temporal expression levels and splicing. Our approach
+combines standard RNA-seq analysis programs with custom analyses and
+experimentally validating all splice junctions with independent methods.
+The transcript map for THEV produced from our analysis is strikingly
+similar to that of the MAdVs.
 
 Our work provides the first insights into THEV splicing, revealing 34
-transcripts grouped into five transcription units (TUs). The general
-temporal gene expression regulation observed in MAdVs, with early
-regions peaking at earlier time points followed by MLTU predominance at
-later time points, seems to also apply to THEV. An unexpected
-observation is that the pileup of mapped reads to THEV seems
-consistently skewed over similar regions of the genome at all time
-points. Given the temporal regulation of AdVs gene expression, we
-anticipated distinct differences in read pileups over the genome at
-different time points, indicating the different stages of infection.
-This may be due to an unsynchronized infection, leading to transcripts
-overlapping the time points. Further research is required to determine
-the precise temporal regulation of THEV.
+transcripts grouped into five TUs. The general temporal gene expression
+regulation observed in MAdVs, with early regions peaking at earlier time
+points followed by MLTU predominance at later time points, seems to also
+apply to THEV. An unexpected observation is that the pileup of mapped
+reads to THEV seems consistently skewed over similar regions of the
+genome at all time points. Given the temporal regulation of AdVs gene
+expression, we anticipated distinct differences in read pileups over the
+genome at different time points, indicating the different stages of
+infection. This may be due to an unsynchronized infection, leading to
+transcripts overlapping the time points. Further research is required to
+determine the precise temporal regulation of THEV.
 
 Short read deep sequencing effectively reconstructs full AdV mRNA
 structures, particularly mapping splice sites (18). However, the
 substantial overlapping nature of AdV mRNAs and fragmentation during
 library preparation make it challenging to map the exact TSS, TTS, and
-PASs of assembled transcripts. Also, transcripts with significant
-overlaps may be assembled as a single, longer mRNA, since the short
-reads alone do not provide enough context for the transcript assembler
-(StringTie) to distinguish them. Our results show transcripts in the
+PASs of assembled transcripts. As AdVs make heavy use of alternative
+polyadenylation, short read RNA-seq is ill-equipped to discriminate mRNA
+variants of the same gene produced via alternative polyadenylation.
+Thus, shorter variants of alternatively polyadenylated mRNAs may
+potentially be incorporated into the longer variants during transcript
+assembly, significantly diminishing the diversity of mRNA in the
+transcriptome. Also, independent transcripts with significant overlaps
+may be assembled as a single, longer mRNA, since the short reads alone
+do not provide enough context for the transcript assembler (StringTie)
+to distinguish them. Such fusions may affect the transcript expression
+level estimations by inflating or deflating the expression levels of the
+transcripts involved, affecting the proper understanding of the temporal
+gene expression regulation and also the diversity of the transcriptome.
+Transcripts that have reads mistakenly fused with them would have
+inflated expression levels while those whose reads are counted elsewhere
+would show false lower expression levels. In our case, since we used
+other independent methods to validate the splice junctions, we believe
+these drawbacks to be minimized. Our results show transcripts in the
 same TU initiating or terminating in similar areas, but not at the exact
 same position. We consider the most upstream TSS or most downstream TTS
 for for the transcripts involved but we present them unchanged in all
@@ -726,8 +751,8 @@ likely due to fusing some E3 transcripts to the terminal exons of the
 MLTU transcripts by StringTie, making them significantly longer. These
 mRNAs have unusually many exons and their last few exons are identical
 to some E3 mRNAs. Future studies using long read sequencing technologies
-will provide more precise mapping of the TSS and TTS and clarify the
-structures of the long MLTU transcripts.
+will provide more precise mapping of the TSS, TTS, and PASs and clarify
+the structures of the long MLTU transcripts.
 
 While most predicted ORFs are encoded by the spliced transcripts, we
 found some that seem to be truncated predictions, as either an upstream
@@ -740,7 +765,14 @@ ORFs. Furthermore, it is not unreasonable to presume that several splice
 variants will likely be found as evidenced firstly by finding unique
 transcripts using 3' RACE and during our splice junction validation
 steps. And secondly, recent studies (17, 18, 22) are still discovering
-novel mRNA variants for even the best studied MAdVs decades later.
+novel mRNA variants for even the best studied MAdVs decades later. These
+new potential proteins and isoforms significantly extend the repertoire
+of THEV gene products than predicted, adding a hefty number of proteins
+of undefined function to the previously predicted five (See
+\textbf{Figure 1}). These new potential proteins and isoforms of unknown
+functions may mediate or contribute to viral replication efficiency, or
+the immunosuppression associated with THEV. Hence, further studies of
+these potential proteins is urgently needed.
 
 Eukaryotic mRNAs are typically functionally monocistronic, with the
 5'-most AUG determining the translation reading frame. However, AdV
@@ -754,9 +786,9 @@ inefficient, allowing downstream SCs to be employed (17). Ribosomal
 shunting or jumping mechanism is utilized for MLTU transcripts that have
 the TPL. This mechanism allows the ribosome to translocate to a
 downstream AUG, under the direction of the shunting elements in the TPL,
-even if a start codon in a good Kozak sequence context is bypassed.
-Thus, predicting the protein(s) expressed from an AdV mRNA is uncertain
-as any one of the AUGs may be selected (10, 22). Almost all the THEV
+even if a SC in a good Kozak sequence context is bypassed. Thus,
+predicting the protein(s) expressed from an AdV mRNA is uncertain as any
+one of the AUGs may be selected (10, 22). Almost all the THEV
 transcripts in our data have the CP for several ORFs, some spanning as
 many as six ORFs. This supports the usage of these special ribosome
 initiation mechanisms as several predicted and novel ORFs found on mRNA
@@ -807,10 +839,25 @@ so-called x, y, and z leaders, and the i-leader are 5' leaders utilized
 by MAdV MLTU mRNAs. The absence of these non-TPL leaders in our data
 could mean that the 5'-UTR diversity of THEV's MLTU mRNAs is more
 limited due to its smaller genome size or future studies could uncover
-more variety not seen in our results. Being the first transcriptomic
-characterization of THEV, this work should serve as useful resource to
-future THEV gene expression and transcriptomic studies, especially,
-mapping the mRNA splice sites. \newpage
+more variety not seen in our results. We also note that although THEV
+genomic sequences show minimal differences between strains (12), the
+transcriptomes may have significant variations; hence, our results may
+vary from other THEV strains. Also, performing the study \emph{in vivo}
+or with primary turkey cells may show different results. The potential
+new proteins identified in our work adds to the number of proteins with
+undefined functions in THEV; these may have roles in viral replication
+efficiency, or the immunosuppression associated with THEV. Hence,
+further studies of these proteins and other predicted proteins of
+unknown function should be useful in elucidating THEV-induced
+immunosuppression. Being the first transcriptomic characterization of
+THEV, this work should serve as useful resource to future THEV gene
+expression and transcriptomic studies, especially, mapping the mRNA
+splice sites. More importantly, this work characterizing the splicing of
+THEV mRNAs will allow researchers to accurately clone any THEV gene(s)
+of interest to study its potential role in inducing immunosuppression or
+other functions.
+
+\newpage
 
 \subsection{METHODS}\label{methods}
 
@@ -829,15 +876,15 @@ A commercially available THEV vaccine was purchased from Hygieia
 Biological Labs as a source of THEV-A (VAS strain). The stock virus was
 titrated using an in-house qPCR assay with titer expressed as genome
 copy number (GCN)/mL, similar to Mahshoub \emph{et al} (31) with
-modifications. Cells were infected in triplicate at a multiplicity of
-infection (MOI) of 100 GCN/cell, incubated at 41\textsuperscript{o}C for
-1 hour, and washed three times with phosphate buffered saline (PBS) to
-get rid of free virus particles. Triplicate samples were harvested at
-4-, 12-, 24-, and 72-hpi for total RNA extraction. The infection was
-repeated but samples in triplicate were harvested at 12-, 24-, 36-, 48-,
-and 72-hpi for PCR validation of novel splice sites. Still one more
-independent infection was done at time points ranging from 12 to 168-hpi
-for qPCR quantification of virus titers.
+modifications. Cells were infected in triplicate at MOI of 100 GCN/cell,
+incubated at 41\textsuperscript{o}C for 1 hour, and washed three times
+with phosphate buffered saline (PBS) to get rid of free virus particles.
+Triplicate samples were harvested at 4-, 12-, 24-, and 72-hpi for total
+RNA extraction. The infection was repeated but samples in triplicate
+were harvested at 12-, 24-, 36-, 48-, and 72-hpi for PCR validation of
+novel splice sites. Still one more independent infection was done at
+time points ranging from 12 to 168-hpi for qPCR quantification of virus
+titers.
 
 \subsubsection{RNA extraction and
 Sequencing}\label{rna-extraction-and-sequencing}
@@ -867,26 +914,26 @@ novel exons, giving the complete picture of these transcripts. The novel
 splice junctions discovered in this work using the StringTie transcript
 assembler were validated by PCR, cloning, and Sanger Sequencing
 (\textbf{Supplementary PCR methods}). Briefly, primers spanning a range
-of novel exon-exon boundaries for each specific transcript in a
-transcription unit (TU) were designed. Universal forward or reverse
-primers for each respective TU were designed and paired with primers
-binding specific positions in each transcript. Each forward primer
-contained a KpnI restriction site and each reverse primer, an XbaI site
-in the primer 5' ends. After first-strand cDNA synthesis of total RNA
-obtained from THEV infected MDTC-RP19 cells was done using SuperScript™
-IV First-Strand Synthesis System, the primers were used in a targeted
-PCR amplification, the products analyzed with agarose gel
-electrophoresis to confirm expected band sizes, cloned by traditional
-restriction enzyme method, and Sanger sequenced to validate these splice
-junctions at the sequence level. The total RNA was extracted as
-described above, including the DNase I digestion step. We included
-infected total RNA controls with no reverse transcriptase (no RT) during
-the cDNA synthesis step and the parent RNA were digested using RNase H
-after cDNA synthesis was complete to ensured that the bands obtained
-from the targeted PCR amplifications did not originate from the viral
-genomic DNA. As seen in the agarose gel images in \textbf{Supplementary
-PCR methods}, DNA bands were not found in the ``no RT'' controls,
-indicating that the DNA bands seen are of cDNA origin.
+of novel exon-exon boundaries for each specific transcript in a TU were
+designed. Universal forward or reverse primers for each respective TU
+were designed and paired with primers binding specific positions in each
+transcript. Each forward primer contained a KpnI restriction site and
+each reverse primer, an XbaI site in the primer 5' ends. After
+first-strand cDNA synthesis of total RNA obtained from THEV infected
+MDTC-RP19 cells was done using SuperScript™ IV First-Strand Synthesis
+System, the primers were used in a targeted PCR amplification, the
+products analyzed with agarose gel electrophoresis to confirm expected
+band sizes, cloned by traditional restriction enzyme method, and Sanger
+sequenced to validate these splice junctions at the sequence level. The
+total RNA was extracted as described above, including the DNase I
+digestion step. We included infected total RNA controls with no reverse
+transcriptase (no RT) during the cDNA synthesis step and the parent RNA
+were digested using RNase H after cDNA synthesis was complete to ensured
+that the bands obtained from the targeted PCR amplifications did not
+originate from the viral genomic DNA. As seen in the agarose gel images
+in \textbf{Supplementary PCR methods}, DNA bands were not found in the
+``no RT'' controls, indicating that the DNA bands seen are of cDNA
+origin.
 
 \subsubsection{3' Rapid Amplification of cDNA Ends (3'
 RACE)}\label{rapid-amplification-of-cdna-ends-3-race}
@@ -915,7 +962,7 @@ described by Pertea \emph{et al} (25), using Snakemake - version 7.24.0
 Briefly, sequencing reads were trimmed with the Trim-galore - version
 0.6.6 (34) program to achieve an overall Mean Sequence Quality (Phred
 Score) of 36. Trimmed reads were mapped simultaneously to the complete
-genomic sequence of avirulent turkey hemorrhagic enteritis virus
+genomic sequence of avirulent THEV
 (\url{https://www.ncbi.nlm.nih.gov/nuccore/AY849321.1/}) and
 \emph{Meleagris gallopavo}
 (\url{https://www.ncbi.nlm.nih.gov/genome/?term=Meleagris+gallopavo})
@@ -1165,7 +1212,7 @@ github (\url{https://github.com/Abraham-Quaye/thev_transcriptome})
 \subsection{ACKNOWLEDGMENTS}\label{acknowledgments}
 
 We thank the Office of Research Computing at Brigham Young University
-for granting us access to the high performance computing systems to
+for granting us access to the high-performance computing systems to
 perform the memory-intensive steps in the analysis pipeline of this
 work. \newpage
 
@@ -1447,24 +1494,24 @@ v0.6.10 - add default decompression path}. Zenodo.}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/thev_orf_map.png}
+\includegraphics{results/r/figures/figure1.png}
 \caption{\textbf{Figure 1. Predicted ORF map of THEV avirulent strain.}
 The central horizontal line represents the double-stranded DNA marked at
 2kb intervals as white line breaks. Colored blocks represent viral
 genes. Blocks above the DNA line are transcribed on the sense DNA strand
 and those below, on the anti-sense strand. pTP, DBP and 33K are
 predicted to be spliced and are shown as two exons connected with dashed
-lines. Shaded regions indicate regions containing ``genus-specific''
-genes (colored red). Genes colored in blue are ``genus-common''. The
-gene colored in light green is conserved in all but Atadenoviruses.
-Regions comprising the different transcription units are labelled at the
-bottom (E1, E2A, E2B, E3, E4, and IM); the unlabeled regions comprise
-the MLTU.}
+lines. Shaded regions indicate regions containing the five
+genus-specific genes of undefined functions (colored red). Genes colored
+in blue are ``genus-common''. The gene colored in light green is
+conserved in all but Atadenoviruses. Regions comprising the different
+TUs are labelled at the bottom (E1, E2A, E2B, E3, E4, and IM); the
+unlabeled regions comprise the MLTU.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/fig_2.png}
+\includegraphics{results/r/figures/figure2.png}
 \caption{\textbf{Figure 2: Increasing levels of THEV over time. A) Per
 base coverage of sequence reads mapping to THEV genome by time point.}
 The pileup of mRNA reads mapping to THEV genome at the base-pair level
@@ -1484,19 +1531,19 @@ number.}
 \caption{\textbf{Figure 3. A) Transcriptome of THEV from RNA-seq.} THEV
 transcripts assembled from all time points by StringTie are unified
 forming this transcriptome (splicing map). Transcripts belonging to the
-same transcription unit (TU) are located in close proximity on the
-genome and are color coded and labeled in this figure as such. The
-organization of TUs in the THEV genome is unsurprisingly similar to
-MAdVs; however, the MAdV genome shows significantly more transcripts.
-The TUs are color coded: E1 transcripts - red, E2 - black, E3 - dark
-grey, E4 - green, MLTU - blue. Predicted ORFs are also indicated here,
-colored light grey. \textbf{B) THEV transcripts identified at given time
-points.} Transcripts are color coded as explained in \textbf{(A)}.}
+same TU are located in close proximity on the genome and are color coded
+and labeled in this figure as such. The organization of TUs in the THEV
+genome is unsurprisingly similar to MAdVs; however, the MAdV genome
+shows significantly more transcripts. The TUs are color coded: E1
+transcripts - red, E2 - black, E3 - dark grey, E4 - green, MLTU - blue.
+Predicted ORFs are also indicated here, colored light grey. \textbf{B)
+THEV transcripts identified at given time points.} Transcripts are color
+coded as explained in \textbf{(A)}.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/figure_4a_d.png}
+\includegraphics{results/r/figures/figure4.png}
 \caption{\textbf{Figure 4: Changes in splicing and expression profile of
 THEV over time.} \textbf{A) Normalized (FPKM) expression levels of
 transcripts over time.} The expression levels (FPKM) of individual
@@ -1520,7 +1567,7 @@ transcriptome obtained from the RNA-seq data were included.}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/figure_5a_d.png}
+\includegraphics{results/r/figures/figure5.png}
 \caption{\textbf{Figure 5: Changes in splice donor-acceptor nucleotides
 over time.} The splice donor-acceptor nucleotides of THEV just like
 other AdVs is mostly the canonical GU-AG. At early time points (4h.p.i
@@ -1535,23 +1582,23 @@ combinations of nucleotides are utilized.}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/figure_6.png}
-\caption{\textbf{Figure 6: The splice map of the E1 transcription unit
-(TU).} Exons are depicted as boxes connected by introns (dotted lines).
-Transcripts from RNA-seq data are colored red, predicted ORFs are
-colored grey, and transcripts or ORFs discovered by other means are
-colored black. Each transcript or ORF is labelled with its name to the
-right. The start codon (SC) and stop codon (STC) of the 5'-most CDS of
-each transcript is indicated with the nucleotide position in brackets.
-The region of the virus is depicted at the bottom as a black line with
-labels of the nucleotide positions for reference. The table shows
-sequence reads covering the splice junctions with information about
-their validation status using cloning and Sanger sequencing.}
+\includegraphics{results/r/figures/figure6.png}
+\caption{\textbf{Figure 6: The splice map of the E1 TU.} Exons are
+depicted as boxes connected by introns (dotted lines). Transcripts from
+RNA-seq data are colored red, predicted ORFs are colored grey, and
+transcripts or ORFs discovered by other means are colored black. Each
+transcript or ORF is labelled with its name to the right. The SC and STC
+of the 5'-most CDS of each transcript is indicated with the nucleotide
+position in brackets. The region of the virus is depicted at the bottom
+as a black line with labels of the nucleotide positions for reference.
+The table shows sequence reads covering the splice junctions with
+information about their validation status using cloning and Sanger
+sequencing.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/figure_7.png}
+\includegraphics{results/r/figures/figure7.png}
 \caption{\textbf{Figure 7: The splice map of the E2 and IM TUs.} Exons
 are depicted as boxes connected by introns (dotted lines). Red
 transcripts are generated from RNA-seq data and predicted ORFs are
@@ -1567,52 +1614,51 @@ sequencing.}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/figure_8.png}
+\includegraphics{results/r/figures/figure8.png}
 \caption{\textbf{Figure 8: The splice map of the E3 TU.} Exons are
 depicted as boxes connected by introns (dotted lines). Red transcripts
 are generated from RNA-seq data and predicted ORFs are colored grey.
 Transcripts discovered by other means are colored black. Each transcript
-or ORF is labelled with its name to the right. The start codon (SC) and
-stop codon (STC) of the 5'-most CDS of each transcript are indicated
-with the nucleotide position in brackets. Similarly, the secondary SC
-(secSC) and secondary STC (secSTC) are shown. The region of the virus is
-depicted at the bottom as a black line with labels of the nucleotide
-positions for reference. The table shows sequence reads covering the
-splice junctions with information about their validation status using
-cloning and Sanger sequencing.}
+or ORF is labelled with its name to the right. The SC and STC of the
+5'-most CDS of each transcript are indicated with the nucleotide
+position in brackets. Similarly, the secondary SC (secSC) and secondary
+STC (secSTC) are shown. The region of the virus is depicted at the
+bottom as a black line with labels of the nucleotide positions for
+reference. The table shows sequence reads covering the splice junctions
+with information about their validation status using cloning and Sanger
+sequencing.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/figure_9.png}
+\includegraphics{results/r/figures/figure9.png}
 \caption{\textbf{Figure 9: The splice map of the E4 TU.} Exons are
 depicted as boxes connected by introns (dotted lines). The transcript
 from RNA-seq data is colored red and the predicted ORF, grey. The
-transcript and ORF are labelled with their names to the right. The start
-codon (SC) and stop codon (STC) of the 5'-most CDS are indicated with
-the nucleotide position in brackets. The region of the virus is depicted
-at the bottom as a black line with labels of the nucleotide positions
-for reference. The table shows sequence reads covering the splice
-junction with its validation status using cloning and Sanger
-sequencing.}
+transcript and ORF are labelled with their names to the right. The SC
+and STC of the 5'-most CDS are indicated with the nucleotide position in
+brackets. The region of the virus is depicted at the bottom as a black
+line with labels of the nucleotide positions for reference. The table
+shows sequence reads covering the splice junction with its validation
+status using cloning and Sanger sequencing.}
 \end{figure}
 
 \newpage
 
 \begin{figure}
 \centering
-\includegraphics{results/r/figures/figure_10.png}
+\includegraphics{results/r/figures/figure10.png}
 \caption{\textbf{Figure 10: The splice map of the MLTU.} Exons are
 depicted as boxes connected by introns (dotted lines). The transcripts
 from our RNA-seq data are colored red and the predicted ORFs, grey. The
-transcripts and ORFs are labelled with their names to the right. The
-start codon (SC) and stop codon (STC) of the 5'-most CDS of each
-transcript is indicated with the nucleotide position in brackets.
-Similarly, the secondary SC (secSC) and secondary STC (secSTC) are
-shown. The region of the virus is depicted at the bottom as a black line
-with labels of the nucleotide positions for reference. The table shows
-sequence reads covering the splice junctions with information about
-their validation status using cloning and Sanger sequencing.}
+transcripts and ORFs are labelled with their names to the right. The SC
+and STC of the 5'-most CDS of each transcript is indicated with the
+nucleotide position in brackets. Similarly, the secondary SC (secSC) and
+secondary STC (secSTC) are shown. The region of the virus is depicted at
+the bottom as a black line with labels of the nucleotide positions for
+reference. The table shows sequence reads covering the splice junctions
+with information about their validation status using cloning and Sanger
+sequencing.}
 \end{figure}
 
 \newpage

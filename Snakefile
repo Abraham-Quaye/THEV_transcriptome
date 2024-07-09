@@ -406,7 +406,7 @@ rule make_orf_map:
         r_script = "scripts/r/thev_orf_map.R",
         bedfile = "raw_files/annotations/THEVannotated_genesOnly.bed",
     output:
-        "results/r/figures/thev_orf_map.png"
+        "results/r/figures/figure1.png"
     conda:
         "environment.yml"
     shell:
@@ -422,8 +422,7 @@ rule make_fig4_and_5:
         rscript1 = "scripts/r/plot_abundances.R",
         rscript2 = "scripts/r/abundance_analyses.R"
     output:
-        expand("results/r/figures/figure_{num}a_d.png",
-        num = [4, 5])
+        expand("results/r/figures/figure{num}.png", num = [4, 5])
     conda:
         "environment.yml"
     shell:
@@ -441,7 +440,7 @@ rule make_fig2:
         depth = rules.bulk_depth.output,
         coverage = rules.total_bulk_coverage.output
     output:
-        "results/r/figures/fig_2.png"
+        "results/r/figures/figure2.png"
     conda:
         "environment.yml"
     shell:
@@ -455,7 +454,7 @@ rule make_fig6_10:
         r_script_2 = "scripts/r/reg_by_reg_plots.R",
         trxpts = rules.mod_final_trxptome.output
     output:
-        expand("results/r/figures/figure_{num}.png",
+        expand("results/r/figures/figure{num}.png",
         num = range(6, 11))
     conda:
         "environment.yml"
@@ -469,7 +468,7 @@ rule make_project_DAG:
         "environment.yml"
     shell:
         """
-        snakemake --rulegraph run_project |dot -Tpng > project_map.png
+        snakemake --rulegraph write_manuscript | dot -Tpng > {output}
         """
 
 # # ############### WRITE MANUSCRIPT FOR PUBLICATION ##################
